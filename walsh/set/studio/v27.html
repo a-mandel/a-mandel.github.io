@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v27 Contour flow lines</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v27, Contour flow lines. Territory: Zaha inspired, swept curves and fractured planes.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v27 · Contour flow lines · Zaha inspired, swept curves and fractured planes */
+.tb .grp{position:absolute;left:calc(var(--u)*.34);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.ov .sw{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+
+.ov .fl{fill:none;stroke:var(--ink);stroke-width:.8;vector-effect:non-scaling-stroke}
+.ov .fl.o{stroke:var(--accent);stroke-opacity:.9}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v27', name: 'Contour flow lines',
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>`,
+
+  svg: c => {
+    let h = '';
+    const n = 11;
+    for (let k = 0; k < n; k++) {
+      const t = k / (n - 1);
+      const y0 = c.V2[1] + 5.9 + t * 1.2, y3 = 15.2 + t * 1.9;
+      const d = `M35.5 ${y0.toFixed(3)} C${(34.6 - t * .25).toFixed(3)} ${(y0 + .5 + t * .6).toFixed(3)} ${(33.3 + t * .1).toFixed(3)} ${(y3 - 3.2 + t * .5).toFixed(3)} 32 ${y3.toFixed(3)}`;
+      const op = (0.1 + 0.34 * Math.sin(Math.PI * (0.15 + 0.7 * t))).toFixed(3);
+      h += `<path class="fl${k === 6 ? ' o' : ''}" d="${d}" style="stroke-opacity:${k === 6 ? .85 : op}"/>`;
+    }
+    return h;
+  }
+});
+</script>
+</body>
+</html>

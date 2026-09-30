@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v34 Coordinate tags</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v34, Coordinate tags. Territory: Studio Cognitive Pulse overlay.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v34 · Coordinate tags · Studio Cognitive Pulse overlay */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.tb .tt{font:400 max(calc(8px*var(--fl)),calc(var(--u)*.1))/1.35 var(--ft);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tb .tt b{font-weight:400;color:var(--accent)}
+
+.tb .sec{position:relative}
+.tb .tag{display:block;margin-bottom:.15em}
+.tb .xh{position:absolute;left:calc(var(--u)*-.32);top:calc(var(--t-lab)*.62);width:calc(var(--u)*.28);height:calc(var(--u)*.28);transform:translate(-50%,-50%);border:1px solid var(--accent);border-radius:50%}
+.tb .xh::before,.tb .xh::after{content:"";position:absolute;background:var(--accent)}
+.tb .xh::before{left:50%;top:-40%;bottom:-40%;width:1px}
+.tb .xh::after{top:50%;left:-40%;right:-40%;height:1px}
+.tb .foot{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:.1em;padding-top:calc(var(--u)*.08);border-top:1px solid var(--rule)}
+.tb .s-stamp .tag{display:none}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v34', name: 'Coordinate tags',
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>` + `<div class="foot tt" style="top:${c.U(12.25)}"><span>Sheet <b>36 by 24</b> · grid 1 in</span><span>Block <b>X 32.0 to 35.5</b></span><span>Cut <b>53.6°</b> · gap ${c.gap.toFixed(2)}</span><span>Scale <b>${c.sh.scale}</b></span></div>`,
+  layout: (c, el, u) => {
+    const st = el.getBoundingClientRect();
+    el.querySelectorAll('.tb .sec').forEach((s, k) => {
+      if (s.classList.contains('s-colo')) return;
+      let t = s.querySelector('.tag');
+      if (!t) { t = document.createElement('span'); t.className = 'tag tt'; s.prepend(t); const x = document.createElement('i'); x.className = 'xh'; s.prepend(x); }
+      const r = s.getBoundingClientRect();
+      const X = ((r.left - st.left) / u).toFixed(2), Y = ((r.top - st.top) / u).toFixed(2);
+      t.innerHTML = `TB ${c.pad2(k + 1)} · X ${X.slice(0, 4)} · <b>Y ${Y.padStart(5, '0')}</b>`;
+    });
+  }
+});
+</script>
+</body>
+</html>

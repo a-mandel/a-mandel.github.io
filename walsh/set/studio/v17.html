@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v17 Vellum overlay, tape dots</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v17, Vellum overlay, tape dots. Territory: Drafting machine and vellum.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v17 · Vellum overlay, tape dots · Drafting machine and vellum */
+.tb .vel{position:absolute;left:calc(var(--u)*-.12);right:calc(var(--u)*.1);bottom:calc(var(--u)*.14);border-radius:calc(var(--u)*.03);
+  background:linear-gradient(180deg,rgba(252,252,250,.66),rgba(250,250,247,.72)),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
+  backdrop-filter:blur(1.2px);-webkit-backdrop-filter:blur(1.2px);
+  box-shadow:0 0 0 1px rgba(27,26,24,.07),0 1px 2px rgba(27,26,24,.06)}
+.tb .vel .in{position:absolute;inset:calc(var(--u)*.3) calc(var(--u)*.22) calc(var(--u)*.24) calc(var(--u)*.36);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .vel .grow{flex:1}
+.tb .dotp{position:absolute;width:calc(var(--u)*.44);height:calc(var(--u)*.44);border-radius:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 40% 35%,rgba(246,238,214,.92),rgba(232,222,194,.9) 60%,rgba(220,208,176,.9));box-shadow:0 0 0 1px rgba(160,140,100,.25),0 1px 2px rgba(27,26,24,.12)}
+.tb .vel .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v17', name: 'Vellum overlay, tape dots',
+  tb: c => {
+    const t = c.lockBottom - .5 + .22;
+    return `<div class="vel" style="top:${c.U(t)}"><div class="in">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}<div class="grow"></div>${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div></div>
+      <span class="dotp" style="left:${c.U(.14)};top:${c.U(t + .12)}"></span><span class="dotp" style="left:${c.U(3.26)};top:${c.U(22.8)}"></span>`;
+  }
+});
+</script>
+</body>
+</html>

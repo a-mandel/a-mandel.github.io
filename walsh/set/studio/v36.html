@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v36 Key to the sheet</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v36, Key to the sheet. Territory: Studio Cognitive Pulse overlay.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v36 · Key to the sheet · Studio Cognitive Pulse overlay */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.tb .tt{font:400 max(calc(8px*var(--fl)),calc(var(--u)*.1))/1.35 var(--ft);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tb .tt b{font-weight:400;color:var(--accent)}
+
+.tb .key{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26)}
+.tb .key svg{display:block;width:100%;height:auto;overflow:visible}
+.tb .key .pp{fill:rgba(255,255,255,.55);stroke:var(--ink);stroke-opacity:.5;stroke-width:1;vector-effect:non-scaling-stroke}
+.tb .key .bd{fill:none;stroke:var(--ink);stroke-opacity:.55;stroke-width:.8;vector-effect:non-scaling-stroke}
+.tb .key .bn{fill:#1b1a18}
+.tb .key .vw{fill:none;stroke:var(--ink);stroke-opacity:.45;stroke-width:.8;stroke-dasharray:2 2;vector-effect:non-scaling-stroke}
+.tb .key .tbk{fill:rgba(192,122,44,.16);stroke:var(--accent);stroke-width:1;vector-effect:non-scaling-stroke}
+.tb .key .gx{stroke:var(--ink);stroke-opacity:.25;stroke-width:.6;vector-effect:non-scaling-stroke}
+.tb .key .tt{display:block;margin-top:.5em}
+.tb .key .hd{margin:0 0 .5em}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v36', name: 'Key to the sheet',
+  tb: c => {
+    const v = c.views.map(w => `<rect class="vw" x="${w.x}" y="${w.y}" width="${w.w}" height="${w.h}" rx=".25"/>`).join('');
+    let g = ''; for (let x = 6; x < 36; x += 6) g += `<line class="gx" x1="${x}" y1="0" x2="${x}" y2=".6"/><line class="gx" x1="${x}" y1="24" x2="${x}" y2="23.4"/>`;
+    for (let y = 6; y < 24; y += 6) g += `<line class="gx" x1="35.4" y1="${y}" x2="36" y2="${y}"/>`;
+    const d = `M${c.BL} .5 H${c.V1[0]} L${c.V2[0]} ${c.V2[1]} V23.5 H${c.BL} Z`;
+    const key = `<div class="key" style="top:${c.U(11.45)}"><span class="tt hd">Key to the sheet · <b>A2.1</b></span>
+      <svg viewBox="-.2 -.2 36.4 24.4"><rect class="pp" x="0" y="0" width="36" height="24"/><rect class="bn" x="0" y="0" width="1" height="24"/><path class="bd" d="${d}"/>${v}${g}
+      <rect class="tbk" x="${c.tbx}" y=".5" width="${(35.5 - c.tbx).toFixed(2)}" height="23"/></svg>
+      <span class="tt">Block <b>X ${c.tbx.toFixed(1)} to 35.5</b></span><span class="tt" style="margin-top:.1em">Block <b>Y 0.5 to 23.5</b></span><span class="tt" style="margin-top:.1em">Views 3 · notes 2</span></div>`;
+    return `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>` + key;
+  }
+});
+</script>
+</body>
+</html>

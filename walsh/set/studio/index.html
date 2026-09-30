@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Title Block Studio</title>
+<meta name="description" content="Forty title block studies for ANDRÉ MANDEL. Swipe right to keep, left to pass.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&display=swap">
+<style>
+:root{--bg:#fff;--paper:#f6f5f1;--paper2:#ebe9e3;--ink:#1b1a18;--muted:#6c6963;--faint:#a19e97;--rule:rgba(27,26,24,.14);--accent:#c07a2c;--keep:#3f6b4f;--pass:#8a4b3c;
+  --ft:'Tenor Sans','Gill Sans','Optima',sans-serif;--fs:'EB Garamond',Garamond,'Times New Roman',serif;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink)}
+body{font-family:var(--fs);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1720px;margin:0 auto;padding:22px 28px 28px;min-height:100dvh;display:flex;flex-direction:column}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+header h1{margin:0;font:400 15px/1.1 var(--ft);letter-spacing:.3em;text-transform:uppercase}
+header p{margin:6px 0 0;font:italic 400 16px/1.2 var(--fs);color:var(--muted)}
+.hr{display:flex;align-items:center;gap:18px}
+.count{font:400 11px/1 var(--ft);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.count b{font-weight:400;color:var(--ink)}
+.count i{font-style:normal;color:var(--keep)}
+.pill{font:400 10.5px/1 var(--ft);letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--rule);border-radius:999px;padding:10px 15px;min-height:36px;white-space:nowrap;transition:border-color .15s,background .15s}
+.pill:hover{border-color:var(--ink)}
+.pill:disabled{opacity:.35;cursor:default;border-color:var(--rule)}
+.bar{height:2px;background:var(--paper2);margin-top:-1px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .35s ease}
+
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 0 8px;min-height:0}
+.deck{position:relative;width:100%;display:grid;justify-items:center;align-items:start}
+.card{position:relative;grid-area:1 / 1;width:100%;background:#fff;border-radius:14px;
+  box-shadow:0 1px 2px rgba(27,26,24,.07),0 12px 40px rgba(27,26,24,.1);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab;will-change:transform;overflow:hidden}
+.card.back{transform:translateY(10px) scale(.975);opacity:.55;pointer-events:none;box-shadow:0 1px 2px rgba(27,26,24,.06)}
+.card.drag{cursor:grabbing}
+.card.fly{transition:transform .38s cubic-bezier(.3,.6,.3,1),opacity .38s ease}
+.card.snap{transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.card.enter{animation:enter .34s ease both}
+@keyframes enter{from{transform:translateY(10px) scale(.975);opacity:.55}to{transform:none;opacity:1}}
+.media{display:flex;gap:0;background:var(--paper2)}
+.media .sheet{flex:1;min-width:0;position:relative}
+.media img{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-drag:none}
+.media .det{flex:none;display:flex;gap:3px;position:relative;border-left:1px solid var(--rule);background:var(--paper2)}
+.media .det span{flex:1;background-repeat:no-repeat;background-size:100% 200%;background-color:var(--paper)}
+.media .det span + span{background-position:0 100%}
+.media .det em{position:absolute;left:8px;top:8px;font:400 9px/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;font-style:normal;color:var(--muted);background:rgba(255,255,255,.88);padding:5px 7px;border-radius:999px}
+.info{display:flex;align-items:baseline;gap:16px;padding:14px 20px 16px;border-top:1px solid var(--rule)}
+.info .no{font:400 22px/1 var(--ft);letter-spacing:.08em}
+.info .nm{font:italic 400 22px/1.15 var(--fs)}
+.info .tr{margin-left:auto;font:400 10px/1.3 var(--ft);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:right}
+.info .note{display:block;font:italic 400 14.5px/1.3 var(--fs);color:var(--muted);letter-spacing:0;text-transform:none;margin-top:4px;max-width:46ch;margin-left:auto}
+.stampk{position:absolute;top:22px;font:400 15px/1 var(--ft);letter-spacing:.3em;text-transform:uppercase;padding:10px 16px 9px 19px;border:1.5px solid;border-radius:999px;background:rgba(255,255,255,.9);opacity:0;pointer-events:none}
+.stampk.k{left:22px;color:var(--keep);transform:rotate(-8deg)}
+.stampk.p{right:22px;color:var(--pass);transform:rotate(8deg)}
+.open{position:absolute;left:12px;bottom:12px;font:400 9.5px/1 var(--ft);letter-spacing:.18em;text-transform:uppercase;background:rgba(255,255,255,.9);border-radius:999px;padding:7px 11px;color:var(--muted);pointer-events:none}
+.seg{display:none}
+
+.actions{display:flex;align-items:center;justify-content:center;gap:14px;padding:18px 0 4px}
+.act{display:flex;align-items:center;gap:10px;font:400 12px/1 var(--ft);letter-spacing:.22em;text-transform:uppercase;border:1px solid var(--ink);border-radius:999px;padding:0 26px;min-height:50px;min-width:150px;justify-content:center;transition:background .15s,color .15s}
+.act:hover{background:var(--ink);color:#fff}
+.act.keep{border-color:var(--keep);color:var(--keep)}
+.act.keep:hover{background:var(--keep);color:#fff}
+.act.pass{border-color:var(--pass);color:var(--pass)}
+.act.pass:hover{background:var(--pass);color:#fff}
+.act kbd{font:inherit;font-size:14px;letter-spacing:0;opacity:.6}
+.hint{font:italic 400 14px/1.3 var(--fs);color:var(--faint);text-align:center;margin:8px 0 0}
+
+/* results */
+.results{display:none;padding:26px 0 10px}
+.done .stage,.done .actions,.done .hint{display:none}
+.done .results{display:block}
+.rh{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.rh h2{margin:0;font:400 26px/1.1 var(--ft);letter-spacing:.24em;text-transform:uppercase}
+.rh p{margin:8px 0 0;font:italic 400 17px/1.3 var(--fs);color:var(--muted)}
+.rh .btns{display:flex;gap:10px;flex-wrap:wrap}
+.pill.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.line{font:400 13px/1.4 var(--ft);letter-spacing:.1em;padding:12px 14px;background:var(--paper);border-radius:8px;margin:0 0 22px;user-select:all;word-break:break-word}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.tile{display:block;color:inherit;text-decoration:none;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px var(--rule);transition:box-shadow .15s}
+.tile:hover{box-shadow:0 0 0 1px var(--ink),0 8px 24px rgba(27,26,24,.08)}
+.tile img{display:block;width:100%;height:auto;background:var(--paper2)}
+.tile div{padding:10px 12px 12px;display:flex;gap:10px;align-items:baseline}
+.tile b{font:400 14px/1 var(--ft);letter-spacing:.08em;font-weight:400}
+.tile span{font:italic 400 16px/1.2 var(--fs)}
+.empty{font:italic 400 18px/1.4 var(--fs);color:var(--muted)}
+.passed{margin-top:26px;font:400 11px/1.6 var(--ft);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:#fff;font:400 11px/1 var(--ft);letter-spacing:.18em;text-transform:uppercase;padding:12px 16px;border-radius:999px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:760px){
+  .wrap{padding:14px 16px 16px}
+  header{align-items:flex-start;flex-direction:column;gap:10px}
+  header h1{font-size:13px}
+  header p{font-size:15px}
+  .hr{width:100%;justify-content:space-between}
+  .stage{padding-top:14px}
+  .card{width:100%}
+  .media{flex-direction:column}
+  .media .det{display:none;border-left:0}
+  .card.show-det .media .sheet{display:none}
+  .card.show-det .media .det{display:flex;margin:0 auto}
+  .card.show-det .media{background:var(--paper)}
+  .seg{display:flex;position:absolute;left:10px;top:10px;z-index:2;background:rgba(255,255,255,.92);border-radius:999px;padding:3px;box-shadow:0 0 0 1px var(--rule)}
+  .seg button{font:400 9.5px/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;padding:9px 12px;border-radius:999px;color:var(--muted);min-height:32px}
+  .seg button.on{background:var(--ink);color:#fff}
+  .info{flex-wrap:wrap;gap:8px 12px;padding:12px 14px 14px}
+  .info .no{font-size:18px}
+  .info .nm{font-size:19px}
+  .info .tr{margin-left:0;width:100%;text-align:left}
+  .info .note{margin-left:0}
+  .actions{gap:10px}
+  .act{min-width:0;flex:1;padding:0 14px;min-height:52px}
+  .act kbd,.hint .kb{display:none}
+  .stampk{top:56px}
+  .grid{grid-template-columns:1fr 1fr;gap:12px}
+  .tile span{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header>
+    <div><h1>Title block studio</h1><p>Forty ways to hold the corner. Right to keep, left to pass.</p></div>
+    <div class="hr"><span class="count" id="count"></span><button class="pill" id="undo" type="button" disabled>Undo</button></div>
+  </header>
+  <div class="bar"><i id="barf"></i></div>
+  <main class="stage"><div class="deck" id="deck"></div></main>
+  <div class="actions">
+    <button class="act pass" id="bpass" type="button"><kbd>&#8592;</kbd> Pass</button>
+    <button class="act keep" id="bkeep" type="button">Keep <kbd>&#8594;</kbd></button>
+  </div>
+  <p class="hint">Tap a card to open the live sheet in a new tab.<span class="kb"> Arrow keys work too; U undoes.</span></p>
+  <section class="results" id="results" aria-live="polite"></section>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const DECK = [{"no": "v01", "name": "Datum dot column", "terr": "Flush strip, refined", "note": "v2 cleaned: one rule, orange datum dots on the rule, two groups, air between"}, {"no": "v02", "name": "Label and value ledger", "terr": "Flush strip, refined", "note": "labels set right in a narrow column, values beside them, short hairlines leave the rule"}, {"no": "v03", "name": "Plumb line strip", "terr": "Flush strip, refined", "note": "the lockup slides toward the rule; a hairline drops from the post of the A to a bob beside the sheet number"}, {"no": "v04", "name": "Numbered sections", "terr": "Flush strip, refined", "note": "tiny section numerals in a gutter, content spread evenly down the full height"}, {"no": "v05", "name": "Pure type, no rule", "terr": "Almost no lines", "note": "no vertical rule at all; whitespace and three type sizes carry the hierarchy"}, {"no": "v06", "name": "Whisper frame, flush right", "terr": "Almost no lines", "note": "no border, only corner marks and the cut; the title block set flush right to the paper edge"}, {"no": "v07", "name": "Half height rule", "terr": "Almost no lines", "note": "the mark alone in open paper up top; every line of data gathered low, and the rule only runs beside it"}, {"no": "v08", "name": "Centered quiet column", "terr": "Almost no lines", "note": "a centered column under the mark, no rules, like a book title page"}, {"no": "v09", "name": "Rounded cell stack", "terr": "CAD classic, rounded cells", "note": "every section in its own rounded cell; the stamp cell takes the slack and holds a full size seal"}, {"no": "v10", "name": "Shared wall grid", "terr": "CAD classic, rounded cells", "note": "one rounded outer box, cells that share their walls, labels tucked into the top left of each cell"}, {"no": "v11", "name": "Ink number cell", "terr": "CAD classic, rounded cells", "note": "paired half width cells and one small ink cell for the sheet number"}, {"no": "v12", "name": "Tabbed fieldset cells", "terr": "CAD classic, rounded cells", "note": "rounded cells whose labels sit in a gap cut into the top border, like a drafted legend"}, {"no": "v13", "name": "Museum wall label", "terr": "Gallery label, museum placard", "note": "the sheet identity on a raised label card, phrased like a gallery label; everything else is quiet wall text"}, {"no": "v14", "name": "Engraved plaque", "terr": "Gallery label, museum placard", "note": "one inset panel under the mark with a double hairline edge; centered letterspaced caps, like an engraved plaque"}, {"no": "v15", "name": "Catalogue entry", "terr": "Gallery label, museum placard", "note": "set like an exhibition catalogue entry: a large entry number, run in heads, the sheet described as an object"}, {"no": "v16", "name": "Twin placards", "terr": "Gallery label, museum placard", "note": "two small raised cards, the project high and the sheet low; the stamp and permits rest on the paper between them"}, {"no": "v17", "name": "Vellum overlay, tape dots", "terr": "Drafting machine and vellum", "note": "a frosted vellum leaf laid over the strip and held with two round drafting dots; the rule shows through"}, {"no": "v18", "name": "Protractor head", "terr": "Drafting machine and vellum", "note": "the sheet number sits in the dial of a drafting machine head; the roof angle, 53.6 degrees, is marked in orange"}, {"no": "v19", "name": "Lettering guidelines", "terr": "Drafting machine and vellum", "note": "every line of the block sits on faint lettering guides, as if ruled with an Ames guide before lettering"}, {"no": "v20", "name": "Scale bar and north", "terr": "Drafting machine and vellum", "note": "a true graphic scale at 3/16 in, a north arrow and a dimension string for the block itself; technical and exact"}, {"no": "v21", "name": "Colophon paragraphs", "terr": "Editorial and book typography", "note": "the data set as justified book paragraphs with small cap run in heads; the sheet number as a folio"}, {"no": "v22", "name": "Italic title hero", "terr": "Editorial and book typography", "note": "the sheet title set large in Garamond italic as the hero, numbers in old style figures, heads in small italic"}, {"no": "v23", "name": "Running head margin", "terr": "Editorial and book typography", "note": "a letterspaced running head climbs the rule like the spine of a book; content sits beside it"}, {"no": "v24", "name": "Dot leader contents", "terr": "Editorial and book typography", "note": "data rows run to their values on dot leaders, like the contents page of a book"}, {"no": "v25", "name": "Swept edge rule", "terr": "Zaha inspired, swept curves and fractured planes", "note": "the rule runs plumb, then sweeps out into the bottom border in one long curve, shadowed by two fainter speed lines"}, {"no": "v26", "name": "Fractured planes", "terr": "Zaha inspired, swept curves and fractured planes", "note": "pale shards laid behind the block, their edges on the roof angle and square to it, one orange sliver"}, {"no": "v27", "name": "Contour flow lines", "terr": "Zaha inspired, swept curves and fractured planes", "note": "a family of hairline contours pours from the corner cut through the open middle of the block and eases into the rule"}, {"no": "v28", "name": "Angled datum cuts", "terr": "Zaha inspired, swept curves and fractured planes", "note": "every divider ends in a short stroke on the roof angle; the sheet number cell is chamfered parallel to the corner cut"}, {"no": "v29", "name": "Shard hairlines", "terr": "Libeskind and Lebbeus Woods, hairline energy", "note": "long hairlines cross the block at acute angles and overshoot the rule and the border, the way a drafted construction line runs on"}, {"no": "v30", "name": "Slash and void", "terr": "Libeskind and Lebbeus Woods, hairline energy", "note": "one long doubled slash tears through the open middle of the block, a narrow void of deeper paper between its two lines"}, {"no": "v31", "name": "Tension wires", "terr": "Libeskind and Lebbeus Woods, hairline energy", "note": "fine wires fan from points along the rule and the corner cut and pull taut to one anchor above the sheet number"}, {"no": "v32", "name": "Overshoot crosses", "terr": "Libeskind and Lebbeus Woods, hairline energy", "note": "no boxes; every section opens on a hairline that overshoots the rule and the border, crossed by a short plumb tick"}, {"no": "v33", "name": "Datum run, roof heights", "terr": "Studio Cognitive Pulse overlay", "note": "a vertical datum run in the open middle: grade, main level, the level beam, the roof tip and the 30 ft limit, tiny tick labels and orange dots"}, {"no": "v34", "name": "Coordinate tags", "terr": "Studio Cognitive Pulse overlay", "note": "each section carries a tiny technical tag with its true sheet coordinates and a crosshair on the rule"}, {"no": "v35", "name": "Pulse leaders", "terr": "Studio Cognitive Pulse overlay", "note": "each heading hangs from a thin curved leader that lands on an orange dot on the rule, drawn in like the hand notes"}, {"no": "v36", "name": "Key to the sheet", "terr": "Studio Cognitive Pulse overlay", "note": "a small live diagram of this very sheet sits in the open middle: views dashed, the title block in orange, true coordinates beside it"}, {"no": "v37", "name": "Logo huge and faint", "terr": "Wildcards", "note": "the lockup again at nearly twice the size and barely there, a watermark filling the open middle; the corner mark stays crisp"}, {"no": "v38", "name": "Bottom band hybrid", "terr": "Wildcards", "note": "the sidebar keeps only the mark, the project and the number; issuances, permits, stamp and sheet data run in a low band under the field"}, {"no": "v39", "name": "Corner block", "terr": "Wildcards", "note": "a classic corner block steps out of the sidebar into the lower right of the field, holding the sheet identity and the stamp"}, {"no": "v40", "name": "Vertical sheet number", "terr": "Wildcards", "note": "the sheet number turned on its side and set very large up the lower sidebar, the sheet data tucked in beside it"}];
+const KEY = 'am-tb-studio-deck-v1';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let st = { hist: [] };           // hist: [{no, v:'keep'|'pass'}] in order
+try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && Array.isArray(s.hist)) st = s; } catch (e) {}
+st.hist = st.hist.filter(h => DECK.some(d => d.no === h.no));
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+const pos = () => st.hist.length;
+const kept = () => st.hist.filter(h => h.v === 'keep').map(h => h.no).sort();
+
+function cardHTML(d, back) {
+  return `<article class="card${back ? ' back' : ''}" data-no="${d.no}" tabindex="${back ? -1 : 0}" aria-label="${d.no}, ${esc(d.name)}. Tap to open the live sheet.">
+    <div class="seg" role="group" aria-label="View"><button type="button" class="on" data-view="sheet">Sheet</button><button type="button" data-view="det">Title block</button></div>
+    <div class="media"><div class="sheet"><img src="shots/${d.no}.jpg" alt="${d.no} full sheet" width="1400" height="872" draggable="false"><span class="open">Tap to open live</span></div>
+      <div class="det" role="img" aria-label="${d.no} title block, upper and lower halves"><span style="background-image:url(shots/${d.no}_tb.jpg)"></span><span style="background-image:url(shots/${d.no}_tb.jpg)"></span><em>Title block, 2x</em></div></div>
+    <span class="stampk k">Keep</span><span class="stampk p">Pass</span>
+    <div class="info"><span class="no">${d.no}</span><span class="nm">${esc(d.name)}</span><span class="tr">${esc(d.terr)}<span class="note">${esc(d.note)}</span></span></div>
+  </article>`;
+}
+
+function render() {
+  const i = pos(), N = DECK.length;
+  $('#count').innerHTML = `<b>${Math.min(i + 1, N)}</b> of ${N} · <i>${kept().length} kept</i>`;
+  $('#barf').style.width = (100 * i / N) + '%';
+  $('#undo').disabled = i === 0;
+  document.body.classList.toggle('done', i >= N);
+  $('#app').classList.toggle('done', i >= N);
+  if (i >= N) { $('#deck').innerHTML = ''; results(); return; }
+  const d = DECK[i], nx = DECK[i + 1];
+  $('#deck').innerHTML = (nx ? cardHTML(nx, true) : '') + cardHTML(d, false);
+  const c = $('#deck .card:not(.back)');
+  c.classList.add('enter');
+  bind(c, d);
+  document.querySelectorAll('#deck .card').forEach(fitDetail);
+  [DECK[i + 2]].filter(Boolean).forEach(p => { new Image().src = `shots/${p.no}.jpg`; new Image().src = `shots/${p.no}_tb.jpg`; });
+}
+
+// the sheet and the two title block half columns share one height, and the card fits the window
+const TBA = 272 / 750, R = 1400 / 872, GAP = 4;   // one half column of the 272 x 1500 detail
+function fitDetail(c) {
+  const f = () => {
+    const det = c.querySelector('.det'), mob = matchMedia('(max-width:760px)').matches, box = $('#deck').clientWidth;
+    if (mob) { c.style.width = ''; const H = Math.min(innerHeight * .58, 560); det.style.height = H + 'px'; det.style.width = (2 * TBA * H + GAP) + 'px'; return; }
+    const Hmax = Math.max(260, innerHeight - 330);
+    let W = Math.min(box, Hmax * (R + 2 * TBA) + GAP);
+    const H = (W - GAP) / (R + 2 * TBA);
+    c.style.width = W + 'px';
+    det.style.width = (2 * TBA * H + GAP) + 'px'; det.style.height = H + 'px';
+  };
+  f(); addEventListener('resize', f);
+}
+
+function decide(v, fromDrag) {
+  const i = pos(); if (i >= DECK.length) return;
+  const c = $('#deck .card:not(.back)');
+  st.hist.push({ no: DECK[i].no, v }); save();
+  if (c) {
+    const dir = v === 'keep' ? 1 : -1;
+    c.classList.remove('snap', 'enter'); c.classList.add('fly');
+    c.querySelector(v === 'keep' ? '.stampk.k' : '.stampk.p').style.opacity = 1;
+    const cur = fromDrag || { x: 0, r: 0 };
+    requestAnimationFrame(() => { c.style.transform = `translate(${dir * (innerWidth * .9 + 200)}px, ${cur.y || 0}px) rotate(${dir * 18}deg)`; c.style.opacity = '0'; });
+    const back = $('#deck .card.back'); if (back) { back.style.transition = 'transform .3s ease,opacity .3s ease'; back.style.transform = 'none'; back.style.opacity = '1'; }
+    setTimeout(render, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 300);
+  } else render();
+}
+function undo() {
+  if (!st.hist.length) return;
+  const h = st.hist.pop(); save(); render();
+  toast(`Back to ${h.no}`);
+}
+
+function applyView(c) {
+  const det = st.view === 'det';
+  c.classList.toggle('show-det', det);
+  c.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', (x.dataset.view === 'det') === det));
+}
+function bind(c, d) {
+  applyView(c);
+  let p = null;
+  const open = () => window.open(`${d.no}.html`, '_blank', 'noopener');
+  c.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation();
+    st.view = b.dataset.view; save(); applyView(c);
+  }));
+  c.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || e.target.closest('.seg')) return;
+    p = { x0: e.clientX, y0: e.clientY, t0: performance.now(), dx: 0, dy: 0, id: e.pointerId, moved: false };
+    c.setPointerCapture(e.pointerId);
+    c.classList.remove('snap', 'enter');
+  });
+  c.addEventListener('pointermove', e => {
+    if (!p || e.pointerId !== p.id) return;
+    p.dx = e.clientX - p.x0; p.dy = e.clientY - p.y0;
+    if (!p.moved && Math.hypot(p.dx, p.dy) > 6) { p.moved = true; c.classList.add('drag'); }
+    if (!p.moved) return;
+    const r = p.dx / 22;
+    c.style.transform = `translate(${p.dx}px, ${p.dy * .25}px) rotate(${r}deg)`;
+    const k = Math.min(1, Math.abs(p.dx) / 120);
+    c.querySelector('.stampk.k').style.opacity = p.dx > 0 ? k : 0;
+    c.querySelector('.stampk.p').style.opacity = p.dx < 0 ? k : 0;
+  });
+  const end = e => {
+    if (!p || e.pointerId !== p.id) return;
+    const dt = performance.now() - p.t0, vx = p.dx / Math.max(dt, 1);
+    c.classList.remove('drag');
+    if (!p.moved) { if (e.type === 'pointerup' && dt < 600) open(); p = null; return; }
+    if (Math.abs(p.dx) > Math.min(140, c.offsetWidth * .22) || Math.abs(vx) > .6) { decide(p.dx > 0 ? 'keep' : 'pass', { x: p.dx, y: p.dy * .25 }); }
+    else { c.classList.add('snap'); c.style.transform = ''; c.querySelectorAll('.stampk').forEach(s => s.style.opacity = 0); }
+    p = null;
+  };
+  c.addEventListener('pointerup', end);
+  c.addEventListener('pointercancel', end);
+  c.addEventListener('keydown', e => { if (e.key === 'Enter') open(); });
+}
+
+function results() {
+  const k = kept(), N = DECK.length;
+  const line = `Keeps: ${k.length ? k.join(', ') : 'none'}`;
+  const by = no => DECK.find(d => d.no === no);
+  const passed = st.hist.filter(h => h.v === 'pass').map(h => h.no).sort();
+  $('#results').innerHTML = `<div class="rh"><div><h2>Your keeps</h2><p>${k.length} of ${N} kept. Tap a sheet to open it live.</p></div>
+      <div class="btns"><button class="pill dark" id="copy" type="button">Copy picks</button><button class="pill" id="undo2" type="button">Undo last</button><button class="pill" id="again" type="button">Start over</button></div></div>
+    <p class="line" id="line">${esc(line)}</p>
+    ${k.length ? `<div class="grid">${k.map(no => `<a class="tile" href="${no}.html" target="_blank" rel="noopener"><img src="shots/${no}.jpg" alt="${no} sheet" width="1400" height="872" loading="lazy"><div><b>${no}</b><span>${esc(by(no).name)}</span></div></a>`).join('')}</div>` : '<p class="empty">Nothing kept this round. Start over for another pass, or undo to step back.</p>'}
+    ${passed.length ? `<p class="passed">Passed · ${passed.join(' · ')}</p>` : ''}`;
+  $('#copy').onclick = () => copy(line);
+  $('#undo2').onclick = undo;
+  $('#again').onclick = () => { if (confirm('Start the deck over? Your picks will be cleared.')) { st = { hist: [], view: st.view }; save(); render(); } };
+}
+async function copy(text) {
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+    try { const t = document.createElement('textarea'); t.value = text; t.style.position = 'fixed'; t.style.opacity = '0'; document.body.appendChild(t); t.select(); ok = document.execCommand('copy'); t.remove(); } catch (e2) {}
+  }
+  toast(ok ? 'Copied' : 'Select the line to copy');
+}
+let tt = 0;
+function toast(s) { const t = $('#toast'); t.textContent = s; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 1400); }
+
+$('#bkeep').onclick = () => decide('keep');
+$('#bpass').onclick = () => decide('pass');
+$('#undo').onclick = undo;
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey) { if (e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); } return; }
+  if (e.key === 'ArrowRight') { e.preventDefault(); decide('keep'); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); decide('pass'); }
+  else if (e.key === 'u' || e.key === 'U' || e.key === 'Backspace') { e.preventDefault(); undo(); }
+});
+render();
+</script>
+</body>
+</html>

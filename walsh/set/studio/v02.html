@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v02 Label and value ledger</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v02, Label and value ledger. Territory: Flush strip, refined.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v02 · Label and value ledger · Flush strip, refined */
+.tb .led{position:absolute;left:calc(var(--u)*.22);right:calc(var(--u)*.24);display:flex;flex-direction:column}
+.tb .led.b{bottom:calc(var(--u)*.3)}
+.tb .row{display:grid;grid-template-columns:calc(var(--u)*.96) minmax(0,1fr);column-gap:calc(var(--u)*.16);align-items:baseline;padding:calc(var(--u)*.1) 0}
+.tb .row + .row{margin-top:calc(var(--u)*.02)}
+.tb .row.sep{position:relative;margin-top:calc(var(--u)*.2);padding-top:calc(var(--u)*.22)}
+.tb .row.sep::before{content:"";position:absolute;left:calc(var(--u)*-.22);top:0;width:calc(var(--u)*.86);height:1px;background:var(--ink);opacity:.55}
+.tb .k{font:400 var(--t-lab)/1.3 var(--ft);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tb .row.full{grid-template-columns:1fr}
+.tb .row.full .k{margin-bottom:.2em}
+.tb .v{font:italic 400 var(--t-val)/1.32 var(--fs);min-width:0}
+.tb .v .pname{font-style:normal;margin:0 0 .08em;line-height:1}
+.tb .v .stitle{margin:0;font-style:normal}
+.tb .v small{display:block;font:400 var(--t-sm)/1.3 var(--fs);color:var(--muted)}
+.tb .v .status{margin-top:.25em}
+.tb .row .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.26));font-style:normal;line-height:.9}
+.tb .v .seal{width:max(calc(34px*var(--fl)),calc(var(--u)*.72));height:max(calc(34px*var(--fl)),calc(var(--u)*.72));margin-top:.3em}
+.tb .v .iss li{grid-template-columns:1fr;line-height:1.25}
+.tb .v .iss li + li{margin-top:.3em}
+.tb .v .iss .n{display:none}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v02', name: 'Label and value ledger',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh;
+    const R = (k, v, sep) => `<div class="row${sep ? ' sep' : ''}"><span class="k">${k}</span><div class="v">${v}</div></div>`;
+    const top = [
+      R('Site', `<div class="pname">${e(P.name)}</div>${e(P.site)}<br>${e(P.street)}<br>${e(P.city)} · ${e(P.county)}`, 1),
+      R('APN', e(P.apn)), R('Zone', e(P.zoning)), R('Owner', `${e(P.owner)}<br>${e(P.ownerCo)}`),
+      R('Issued', `<ol class="iss">${c.iss.map((r, k) => `<li class="${k ? '' : 'new'}"><span class="d">${r.no} · ${e(r.date)}</span><span>${e(r.for)}</span></li>`).join('')}</ol>`, 1),
+      R('Review', `LCC <span class="pend">no. pending</span>`, 1), R('Permit', `Placer County <span class="pend">no. pending</span>`), R('Fire', e(S.fire)),
+      R('Stamp', `${e(S.aor.name)}<small>Architect of record. ${e(S.aor.note)}</small><div class="seal">Stamp</div>`, 1)
+    ].join('');
+    const bot = [
+      R('Sheet', `<div class="stitle">${e(sh.title)}</div><div class="status">${e(S.status)}</div>`, 1),
+      R('Scale', e(sh.scale)), R('Date', e(S.date)), R('Drawn', e(S.drawnBy)),
+      `<div class="row sep full"><span class="k">Sheet ${c.i + 1} of ${c.N}</span><div class="v"><div class="sn">${c.cells(sh.id)}</div></div></div>`,
+      `<div class="row full"><div class="v"><small>${e(S.firm.name)} · ${e(S.firm.line)}<br>${S.firm.addr.map(e).join(', ')}<br>${e(S.firm.phone)} · ${e(S.firm.email)}<br>${e(S.copy)}</small></div></div>`
+    ].join('');
+    return `<div class="led" style="top:${c.U(c.lockBottom - .5 + .16)}">${top}</div><div class="led b">${bot}</div>`;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v33 Datum run, roof heights</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v33, Datum run, roof heights. Territory: Studio Cognitive Pulse overlay.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v33 · Datum run, roof heights · Studio Cognitive Pulse overlay */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.tb .tt{font:400 max(calc(8px*var(--fl)),calc(var(--u)*.1))/1.35 var(--ft);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tb .tt b{font-weight:400;color:var(--accent)}
+
+.tb .run{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26)}
+.tb .run .ax{position:absolute;left:calc(var(--u)*.1);top:calc(var(--u)*-.1);bottom:0;width:1px;background:var(--ink);opacity:.55}
+.tb .run .tk{position:absolute;left:calc(var(--u)*.1);width:calc(var(--u)*.34);height:1px;background:var(--ink);opacity:.55}
+.tb .run .tk.lim{left:0;right:0;width:auto;background:none;border-top:1px dashed var(--accent);opacity:1;height:0}
+.tb .run .d{position:absolute;left:calc(var(--u)*.1);width:max(6px,calc(var(--u)*.12));height:max(6px,calc(var(--u)*.12));border-radius:50%;background:var(--accent);transform:translate(-50%,-50%)}
+.tb .run .lb{position:absolute;left:calc(var(--u)*.56);transform:translateY(-50%);display:flex;flex-direction:column}
+.tb .run .lb.dn{transform:translateY(12%)}
+.tb .run .lb i{font:italic 400 var(--t-sm)/1.2 var(--fs);color:var(--muted)}
+.tb .run .lim-l{position:absolute;right:0;transform:translateY(-130%)}
+.tb .run .hd{position:absolute;left:0;top:calc(var(--u)*-.62)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v33', name: 'Datum run, roof heights',
+  tb: c => {
+    // grade to the 30 ft limit, one inch for every six feet
+    const top = 11.4, H = 5.0, y = ft => +(H - ft / 6).toFixed(3);
+    const L = (ft, t, i, cls) => `<span class="tk" style="top:${c.U(y(ft))}"></span><span class="lb ${cls || ''}" style="top:${c.U(y(ft))}"><span class="tt">${t}</span>${i ? `<i>${i}</i>` : ''}</span>`;
+    const run = `<div class="run" style="top:${c.U(top - .5)};height:${c.U(H)}"><span class="tt hd">Datum · roof heights</span><span class="ax"></span>
+      <span class="tk lim" style="top:${c.U(y(30))}"></span><span class="tt lim-l" style="top:${c.U(y(30))}"><b>30 ft limit</b></span>
+      ${L(29.4, '<b>Tip</b> · 6023.0', '29.4 ft over grade', 'dn')}<span class="d" style="top:${c.U(y(29.4))}"></span>
+      ${L(18.4, '<b>Beam</b> · 6012.0', 'dead level')}<span class="d" style="top:${c.U(y(18.4))}"></span>
+      ${L(9.2, 'Main level', '')}${L(0, 'Grade', 'at the tip')}</div>`;
+    return `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>` + run;
+  }
+});
+</script>
+</body>
+</html>

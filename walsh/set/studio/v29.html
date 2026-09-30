@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v29 Shard hairlines</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v29, Shard hairlines. Territory: Libeskind and Lebbeus Woods, hairline energy.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v29 · Shard hairlines · Libeskind and Lebbeus Woods, hairline energy */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.ov .h{stroke:var(--ink);stroke-width:.8;vector-effect:non-scaling-stroke;fill:none}
+.ov .o{fill:var(--accent)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v29', name: 'Shard hairlines',
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>`,
+
+  svg: c => {
+    const L = (x1, y1, x2, y2, op) => `<line class="h" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke-opacity:${op}"/>`;
+    // the orange dot sits where the two long shards meet
+    const a = [31.35, 9.7], b = [35.95, 16.25], p = [31.6, 16.9], q = [35.85, 10.9];
+    const den = (a[0] - b[0]) * (p[1] - q[1]) - (a[1] - b[1]) * (p[0] - q[0]);
+    const t = ((a[0] - p[0]) * (p[1] - q[1]) - (a[1] - p[1]) * (p[0] - q[0])) / den;
+    const X = a[0] + t * (b[0] - a[0]), Y = a[1] + t * (b[1] - a[1]);
+    return L(...a, ...b, .5) + L(...p, ...q, .42) + L(32.9, 11.2, 34.25, 17.6, .3) + L(31.7, 14.15, 35.8, 13.35, .22) + L(33.6, 10.6, 36.0, 12.3, .18) +
+      `<circle class="o" cx="${X.toFixed(3)}" cy="${Y.toFixed(3)}" r=".06"/>`;
+  }
+});
+</script>
+</body>
+</html>

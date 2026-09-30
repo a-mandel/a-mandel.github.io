@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v38 Bottom band hybrid</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v38, Bottom band hybrid. Territory: Wildcards.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v38 · Bottom band hybrid · Wildcards */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.2)}
+.tb .s-num .sn{font-size:max(calc(44px*var(--fl)),calc(var(--u)*1.26))}
+.tb .s-proj .pname{font-size:max(calc(19px*var(--fl)),calc(var(--u)*.4))}
+.ov .band{position:absolute;display:grid;grid-template-columns:1fr 1.1fr 1.1fr 1.2fr .9fr;column-gap:calc(var(--u)*.5);align-items:start;pointer-events:auto}
+.ov .band > div{min-width:0}
+.ov .band .sec + .sec{margin:0}
+.ov .band .stamp{grid-template-columns:1fr auto}
+.ov .hr{stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v38', name: 'Bottom band hybrid',
+  fieldBottom: 21.25,
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.live()}</div>
+    <div class="grp b">${c.f.number()}${c.f.colo({ firm: true })}</div>`,
+  svg: c => `<line class="hr" x1="${c.BL}" y1="21.25" x2="${c.tbx}" y2="21.25"/>`,
+  ov: c => `<div class="band" style="left:${c.U(c.BL + .6)};right:${c.U(36 - c.tbx + .5)};top:${c.U(21.5)}">${c.f.issued()}${c.f.permits()}${c.f.stamp()}${c.f.title()}<div class="sec"><span class="lab">Scale · date · drawn</span><span class="val line">${c.sh.scale}</span><span class="val line">${c.S.date} · ${c.S.drawnBy}</span></div></div>`
+});
+</script>
+</body>
+</html>

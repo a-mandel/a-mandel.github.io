@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v16 Twin placards</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v16, Twin placards. Territory: Gallery label, museum placard.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v16 · Twin placards · Gallery label, museum placard */
+.tb .card{position:absolute;background:#fbfaf7;border-radius:calc(var(--u)*.05);
+  box-shadow:0 0 0 1px rgba(27,26,24,.1),0 1px 1px rgba(27,26,24,.06),0 calc(var(--u)*.05) calc(var(--u)*.16) rgba(27,26,24,.1),0 calc(var(--u)*.2) calc(var(--u)*.5) rgba(27,26,24,.05)}
+
+.tb .card{left:calc(var(--u)*.2);right:calc(var(--u)*.2);padding:calc(var(--u)*.2) calc(var(--u)*.22) calc(var(--u)*.22)}
+.tb .card.b{bottom:calc(var(--u)*.22)}
+.tb .card .pname{font-size:max(calc(18px*var(--fl)),calc(var(--u)*.36))}
+.tb .mid{position:absolute;left:calc(var(--u)*.34);right:calc(var(--u)*.3);display:flex;flex-direction:column;gap:calc(var(--u)*.26)}
+.tb .card .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.tb .card .hr{height:1px;background:var(--rule);margin:calc(var(--u)*.16) 0 calc(var(--u)*.12)}
+.tb .card .colo{margin-top:calc(var(--u)*.12)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v16', name: 'Twin placards',
+  tb: c => `<div class="card" style="top:${c.U(c.lockBottom - .5 + .3)}">${c.f.project()}</div>
+    <div class="mid" style="top:${c.U(c.lockBottom - .5 + 3.95)}">${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="card b">${c.f.title()}<div class="hr"></div>${c.f.number()}${c.f.colo({ firm: true })}</div>`
+});
+</script>
+</body>
+</html>

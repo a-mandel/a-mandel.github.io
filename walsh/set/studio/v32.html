@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v32 Overshoot crosses</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v32, Overshoot crosses. Territory: Libeskind and Lebbeus Woods, hairline energy.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v32 · Overshoot crosses · Libeskind and Lebbeus Woods, hairline energy */
+.tb .grp{position:absolute;left:calc(var(--u)*.38);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.3)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.26)}
+.tb .sec{position:relative;padding-top:calc(var(--u)*.14)}
+.tb .sec::before{content:"";position:absolute;top:0;left:calc(var(--u)*-.72);right:calc(var(--u)*-.52);height:1px;background:var(--ink);opacity:.36}
+.tb .sec::after{content:"";position:absolute;top:calc(var(--u)*-.14);left:calc(var(--u)*-.2);width:1px;height:calc(var(--u)*.34);background:var(--ink);opacity:.55}
+.tb .sec.s-colo::before,.tb .sec.s-colo::after{display:none}
+.tb .sec.s-num::after{background:var(--accent);opacity:1;width:1.5px}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v32', name: 'Overshoot crosses',
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>`,
+});
+</script>
+</body>
+</html>

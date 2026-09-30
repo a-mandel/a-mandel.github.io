@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v37 Logo huge and faint</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v37, Logo huge and faint. Territory: Wildcards.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v37 · Logo huge and faint · Wildcards */
+.tb .ghost{position:absolute;left:0;right:0;bottom:0;overflow:hidden;pointer-events:none}
+.tb .ghost img{position:absolute;width:calc(var(--u)*3.9);height:auto;left:calc(var(--u)*-.28);top:calc(var(--u)*7.05);opacity:.075}
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v37', name: 'Logo huge and faint',
+  tb: c => `<div class="ghost nofit" style="top:${c.U(c.lockBottom - .5 + .1)}"><img src="${c.S.marks.lockup}" alt="" width="357" height="520"></div>
+    <div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>`
+});
+</script>
+</body>
+</html>

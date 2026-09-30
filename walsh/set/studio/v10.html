@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v10 Shared wall grid</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v10, Shared wall grid. Territory: CAD classic, rounded cells.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v10 · Shared wall grid · CAD classic, rounded cells */
+.tb .grid{position:absolute;left:calc(var(--u)*.12);right:calc(var(--u)*.12);bottom:calc(var(--u)*.12);border:1px solid var(--ink);border-radius:calc(var(--u)*.16);display:grid;grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:auto auto auto 1fr auto auto auto auto}
+.tb .g{border-top:1px solid var(--hair);padding:calc(var(--u)*.08) calc(var(--u)*.12) calc(var(--u)*.12);min-width:0}
+.tb .g.first{border-top:0}
+.tb .g + .g.side{border-left:1px solid var(--hair)}
+.tb .g .lab{font-size:max(calc(8px*var(--fl)),calc(var(--u)*.1));letter-spacing:.16em;margin-bottom:.15em}
+.tb .s1{grid-column:1 / -1}
+.tb .g .val{white-space:nowrap}
+.tb .g.stampc{display:flex;flex-direction:column}
+.tb .g.stampc .seal{margin:auto;width:calc(var(--u)*1.7);height:calc(var(--u)*1.7);border-radius:calc(var(--u)*.08);border:1px dashed rgba(27,26,24,.3);position:relative}
+.tb .g.stampc .seal::before,.tb .g.stampc .seal::after{content:"";position:absolute;left:50%;top:50%;background:rgba(27,26,24,.35)}
+.tb .g.stampc .seal::before{width:calc(var(--u)*.24);height:1px;transform:translate(-50%,-50%)}
+.tb .g.stampc .seal::after{height:calc(var(--u)*.24);width:1px;transform:translate(-50%,-50%)}
+.tb .g.stampc .seal span{position:absolute;bottom:.8em;left:0;right:0}
+.tb .g .sn{font-size:max(calc(40px*var(--fl)),calc(var(--u)*1.14));padding-top:.05em}
+.tb .g .iss li{grid-template-columns:1.2em 4.6em 1fr}
+.tb .g.ink{background:rgba(27,26,24,.035)}
+.tb .g.last{border-radius:0 0 calc(var(--u)*.15) calc(var(--u)*.15)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v10', name: 'Shared wall grid',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh;
+    const g = (cls, lab, h) => `<div class="g ${cls}">${lab ? `<span class="lab">${e(lab)}</span>` : ''}${h}</div>`;
+    return `<div class="grid" style="top:${c.U(c.lockBottom - .5 + .24)}">
+      ${g('s1 first', 'Project', `<div class="pname">${e(P.name)}</div><span class="val line">${e(P.site)}</span><span class="val line">${e(P.street)}</span><span class="val line">${e(P.city)} · ${e(P.county)}</span><span class="val line"><span class="il">APN</span>${e(P.apn)}</span><span class="val line"><span class="il">Zoning</span>${e(P.zoning)}</span><span class="val line"><span class="il">Owner</span>${e(P.owner)}</span><span class="val line">${e(P.ownerCo)}</span>`)}
+      ${g('s1', 'Issued', c.f.issued({ lab: false }).replace(/^<div class="sec[^"]*">/, '').replace(/<\/div>$/, ''))}
+      ${g('s1', 'Agency and permits', `<span class="val line">Design review (LCC) <span class="pend">no. pending</span></span><span class="val line">Building permit <span class="pend">no. pending</span></span><span class="val line">${e(S.fire)}</span>`)}
+      ${g('s1 stampc', S.aor.label, `<span class="val line">${e(S.aor.name)}</span><div class="seal"><span>Stamp</span></div><span class="sm line">${e(S.aor.note)}</span>`)}
+      ${g('s1', 'Sheet title', `<div class="stitle">${e(sh.title)}</div><div class="status">${e(S.status)}</div>`)}
+      ${g('', 'Scale', `<span class="val">${e(sh.scale)}</span>`)}${g('side', 'Date', `<span class="val">${e(S.date)}</span>`)}${g('side', 'Drawn', `<span class="val">${e(S.drawnBy)}</span>`)}
+      ${g('s1 ink', `Sheet ${c.i + 1} of ${c.N}`, `<div class="sn">${c.cells(sh.id)}</div>`)}
+      ${g('s1 last', '', `<div class="colo">${e(S.copy)}<br>${e(S.firm.phone)} · ${e(S.firm.email)}</div>`)}
+    </div>`;
+  }
+});
+</script>
+</body>
+</html>

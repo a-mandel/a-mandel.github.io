@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v25 Swept edge rule</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v25, Swept edge rule. Territory: Zaha inspired, swept curves and fractured planes.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v25 · Swept edge rule · Zaha inspired, swept curves and fractured planes */
+.tb .grp{position:absolute;left:calc(var(--u)*.34);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.ov .sw{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+
+.ov .sw.b{stroke-opacity:.32}
+.ov .sw.c{stroke-opacity:.14}
+.tb .grp.b{left:calc(var(--u)*.5)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v25', name: 'Swept edge rule',
+  rule: false, footRight: 2.1,
+
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>`,
+
+  svg: c => {
+    const p = dx => `M${32 + dx} 0.5 V${13.2 + dx * 2} C${32 + dx} ${19.4 + dx} ${31.5 + dx * 1.2} ${22.7 - dx * .3} ${29.1 + dx * 3} 23.5`;
+    return `<path class="sw" d="${p(0)}"/><path class="sw b" d="M32.13 3.9 V${13.2 + .26} C32.13 ${19.4 + .13} ${31.5 + .156} ${22.7 - .04} ${29.1 + .39} 23.5"/><path class="sw c" d="M32.26 8.2 V${13.2 + .52} C32.26 ${19.4 + .26} ${31.5 + .31} ${22.7 - .08} ${29.1 + .78} 23.5"/>`;
+  }
+});
+</script>
+</body>
+</html>

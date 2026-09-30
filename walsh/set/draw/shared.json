@@ -1,0 +1,8076 @@
+{
+ "meta": {
+  "built": "9/30/26",
+  "by": "draw/build_shared.py",
+  "scheme": "ribbon",
+  "datum": 5990.0,
+  "units": "model feet: x east on the plan, z down the sheet (south), y up; el = 5990.0 + y",
+  "north_deg": 39.3,
+  "note": "FA accuracy, about, confirm on survey. Room programming is a placeholder.",
+  "sources": [
+   "walsh/index.html model-data",
+   "draw/drawings.js",
+   "draw/render_meta.json",
+   "draw/calcs.json",
+   "sheets/plans-b.js and tools/plans-b/build_rcp.py",
+   "sheets/reg-a.js and tools/reg-a/reg-a.src.js",
+   "tools/sched-a/build.py and sched-a.template.js",
+   "sheets/sched-b.js and tools/sched-b/panes.json, types_raw.json",
+   "tools/sectelev-b/plan_data.json"
+  ]
+ },
+ "coords": {
+  "field": {
+   "w": 31.25,
+   "h": 23.0,
+   "sheet_to_field": [
+    -1.25,
+    -0.5
+   ]
+  },
+  "plans": {
+   "A1.2": {
+    "kind": "plan",
+    "src": "draw/drawings.js",
+    "scale": 0.1,
+    "fx": [
+     0.1,
+     14.8
+    ],
+    "fy": [
+     0.1,
+     7.05
+    ],
+    "vb": [
+     -141.0,
+     -40.0,
+     214.0,
+     162.0
+    ],
+    "view": [
+     1.95,
+     3.55,
+     21.4,
+     16.2
+    ],
+    "note": "Site plan, 1 in = 10 ft"
+   },
+   "A2.1": {
+    "kind": "plan",
+    "src": "draw/drawings.js",
+    "scale": 0.1875,
+    "fx": [
+     0.1875,
+     22.875
+    ],
+    "fy": [
+     0.1875,
+     5.2125
+    ],
+    "vb": [
+     -78.0,
+     -23.5,
+     119.2,
+     103.0
+    ],
+    "view": [
+     9.5,
+     1.3063,
+     22.35,
+     19.3125
+    ],
+    "note": "Plans, 3/16 in = 1 ft, one registration"
+   },
+   "A2.2": {
+    "kind": "plan",
+    "src": "draw/drawings.js",
+    "scale": 0.1875,
+    "fx": [
+     0.1875,
+     22.875
+    ],
+    "fy": [
+     0.1875,
+     5.2125
+    ],
+    "vb": [
+     -78.0,
+     -23.5,
+     119.2,
+     103.0
+    ],
+    "view": [
+     9.5,
+     1.3063,
+     22.35,
+     19.3125
+    ],
+    "note": "Plans, 3/16 in = 1 ft, one registration"
+   },
+   "A2.3": {
+    "kind": "plan",
+    "src": "draw/drawings.js",
+    "scale": 0.1875,
+    "fx": [
+     0.1875,
+     22.875
+    ],
+    "fy": [
+     0.1875,
+     5.2125
+    ],
+    "vb": [
+     -78.0,
+     -23.5,
+     119.2,
+     103.0
+    ],
+    "view": [
+     9.5,
+     1.3063,
+     22.35,
+     19.3125
+    ],
+    "note": "Plans, 3/16 in = 1 ft, one registration"
+   },
+   "A2.0": {
+    "kind": "plan",
+    "src": "sheets/plans-a.js",
+    "scale": 0.1875,
+    "fx": [
+     0.1875,
+     22.875
+    ],
+    "fy": [
+     0.1875,
+     5.2125
+    ],
+    "vb": [
+     -78.0,
+     -23.5,
+     119.2,
+     103.0
+    ],
+    "view": [
+     9.5,
+     1.3063,
+     22.35,
+     19.3125
+    ],
+    "note": "A2.0, same registration as A2.1"
+   },
+   "A0.6": {
+    "kind": "plan",
+    "src": "sheets/plans-a.js",
+    "scale": 0.125,
+    "fx": [
+     0.125,
+     10.525
+    ],
+    "fy": [
+     0.125,
+     5.8875
+    ],
+    "vb": [
+     -79.0,
+     -19.5,
+     124.0,
+     100.0
+    ],
+    "view": [
+     1.9,
+     3.95,
+     15.5,
+     12.5
+    ],
+    "note": "Area diagram, level 1 view only, 1/8 in = 1 ft"
+   },
+   "A2.4": {
+    "kind": "plan",
+    "src": "sheets/plans-b.js",
+    "scale": 0.1875,
+    "fx": [
+     0.1875,
+     22.875
+    ],
+    "fy": [
+     0.1875,
+     5.21255
+    ],
+    "vb": [
+     -78.0,
+     -23.5,
+     119.2,
+     103.0
+    ],
+    "view": [
+     9.5,
+     1.3063,
+     22.35,
+     19.3125
+    ],
+    "note": "Reflected ceiling plan, same registration as A2.1"
+   },
+   "A2.5": {
+    "kind": "plan",
+    "src": "sheets/plans-b.js",
+    "scale": 0.1875,
+    "fx": [
+     0.1875,
+     22.875
+    ],
+    "fy": [
+     0.1875,
+     5.21255
+    ],
+    "vb": [
+     -78.0,
+     -23.5,
+     119.2,
+     103.0
+    ],
+    "view": [
+     9.5,
+     1.3063,
+     22.35,
+     19.3125
+    ],
+    "note": "Reflected ceiling plan, same registration as A2.1"
+   }
+  },
+  "views": {
+   "A4.0": {
+    "kind": "ortho",
+    "sheet": "A4.0",
+    "img": "draw/A4.0.webp",
+    "title": "North elevation",
+    "view": "N",
+    "scale": 0.1875,
+    "right": [
+     -1,
+     0
+    ],
+    "h0": -43.37,
+    "h1": 79.80333333333334,
+    "y0": -2.5533333333333346,
+    "y1": 35.5,
+    "fx": [
+     0.1875,
+     11.08437
+    ],
+    "fy": [
+     -0.1875,
+     12.55625
+    ],
+    "img_field": [
+     2.9525,
+     5.9,
+     23.095,
+     7.135
+    ]
+   },
+   "A4.1": {
+    "kind": "ortho",
+    "sheet": "A4.1",
+    "img": "draw/A4.1.webp",
+    "title": "East elevation",
+    "view": "E",
+    "scale": 0.25,
+    "right": [
+     0,
+     -1
+    ],
+    "h0": -81.37,
+    "h1": 19.58999999999999,
+    "y0": -3.039999999999999,
+    "y1": 35.5,
+    "fx": [
+     0.25,
+     22.2225
+    ],
+    "fy": [
+     -0.25,
+     14.275
+    ],
+    "img_field": [
+     1.88,
+     5.4,
+     25.24,
+     9.635
+    ]
+   },
+   "A4.2": {
+    "kind": "ortho",
+    "sheet": "A4.2",
+    "img": "draw/A4.2.webp",
+    "title": "South elevation",
+    "view": "S",
+    "scale": 0.1875,
+    "right": [
+     1,
+     0
+    ],
+    "h0": -79.8,
+    "h1": 43.373333333333335,
+    "y0": -2.9266666666666694,
+    "y1": 35.5,
+    "fx": [
+     0.1875,
+     17.915
+    ],
+    "fy": [
+     -0.1875,
+     12.55625
+    ],
+    "img_field": [
+     2.9525,
+     5.9,
+     23.095,
+     7.205
+    ]
+   },
+   "A4.3": {
+    "kind": "ortho",
+    "sheet": "A4.3",
+    "img": "draw/A4.3.webp",
+    "title": "West elevation",
+    "view": "W",
+    "scale": 0.25,
+    "right": [
+     0,
+     1
+    ],
+    "h0": -19.58,
+    "h1": 81.38,
+    "y0": 1.3800000000000026,
+    "y1": 35.5,
+    "fx": [
+     0.25,
+     6.775
+    ],
+    "fy": [
+     -0.25,
+     14.275
+    ],
+    "img_field": [
+     1.88,
+     5.4,
+     25.24,
+     8.53
+    ]
+   },
+   "A3.0-2": {
+    "kind": "ortho",
+    "sheet": "A3.0",
+    "img": "draw/A3.0-2.webp",
+    "title": "Section 2, looking north",
+    "view": "S",
+    "scale": 0.1875,
+    "right": [
+     1,
+     0
+    ],
+    "h0": -80.8,
+    "h1": 44.373333333333335,
+    "y0": 0.4866666666666646,
+    "y1": 35.5,
+    "fx": [
+     0.1875,
+     15.8
+    ],
+    "fy": [
+     -0.1875,
+     9.65625
+    ],
+    "img_field": [
+     0.65,
+     3.0,
+     23.47,
+     6.565
+    ],
+    "cut": {
+     "axis": "z",
+     "at": -2.0,
+     "keep": -1
+    }
+   },
+   "A3.0-1": {
+    "kind": "ortho",
+    "sheet": "A3.0",
+    "img": "draw/A3.0-1.webp",
+    "title": "Section 1, looking east",
+    "view": "W",
+    "scale": 0.1875,
+    "right": [
+     0,
+     1
+    ],
+    "h0": -20.58,
+    "h1": 82.38,
+    "y0": -1.913333333333334,
+    "y1": 35.5,
+    "fx": [
+     0.1875,
+     4.50875
+    ],
+    "fy": [
+     -0.1875,
+     17.37125
+    ],
+    "img_field": [
+     0.65,
+     10.715,
+     19.305,
+     7.015
+    ],
+    "cut": {
+     "axis": "x",
+     "at": 8.0,
+     "keep": 1
+    }
+   }
+  },
+  "how": "Field inches, origin at the field top left (what ctx.U positions in a sheet or overlay). Plan: fx = fx[0] * x + fx[1], fy = fy[0] * z + fy[1]. Ortho view: h = x * right[0] + z * right[1]; fx = fx[0] * h + fx[1]; fy = fy[0] * (el - 5990) + fy[1]."
+ },
+ "grids": {
+  "note": "Walls on their outside face (the footprint), glulams and posts on their centerline, from the model. Numbers are N to S lines, one label per physical line across the house, west to east; letters run E to W, north to south. Beams off the grid are reference lines.",
+  "grids": [
+   {
+    "id": "north",
+    "name": "North wing, entry and garage",
+    "axis_deg": 0.0,
+    "num": [
+     {
+      "id": "1",
+      "at": -75.78,
+      "what": "garage west wall",
+      "a": [
+       -75.78,
+       -19.06
+      ],
+      "b": [
+       -75.78,
+       19.27
+      ]
+     },
+     {
+      "id": "2",
+      "at": -63.58,
+      "what": "gear bay wall",
+      "a": [
+       -63.58,
+       -19.06
+      ],
+      "b": [
+       -63.58,
+       19.27
+      ]
+     },
+     {
+      "id": "3",
+      "at": -39.0,
+      "what": "garage east wall",
+      "a": [
+       -39.0,
+       -19.06
+      ],
+      "b": [
+       -39.0,
+       19.27
+      ]
+     },
+     {
+      "id": "4",
+      "at": -20.58,
+      "what": "north wing west wall, granny west wall",
+      "a": [
+       -20.58,
+       -19.06
+      ],
+      "b": [
+       -20.58,
+       11.94
+      ]
+     },
+     {
+      "id": "5",
+      "at": -9.19,
+      "what": "court post 1",
+      "a": [
+       -9.19,
+       -19.06
+      ],
+      "b": [
+       -9.19,
+       11.94
+      ]
+     },
+     {
+      "id": "7",
+      "at": 5.82,
+      "what": "court post 2",
+      "a": [
+       5.82,
+       -19.06
+      ],
+      "b": [
+       5.82,
+       11.94
+      ]
+     },
+     {
+      "id": "9",
+      "at": 20.82,
+      "what": "court post 3",
+      "a": [
+       20.82,
+       -19.06
+      ],
+      "b": [
+       20.82,
+       11.94
+      ]
+     },
+     {
+      "id": "11",
+      "at": 35.82,
+      "what": "north wing east wall, corner post",
+      "a": [
+       35.82,
+       -19.06
+      ],
+      "b": [
+       35.82,
+       11.94
+      ]
+     }
+    ],
+    "let": [
+     {
+      "id": "A",
+      "at": -14.56,
+      "what": "north wall",
+      "a": [
+       -79.78,
+       -14.56
+      ],
+      "b": [
+       39.82,
+       -14.56
+      ]
+     },
+     {
+      "id": "B",
+      "at": 7.94,
+      "what": "court glulam, court posts at 15 ft",
+      "a": [
+       -24.58,
+       7.94
+      ],
+      "b": [
+       39.82,
+       7.94
+      ]
+     },
+     {
+      "id": "C",
+      "at": 15.27,
+      "what": "garage front, two doors",
+      "a": [
+       -79.78,
+       15.27
+      ],
+      "b": [
+       -35.0,
+       15.27
+      ]
+     }
+    ],
+    "num_spacing": [
+     {
+      "a": "1",
+      "b": "2",
+      "ft": 12.2,
+      "text": "12′ 2″"
+     },
+     {
+      "a": "2",
+      "b": "3",
+      "ft": 24.58,
+      "text": "24′ 7″"
+     },
+     {
+      "a": "3",
+      "b": "4",
+      "ft": 18.42,
+      "text": "18′ 5″"
+     },
+     {
+      "a": "4",
+      "b": "5",
+      "ft": 11.39,
+      "text": "11′ 5″"
+     },
+     {
+      "a": "5",
+      "b": "7",
+      "ft": 15.01,
+      "text": "15′ 0″"
+     },
+     {
+      "a": "7",
+      "b": "9",
+      "ft": 15.0,
+      "text": "15′ 0″"
+     },
+     {
+      "a": "9",
+      "b": "11",
+      "ft": 15.0,
+      "text": "15′ 0″"
+     },
+     {
+      "a": "1",
+      "b": "11",
+      "ft": 111.6,
+      "text": "111′ 7″",
+      "overall": true
+     }
+    ],
+    "let_spacing": [
+     {
+      "a": "A",
+      "b": "B",
+      "ft": 22.5,
+      "text": "22′ 6″"
+     },
+     {
+      "a": "B",
+      "b": "C",
+      "ft": 7.33,
+      "text": "7′ 4″"
+     },
+     {
+      "a": "A",
+      "b": "C",
+      "ft": 29.83,
+      "text": "29′ 10″",
+      "overall": true
+     }
+    ]
+   },
+   {
+    "id": "bridge",
+    "name": "Bridge",
+    "axis_deg": 90.0,
+    "num": [
+     {
+      "id": "6",
+      "at": 0.03,
+      "what": "bridge beam, west wall",
+      "a": [
+       0.03,
+       3.94
+      ],
+      "b": [
+       0.03,
+       51.16
+      ]
+     },
+     {
+      "id": "8",
+      "at": 16.02,
+      "what": "bridge terrace glulam and posts",
+      "a": [
+       16.02,
+       3.94
+      ],
+      "b": [
+       16.02,
+       45.93
+      ]
+     }
+    ],
+    "let": [
+     {
+      "id": "B",
+      "at": 7.94,
+      "what": "court glulam, north end of the bridge",
+      "a": [
+       -3.97,
+       7.94
+      ],
+      "b": [
+       20.02,
+       7.94
+      ]
+     },
+     {
+      "id": "D",
+      "at": 18.95,
+      "what": "bridge post row 1",
+      "a": [
+       -3.97,
+       18.95
+      ],
+      "b": [
+       20.02,
+       18.95
+      ]
+     },
+     {
+      "id": "E",
+      "at": 29.95,
+      "what": "bridge post row 2",
+      "a": [
+       -3.97,
+       29.95
+      ],
+      "b": [
+       20.02,
+       29.95
+      ]
+     },
+     {
+      "id": "F",
+      "what": "south end, the south wing court glulam",
+      "a": [
+       -3.97,
+       48.47
+      ],
+      "b": [
+       20.02,
+       40.62
+      ]
+     }
+    ],
+    "num_spacing": [
+     {
+      "a": "6",
+      "b": "8",
+      "ft": 15.99,
+      "text": "16′ 0″"
+     },
+     {
+      "a": "6",
+      "b": "8",
+      "ft": 15.99,
+      "text": "16′ 0″",
+      "overall": true
+     }
+    ],
+    "let_spacing": [
+     {
+      "a": "B",
+      "b": "D",
+      "ft": 11.01,
+      "text": "11′ 0″"
+     },
+     {
+      "a": "D",
+      "b": "E",
+      "ft": 11.0,
+      "text": "11′ 0″"
+     },
+     {
+      "a": "E",
+      "b": "F",
+      "ft": 14.59,
+      "text": "14′ 7″",
+      "note": "on the centerline, x 8.0"
+     },
+     {
+      "a": "B",
+      "b": "F",
+      "ft": 36.6,
+      "text": "36′ 7″",
+      "overall": true
+     }
+    ]
+   },
+   {
+    "id": "south",
+    "name": "South wing",
+    "axis_deg": -18.11,
+    "num": [
+     {
+      "id": "4",
+      "at": -20.58,
+      "what": "north wing west wall, granny west wall",
+      "a": [
+       -20.58,
+       49.9
+      ],
+      "b": [
+       -20.58,
+       81.49
+      ]
+     },
+     {
+      "id": "6",
+      "at": 0.03,
+      "what": "bridge beam, west wall",
+      "a": [
+       0.03,
+       43.16
+      ],
+      "b": [
+       0.03,
+       74.75
+      ]
+     },
+     {
+      "id": "10",
+      "at": 25.8,
+      "what": "south wing east face",
+      "a": [
+       25.8,
+       34.73
+      ],
+      "b": [
+       25.8,
+       66.32
+      ]
+     }
+    ],
+    "let": [
+     {
+      "id": "F",
+      "what": "court glulam, north edge",
+      "a": [
+       -24.58,
+       55.21
+      ],
+      "b": [
+       29.8,
+       37.42
+      ]
+     },
+     {
+      "id": "G",
+      "what": "south face",
+      "a": [
+       -24.58,
+       78.8
+      ],
+      "b": [
+       29.8,
+       61.01
+      ]
+     }
+    ],
+    "num_spacing": [
+     {
+      "a": "4",
+      "b": "6",
+      "ft": 20.61,
+      "text": "20′ 7″"
+     },
+     {
+      "a": "6",
+      "b": "10",
+      "ft": 25.77,
+      "text": "25′ 9″"
+     },
+     {
+      "a": "4",
+      "b": "10",
+      "ft": 46.38,
+      "text": "46′ 5″",
+      "overall": true
+     }
+    ],
+    "let_spacing": [
+     {
+      "a": "F",
+      "b": "G",
+      "ft": 22.42,
+      "text": "22′ 5″"
+     },
+     {
+      "a": "F",
+      "b": "G",
+      "ft": 22.42,
+      "text": "22′ 5″",
+      "overall": true
+     }
+    ]
+   }
+  ],
+  "refs": [
+   {
+    "id": "FB",
+    "what": "Fold beam, north wing ribbon",
+    "a": [
+     38.06,
+     -15.75
+    ],
+    "b": [
+     -22.91,
+     8.92
+    ],
+    "el": 6012.0
+   },
+   {
+    "id": "BB",
+    "what": "Bridge beam, west wall",
+    "a": [
+     0.02,
+     7.93
+    ],
+    "b": [
+     0.01,
+     47.13
+    ],
+    "el": 6009.5
+   },
+   {
+    "id": "GB",
+    "what": "Granny suite beam, south face",
+    "a": [
+     -21.62,
+     77.82
+    ],
+    "b": [
+     0.04,
+     70.79
+    ],
+    "el": 6009.0
+   },
+   {
+    "id": "SB",
+    "what": "South wing fold beam",
+    "a": [
+     0.02,
+     55.57
+    ],
+    "b": [
+     39.0,
+     58.71
+    ],
+    "el": 6013.0
+   },
+   {
+    "id": "TG",
+    "what": "Terrace glulam, south wing east posts",
+    "a": [
+     30.3,
+     37.53
+    ],
+    "b": [
+     36.98,
+     58.42
+    ],
+    "el": null
+   }
+  ],
+  "posts": [
+   {
+    "x": 20.82,
+    "z": 7.95,
+    "base": 5997.5,
+    "top": 6014.3
+   },
+   {
+    "x": 5.82,
+    "z": 7.95,
+    "base": 5997.5,
+    "top": 6011.3
+   },
+   {
+    "x": -9.19,
+    "z": 7.95,
+    "base": 5997.5,
+    "top": 6009.6
+   },
+   {
+    "x": 35.81,
+    "z": 7.95,
+    "base": 5997.5,
+    "top": 6018.7
+   },
+   {
+    "x": 16.02,
+    "z": 18.95,
+    "base": 5997.5,
+    "top": 6008.7
+   },
+   {
+    "x": 16.02,
+    "z": 29.95,
+    "base": 5997.5,
+    "top": 6010.4
+   },
+   {
+    "x": 36.98,
+    "z": 58.42,
+    "base": 5992.3,
+    "top": 6011.0
+   },
+   {
+    "x": 7.29,
+    "z": 56.16,
+    "base": 5992.5,
+    "top": 6011.0
+   },
+   {
+    "x": 30.3,
+    "z": 37.53,
+    "base": 5992.3,
+    "top": 6021.1
+   },
+   {
+    "x": 33.58,
+    "z": 47.85,
+    "base": 5992.3,
+    "top": 6003.0
+   },
+   {
+    "x": -20.61,
+    "z": 53.9,
+    "base": 5997.5,
+    "top": 6010.2
+   },
+   {
+    "x": -10.29,
+    "z": 50.52,
+    "base": 5997.5,
+    "top": 6008.2
+   }
+  ]
+ },
+ "rooms": [
+  {
+   "id": "living",
+   "name": "Living room",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "north",
+   "label": [
+    20.48,
+    -1.18
+   ],
+   "poly": [
+    [
+     31.32,
+     -14.56
+    ],
+    [
+     31.32,
+     -8.96
+    ],
+    [
+     25.32,
+     -8.96
+    ],
+    [
+     25.32,
+     -14.56
+    ],
+    [
+     16.02,
+     -14.56
+    ],
+    [
+     16.02,
+     -6.83
+    ],
+    [
+     0.03,
+     -0.36
+    ],
+    [
+     0.03,
+     7.94
+    ],
+    [
+     35.82,
+     7.94
+    ],
+    [
+     35.82,
+     -14.56
+    ]
+   ],
+   "sf_about": 595,
+   "placeholder": true,
+   "note": "Double height under the ribbon, the lifted tip and the fireplace",
+   "ceiling_ft": [
+    8.28,
+    21.64
+   ],
+   "ceiling_el": [
+    6005.8,
+    6019.1
+   ],
+   "ceiling_text": "about 8′ 3″ to 21′ 8″"
+  },
+  {
+   "id": "kitchen",
+   "name": "Kitchen",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "north",
+   "label": [
+    -4.61,
+    -4.34
+   ],
+   "poly": [
+    [
+     -13.08,
+     -14.56
+    ],
+    [
+     -13.08,
+     -8.56
+    ],
+    [
+     -20.58,
+     -8.56
+    ],
+    [
+     -20.58,
+     7.94
+    ],
+    [
+     0.03,
+     7.94
+    ],
+    [
+     0.03,
+     -0.36
+    ],
+    [
+     16.02,
+     -6.83
+    ],
+    [
+     16.02,
+     -14.56
+    ]
+   ],
+   "sf_about": 595,
+   "placeholder": true,
+   "note": "Island on the dining axis, back wall angled with the fold beam",
+   "ceiling_ft": [
+    8.06,
+    14.02
+   ],
+   "ceiling_el": [
+    6005.6,
+    6011.5
+   ],
+   "ceiling_text": "about 8′ 1″ to 14′ 0″"
+  },
+  {
+   "id": "pantry",
+   "name": "Pantry",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "north",
+   "label": [
+    -16.83,
+    -11.56
+   ],
+   "poly": [
+    [
+     -13.08,
+     -14.56
+    ],
+    [
+     -20.58,
+     -14.56
+    ],
+    [
+     -20.58,
+     -8.56
+    ],
+    [
+     -13.08,
+     -8.56
+    ]
+   ],
+   "sf_about": 45,
+   "placeholder": true,
+   "note": "Northwest corner of the north wing",
+   "ceiling_ft": [
+    7.99,
+    8.09
+   ],
+   "ceiling_el": [
+    6005.5,
+    6005.6
+   ],
+   "ceiling_text": "about 8′ 0″ to 8′ 1″"
+  },
+  {
+   "id": "powder",
+   "name": "Powder room",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "north",
+   "label": [
+    28.32,
+    -11.76
+   ],
+   "poly": [
+    [
+     31.32,
+     -14.56
+    ],
+    [
+     25.32,
+     -14.56
+    ],
+    [
+     25.32,
+     -8.96
+    ],
+    [
+     31.32,
+     -8.96
+    ]
+   ],
+   "sf_about": 35,
+   "placeholder": true,
+   "note": "Behind the fireplace, northeast corner",
+   "ceiling_ft": [
+    8.35,
+    13.86
+   ],
+   "ceiling_el": [
+    6005.8,
+    6011.4
+   ],
+   "ceiling_text": "about 8′ 4″ to 13′ 10″"
+  },
+  {
+   "id": "entry",
+   "name": "Entry",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "north",
+   "label": [
+    -25.18,
+    -10.31
+   ],
+   "poly": [
+    [
+     -20.58,
+     -6.06
+    ],
+    [
+     -20.58,
+     -14.56
+    ],
+    [
+     -29.79,
+     -14.56
+    ],
+    [
+     -29.79,
+     -6.06
+    ]
+   ],
+   "sf_about": 80,
+   "placeholder": true,
+   "note": "Off the porch, between the garage and the north wing",
+   "ceiling_ft": [
+    12.5,
+    14.75
+   ],
+   "ceiling_el": [
+    6010.0,
+    6012.3
+   ],
+   "ceiling_text": "about 12′ 6″ to 14′ 9″"
+  },
+  {
+   "id": "mudroom",
+   "name": "Mudroom and family entry",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "north",
+   "label": [
+    -34.39,
+    -10.31
+   ],
+   "poly": [
+    [
+     -39.0,
+     -14.56
+    ],
+    [
+     -39.0,
+     -6.06
+    ],
+    [
+     -29.79,
+     -6.06
+    ],
+    [
+     -29.79,
+     -14.56
+    ]
+   ],
+   "sf_about": 80,
+   "placeholder": true,
+   "note": "From the garage",
+   "ceiling_ft": [
+    12.5,
+    14.41
+   ],
+   "ceiling_el": [
+    6010.0,
+    6011.9
+   ],
+   "ceiling_text": "about 12′ 6″ to 14′ 5″"
+  },
+  {
+   "id": "porch",
+   "name": "Porch",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "north",
+   "label": [
+    -29.58,
+    0.98
+   ],
+   "poly": [
+    [
+     -20.58,
+     -6.06
+    ],
+    [
+     -38.58,
+     -6.06
+    ],
+    [
+     -38.58,
+     8.01
+    ],
+    [
+     -20.58,
+     8.01
+    ]
+   ],
+   "sf_about": 255,
+   "placeholder": false,
+   "note": "Exterior, under the entry roof",
+   "ceiling_ft": [
+    8.16,
+    15.38
+   ],
+   "ceiling_el": [
+    6005.7,
+    6012.9
+   ],
+   "ceiling_text": "about 8′ 2″ to 15′ 5″"
+  },
+  {
+   "id": "garage",
+   "name": "Garage",
+   "level": "garage",
+   "ff": 6000.0,
+   "wing": "north",
+   "label": [
+    -51.29,
+    0.35
+   ],
+   "poly": [
+    [
+     -39.0,
+     -14.56
+    ],
+    [
+     -63.58,
+     -14.56
+    ],
+    [
+     -63.58,
+     15.27
+    ],
+    [
+     -39.0,
+     15.27
+    ]
+   ],
+   "sf_about": 735,
+   "placeholder": false,
+   "note": "Two garage doors",
+   "ceiling_ft": [
+    10.0,
+    14.6
+   ],
+   "ceiling_el": [
+    6010.0,
+    6014.6
+   ],
+   "ceiling_text": "about 10′ 0″ to 14′ 7″"
+  },
+  {
+   "id": "gear",
+   "name": "Gear bay",
+   "level": "garage",
+   "ff": 6000.0,
+   "wing": "north",
+   "label": [
+    -69.68,
+    -3.9
+   ],
+   "poly": [
+    [
+     -63.58,
+     -15.06
+    ],
+    [
+     -75.78,
+     -15.06
+    ],
+    [
+     -75.78,
+     7.27
+    ],
+    [
+     -63.58,
+     7.27
+    ]
+   ],
+   "sf_about": 270,
+   "placeholder": false,
+   "note": "Flat ceiling",
+   "ceiling_ft": [
+    7.75,
+    7.75
+   ],
+   "ceiling_el": [
+    6007.8,
+    6007.8
+   ],
+   "ceiling_text": "about 7′ 9″"
+  },
+  {
+   "id": "dining",
+   "name": "Dining",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "bridge",
+   "label": [
+    8.07,
+    24.34
+   ],
+   "poly": [
+    [
+     0.03,
+     17.45
+    ],
+    [
+     0.03,
+     30.5
+    ],
+    [
+     4.03,
+     30.5
+    ],
+    [
+     4.03,
+     31.45
+    ],
+    [
+     15.9,
+     31.45
+    ],
+    [
+     15.9,
+     17.45
+    ]
+   ],
+   "sf_about": 220,
+   "placeholder": true,
+   "note": "The middle of the bridge",
+   "ceiling_ft": [
+    11.11,
+    14.07
+   ],
+   "ceiling_el": [
+    6008.6,
+    6011.6
+   ],
+   "ceiling_text": "about 11′ 1″ to 14′ 1″"
+  },
+  {
+   "id": "stair",
+   "name": "Main stair",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "bridge",
+   "label": [
+    2.0,
+    38.48
+   ],
+   "poly": [
+    [
+     0.03,
+     47.1
+    ],
+    [
+     4.03,
+     45.8
+    ],
+    [
+     4.03,
+     30.5
+    ],
+    [
+     0.03,
+     30.5
+    ]
+   ],
+   "sf_about": 65,
+   "placeholder": true,
+   "note": "Up to level 2, inside the bridge",
+   "ceiling_ft": [
+    11.22,
+    11.71
+   ],
+   "ceiling_el": [
+    6008.7,
+    6009.2
+   ],
+   "ceiling_text": "about 11′ 3″ to 11′ 9″"
+  },
+  {
+   "id": "bar",
+   "name": "Bar",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "bridge",
+   "label": [
+    5.63,
+    36.5
+   ],
+   "poly": [
+    [
+     6.63,
+     33.0
+    ],
+    [
+     4.63,
+     33.0
+    ],
+    [
+     4.63,
+     40.0
+    ],
+    [
+     6.63,
+     40.0
+    ]
+   ],
+   "sf_about": 15,
+   "placeholder": true,
+   "note": "Faces east, just east of the stair",
+   "ceiling_ft": [
+    12.22,
+    12.51
+   ],
+   "ceiling_el": [
+    6009.7,
+    6010.0
+   ],
+   "ceiling_text": "about 12′ 3″ to 12′ 6″"
+  },
+  {
+   "id": "nook",
+   "name": "Breakfast nook",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "bridge",
+   "label": [
+    12.96,
+    11.53
+   ],
+   "poly": [
+    [
+     10.3,
+     8.06
+    ],
+    [
+     10.02,
+     8.06
+    ],
+    [
+     10.02,
+     14.94
+    ],
+    [
+     15.9,
+     14.94
+    ],
+    [
+     15.9,
+     8.12
+    ],
+    [
+     10.3,
+     8.12
+    ]
+   ],
+   "sf_about": 40,
+   "placeholder": true,
+   "note": "Bridge northeast corner",
+   "ceiling_ft": [
+    11.1,
+    11.67
+   ],
+   "ceiling_el": [
+    6008.6,
+    6009.2
+   ],
+   "ceiling_text": "about 11′ 1″ to 11′ 8″"
+  },
+  {
+   "id": "vestibule",
+   "name": "Vestibule",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "bridge",
+   "label": [
+    -2.6,
+    41.45
+   ],
+   "poly": [
+    [
+     -5.0,
+     48.67
+    ],
+    [
+     -0.1,
+     47.08
+    ],
+    [
+     -0.1,
+     35.0
+    ],
+    [
+     -5.0,
+     35.0
+    ]
+   ],
+   "sf_about": 65,
+   "placeholder": true,
+   "note": "Not in the 9/30 program; door 101 on the door schedule opens here",
+   "ceiling_ft": [
+    8.75,
+    11.36
+   ],
+   "ceiling_el": [
+    6006.2,
+    6008.9
+   ],
+   "ceiling_text": "about 8′ 9″ to 11′ 4″"
+  },
+  {
+   "id": "granny",
+   "name": "Granny suite",
+   "level": "main",
+   "ff": 5997.5,
+   "wing": "south",
+   "label": [
+    -10.35,
+    62.36
+   ],
+   "poly": [
+    [
+     -20.6,
+     77.5
+    ],
+    [
+     -0.1,
+     70.83
+    ],
+    [
+     -0.1,
+     47.2
+    ],
+    [
+     -20.6,
+     53.91
+    ]
+   ],
+   "sf_about": 485,
+   "placeholder": false,
+   "note": "South center, main level",
+   "ceiling_ft": [
+    10.27,
+    13.9
+   ],
+   "ceiling_el": [
+    6007.8,
+    6011.4
+   ],
+   "ceiling_text": "about 10′ 3″ to 13′ 11″"
+  },
+  {
+   "id": "flex",
+   "name": "Flex room",
+   "level": "lower",
+   "ff": 5992.5,
+   "wing": "south",
+   "label": [
+    17.3,
+    47.41
+   ],
+   "poly": [
+    [
+     25.8,
+     38.73
+    ],
+    [
+     8.79,
+     44.29
+    ],
+    [
+     8.79,
+     56.09
+    ],
+    [
+     25.8,
+     50.52
+    ]
+   ],
+   "sf_about": 200,
+   "placeholder": true,
+   "note": "Opens to the lower patio",
+   "ceiling_ft": [
+    10.5,
+    10.5
+   ],
+   "ceiling_el": [
+    6003.0,
+    6003.0
+   ],
+   "ceiling_text": "about 10′ 6″"
+  },
+  {
+   "id": "bunk",
+   "name": "Bunk and game room",
+   "level": "lower",
+   "ff": 5992.5,
+   "wing": "south",
+   "label": [
+    17.3,
+    59.2
+   ],
+   "poly": [
+    [
+     25.8,
+     50.52
+    ],
+    [
+     8.79,
+     56.09
+    ],
+    [
+     8.79,
+     67.88
+    ],
+    [
+     25.8,
+     62.32
+    ]
+   ],
+   "sf_about": 200,
+   "placeholder": true,
+   "note": "East views",
+   "ceiling_ft": [
+    10.5,
+    10.5
+   ],
+   "ceiling_el": [
+    6003.0,
+    6003.0
+   ],
+   "ceiling_text": "about 10′ 6″"
+  },
+  {
+   "id": "bunk_bath",
+   "name": "Bunk bath",
+   "level": "lower",
+   "ff": 5992.5,
+   "wing": "south",
+   "label": [
+    4.41,
+    64.83
+   ],
+   "poly": [
+    [
+     0.03,
+     70.75
+    ],
+    [
+     8.79,
+     67.88
+    ],
+    [
+     8.79,
+     58.92
+    ],
+    [
+     0.03,
+     61.79
+    ]
+   ],
+   "sf_about": 80,
+   "placeholder": true,
+   "note": "Pulled toward the core",
+   "ceiling_ft": [
+    10.5,
+    10.5
+   ],
+   "ceiling_el": [
+    6003.0,
+    6003.0
+   ],
+   "ceiling_text": "about 10′ 6″"
+  },
+  {
+   "id": "gym",
+   "name": "Gym",
+   "level": "lower",
+   "ff": 5992.5,
+   "wing": "south",
+   "label": [
+    4.41,
+    53.04
+   ],
+   "poly": [
+    [
+     8.79,
+     44.29
+    ],
+    [
+     0.03,
+     47.16
+    ],
+    [
+     0.03,
+     61.79
+    ],
+    [
+     8.79,
+     58.92
+    ]
+   ],
+   "sf_about": 130,
+   "placeholder": true,
+   "note": "By the stair",
+   "ceiling_ft": [
+    10.5,
+    10.5
+   ],
+   "ceiling_el": [
+    6003.0,
+    6003.0
+   ],
+   "ceiling_text": "about 10′ 6″"
+  },
+  {
+   "id": "primary",
+   "name": "Primary suite",
+   "level": "primary",
+   "ff": 6004.0,
+   "wing": "south",
+   "label": [
+    12.91,
+    54.74
+   ],
+   "poly": [
+    [
+     25.81,
+     62.38
+    ],
+    [
+     25.81,
+     38.73
+    ],
+    [
+     0.02,
+     47.1
+    ],
+    [
+     0.02,
+     70.76
+    ]
+   ],
+   "sf_about": 610,
+   "placeholder": false,
+   "note": "Over the lower level",
+   "ceiling_ft": [
+    6.66,
+    14.81
+   ],
+   "ceiling_el": [
+    6010.7,
+    6018.8
+   ],
+   "ceiling_text": "about 6′ 8″ to 14′ 10″"
+  },
+  {
+   "id": "primary_terrace",
+   "name": "Primary terrace",
+   "level": "primary",
+   "ff": 6004.0,
+   "wing": "south",
+   "label": [
+    30.3,
+    50.83
+   ],
+   "poly": [
+    [
+     26.1,
+     38.64
+    ],
+    [
+     26.1,
+     62.31
+    ],
+    [
+     37.48,
+     58.55
+    ],
+    [
+     30.48,
+     37.17
+    ]
+   ],
+   "sf_about": 185,
+   "placeholder": false,
+   "note": "Cedar deck to the east"
+  },
+  {
+   "id": "upper_terrace",
+   "name": "Upper terrace",
+   "level": "terrace",
+   "ff": 5997.25,
+   "wing": "court",
+   "label": [
+    25.74,
+    23.48
+   ],
+   "poly": [
+    [
+     16.3,
+     8.45
+    ],
+    [
+     16.3,
+     41.44
+    ],
+    [
+     22.31,
+     39.65
+    ],
+    [
+     35.85,
+     35.24
+    ],
+    [
+     35.85,
+     8.45
+    ]
+   ],
+   "sf_about": 585,
+   "placeholder": false,
+   "note": "Cedar deck off the living room"
+  },
+  {
+   "id": "lower_patio",
+   "name": "Lower patio",
+   "level": "patio",
+   "ff": 5992.33,
+   "wing": "court",
+   "label": [
+    35.56,
+    43.89
+   ],
+   "poly": [
+    [
+     43.12,
+     59.79
+    ],
+    [
+     41.94,
+     20.3
+    ],
+    [
+     35.85,
+     18.51
+    ],
+    [
+     35.85,
+     35.24
+    ],
+    [
+     30.54,
+     36.98
+    ],
+    [
+     30.49,
+     37.36
+    ],
+    [
+     26.45,
+     38.87
+    ],
+    [
+     26.45,
+     61.84
+    ],
+    [
+     37.67,
+     58.33
+    ],
+    [
+     37.8,
+     58.7
+    ],
+    [
+     42.09,
+     60.13
+    ]
+   ],
+   "sf_about": 485,
+   "placeholder": false,
+   "note": "Stone"
+  },
+  {
+   "id": "fire_pit",
+   "name": "Fire pit",
+   "level": "terrace",
+   "ff": 5997.25,
+   "wing": "court",
+   "label": [
+    24.3,
+    24.0
+   ],
+   "poly": [
+    [
+     27.0,
+     15.5
+    ],
+    [
+     25.89,
+     15.58
+    ],
+    [
+     24.8,
+     15.79
+    ],
+    [
+     23.75,
+     16.16
+    ],
+    [
+     22.75,
+     16.64
+    ],
+    [
+     21.83,
+     17.25
+    ],
+    [
+     20.99,
+     17.99
+    ],
+    [
+     20.25,
+     18.82
+    ],
+    [
+     19.64,
+     19.75
+    ],
+    [
+     19.15,
+     20.74
+    ],
+    [
+     18.79,
+     21.8
+    ],
+    [
+     18.58,
+     22.89
+    ],
+    [
+     18.5,
+     24.0
+    ],
+    [
+     18.58,
+     25.11
+    ],
+    [
+     18.79,
+     26.2
+    ],
+    [
+     19.16,
+     27.25
+    ],
+    [
+     19.64,
+     28.25
+    ],
+    [
+     20.25,
+     29.17
+    ],
+    [
+     20.99,
+     30.01
+    ],
+    [
+     21.82,
+     30.75
+    ],
+    [
+     22.75,
+     31.36
+    ],
+    [
+     23.74,
+     31.85
+    ],
+    [
+     24.8,
+     32.21
+    ],
+    [
+     25.89,
+     32.42
+    ],
+    [
+     27.0,
+     32.5
+    ],
+    [
+     29.87,
+     24.87
+    ],
+    [
+     30.0,
+     24.0
+    ],
+    [
+     29.87,
+     23.13
+    ]
+   ],
+   "sf_about": 140,
+   "placeholder": true,
+   "note": "Semicircular bench"
+  }
+ ],
+ "dims": [
+  {
+   "id": "overall_ew",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -75.78,
+     -15.06
+    ],
+    [
+     37.48,
+     -15.06
+    ]
+   ],
+   "s": [
+    [
+     -75.78,
+     -24.06
+    ],
+    [
+     37.48,
+     -24.06
+    ]
+   ],
+   "ft": 113.26,
+   "text": "113′ 4″",
+   "note": "Overall, the garage to the primary terrace edge"
+  },
+  {
+   "id": "overall_ns",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -75.78,
+     -15.06
+    ],
+    [
+     -75.78,
+     77.5
+    ]
+   ],
+   "s": [
+    [
+     -81.78,
+     -15.06
+    ],
+    [
+     -81.78,
+     77.5
+    ]
+   ],
+   "ft": 92.56,
+   "text": "92′ 7″",
+   "note": "Overall, north wall to the granny suite south corner"
+  },
+  {
+   "id": "north_wing_len",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -20.58,
+     -14.56
+    ],
+    [
+     35.82,
+     -14.56
+    ]
+   ],
+   "s": [
+    [
+     -20.58,
+     -19.4
+    ],
+    [
+     35.82,
+     -19.4
+    ]
+   ],
+   "ft": 56.4,
+   "text": "56′ 5″",
+   "note": "Matches the A2.1 string"
+  },
+  {
+   "id": "north_wing_depth",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     35.82,
+     -14.56
+    ],
+    [
+     35.82,
+     7.94
+    ]
+   ],
+   "s": [
+    [
+     41.32,
+     -14.56
+    ],
+    [
+     41.32,
+     7.94
+    ]
+   ],
+   "ft": 22.5,
+   "text": "22′ 6″"
+  },
+  {
+   "id": "garage_w",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -63.58,
+     15.27
+    ],
+    [
+     -39.0,
+     15.27
+    ]
+   ],
+   "s": [
+    [
+     -63.58,
+     19.77
+    ],
+    [
+     -39.0,
+     19.77
+    ]
+   ],
+   "ft": 24.58,
+   "text": "24′ 7″"
+  },
+  {
+   "id": "garage_d",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -75.78,
+     -15.06
+    ],
+    [
+     -75.78,
+     7.27
+    ]
+   ],
+   "s": [
+    [
+     -79.78,
+     -15.06
+    ],
+    [
+     -79.78,
+     7.27
+    ]
+   ],
+   "ft": 22.33,
+   "text": "22′ 4″",
+   "note": "Gear bay"
+  },
+  {
+   "id": "bridge_w",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     0.03,
+     12.0
+    ],
+    [
+     15.9,
+     12.0
+    ]
+   ],
+   "s": [
+    [
+     0.03,
+     12.0
+    ],
+    [
+     15.9,
+     12.0
+    ]
+   ],
+   "ft": 15.87,
+   "text": "15′ 10″",
+   "note": "Bridge about 16 ft in the model, the brief says about 20 ft"
+  },
+  {
+   "id": "bridge_len_w",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     0.03,
+     7.94
+    ],
+    [
+     0.03,
+     47.16
+    ]
+   ],
+   "s": [
+    [
+     -2.97,
+     7.94
+    ],
+    [
+     -2.97,
+     47.16
+    ]
+   ],
+   "ft": 39.22,
+   "text": "39′ 3″",
+   "note": "West wall, court glulam to the south wing"
+  },
+  {
+   "id": "south_w",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     0.03,
+     70.75
+    ],
+    [
+     25.8,
+     62.38
+    ]
+   ],
+   "s": [
+    [
+     1.58,
+     75.5
+    ],
+    [
+     27.35,
+     67.13
+    ]
+   ],
+   "ft": 27.1,
+   "text": "27′ 1″",
+   "note": "South wing lower level and primary suite, along the skew"
+  },
+  {
+   "id": "granny_w",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -20.58,
+     77.49
+    ],
+    [
+     0.03,
+     70.75
+    ]
+   ],
+   "s": [
+    [
+     -19.03,
+     82.24
+    ],
+    [
+     1.58,
+     75.5
+    ]
+   ],
+   "ft": 21.68,
+   "text": "21′ 8″",
+   "note": "Granny suite, along the skew"
+  },
+  {
+   "id": "south_depth",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     28.8,
+     37.75
+    ],
+    [
+     35.77,
+     59.06
+    ]
+   ],
+   "s": [
+    [
+     32.6,
+     36.5
+    ],
+    [
+     39.57,
+     57.81
+    ]
+   ],
+   "ft": 22.42,
+   "text": "22′ 5″",
+   "note": "Square to the south wing"
+  },
+  {
+   "id": "primary_w",
+   "sheets": [
+    "A2.2",
+    "A2.5"
+   ],
+   "e": [
+    [
+     0.03,
+     70.75
+    ],
+    [
+     25.8,
+     62.38
+    ]
+   ],
+   "s": [
+    [
+     1.58,
+     75.5
+    ],
+    [
+     27.35,
+     67.13
+    ]
+   ],
+   "ft": 27.1,
+   "text": "27′ 1″",
+   "note": "Primary suite along the skew"
+  },
+  {
+   "id": "primary_terrace",
+   "sheets": [
+    "A2.2",
+    "A2.5"
+   ],
+   "e": [
+    [
+     26.1,
+     50.0
+    ],
+    [
+     37.48,
+     50.0
+    ]
+   ],
+   "s": [
+    [
+     26.1,
+     50.0
+    ],
+    [
+     37.48,
+     50.0
+    ]
+   ],
+   "ft": 11.38,
+   "text": "11′ 5″",
+   "note": "Deck depth at the middle"
+  },
+  {
+   "id": "grid_north_1_2",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -75.78,
+     -14.56
+    ],
+    [
+     -63.58,
+     -14.56
+    ]
+   ],
+   "s": [
+    [
+     -75.78,
+     -21.76
+    ],
+    [
+     -63.58,
+     -21.76
+    ]
+   ],
+   "ft": 12.2,
+   "text": "12′ 2″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_north_2_3",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -63.58,
+     -14.56
+    ],
+    [
+     -39.0,
+     -14.56
+    ]
+   ],
+   "s": [
+    [
+     -63.58,
+     -21.76
+    ],
+    [
+     -39.0,
+     -21.76
+    ]
+   ],
+   "ft": 24.58,
+   "text": "24′ 7″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_north_3_4",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -39.0,
+     -14.56
+    ],
+    [
+     -20.58,
+     -14.56
+    ]
+   ],
+   "s": [
+    [
+     -39.0,
+     -21.76
+    ],
+    [
+     -20.58,
+     -21.76
+    ]
+   ],
+   "ft": 18.42,
+   "text": "18′ 5″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_north_4_5",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -20.58,
+     -14.56
+    ],
+    [
+     -9.19,
+     -14.56
+    ]
+   ],
+   "s": [
+    [
+     -20.58,
+     -21.76
+    ],
+    [
+     -9.19,
+     -21.76
+    ]
+   ],
+   "ft": 11.39,
+   "text": "11′ 5″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_north_5_7",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -9.19,
+     -14.56
+    ],
+    [
+     5.82,
+     -14.56
+    ]
+   ],
+   "s": [
+    [
+     -9.19,
+     -21.76
+    ],
+    [
+     5.82,
+     -21.76
+    ]
+   ],
+   "ft": 15.01,
+   "text": "15′ 0″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_north_7_9",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     5.82,
+     -14.56
+    ],
+    [
+     20.82,
+     -14.56
+    ]
+   ],
+   "s": [
+    [
+     5.82,
+     -21.76
+    ],
+    [
+     20.82,
+     -21.76
+    ]
+   ],
+   "ft": 15.0,
+   "text": "15′ 0″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_north_9_11",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     20.82,
+     -14.56
+    ],
+    [
+     35.82,
+     -14.56
+    ]
+   ],
+   "s": [
+    [
+     20.82,
+     -21.76
+    ],
+    [
+     35.82,
+     -21.76
+    ]
+   ],
+   "ft": 15.0,
+   "text": "15′ 0″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_bridge_6_8",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     0.03,
+     22.0
+    ],
+    [
+     16.02,
+     22.0
+    ]
+   ],
+   "s": [
+    [
+     0.03,
+     22.0
+    ],
+    [
+     16.02,
+     22.0
+    ]
+   ],
+   "ft": 15.99,
+   "text": "16′ 0″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_south_4_6",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     -20.58,
+     77.49
+    ],
+    [
+     0.03,
+     70.75
+    ]
+   ],
+   "s": [
+    [
+     -20.58,
+     86.49
+    ],
+    [
+     0.03,
+     79.75
+    ]
+   ],
+   "ft": 21.68,
+   "text": "21′ 8″",
+   "note": "Grid to grid, measured in x"
+  },
+  {
+   "id": "grid_south_6_10",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     0.03,
+     70.75
+    ],
+    [
+     25.8,
+     62.32
+    ]
+   ],
+   "s": [
+    [
+     0.03,
+     79.75
+    ],
+    [
+     25.8,
+     71.32
+    ]
+   ],
+   "ft": 27.11,
+   "text": "27′ 1″",
+   "note": "Grid to grid, measured in x"
+  },
+  {
+   "id": "grid_bridge_B_D",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     19.52,
+     7.94
+    ],
+    [
+     19.52,
+     18.95
+    ]
+   ],
+   "s": [
+    [
+     19.52,
+     7.94
+    ],
+    [
+     19.52,
+     18.95
+    ]
+   ],
+   "ft": 11.01,
+   "text": "11′ 0″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_bridge_D_E",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     19.52,
+     18.95
+    ],
+    [
+     19.52,
+     29.95
+    ]
+   ],
+   "s": [
+    [
+     19.52,
+     18.95
+    ],
+    [
+     19.52,
+     29.95
+    ]
+   ],
+   "ft": 11.0,
+   "text": "11′ 0″",
+   "note": "Grid to grid"
+  },
+  {
+   "id": "grid_bridge_E_F",
+   "sheets": [
+    "A2.0",
+    "A2.1",
+    "A2.4"
+   ],
+   "e": [
+    [
+     19.52,
+     29.95
+    ],
+    [
+     19.52,
+     44.54
+    ]
+   ],
+   "s": [
+    [
+     19.52,
+     29.95
+    ],
+    [
+     19.52,
+     44.54
+    ]
+   ],
+   "ft": 14.59,
+   "text": "14′ 7″",
+   "note": "Grid to grid"
+  }
+ ],
+ "levels": [
+  {
+   "id": "datum",
+   "name": "Model datum",
+   "el": 5990.0,
+   "kind": "datum",
+   "note": "Model y 0",
+   "model_y": 0.0
+  },
+  {
+   "id": "patio",
+   "name": "Lower patio",
+   "el": 5992.33,
+   "kind": "floor",
+   "model_y": 2.33
+  },
+  {
+   "id": "lower_ff",
+   "name": "Lower level FF",
+   "el": 5992.5,
+   "kind": "floor",
+   "model_y": 2.5
+  },
+  {
+   "id": "terrace",
+   "name": "Upper terrace",
+   "el": 5997.25,
+   "kind": "floor",
+   "model_y": 7.25
+  },
+  {
+   "id": "main_ff",
+   "name": "Main level FF",
+   "el": 5997.5,
+   "kind": "floor",
+   "model_y": 7.5
+  },
+  {
+   "id": "garage_ff",
+   "name": "Garage and gear bay FF",
+   "el": 6000.0,
+   "kind": "floor",
+   "model_y": 10.0
+  },
+  {
+   "id": "primary_ff",
+   "name": "Primary suite FF, level 2",
+   "el": 6004.0,
+   "kind": "floor",
+   "note": "11 ft 6 in over the lower level",
+   "model_y": 14.0
+  },
+  {
+   "id": "primary_terrace",
+   "name": "Primary terrace deck",
+   "el": 6004.03,
+   "kind": "floor",
+   "model_y": 14.03
+  },
+  {
+   "id": "granny_head",
+   "name": "Granny suite glass head",
+   "el": 6006.1,
+   "kind": "plate",
+   "model_y": 16.1
+  },
+  {
+   "id": "main_plate",
+   "name": "Main level plate",
+   "el": 6006.5,
+   "kind": "plate",
+   "note": "Glass heads, as on A2.4",
+   "model_y": 16.5
+  },
+  {
+   "id": "kitchen_eave",
+   "name": "Kitchen roof eave",
+   "el": 6006.8,
+   "kind": "plate",
+   "model_y": 16.8
+  },
+  {
+   "id": "kitchen_roof",
+   "name": "Kitchen roof, flat zone",
+   "el": 6007.25,
+   "kind": "roof",
+   "model_y": 17.25
+  },
+  {
+   "id": "lower_beam",
+   "name": "Clerestory sill, lower beam",
+   "el": 6008.0,
+   "kind": "beam",
+   "model_y": 18.0
+  },
+  {
+   "id": "granny_beam",
+   "name": "Granny suite beam",
+   "el": 6009.0,
+   "kind": "beam",
+   "model_y": 19.0
+  },
+  {
+   "id": "bridge_beam",
+   "name": "Bridge beam",
+   "el": 6009.5,
+   "kind": "beam",
+   "model_y": 19.5
+  },
+  {
+   "id": "clere_top",
+   "name": "Clerestory head, north",
+   "el": 6010.0,
+   "kind": "plate",
+   "model_y": 20.0
+  },
+  {
+   "id": "porch_end",
+   "name": "Porch roof end",
+   "el": 6011.0,
+   "kind": "roof",
+   "model_y": 21.0
+  },
+  {
+   "id": "primary_plate",
+   "name": "Primary suite plate, south wall",
+   "el": 6011.0,
+   "kind": "plate",
+   "note": "As on A2.5",
+   "model_y": 21.0
+  },
+  {
+   "id": "fold_beam",
+   "name": "Fold beam, north wing",
+   "el": 6012.0,
+   "kind": "beam",
+   "model_y": 22.0
+  },
+  {
+   "id": "south_beam",
+   "name": "South wing beam, clerestory sill",
+   "el": 6013.0,
+   "kind": "beam",
+   "model_y": 23.0
+  },
+  {
+   "id": "granny_tip",
+   "name": "Granny suite tip",
+   "el": 6014.0,
+   "kind": "tip",
+   "model_y": 24.0
+  },
+  {
+   "id": "south_clere_top",
+   "name": "South clerestory head",
+   "el": 6015.0,
+   "kind": "plate",
+   "model_y": 25.0
+  },
+  {
+   "id": "bridge_tip",
+   "name": "Bridge tip",
+   "el": 6015.2,
+   "kind": "tip",
+   "model_y": 25.2
+  },
+  {
+   "id": "garage_tip",
+   "name": "Garage tip",
+   "el": 6016.5,
+   "kind": "tip",
+   "model_y": 26.5
+  },
+  {
+   "id": "end_south",
+   "name": "Ribbon end, south",
+   "el": 6020.5,
+   "kind": "tip",
+   "model_y": 30.5
+  },
+  {
+   "id": "end_east",
+   "name": "Ribbon end, east",
+   "el": 6020.7,
+   "kind": "tip",
+   "model_y": 30.7
+  },
+  {
+   "id": "south_tip",
+   "name": "South wing tip",
+   "el": 6021.6,
+   "kind": "tip",
+   "model_y": 31.6
+  },
+  {
+   "id": "primary_ridge",
+   "name": "Primary suite high point",
+   "el": 6022.6,
+   "kind": "ridge",
+   "model_y": 32.6
+  },
+  {
+   "id": "south_high",
+   "name": "South wing high corner",
+   "el": 6022.9,
+   "kind": "tip",
+   "model_y": 32.9
+  },
+  {
+   "id": "tip",
+   "name": "Living room tip, max",
+   "el": 6023.0,
+   "kind": "tip",
+   "model_y": 33.0
+  }
+ ],
+ "heights": {
+  "meta": {
+   "method": "Design Book VII.5: no point over 30 ft above the natural grade beneath it; the ridge within 30 ft of average natural grade; 36 ft only where the footprint slopes over 15%. Chimney masses up to 4 ft more. Natural grade from the model terrain, bilinear on its 3 ft grid, as build_drawings.py and reg-a. FA accuracy, confirm on survey.",
+   "limit_ft": 30.0,
+   "flag_ft": 29.0,
+   "avg_grade": 5997.0,
+   "ridge_limit": 6027.0,
+   "footprint_slope_pct": 6.5,
+   "governs": "30 ft",
+   "flagged": [
+    "worst_cell",
+    "swHigh",
+    "corner_11",
+    "tip",
+    "stip",
+    "corner_14"
+   ]
+  },
+  "points": [
+   {
+    "id": "worst_cell",
+    "name": "Tightest roof cell",
+    "kind": "cell",
+    "at": [
+     30.5,
+     34.5
+    ],
+    "el": 6022.84,
+    "grade": 5993.08,
+    "over": 29.76,
+    "margin": 0.24,
+    "flag": true,
+    "over_limit": false,
+    "src": "1 ft raster, as on A1.3"
+   },
+   {
+    "id": "swHigh",
+    "name": "South wing high corner",
+    "kind": "tip",
+    "at": [
+     29.96,
+     34.76
+    ],
+    "el": 6022.87,
+    "grade": 5993.12,
+    "over": 29.75,
+    "margin": 0.25,
+    "flag": true,
+    "over_limit": false,
+    "src": "model anchor"
+   },
+   {
+    "id": "corner_11",
+    "name": "Roof corner 11",
+    "kind": "corner",
+    "at": [
+     31.5,
+     34.5
+    ],
+    "el": 6022.55,
+    "grade": 5992.98,
+    "over": 29.57,
+    "margin": 0.43,
+    "flag": true,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "tip",
+    "name": "Living room tip, max",
+    "kind": "tip",
+    "at": [
+     36.94,
+     10.72
+    ],
+    "el": 6023.0,
+    "grade": 5993.63,
+    "over": 29.37,
+    "margin": 0.63,
+    "flag": true,
+    "over_limit": false,
+    "src": "model anchor"
+   },
+   {
+    "id": "stip",
+    "name": "South wing east post tip",
+    "kind": "tip",
+    "at": [
+     30.5,
+     37.2
+    ],
+    "el": 6022.13,
+    "grade": 5992.98,
+    "over": 29.16,
+    "margin": 0.84,
+    "flag": true,
+    "over_limit": false,
+    "src": "model anchor"
+   },
+   {
+    "id": "corner_14",
+    "name": "Roof corner 14",
+    "kind": "corner",
+    "at": [
+     36.5,
+     10.5
+    ],
+    "el": 6022.75,
+    "grade": 5993.68,
+    "over": 29.06,
+    "margin": 0.94,
+    "flag": true,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "high_24",
+    "name": "Local high point",
+    "kind": "cell",
+    "at": [
+     40.5,
+     58.5
+    ],
+    "el": 6017.2,
+    "grade": 5991.29,
+    "over": 25.91,
+    "margin": 4.09,
+    "flag": false,
+    "over_limit": false,
+    "src": "1 ft raster, local maximum"
+   },
+   {
+    "id": "corner_12",
+    "name": "Roof corner 12",
+    "kind": "corner",
+    "at": [
+     18.5,
+     38.5
+    ],
+    "el": 6019.56,
+    "grade": 5994.07,
+    "over": 25.49,
+    "margin": 4.51,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "chim_south",
+    "name": "South chimney cap",
+    "kind": "chimney",
+    "at": [
+     24.3,
+     63.9
+    ],
+    "el": 6017.9,
+    "grade": 5992.98,
+    "over": 24.92,
+    "limit": 34.0,
+    "margin": 9.08,
+    "flag": false,
+    "over_limit": false,
+    "within10": 6018.7,
+    "adjacent": 6013.0,
+    "r1003_9": false,
+    "src": "A1.3, VII.5 allows 4 ft over"
+   },
+   {
+    "id": "corner_13",
+    "name": "Roof corner 13",
+    "kind": "corner",
+    "at": [
+     18.5,
+     10.5
+    ],
+    "el": 6017.36,
+    "grade": 5995.15,
+    "over": 22.22,
+    "margin": 7.78,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "chim_north",
+    "name": "North chimney cap",
+    "kind": "chimney",
+    "at": [
+     20.8,
+     -11.4
+    ],
+    "el": 6017.6,
+    "grade": 5996.05,
+    "over": 21.55,
+    "limit": 34.0,
+    "margin": 12.45,
+    "flag": false,
+    "over_limit": false,
+    "within10": 6016.1,
+    "adjacent": 6012.5,
+    "r1003_9": false,
+    "src": "A1.3, VII.5 allows 4 ft over"
+   },
+   {
+    "id": "spot_beam_6013_0",
+    "name": "Roof spot beam 6013.0",
+    "kind": "spot",
+    "at": [
+     11.36,
+     56.48
+    ],
+    "el": 6013.0,
+    "grade": 5994.18,
+    "over": 18.82,
+    "margin": 11.18,
+    "flag": false,
+    "over_limit": false,
+    "src": "A2.3 roof spot"
+   },
+   {
+    "id": "spot_6017_0",
+    "name": "Roof spot 6017.0",
+    "kind": "spot",
+    "at": [
+     -36.58,
+     17.27
+    ],
+    "el": 6017.0,
+    "grade": 5998.59,
+    "over": 18.41,
+    "margin": 11.59,
+    "flag": false,
+    "over_limit": false,
+    "src": "A2.3 roof spot"
+   },
+   {
+    "id": "granny",
+    "name": "Granny suite tip",
+    "kind": "tip",
+    "at": [
+     -21.6,
+     51.07
+    ],
+    "el": 6014.0,
+    "grade": 5996.59,
+    "over": 17.41,
+    "margin": 12.59,
+    "flag": false,
+    "over_limit": false,
+    "src": "model anchor"
+   },
+   {
+    "id": "corner_9",
+    "name": "Roof corner 9",
+    "kind": "corner",
+    "at": [
+     -21.5,
+     51.5
+    ],
+    "el": 6013.9,
+    "grade": 5996.56,
+    "over": 17.33,
+    "margin": 12.67,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "corner_5",
+    "name": "Roof corner 5",
+    "kind": "corner",
+    "at": [
+     -0.5,
+     10.5
+    ],
+    "el": 6013.74,
+    "grade": 5996.49,
+    "over": 17.25,
+    "margin": 12.75,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "corner_4",
+    "name": "Roof corner 4",
+    "kind": "corner",
+    "at": [
+     -65.5,
+     16.5
+    ],
+    "el": 6017.07,
+    "grade": 6000.3,
+    "over": 16.77,
+    "margin": 13.23,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "garageTip",
+    "name": "Garage tip",
+    "kind": "tip",
+    "at": [
+     -63.58,
+     15.27
+    ],
+    "el": 6016.5,
+    "grade": 6000.21,
+    "over": 16.29,
+    "margin": 13.71,
+    "flag": false,
+    "over_limit": false,
+    "src": "model anchor"
+   },
+   {
+    "id": "spot_beam_6012_0",
+    "name": "Roof spot beam 6012.0",
+    "kind": "spot",
+    "at": [
+     17.04,
+     -7.24
+    ],
+    "el": 6012.0,
+    "grade": 5996.08,
+    "over": 15.92,
+    "margin": 14.08,
+    "flag": false,
+    "over_limit": false,
+    "src": "A2.3 roof spot"
+   },
+   {
+    "id": "corner_3",
+    "name": "Roof corner 3",
+    "kind": "corner",
+    "at": [
+     -65.5,
+     9.5
+    ],
+    "el": 6015.89,
+    "grade": 6000.39,
+    "over": 15.5,
+    "margin": 14.5,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "corner_8",
+    "name": "Roof corner 8",
+    "kind": "corner",
+    "at": [
+     -6.5,
+     46.5
+    ],
+    "el": 6010.67,
+    "grade": 5995.75,
+    "over": 14.92,
+    "margin": 15.08,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "corner_10",
+    "name": "Roof corner 10",
+    "kind": "corner",
+    "at": [
+     -21.5,
+     76.5
+    ],
+    "el": 6009.48,
+    "grade": 5995.37,
+    "over": 14.11,
+    "margin": 15.89,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "corner_6",
+    "name": "Roof corner 6",
+    "kind": "corner",
+    "at": [
+     -0.5,
+     35.5
+    ],
+    "el": 6009.61,
+    "grade": 5995.68,
+    "over": 13.94,
+    "margin": 16.06,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "corner_7",
+    "name": "Roof corner 7",
+    "kind": "corner",
+    "at": [
+     -4.5,
+     35.5
+    ],
+    "el": 6007.5,
+    "grade": 5995.96,
+    "over": 11.54,
+    "margin": 18.46,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "spot_kitchen_6007_3",
+    "name": "Roof spot kitchen 6007.3",
+    "kind": "spot",
+    "at": [
+     10.44,
+     -13.46
+    ],
+    "el": 6007.3,
+    "grade": 5996.75,
+    "over": 10.55,
+    "margin": 19.45,
+    "flag": false,
+    "over_limit": false,
+    "src": "A2.3 roof spot"
+   },
+   {
+    "id": "corner_2",
+    "name": "Roof corner 2",
+    "kind": "corner",
+    "at": [
+     -75.5,
+     7.5
+    ],
+    "el": 6009.0,
+    "grade": 6000.92,
+    "over": 8.08,
+    "margin": 21.92,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   },
+   {
+    "id": "corner_1",
+    "name": "Roof corner 1",
+    "kind": "corner",
+    "at": [
+     -75.5,
+     -15.5
+    ],
+    "el": 6009.0,
+    "grade": 6001.1,
+    "over": 7.9,
+    "margin": 22.1,
+    "flag": false,
+    "over_limit": false,
+    "src": "roof outline corner, 1 ft cell"
+   }
+  ]
+ },
+ "tags": {
+  "status": [
+   "meets",
+   "variance",
+   "confirm"
+  ],
+  "matrix": [
+   {
+    "n": 1,
+    "name": "Setbacks",
+    "section": "III.6",
+    "status": "confirm"
+   },
+   {
+    "n": 2,
+    "name": "Impervious coverage",
+    "section": "III.7",
+    "status": "confirm"
+   },
+   {
+    "n": 3,
+    "name": "Living area",
+    "section": "VII.4",
+    "status": "meets"
+   },
+   {
+    "n": 4,
+    "name": "Height",
+    "section": "VII.5",
+    "status": "meets"
+   },
+   {
+    "n": 5,
+    "name": "Roof form and pitch",
+    "section": "VII.13",
+    "status": "variance"
+   },
+   {
+    "n": 6,
+    "name": "Roofing",
+    "section": "IX.5",
+    "status": "confirm"
+   },
+   {
+    "n": 7,
+    "name": "Glazing",
+    "section": "VII.15 · IX.6",
+    "status": "confirm"
+   },
+   {
+    "n": 8,
+    "name": "Window frames",
+    "section": "IX.6 · IX.7",
+    "status": "confirm"
+   },
+   {
+    "n": 9,
+    "name": "Chimneys",
+    "section": "VII.20 · VII.5",
+    "status": "confirm"
+   },
+   {
+    "n": 10,
+    "name": "Exterior lighting",
+    "section": "VIII.2",
+    "status": "confirm"
+   },
+   {
+    "n": 11,
+    "name": "Colors",
+    "section": "IX.2",
+    "status": "confirm"
+   },
+   {
+    "n": 12,
+    "name": "Wall materials",
+    "section": "IX.4",
+    "status": "confirm"
+   },
+   {
+    "n": 13,
+    "name": "Snow",
+    "section": "III.9 · VII.14",
+    "status": "confirm"
+   },
+   {
+    "n": 14,
+    "name": "Defensible space",
+    "section": "IV.20",
+    "status": "confirm"
+   },
+   {
+    "n": 15,
+    "name": "Slab on grade",
+    "section": "XI.14",
+    "status": "meets"
+   }
+  ],
+  "tags": [
+   {
+    "id": "T01",
+    "sheets": [
+     "A2.3",
+     "A4.0",
+     "A4.1",
+     "A1.3"
+    ],
+    "at": [
+     36.94,
+     10.72
+    ],
+    "text": "VII.5 tip 29.4 ft over grade",
+    "status": "meets",
+    "a13": {
+     "n": 4,
+     "name": "Height",
+     "section": "VII.5"
+    },
+    "el": 6023.0,
+    "note": "Within 1 ft of 30 ft, confirm on survey",
+    "at_field": {
+     "A2.3": [
+      29.8012,
+      7.2225
+     ],
+     "A4.0": [
+      4.1581,
+      6.3688
+     ],
+     "A4.1": [
+      19.5425,
+      6.025
+     ]
+    }
+   },
+   {
+    "id": "T02",
+    "sheets": [
+     "A2.3",
+     "A4.1",
+     "A4.2",
+     "A1.3"
+    ],
+    "at": [
+     29.96,
+     34.76
+    ],
+    "text": "VII.5 29.8 ft, the tightest point",
+    "status": "meets",
+    "a13": {
+     "n": 4,
+     "name": "Height",
+     "section": "VII.5"
+    },
+    "el": 6022.87,
+    "note": "Within 1 ft of 30 ft, confirm on survey",
+    "at_field": {
+     "A2.3": [
+      28.4925,
+      11.73
+     ],
+     "A4.1": [
+      13.5325,
+      6.0575
+     ],
+     "A4.2": [
+      23.5325,
+      6.3931
+     ]
+    }
+   },
+   {
+    "id": "T04",
+    "sheets": [
+     "A2.3",
+     "A4.0",
+     "A4.2",
+     "A1.3"
+    ],
+    "at": [
+     7.62,
+     -3.31
+    ],
+    "text": "roof under 4:12, Design Variance",
+    "status": "variance",
+    "a13": {
+     "n": 5,
+     "name": "Roof form and pitch",
+     "section": "VII.13"
+    },
+    "note": "About 11.5% of the roof at 4:12 or steeper, 12.0% flat",
+    "at_field": {
+     "A2.3": [
+      24.3038,
+      4.5919
+     ]
+    }
+   },
+   {
+    "id": "T05",
+    "sheets": [
+     "A2.3"
+    ],
+    "at": [
+     10.44,
+     -13.46
+    ],
+    "text": "VII.13 flat zone 1/4:12, under a third",
+    "status": "meets",
+    "a13": {
+     "n": 5,
+     "name": "Roof form and pitch",
+     "section": "VII.13"
+    },
+    "el": 6007.25,
+    "at_field": {
+     "A2.3": [
+      24.8325,
+      2.6888
+     ]
+    }
+   },
+   {
+    "id": "T06",
+    "sheets": [
+     "A2.3",
+     "A0.2"
+    ],
+    "at": [
+     13.62,
+     0.69
+    ],
+    "text": "IX.5 standing seam, Class A",
+    "status": "confirm",
+    "a13": {
+     "n": 6,
+     "name": "Roofing",
+     "section": "IX.5"
+    },
+    "note": "Ballast rule for the flattest runs rides with the variance",
+    "at_field": {
+     "A2.3": [
+      25.4288,
+      5.3419
+     ]
+    }
+   },
+   {
+    "id": "T_W1",
+    "sheets": [
+     "A7.1",
+     "A4.2",
+     "A2.1"
+    ],
+    "at": [
+     7.62,
+     8.0
+    ],
+    "text": "VII.15 glass 703 sf, mitigate",
+    "status": "confirm",
+    "a13": {
+     "n": 7,
+     "name": "Glazing",
+     "section": "VII.15 · IX.6"
+    },
+    "el": 6008.2,
+    "note": "W1 North wing, court face, over 140 sf: LCC approval and reflectivity mitigation",
+    "at_field": {
+     "A4.2": [
+      19.3438,
+      9.1438
+     ],
+     "A2.1": [
+      24.3038,
+      6.7125
+     ]
+    }
+   },
+   {
+    "id": "T_W2",
+    "sheets": [
+     "A7.1",
+     "A4.1",
+     "A2.1"
+    ],
+    "at": [
+     36.0,
+     -3.31
+    ],
+    "text": "VII.15 glass 337 sf, mitigate",
+    "status": "confirm",
+    "a13": {
+     "n": 7,
+     "name": "Glazing",
+     "section": "VII.15 · IX.6"
+    },
+    "el": 6008.23,
+    "note": "W2 Living room tip, east end, over 140 sf: LCC approval and reflectivity mitigation",
+    "at_field": {
+     "A4.1": [
+      23.05,
+      9.7175
+     ],
+     "A2.1": [
+      29.625,
+      4.5919
+     ]
+    }
+   },
+   {
+    "id": "T_W7",
+    "sheets": [
+     "A7.1",
+     "A4.3",
+     "A2.1",
+     "A2.2"
+    ],
+    "at": [
+     0.0,
+     27.53
+    ],
+    "text": "VII.15 glass 395 sf, mitigate",
+    "status": "confirm",
+    "a13": {
+     "n": 7,
+     "name": "Glazing",
+     "section": "VII.15 · IX.6"
+    },
+    "el": 6004.26,
+    "note": "W7 Bridge and primary, west, over 140 sf: LCC approval and reflectivity mitigation",
+    "at_field": {
+     "A4.3": [
+      13.6575,
+      10.71
+     ],
+     "A2.1": [
+      22.875,
+      10.3744
+     ],
+     "A2.2": [
+      22.875,
+      10.3744
+     ]
+    }
+   },
+   {
+    "id": "T_W10",
+    "sheets": [
+     "A7.1",
+     "A4.1",
+     "A2.1"
+    ],
+    "at": [
+     16.0,
+     22.46
+    ],
+    "text": "VII.15 glass 257 sf, mitigate",
+    "status": "confirm",
+    "a13": {
+     "n": 7,
+     "name": "Glazing",
+     "section": "VII.15 · IX.6"
+    },
+    "el": 6002.06,
+    "note": "W10 Bridge, terrace face, over 140 sf: LCC approval and reflectivity mitigation",
+    "at_field": {
+     "A4.1": [
+      16.6075,
+      11.26
+     ],
+     "A2.1": [
+      25.875,
+      9.4238
+     ]
+    }
+   },
+   {
+    "id": "T_W11",
+    "sheets": [
+     "A7.1",
+     "A4.0",
+     "A2.1",
+     "A2.2"
+    ],
+    "at": [
+     18.73,
+     40.77
+    ],
+    "text": "VII.15 glass 193 sf, mitigate",
+    "status": "confirm",
+    "a13": {
+     "n": 7,
+     "name": "Glazing",
+     "section": "VII.15 · IX.6"
+    },
+    "el": 6004.76,
+    "note": "W11 South wing, court face, over 140 sf: LCC approval and reflectivity mitigation",
+    "at_field": {
+     "A4.0": [
+      7.5725,
+      9.7887
+     ],
+     "A2.1": [
+      26.3869,
+      12.8569
+     ],
+     "A2.2": [
+      26.3869,
+      12.8569
+     ]
+    }
+   },
+   {
+    "id": "T_W12",
+    "sheets": [
+     "A7.1",
+     "A4.1",
+     "A2.1",
+     "A2.2"
+    ],
+    "at": [
+     26.0,
+     50.48
+    ],
+    "text": "VII.15 glass 408 sf, mitigate",
+    "status": "confirm",
+    "a13": {
+     "n": 7,
+     "name": "Glazing",
+     "section": "VII.15 · IX.6"
+    },
+    "el": 6006.0,
+    "note": "W12 South wing, east end, over 140 sf: LCC approval and reflectivity mitigation",
+    "at_field": {
+     "A4.1": [
+      9.6025,
+      10.275
+     ],
+     "A2.1": [
+      27.75,
+      14.6775
+     ],
+     "A2.2": [
+      27.75,
+      14.6775
+     ]
+    }
+   },
+   {
+    "id": "T_W13",
+    "sheets": [
+     "A7.1",
+     "A4.2",
+     "A2.1",
+     "A2.2"
+    ],
+    "at": [
+     7.5,
+     66.59
+    ],
+    "text": "VII.15 glass 231 sf, mitigate",
+    "status": "confirm",
+    "a13": {
+     "n": 7,
+     "name": "Glazing",
+     "section": "VII.15 · IX.6"
+    },
+    "el": 6002.2,
+    "note": "W13 South wing, south face, over 140 sf: LCC approval and reflectivity mitigation",
+    "at_field": {
+     "A4.2": [
+      19.3212,
+      10.2688
+     ],
+     "A2.1": [
+      24.2812,
+      17.6981
+     ],
+     "A2.2": [
+      24.2812,
+      17.6981
+     ]
+    }
+   },
+   {
+    "id": "T_chim_south_area",
+    "sheets": [
+     "A2.3",
+     "A1.3"
+    ],
+    "at": [
+     24.3,
+     63.9
+    ],
+    "text": "VII.20 chimney about 36 sf",
+    "status": "meets",
+    "a13": {
+     "n": 9,
+     "name": "Chimneys",
+     "section": "VII.20 · VII.5"
+    },
+    "el": 6017.9,
+    "at_field": {
+     "A2.3": [
+      27.4312,
+      17.1938
+     ]
+    }
+   },
+   {
+    "id": "T_chim_south_cap",
+    "sheets": [
+     "A2.3",
+     "A4.2",
+     "A3.0"
+    ],
+    "at": [
+     24.3,
+     63.9
+    ],
+    "text": "chimney cap, CRC R1003.9 confirm",
+    "status": "confirm",
+    "a13": {
+     "n": 9,
+     "name": "Chimneys",
+     "section": "VII.20 · VII.5"
+    },
+    "el": 6017.9,
+    "note": "Cap 6017.9, roofs within 10 ft reach 6018.7; 2 ft over them wants 6020.7",
+    "at_field": {
+     "A2.3": [
+      27.4312,
+      17.1938
+     ],
+     "A4.2": [
+      22.4712,
+      7.325
+     ],
+     "A3.0-2": [
+      20.3563,
+      4.425
+     ],
+     "A3.0-1": [
+      16.49,
+      12.14
+     ]
+    }
+   },
+   {
+    "id": "T_chim_north_area",
+    "sheets": [
+     "A2.3",
+     "A1.3"
+    ],
+    "at": [
+     20.8,
+     -11.4
+    ],
+    "text": "VII.20 chimney about 28 sf",
+    "status": "meets",
+    "a13": {
+     "n": 9,
+     "name": "Chimneys",
+     "section": "VII.20 · VII.5"
+    },
+    "el": 6017.6,
+    "at_field": {
+     "A2.3": [
+      26.775,
+      3.075
+     ]
+    }
+   },
+   {
+    "id": "T_chim_north_cap",
+    "sheets": [
+     "A2.3",
+     "A4.0",
+     "A3.0"
+    ],
+    "at": [
+     20.8,
+     -11.4
+    ],
+    "text": "chimney cap, CRC R1003.9 confirm",
+    "status": "confirm",
+    "a13": {
+     "n": 9,
+     "name": "Chimneys",
+     "section": "VII.20 · VII.5"
+    },
+    "el": 6017.6,
+    "note": "Cap 6017.6, roofs within 10 ft reach 6016.1; 2 ft over them wants 6018.1",
+    "at_field": {
+     "A2.3": [
+      26.775,
+      3.075
+     ],
+     "A4.0": [
+      7.1844,
+      7.3812
+     ],
+     "A3.0-2": [
+      19.7,
+      4.4812
+     ],
+     "A3.0-1": [
+      2.3712,
+      12.1962
+     ]
+    }
+   },
+   {
+    "id": "T07",
+    "sheets": [
+     "A1.2",
+     "A1.3"
+    ],
+    "at": [
+     -76.8,
+     8.28
+    ],
+    "text": "III.6 roof edge over the front setback, about 9 in",
+    "status": "confirm",
+    "a13": {
+     "n": 1,
+     "name": "Setbacks",
+     "section": "III.6"
+    },
+    "note": "Front line traces about 46 to 47 ft, confirm on survey",
+    "at_field": {
+     "A1.2": [
+      7.12,
+      7.878
+     ]
+    }
+   },
+   {
+    "id": "T08",
+    "sheets": [
+     "A1.2",
+     "A1.3"
+    ],
+    "at": [
+     -100.0,
+     41.0
+    ],
+    "text": "III.7 impervious about 28.2%",
+    "status": "confirm",
+    "a13": {
+     "n": 2,
+     "name": "Impervious coverage",
+     "section": "III.7"
+    },
+    "note": "Under 30% by listing, tight on the model lot lines",
+    "at_field": {
+     "A1.2": [
+      4.8,
+      11.15
+     ]
+    }
+   },
+   {
+    "id": "T09",
+    "sheets": [
+     "A2.1",
+     "A0.6"
+    ],
+    "at": [
+     7.91,
+     -3.31
+    ],
+    "text": "VII.4 about 3,779 sf conditioned",
+    "status": "meets",
+    "a13": {
+     "n": 3,
+     "name": "Living area",
+     "section": "VII.4"
+    },
+    "at_field": {
+     "A2.1": [
+      24.3581,
+      4.5919
+     ],
+     "A0.6": [
+      11.5137,
+      5.4737
+     ]
+    }
+   },
+   {
+    "id": "T10",
+    "sheets": [
+     "A2.1",
+     "A3.0"
+    ],
+    "at": [
+     -51.29,
+     0.35
+    ],
+    "text": "XI.14 slab at the garage only",
+    "status": "meets",
+    "a13": {
+     "n": 15,
+     "name": "Slab on grade",
+     "section": "XI.14"
+    },
+    "at_field": {
+     "A2.1": [
+      13.2581,
+      5.2781
+     ]
+    }
+   },
+   {
+    "id": "T11",
+    "sheets": [
+     "A1.2",
+     "L1.0"
+    ],
+    "at": [
+     -14.59,
+     24.67
+    ],
+    "text": "IV.20 the tree, about 14 ft to the walls",
+    "status": "confirm",
+    "a13": {
+     "n": 14,
+     "name": "Defensible space",
+     "section": "IV.20"
+    },
+    "note": "Limbed up, Zone 0 rules pending",
+    "at_field": {
+     "A1.2": [
+      13.341,
+      9.517
+     ]
+    }
+   },
+   {
+    "id": "T12",
+    "sheets": [
+     "A1.2"
+    ],
+    "at": [
+     -51.0,
+     31.0
+    ],
+    "text": "III.9 snow storage 30% of paving",
+    "status": "confirm",
+    "a13": {
+     "n": 13,
+     "name": "Snow",
+     "section": "III.9 · VII.14"
+    },
+    "note": "About 510 sf, clear of the easement",
+    "at_field": {
+     "A1.2": [
+      9.7,
+      10.15
+     ]
+    }
+   },
+   {
+    "id": "T13",
+    "sheets": [
+     "A2.3",
+     "A4.2"
+    ],
+    "at": [
+     -29.6,
+     2.0
+    ],
+    "text": "VII.14 no shedding over the entry",
+    "status": "confirm",
+    "a13": {
+     "n": 13,
+     "name": "Snow",
+     "section": "III.9 · VII.14"
+    },
+    "at_field": {
+     "A2.3": [
+      17.325,
+      5.5875
+     ]
+    }
+   },
+   {
+    "id": "T14",
+    "sheets": [
+     "A2.3",
+     "A4.2"
+    ],
+    "at": [
+     -56.58,
+     15.27
+    ],
+    "text": "VII.14 no shedding at the garage doors",
+    "status": "confirm",
+    "a13": {
+     "n": 13,
+     "name": "Snow",
+     "section": "III.9 · VII.14"
+    },
+    "at_field": {
+     "A2.3": [
+      12.2662,
+      8.0756
+     ]
+    }
+   },
+   {
+    "id": "T15",
+    "sheets": [
+     "A2.4",
+     "L1.0"
+    ],
+    "at": [
+     -29.5,
+     4.6
+    ],
+    "text": "VIII.2 shielded, full cutoff",
+    "status": "confirm",
+    "a13": {
+     "n": 10,
+     "name": "Exterior lighting",
+     "section": "VIII.2"
+    },
+    "at_field": {
+     "A2.4": [
+      17.3438,
+      6.0751
+     ]
+    }
+   },
+   {
+    "id": "T16",
+    "sheets": [
+     "A7.1"
+    ],
+    "at": [
+     7.62,
+     8.0
+    ],
+    "text": "IX.6 wood, matte clad frames",
+    "status": "confirm",
+    "a13": {
+     "n": 8,
+     "name": "Window frames",
+     "section": "IX.6 · IX.7"
+    },
+    "at_field": {}
+   },
+   {
+    "id": "T17",
+    "sheets": [
+     "A4.1",
+     "A0.0"
+    ],
+    "at": [
+     10.0,
+     68.6
+    ],
+    "text": "IX.4 wood 30% of wall area",
+    "status": "confirm",
+    "a13": {
+     "n": 12,
+     "name": "Wall materials",
+     "section": "IX.4"
+    },
+    "el": 6002.0,
+    "at_field": {
+     "A4.1": [
+      5.0725,
+      11.275
+     ]
+    }
+   },
+   {
+    "id": "T18",
+    "sheets": [
+     "A4.1",
+     "A0.0"
+    ],
+    "at": [
+     14.0,
+     68.6
+    ],
+    "text": "IX.2 LRV 15 to 40, matte",
+    "status": "confirm",
+    "a13": {
+     "n": 11,
+     "name": "Colors",
+     "section": "IX.2"
+    },
+    "el": 6000.0,
+    "at_field": {
+     "A4.1": [
+      5.0725,
+      11.775
+     ]
+    }
+   },
+   {
+    "id": "T19",
+    "sheets": [
+     "A2.5",
+     "A3.1"
+    ],
+    "at": [
+     1.3,
+     69.3
+    ],
+    "text": "headroom 6′ 8″, CRC R305.1 confirm",
+    "status": "confirm",
+    "a13": null,
+    "note": "South edge of the primary suite, half a sloped room at 7 ft or more",
+    "at_field": {
+     "A2.5": [
+      23.1187,
+      18.2063
+     ]
+    }
+   },
+   {
+    "id": "T20",
+    "sheets": [
+     "A2.1",
+     "A7.0"
+    ],
+    "at": [
+     15.9,
+     12.0
+    ],
+    "text": "bridge about 16 ft, brief says 20, confirm",
+    "status": "confirm",
+    "a13": null,
+    "note": "Design fact check, not a Design Book row",
+    "at_field": {
+     "A2.1": [
+      25.8562,
+      7.4625
+     ]
+    }
+   }
+  ]
+ },
+ "walls": [
+  {
+   "id": "W1",
+   "name": "North wing, court face",
+   "face": "S",
+   "out": [
+    -0.0,
+    1.0
+   ],
+   "segs": [
+    [
+     35.82,
+     8.0,
+     -20.57,
+     8.0
+    ]
+   ],
+   "anchor": [
+    7.62,
+    8.0
+   ],
+   "glass_sf": 703,
+   "types": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "panes": 33,
+   "over_140": true,
+   "el": [
+    5997.9,
+    6018.5
+   ]
+  },
+  {
+   "id": "W2",
+   "name": "Living room tip, east end",
+   "face": "E",
+   "out": [
+    1.0,
+    -0.0
+   ],
+   "segs": [
+    [
+     36.0,
+     -14.56,
+     36.0,
+     7.94
+    ]
+   ],
+   "anchor": [
+    36.0,
+    -3.31
+   ],
+   "glass_sf": 337,
+   "types": [
+    "A",
+    "C",
+    "D",
+    "E"
+   ],
+   "panes": 15,
+   "over_140": true,
+   "el": [
+    5997.9,
+    6018.57
+   ]
+  },
+  {
+   "id": "W3",
+   "name": "Clerestory at the fold",
+   "face": "S",
+   "out": [
+    0.382,
+    0.924
+   ],
+   "segs": [
+    [
+     34.42,
+     -14.77,
+     -20.56,
+     7.97
+    ]
+   ],
+   "anchor": [
+    6.93,
+    -3.4
+   ],
+   "glass_sf": 119,
+   "types": [
+    "F",
+    "G"
+   ],
+   "panes": 15,
+   "over_140": false,
+   "el": [
+    6008.0,
+    6010.0
+   ]
+  },
+  {
+   "id": "W4",
+   "name": "North wall",
+   "face": "N",
+   "out": [
+    -0.0,
+    -1.0
+   ],
+   "segs": [
+    [
+     -54.5,
+     -15.0,
+     -57.5,
+     -15.0
+    ],
+    [
+     -44.5,
+     -15.0,
+     -47.5,
+     -15.0
+    ],
+    [
+     -29.0,
+     -15.0,
+     -31.0,
+     -15.0
+    ],
+    [
+     -13.0,
+     -15.0,
+     -15.0,
+     -15.0
+    ],
+    [
+     -5.0,
+     -15.0,
+     -7.0,
+     -15.0
+    ],
+    [
+     3.0,
+     -15.0,
+     1.0,
+     -15.0
+    ]
+   ],
+   "anchor": [
+    -56.0,
+    -15.0
+   ],
+   "glass_sf": 54,
+   "types": [
+    "H",
+    "L"
+   ],
+   "panes": 6,
+   "over_140": false,
+   "el": [
+    6000.5,
+    6008.0
+   ]
+  },
+  {
+   "id": "W5",
+   "name": "Garage, west end",
+   "face": "W",
+   "out": [
+    -1.0,
+    0.0
+   ],
+   "segs": [
+    [
+     -76.0,
+     -2.0,
+     -76.0,
+     0.0
+    ],
+    [
+     -76.0,
+     -10.0,
+     -76.0,
+     -8.0
+    ]
+   ],
+   "anchor": [
+    -76.0,
+    -1.0
+   ],
+   "glass_sf": 16,
+   "types": [
+    "N"
+   ],
+   "panes": 2,
+   "over_140": false,
+   "el": [
+    6002.0,
+    6006.0
+   ]
+  },
+  {
+   "id": "W6",
+   "name": "Entry, east face",
+   "face": "E",
+   "out": [
+    1.0,
+    -0.0
+   ],
+   "segs": [
+    [
+     -38.5,
+     3.5,
+     -38.5,
+     6.5
+    ]
+   ],
+   "anchor": [
+    -38.5,
+    5.0
+   ],
+   "glass_sf": 15,
+   "types": [
+    "K"
+   ],
+   "panes": 1,
+   "over_140": false,
+   "el": [
+    6002.0,
+    6007.0
+   ]
+  },
+  {
+   "id": "W7",
+   "name": "Bridge and primary, west",
+   "face": "W",
+   "out": [
+    -1.0,
+    0.0
+   ],
+   "segs": [
+    [
+     0.0,
+     58.98,
+     0.0,
+     70.79
+    ],
+    [
+     0.0,
+     7.94,
+     0.0,
+     47.12
+    ]
+   ],
+   "anchor": [
+    0.0,
+    27.53
+   ],
+   "glass_sf": 395,
+   "types": [
+    "A",
+    "B",
+    "D",
+    "L"
+   ],
+   "panes": 23,
+   "over_140": true,
+   "el": [
+    5997.9,
+    6010.62
+   ]
+  },
+  {
+   "id": "W8",
+   "name": "Bridge, south jog",
+   "face": "N",
+   "out": [
+    -0.0,
+    -1.0
+   ],
+   "segs": [
+    [
+     -0.58,
+     35.0,
+     -4.4,
+     35.0
+    ]
+   ],
+   "anchor": [
+    -2.49,
+    35.0
+   ],
+   "glass_sf": 36,
+   "types": [
+    "A",
+    "D"
+   ],
+   "panes": 2,
+   "over_140": false,
+   "el": [
+    5997.5,
+    6006.9
+   ]
+  },
+  {
+   "id": "W9",
+   "name": "Bridge south, west face",
+   "face": "W",
+   "out": [
+    -1.0,
+    -0.0
+   ],
+   "segs": [
+    [
+     -5.0,
+     39.68,
+     -5.0,
+     48.17
+    ]
+   ],
+   "anchor": [
+    -5.0,
+    43.92
+   ],
+   "glass_sf": 80,
+   "types": [
+    "A",
+    "D"
+   ],
+   "panes": 6,
+   "over_140": false,
+   "el": [
+    5997.5,
+    6006.9
+   ]
+  },
+  {
+   "id": "W10",
+   "name": "Bridge, terrace face",
+   "face": "E",
+   "out": [
+    1.0,
+    0.0
+   ],
+   "segs": [
+    [
+     16.0,
+     7.94,
+     16.0,
+     36.98
+    ]
+   ],
+   "anchor": [
+    16.0,
+    22.46
+   ],
+   "glass_sf": 257,
+   "types": [
+    "A",
+    "B",
+    "D"
+   ],
+   "panes": 15,
+   "over_140": true,
+   "el": [
+    5996.9,
+    6007.21
+   ]
+  },
+  {
+   "id": "W11",
+   "name": "South wing, court face",
+   "face": "N",
+   "out": [
+    -0.301,
+    -0.954
+   ],
+   "segs": [
+    [
+     -19.03,
+     52.68,
+     -20.44,
+     53.12
+    ],
+    [
+     -15.25,
+     51.49,
+     -18.57,
+     52.53
+    ],
+    [
+     -12.42,
+     50.59,
+     -14.79,
+     51.34
+    ],
+    [
+     -8.64,
+     49.4,
+     -11.95,
+     50.45
+    ],
+    [
+     -4.87,
+     48.21,
+     -8.18,
+     49.25
+    ],
+    [
+     -1.11,
+     47.02,
+     -4.41,
+     48.07
+    ],
+    [
+     24.98,
+     38.79,
+     20.91,
+     40.08
+    ],
+    [
+     20.88,
+     40.09,
+     16.58,
+     41.44
+    ]
+   ],
+   "anchor": [
+    18.73,
+    40.77
+   ],
+   "glass_sf": 193,
+   "types": [
+    "J",
+    "K",
+    "M"
+   ],
+   "panes": 10,
+   "over_140": true,
+   "el": [
+    5997.7,
+    6011.83
+   ]
+  },
+  {
+   "id": "W12",
+   "name": "South wing, east end",
+   "face": "E",
+   "out": [
+    1.0,
+    0.0
+   ],
+   "segs": [
+    [
+     26.0,
+     38.64,
+     26.0,
+     62.31
+    ],
+    [
+     26.0,
+     39.43,
+     26.0,
+     61.48
+    ]
+   ],
+   "anchor": [
+    26.0,
+    50.48
+   ],
+   "glass_sf": 408,
+   "types": [
+    "J",
+    "L",
+    "M"
+   ],
+   "panes": 20,
+   "over_140": true,
+   "el": [
+    5992.6,
+    6019.39
+   ]
+  },
+  {
+   "id": "W13",
+   "name": "South wing, south face",
+   "face": "S",
+   "out": [
+    0.317,
+    0.949
+   ],
+   "segs": [
+    [
+     -13.04,
+     73.45,
+     -17.79,
+     75.04
+    ],
+    [
+     -3.36,
+     70.22,
+     -8.1,
+     71.8
+    ],
+    [
+     14.57,
+     64.23,
+     0.43,
+     68.95
+    ],
+    [
+     6.49,
+     66.93,
+     5.05,
+     67.41
+    ],
+    [
+     14.57,
+     64.23,
+     5.02,
+     67.42
+    ]
+   ],
+   "anchor": [
+    7.5,
+    66.59
+   ],
+   "glass_sf": 231,
+   "types": [
+    "J",
+    "K",
+    "L",
+    "M"
+   ],
+   "panes": 12,
+   "over_140": true,
+   "el": [
+    5994.02,
+    6010.39
+   ]
+  },
+  {
+   "id": "W14",
+   "name": "South wing, south jog",
+   "face": "S",
+   "out": [
+    0.316,
+    0.949
+   ],
+   "segs": [
+    [
+     18.32,
+     61.37,
+     13.64,
+     62.92
+    ],
+    [
+     18.32,
+     61.37,
+     13.64,
+     62.92
+    ]
+   ],
+   "anchor": [
+    15.98,
+    62.14
+   ],
+   "glass_sf": 71,
+   "types": [
+    "J",
+    "K"
+   ],
+   "panes": 4,
+   "over_140": false,
+   "el": [
+    5993.63,
+    6010.87
+   ]
+  },
+  {
+   "id": "W15",
+   "name": "Granny suite, west",
+   "face": "W",
+   "out": [
+    -1.0,
+    0.0
+   ],
+   "segs": [
+    [
+     -20.5,
+     55.42,
+     -20.5,
+     63.38
+    ]
+   ],
+   "anchor": [
+    -20.5,
+    59.4
+   ],
+   "glass_sf": 64,
+   "types": [
+    "J",
+    "M"
+   ],
+   "panes": 2,
+   "over_140": false,
+   "el": [
+    5997.9,
+    6005.9
+   ]
+  },
+  {
+   "id": "W16",
+   "name": "Granny suite, west jog",
+   "face": "W",
+   "out": [
+    -1.0,
+    0.0
+   ],
+   "segs": [
+    [
+     -18.5,
+     69.42,
+     -18.5,
+     73.38
+    ]
+   ],
+   "anchor": [
+    -18.5,
+    71.4
+   ],
+   "glass_sf": 24,
+   "types": [
+    "M"
+   ],
+   "panes": 1,
+   "over_140": false,
+   "el": [
+    6000.02,
+    6006.08
+   ]
+  },
+  {
+   "id": "W17",
+   "name": "South wing clerestory",
+   "face": "S",
+   "out": [
+    -0.084,
+    0.996
+   ],
+   "segs": [
+    [
+     38.97,
+     58.95,
+     0.02,
+     55.67
+    ]
+   ],
+   "anchor": [
+    19.5,
+    57.31
+   ],
+   "glass_sf": 78,
+   "types": [
+    "F",
+    "G"
+   ],
+   "panes": 10,
+   "over_140": false,
+   "el": [
+    6013.0,
+    6015.0
+   ]
+  }
+ ],
+ "openings": {
+  "doors": [
+   {
+    "tag": "101",
+    "at": [
+     -5.14,
+     38.2
+    ],
+    "ff": 5997.5,
+    "name": "Main entry, bridge vestibule",
+    "type": "A",
+    "w": "4′ 0″",
+    "h": "9′ 2″",
+    "frame": "Dark steel",
+    "wall": "W9"
+   },
+   {
+    "tag": "102",
+    "at": [
+     -30.0,
+     -6.06
+    ],
+    "ff": 5997.5,
+    "name": "Family entry, mudroom",
+    "type": "B",
+    "w": "3′ 0″",
+    "h": "8′ 0″",
+    "frame": "Aluminum clad",
+    "wall": null
+   },
+   {
+    "tag": "103",
+    "at": [
+     -38.8,
+     -11.0
+    ],
+    "ff": 5997.5,
+    "name": "Garage to house",
+    "type": "C",
+    "w": "3′ 0″",
+    "h": "8′ 0″",
+    "frame": "Dark steel",
+    "wall": null
+   },
+   {
+    "tag": "104",
+    "at": [
+     -56.58,
+     15.27
+    ],
+    "ff": 6000.0,
+    "name": "Garage, bay 1",
+    "type": "E",
+    "w": "9′ 0″",
+    "h": "8′ 0″",
+    "frame": "Dark steel jamb",
+    "wall": null
+   },
+   {
+    "tag": "105",
+    "at": [
+     -45.58,
+     15.27
+    ],
+    "ff": 6000.0,
+    "name": "Garage, bay 2",
+    "type": "E",
+    "w": "9′ 0″",
+    "h": "8′ 0″",
+    "frame": "Dark steel jamb",
+    "wall": null
+   },
+   {
+    "tag": "106",
+    "at": [
+     28.15,
+     7.94
+    ],
+    "ff": 5997.5,
+    "name": "Living room to upper terrace",
+    "type": "D",
+    "w": "15′ 4″",
+    "h": "8′ 0″",
+    "frame": "Dark steel",
+    "wall": "W1"
+   },
+   {
+    "tag": "107",
+    "at": [
+     15.9,
+     28.0
+    ],
+    "ff": 5997.5,
+    "name": "Dining, bridge to terrace",
+    "type": "D",
+    "w": "16′ 0″",
+    "h": "8′ 0″",
+    "frame": "Aluminum clad",
+    "wall": "W10"
+   },
+   {
+    "tag": "108",
+    "at": [
+     -20.72,
+     58.5
+    ],
+    "ff": 5997.5,
+    "name": "Granny suite, west garden",
+    "type": "B",
+    "w": "3′ 0″",
+    "h": "8′ 0″",
+    "frame": "Aluminum clad",
+    "wall": "W15"
+   },
+   {
+    "tag": "001",
+    "at": [
+     26.22,
+     54.0
+    ],
+    "ff": 5992.5,
+    "name": "Flex room to lower patio",
+    "type": "D",
+    "w": "16′ 0″",
+    "h": "8′ 0″",
+    "frame": "Aluminum clad",
+    "wall": "W12"
+   },
+   {
+    "tag": "201",
+    "at": [
+     27.2,
+     46.0
+    ],
+    "ff": 6004.0,
+    "name": "Primary suite to its terrace",
+    "type": "D",
+    "w": "16′ 0″",
+    "h": "8′ 0″",
+    "frame": "Aluminum clad",
+    "wall": "W12"
+   },
+   {
+    "tag": "002",
+    "at": [
+     2.4,
+     68.5
+    ],
+    "ff": 5992.5,
+    "name": "Lower level, south garden",
+    "type": "C",
+    "w": "3′ 6″",
+    "h": "7′ 4″",
+    "frame": "Dark steel",
+    "wall": "W13"
+   }
+  ],
+  "windows": [
+   {
+    "tag": "J",
+    "wall": "W15",
+    "at": [
+     -20.5,
+     57.41
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.98,
+    "h": 8.0,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     40.62
+    ],
+    "sill": 5992.6,
+    "head": 6000.6,
+    "w": 3.94,
+    "h": 8.0,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     44.56
+    ],
+    "sill": 5992.6,
+    "head": 6000.6,
+    "w": 3.94,
+    "h": 8.0,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     48.5
+    ],
+    "sill": 5992.6,
+    "head": 6000.6,
+    "w": 3.94,
+    "h": 8.0,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     56.39
+    ],
+    "sill": 5992.6,
+    "head": 6000.6,
+    "w": 3.94,
+    "h": 8.0,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     60.34
+    ],
+    "sill": 5992.6,
+    "head": 6000.6,
+    "w": 3.94,
+    "h": 8.0,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W11",
+    "at": [
+     -10.3,
+     49.93
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.47,
+    "h": 8.0,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "J",
+    "wall": "W11",
+    "at": [
+     -6.52,
+     48.74
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.47,
+    "h": 8.0,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "J",
+    "wall": "W11",
+    "at": [
+     -2.76,
+     47.55
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.46,
+    "h": 8.0,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "J",
+    "wall": "W13",
+    "at": [
+     12.98,
+     64.76
+    ],
+    "sill": 5994.02,
+    "head": 6002.0,
+    "w": 3.36,
+    "h": 7.98,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W13",
+    "at": [
+     6.61,
+     66.89
+    ],
+    "sill": 5994.02,
+    "head": 6002.0,
+    "w": 3.36,
+    "h": 7.98,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W11",
+    "at": [
+     -13.6,
+     50.97
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 2.48,
+    "h": 8.0,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "J",
+    "wall": "W14",
+    "at": [
+     17.16,
+     61.76
+    ],
+    "sill": 5993.63,
+    "head": 6001.63,
+    "w": 2.46,
+    "h": 8.0,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W14",
+    "at": [
+     14.82,
+     62.54
+    ],
+    "sill": 5993.63,
+    "head": 6001.63,
+    "w": 2.46,
+    "h": 8.0,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     40.55
+    ],
+    "sill": 6004.55,
+    "head": 6012.55,
+    "w": 2.23,
+    "h": 8.0,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     42.77
+    ],
+    "sill": 6004.55,
+    "head": 6012.55,
+    "w": 2.23,
+    "h": 8.0,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "J",
+    "wall": "W11",
+    "at": [
+     -19.73,
+     52.91
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 1.47,
+    "h": 8.0,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     49.7
+    ],
+    "sill": 6004.55,
+    "head": 6012.2,
+    "w": 3.36,
+    "h": 7.65,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     53.07
+    ],
+    "sill": 6004.55,
+    "head": 6012.2,
+    "w": 3.36,
+    "h": 7.65,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     59.8
+    ],
+    "sill": 6004.55,
+    "head": 6012.2,
+    "w": 3.36,
+    "h": 7.65,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "J",
+    "wall": "W11",
+    "at": [
+     23.96,
+     39.12
+    ],
+    "sill": 6004.5,
+    "head": 6011.83,
+    "w": 2.13,
+    "h": 7.33,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "J",
+    "wall": "W11",
+    "at": [
+     21.93,
+     39.76
+    ],
+    "sill": 6004.5,
+    "head": 6011.83,
+    "w": 2.13,
+    "h": 7.33,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     40.55
+    ],
+    "sill": 6012.55,
+    "head": 6019.39,
+    "w": 2.23,
+    "h": 6.84,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "J",
+    "wall": "W12",
+    "at": [
+     26.0,
+     42.77
+    ],
+    "sill": 6012.55,
+    "head": 6019.39,
+    "w": 2.23,
+    "h": 6.84,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "K",
+    "wall": "W14",
+    "at": [
+     17.16,
+     61.76
+    ],
+    "sill": 6004.5,
+    "head": 6010.87,
+    "w": 2.46,
+    "h": 6.37,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "K",
+    "wall": "W14",
+    "at": [
+     14.82,
+     62.54
+    ],
+    "sill": 6004.5,
+    "head": 6010.87,
+    "w": 2.46,
+    "h": 6.37,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "K",
+    "wall": "W13",
+    "at": [
+     12.81,
+     64.82
+    ],
+    "sill": 6004.5,
+    "head": 6010.39,
+    "w": 3.73,
+    "h": 5.89,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "K",
+    "wall": "W13",
+    "at": [
+     9.27,
+     66.0
+    ],
+    "sill": 6004.5,
+    "head": 6010.39,
+    "w": 3.73,
+    "h": 5.89,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "K",
+    "wall": "W13",
+    "at": [
+     2.2,
+     68.36
+    ],
+    "sill": 6004.5,
+    "head": 6010.39,
+    "w": 3.73,
+    "h": 5.89,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "K",
+    "wall": "W13",
+    "at": [
+     -14.23,
+     73.85
+    ],
+    "sill": 6000.0,
+    "head": 6006.1,
+    "w": 2.5,
+    "h": 6.1,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "K",
+    "wall": "W13",
+    "at": [
+     -4.54,
+     70.61
+    ],
+    "sill": 6000.0,
+    "head": 6006.1,
+    "w": 2.5,
+    "h": 6.1,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "K",
+    "wall": "W13",
+    "at": [
+     -6.91,
+     71.4
+    ],
+    "sill": 6000.0,
+    "head": 6006.1,
+    "w": 2.5,
+    "h": 6.1,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "K",
+    "wall": "W6",
+    "at": [
+     -38.5,
+     5.0
+    ],
+    "sill": 6002.0,
+    "head": 6007.0,
+    "w": 3.0,
+    "h": 5.0,
+    "raked": false,
+    "zone": "entry"
+   },
+   {
+    "tag": "K",
+    "wall": "W11",
+    "at": [
+     19.81,
+     40.43
+    ],
+    "sill": 5997.7,
+    "head": 6002.0,
+    "w": 2.25,
+    "h": 4.3,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "K",
+    "wall": "W11",
+    "at": [
+     17.65,
+     41.11
+    ],
+    "sill": 5997.7,
+    "head": 6002.0,
+    "w": 2.25,
+    "h": 4.3,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "L",
+    "wall": "W7",
+    "at": [
+     0.0,
+     60.94
+    ],
+    "sill": 6008.52,
+    "head": 6010.62,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "L",
+    "wall": "W7",
+    "at": [
+     0.0,
+     64.88
+    ],
+    "sill": 6008.52,
+    "head": 6010.62,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "L",
+    "wall": "W7",
+    "at": [
+     0.0,
+     68.82
+    ],
+    "sill": 6008.52,
+    "head": 6010.62,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "L",
+    "wall": "W12",
+    "at": [
+     26.0,
+     40.62
+    ],
+    "sill": 6000.6,
+    "head": 6002.7,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "L",
+    "wall": "W12",
+    "at": [
+     26.0,
+     44.56
+    ],
+    "sill": 6000.6,
+    "head": 6002.7,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "L",
+    "wall": "W12",
+    "at": [
+     26.0,
+     48.5
+    ],
+    "sill": 6000.6,
+    "head": 6002.7,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "L",
+    "wall": "W12",
+    "at": [
+     26.0,
+     52.45
+    ],
+    "sill": 6000.6,
+    "head": 6002.7,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "L",
+    "wall": "W12",
+    "at": [
+     26.0,
+     56.39
+    ],
+    "sill": 6000.6,
+    "head": 6002.7,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "L",
+    "wall": "W12",
+    "at": [
+     26.0,
+     60.34
+    ],
+    "sill": 6000.6,
+    "head": 6002.7,
+    "w": 3.94,
+    "h": 2.1,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "L",
+    "wall": "W4",
+    "at": [
+     -56.0,
+     -15.0
+    ],
+    "sill": 6006.0,
+    "head": 6008.0,
+    "w": 3.0,
+    "h": 2.0,
+    "raked": false,
+    "zone": "garage"
+   },
+   {
+    "tag": "L",
+    "wall": "W4",
+    "at": [
+     -46.0,
+     -15.0
+    ],
+    "sill": 6006.0,
+    "head": 6008.0,
+    "w": 3.0,
+    "h": 2.0,
+    "raked": false,
+    "zone": "garage"
+   },
+   {
+    "tag": "L",
+    "wall": "W13",
+    "at": [
+     5.77,
+     67.17
+    ],
+    "sill": 5994.39,
+    "head": 5995.41,
+    "w": 1.52,
+    "h": 1.02,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "A",
+    "wall": "W7",
+    "at": [
+     0.0,
+     9.9
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W7",
+    "at": [
+     0.0,
+     17.73
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W7",
+    "at": [
+     0.0,
+     21.65
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W7",
+    "at": [
+     0.0,
+     25.57
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W7",
+    "at": [
+     0.0,
+     33.41
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W7",
+    "at": [
+     0.0,
+     37.33
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W7",
+    "at": [
+     0.0,
+     41.24
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W10",
+    "at": [
+     16.0,
+     23.15
+    ],
+    "sill": 5996.9,
+    "head": 6004.9,
+    "w": 3.95,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W10",
+    "at": [
+     16.0,
+     31.05
+    ],
+    "sill": 5996.9,
+    "head": 6004.9,
+    "w": 3.95,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W10",
+    "at": [
+     16.0,
+     35.0
+    ],
+    "sill": 5996.9,
+    "head": 6004.9,
+    "w": 3.95,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -12.69
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.75,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -8.94
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.75,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -5.18
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.75,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -1.44
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.75,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W2",
+    "at": [
+     36.0,
+     2.32
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.75,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W2",
+    "at": [
+     36.0,
+     6.07
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.75,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     8.24,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.84,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     4.4,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.84,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     0.56,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.84,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     -7.12,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.84,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     -10.97,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.84,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     -14.81,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.84,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W8",
+    "at": [
+     -2.49,
+     35.0
+    ],
+    "sill": 5997.5,
+    "head": 6005.5,
+    "w": 3.82,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     34.11,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.43,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     27.23,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.43,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     23.8,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.43,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     20.37,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.43,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "A",
+    "wall": "W9",
+    "at": [
+     -5.0,
+     41.09
+    ],
+    "sill": 5997.5,
+    "head": 6005.5,
+    "w": 2.83,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W9",
+    "at": [
+     -5.0,
+     43.92
+    ],
+    "sill": 5997.5,
+    "head": 6005.5,
+    "w": 2.83,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W9",
+    "at": [
+     -5.0,
+     46.76
+    ],
+    "sill": 5997.5,
+    "head": 6005.5,
+    "w": 2.83,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W10",
+    "at": [
+     16.0,
+     15.21
+    ],
+    "sill": 5996.9,
+    "head": 6004.9,
+    "w": 2.87,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W10",
+    "at": [
+     16.0,
+     18.08
+    ],
+    "sill": 5996.9,
+    "head": 6004.9,
+    "w": 2.87,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "A",
+    "wall": "W1",
+    "at": [
+     16.93,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6012.96,
+    "w": 3.43,
+    "h": 7.06,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "C",
+    "wall": "W1",
+    "at": [
+     34.11,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6011.67,
+    "w": 3.43,
+    "h": 5.77,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "C",
+    "wall": "W2",
+    "at": [
+     36.0,
+     6.07
+    ],
+    "sill": 6005.9,
+    "head": 6011.06,
+    "w": 3.75,
+    "h": 5.16,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "C",
+    "wall": "W1",
+    "at": [
+     30.67,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6011.14,
+    "w": 3.43,
+    "h": 5.24,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "C",
+    "wall": "W1",
+    "at": [
+     27.23,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6010.66,
+    "w": 3.43,
+    "h": 4.76,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "C",
+    "wall": "W1",
+    "at": [
+     23.8,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6010.2,
+    "w": 3.43,
+    "h": 4.3,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "C",
+    "wall": "W2",
+    "at": [
+     36.0,
+     2.32
+    ],
+    "sill": 6005.9,
+    "head": 6010.0,
+    "w": 3.75,
+    "h": 4.1,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "C",
+    "wall": "W1",
+    "at": [
+     20.37,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6009.8,
+    "w": 3.43,
+    "h": 3.9,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -1.44
+    ],
+    "sill": 6005.9,
+    "head": 6009.11,
+    "w": 3.75,
+    "h": 3.21,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W1",
+    "at": [
+     8.24,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6008.99,
+    "w": 3.84,
+    "h": 3.09,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W1",
+    "at": [
+     4.4,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6008.99,
+    "w": 3.84,
+    "h": 3.09,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W1",
+    "at": [
+     0.56,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6008.99,
+    "w": 3.84,
+    "h": 3.09,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W1",
+    "at": [
+     -3.28,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6008.99,
+    "w": 3.84,
+    "h": 3.09,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W1",
+    "at": [
+     -7.12,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6008.99,
+    "w": 3.84,
+    "h": 3.09,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W1",
+    "at": [
+     -10.97,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6008.99,
+    "w": 3.84,
+    "h": 3.09,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W1",
+    "at": [
+     -14.81,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6008.99,
+    "w": 3.84,
+    "h": 3.09,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W1",
+    "at": [
+     -18.65,
+     8.0
+    ],
+    "sill": 6005.9,
+    "head": 6008.99,
+    "w": 3.84,
+    "h": 3.09,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "D",
+    "wall": "W10",
+    "at": [
+     16.0,
+     23.15
+    ],
+    "sill": 6004.9,
+    "head": 6007.21,
+    "w": 3.95,
+    "h": 2.31,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W10",
+    "at": [
+     16.0,
+     27.09
+    ],
+    "sill": 6004.9,
+    "head": 6007.21,
+    "w": 3.95,
+    "h": 2.31,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W10",
+    "at": [
+     16.0,
+     31.05
+    ],
+    "sill": 6004.9,
+    "head": 6007.21,
+    "w": 3.95,
+    "h": 2.31,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W10",
+    "at": [
+     16.0,
+     35.0
+    ],
+    "sill": 6004.9,
+    "head": 6007.21,
+    "w": 3.95,
+    "h": 2.31,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W10",
+    "at": [
+     16.0,
+     12.34
+    ],
+    "sill": 6004.9,
+    "head": 6007.21,
+    "w": 2.87,
+    "h": 2.31,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W10",
+    "at": [
+     16.0,
+     15.21
+    ],
+    "sill": 6004.9,
+    "head": 6007.21,
+    "w": 2.87,
+    "h": 2.31,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W10",
+    "at": [
+     16.0,
+     18.08
+    ],
+    "sill": 6004.9,
+    "head": 6007.21,
+    "w": 2.87,
+    "h": 2.31,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "F",
+    "wall": "W3",
+    "at": [
+     32.59,
+     -14.01
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W3",
+    "at": [
+     25.26,
+     -10.98
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W3",
+    "at": [
+     17.92,
+     -7.95
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W3",
+    "at": [
+     10.6,
+     -4.92
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W3",
+    "at": [
+     3.26,
+     -1.89
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W3",
+    "at": [
+     -4.07,
+     1.14
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W3",
+    "at": [
+     -11.4,
+     4.17
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W3",
+    "at": [
+     -18.73,
+     7.2
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W17",
+    "at": [
+     37.03,
+     58.79
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W17",
+    "at": [
+     29.24,
+     58.14
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W17",
+    "at": [
+     21.45,
+     57.48
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W17",
+    "at": [
+     13.65,
+     56.82
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "F",
+    "wall": "W17",
+    "at": [
+     5.86,
+     56.17
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "D",
+    "wall": "W10",
+    "at": [
+     16.0,
+     9.29
+    ],
+    "sill": 5996.9,
+    "head": 5999.0,
+    "w": 2.7,
+    "h": 2.1,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     9.9
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     13.82
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     17.73
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     21.65
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     25.57
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     29.49
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     33.41
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     37.33
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     41.24
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W7",
+    "at": [
+     0.0,
+     45.16
+    ],
+    "sill": 6005.9,
+    "head": 6007.35,
+    "w": 3.92,
+    "h": 1.45,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W8",
+    "at": [
+     -2.49,
+     35.0
+    ],
+    "sill": 6005.5,
+    "head": 6006.9,
+    "w": 3.82,
+    "h": 1.4,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W9",
+    "at": [
+     -5.0,
+     41.09
+    ],
+    "sill": 6005.5,
+    "head": 6006.9,
+    "w": 2.83,
+    "h": 1.4,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W9",
+    "at": [
+     -5.0,
+     43.92
+    ],
+    "sill": 6005.5,
+    "head": 6006.9,
+    "w": 2.83,
+    "h": 1.4,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "D",
+    "wall": "W9",
+    "at": [
+     -5.0,
+     46.76
+    ],
+    "sill": 6005.5,
+    "head": 6006.9,
+    "w": 2.83,
+    "h": 1.4,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "M",
+    "wall": "W15",
+    "at": [
+     -20.5,
+     61.39
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.98,
+    "h": 8.0,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "M",
+    "wall": "W12",
+    "at": [
+     26.0,
+     52.45
+    ],
+    "sill": 5992.6,
+    "head": 6000.6,
+    "w": 3.94,
+    "h": 8.0,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "M",
+    "wall": "W11",
+    "at": [
+     -16.9,
+     52.01
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.48,
+    "h": 8.0,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "M",
+    "wall": "W13",
+    "at": [
+     9.8,
+     65.82
+    ],
+    "sill": 5994.02,
+    "head": 6002.0,
+    "w": 3.36,
+    "h": 7.98,
+    "raked": false,
+    "zone": "lower"
+   },
+   {
+    "tag": "M",
+    "wall": "W12",
+    "at": [
+     26.0,
+     56.44
+    ],
+    "sill": 6004.55,
+    "head": 6012.2,
+    "w": 3.36,
+    "h": 7.65,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "M",
+    "wall": "W16",
+    "at": [
+     -18.5,
+     71.4
+    ],
+    "sill": 6000.02,
+    "head": 6006.08,
+    "w": 3.96,
+    "h": 6.06,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "M",
+    "wall": "W13",
+    "at": [
+     5.74,
+     67.18
+    ],
+    "sill": 6004.5,
+    "head": 6010.39,
+    "w": 3.73,
+    "h": 5.89,
+    "raked": false,
+    "zone": "primary"
+   },
+   {
+    "tag": "M",
+    "wall": "W13",
+    "at": [
+     -16.6,
+     74.64
+    ],
+    "sill": 6000.0,
+    "head": 6006.1,
+    "w": 2.5,
+    "h": 6.1,
+    "raked": false,
+    "zone": "granny"
+   },
+   {
+    "tag": "N",
+    "wall": "W5",
+    "at": [
+     -76.0,
+     -1.0
+    ],
+    "sill": 6002.0,
+    "head": 6006.0,
+    "w": 2.0,
+    "h": 4.0,
+    "raked": false,
+    "zone": "garage"
+   },
+   {
+    "tag": "N",
+    "wall": "W5",
+    "at": [
+     -76.0,
+     -9.0
+    ],
+    "sill": 6002.0,
+    "head": 6006.0,
+    "w": 2.0,
+    "h": 4.0,
+    "raked": false,
+    "zone": "garage"
+   },
+   {
+    "tag": "B",
+    "wall": "W7",
+    "at": [
+     0.0,
+     13.82
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "B",
+    "wall": "W7",
+    "at": [
+     0.0,
+     29.49
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "B",
+    "wall": "W7",
+    "at": [
+     0.0,
+     45.16
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.92,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "B",
+    "wall": "W10",
+    "at": [
+     16.0,
+     27.09
+    ],
+    "sill": 5996.9,
+    "head": 6004.9,
+    "w": 3.95,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "B",
+    "wall": "W1",
+    "at": [
+     -3.28,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.84,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "B",
+    "wall": "W1",
+    "at": [
+     -18.65,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.84,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "B",
+    "wall": "W1",
+    "at": [
+     30.67,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.43,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "B",
+    "wall": "W1",
+    "at": [
+     16.93,
+     8.0
+    ],
+    "sill": 5997.9,
+    "head": 6005.9,
+    "w": 3.43,
+    "h": 8.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "B",
+    "wall": "W10",
+    "at": [
+     16.0,
+     12.34
+    ],
+    "sill": 5996.9,
+    "head": 6004.9,
+    "w": 2.87,
+    "h": 8.0,
+    "raked": false,
+    "zone": "bridge"
+   },
+   {
+    "tag": "H",
+    "wall": "W4",
+    "at": [
+     -14.0,
+     -15.0
+    ],
+    "sill": 6000.5,
+    "head": 6006.5,
+    "w": 2.0,
+    "h": 6.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "H",
+    "wall": "W4",
+    "at": [
+     -6.0,
+     -15.0
+    ],
+    "sill": 6000.5,
+    "head": 6006.5,
+    "w": 2.0,
+    "h": 6.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "H",
+    "wall": "W4",
+    "at": [
+     2.0,
+     -15.0
+    ],
+    "sill": 6000.5,
+    "head": 6006.5,
+    "w": 2.0,
+    "h": 6.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "H",
+    "wall": "W4",
+    "at": [
+     -30.0,
+     -15.0
+    ],
+    "sill": 6003.0,
+    "head": 6006.0,
+    "w": 2.0,
+    "h": 3.0,
+    "raked": false,
+    "zone": "north wing"
+   },
+   {
+    "tag": "G",
+    "wall": "W3",
+    "at": [
+     28.92,
+     -12.5
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W3",
+    "at": [
+     21.59,
+     -9.47
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W3",
+    "at": [
+     14.26,
+     -6.44
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W3",
+    "at": [
+     6.93,
+     -3.41
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W3",
+    "at": [
+     -0.4,
+     -0.37
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W3",
+    "at": [
+     -7.74,
+     2.66
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W3",
+    "at": [
+     -15.07,
+     5.69
+    ],
+    "sill": 6008.0,
+    "head": 6010.0,
+    "w": 3.97,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W17",
+    "at": [
+     33.13,
+     58.47
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W17",
+    "at": [
+     25.34,
+     57.81
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W17",
+    "at": [
+     17.55,
+     57.15
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W17",
+    "at": [
+     9.76,
+     56.49
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "G",
+    "wall": "W17",
+    "at": [
+     1.97,
+     55.84
+    ],
+    "sill": 6013.0,
+    "head": 6015.0,
+    "w": 3.91,
+    "h": 2.0,
+    "raked": false,
+    "zone": "clerestory"
+   },
+   {
+    "tag": "E",
+    "wall": "W1",
+    "at": [
+     34.11,
+     8.0
+    ],
+    "sill": 6011.67,
+    "head": 6018.5,
+    "w": 3.43,
+    "h": 5.77,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -5.18
+    ],
+    "sill": 6005.9,
+    "head": 6012.31,
+    "w": 3.75,
+    "h": 5.05,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W2",
+    "at": [
+     36.0,
+     6.07
+    ],
+    "sill": 6011.06,
+    "head": 6018.57,
+    "w": 3.75,
+    "h": 5.16,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W1",
+    "at": [
+     30.67,
+     8.0
+    ],
+    "sill": 6011.14,
+    "head": 6017.42,
+    "w": 3.43,
+    "h": 5.24,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W1",
+    "at": [
+     27.23,
+     8.0
+    ],
+    "sill": 6010.66,
+    "head": 6016.36,
+    "w": 3.43,
+    "h": 4.76,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W1",
+    "at": [
+     23.8,
+     8.0
+    ],
+    "sill": 6010.2,
+    "head": 6015.41,
+    "w": 3.43,
+    "h": 4.3,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -8.94
+    ],
+    "sill": 6005.9,
+    "head": 6010.94,
+    "w": 3.75,
+    "h": 3.97,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W2",
+    "at": [
+     36.0,
+     2.32
+    ],
+    "sill": 6010.0,
+    "head": 6016.19,
+    "w": 3.75,
+    "h": 4.1,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W1",
+    "at": [
+     20.37,
+     8.0
+    ],
+    "sill": 6009.8,
+    "head": 6014.49,
+    "w": 3.43,
+    "h": 3.9,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -12.69
+    ],
+    "sill": 6005.9,
+    "head": 6009.86,
+    "w": 3.75,
+    "h": 3.2,
+    "raked": true,
+    "zone": "north wing"
+   },
+   {
+    "tag": "E",
+    "wall": "W2",
+    "at": [
+     36.0,
+     -1.44
+    ],
+    "sill": 6009.11,
+    "head": 6014.07,
+    "w": 3.75,
+    "h": 3.21,
+    "raked": true,
+    "zone": "north wing"
+   }
+  ],
+  "window_types": [
+   {
+    "t": "A",
+    "fam": "full",
+    "frame": "steel",
+    "n": 33,
+    "op": "Fixed",
+    "frm": "Dark steel",
+    "w": "3′ 0″ to 4′ 0″",
+    "h": "7′ 0″ to 8′ 0″",
+    "where": "W1 W2 W7 W8 W9 W10"
+   },
+   {
+    "t": "B",
+    "fam": "casement",
+    "frame": "steel",
+    "n": 9,
+    "op": "Casement",
+    "frm": "Dark steel",
+    "w": "3′ 0″ to 4′ 0″",
+    "h": "8′ 0″",
+    "where": "W1 W7 W10"
+   },
+   {
+    "t": "C",
+    "fam": "tall",
+    "frame": "steel",
+    "n": 7,
+    "op": "Fixed",
+    "frm": "Dark steel",
+    "w": "3′ 6″ to 4′ 0″",
+    "h": "4′ 0″ to 6′ 0″",
+    "where": "W1 W2"
+   },
+   {
+    "t": "D",
+    "fam": "low",
+    "frame": "steel",
+    "n": 31,
+    "op": "Fixed",
+    "frm": "Dark steel",
+    "w": "2′ 6″ to 4′ 0″",
+    "h": "1′ 6″ to 3′ 0″",
+    "where": "W1 W2 W7 W8 W9 W10"
+   },
+   {
+    "t": "E",
+    "fam": "raked",
+    "frame": "steel",
+    "n": 11,
+    "op": "Fixed",
+    "frm": "Dark steel",
+    "w": "3′ 6″ to 4′ 0″",
+    "h": "3′ 0″ to 7′ 6″, raked",
+    "where": "W1 W2"
+   },
+   {
+    "t": "F",
+    "fam": "clere fixed",
+    "frame": "steel",
+    "n": 13,
+    "op": "Fixed",
+    "frm": "Dark steel",
+    "w": "4′ 0″",
+    "h": "2′ 0″",
+    "where": "W3 W17"
+   },
+   {
+    "t": "G",
+    "fam": "clere awning",
+    "frame": "steel",
+    "n": 12,
+    "op": "Awning",
+    "frm": "Dark steel",
+    "w": "4′ 0″",
+    "h": "2′ 0″",
+    "where": "W3 W17"
+   },
+   {
+    "t": "H",
+    "fam": "slot",
+    "frame": "steel",
+    "n": 4,
+    "op": "Casement",
+    "frm": "Dark steel",
+    "w": "2′ 0″",
+    "h": "3′ 0″ to 6′ 0″",
+    "where": "W4"
+   },
+   {
+    "t": "J",
+    "fam": "full",
+    "frame": "clad",
+    "n": 24,
+    "op": "Fixed",
+    "frm": "Aluminum clad",
+    "w": "1′ 6″ to 4′ 0″",
+    "h": "7′ 0″ to 8′ 0″",
+    "where": "W11 W12 W13 W14 W15"
+   },
+   {
+    "t": "K",
+    "fam": "tall",
+    "frame": "clad",
+    "n": 11,
+    "op": "Fixed",
+    "frm": "Aluminum clad",
+    "w": "2′ 6″ to 3′ 6″",
+    "h": "4′ 6″ to 6′ 6″",
+    "where": "W6 W11 W13 W14"
+   },
+   {
+    "t": "L",
+    "fam": "low",
+    "frame": "clad",
+    "n": 12,
+    "op": "Fixed",
+    "frm": "Aluminum clad",
+    "w": "1′ 6″ to 4′ 0″",
+    "h": "1′ 0″ to 2′ 0″",
+    "where": "W4 W7 W12 W13"
+   },
+   {
+    "t": "M",
+    "fam": "egress",
+    "frame": "clad",
+    "n": 8,
+    "op": "Casement",
+    "frm": "Aluminum clad",
+    "w": "2′ 6″ to 4′ 0″",
+    "h": "6′ 0″ to 8′ 0″",
+    "where": "W11 W12 W13 W15 W16"
+   },
+   {
+    "t": "N",
+    "fam": "awning",
+    "frame": "clad",
+    "n": 2,
+    "op": "Awning",
+    "frm": "Aluminum clad",
+    "w": "2′ 0″",
+    "h": "4′ 0″",
+    "where": "W5"
+   }
+  ]
+ },
+ "disagreements": [
+  "Glass on W1: A7.1 (sched-b, panelized) about 703 sf, A1.3 (reg-a, model face) about 780 sf",
+  "Glass on W7: A7.1 (sched-b, panelized) about 395 sf, A1.3 (reg-a, model face) about 438 sf",
+  "Glass on W10: A7.1 (sched-b, panelized) about 257 sf, A1.3 (reg-a, model face) about 343 sf",
+  "Glass on W11: A7.1 (sched-b, panelized) about 193 sf, A1.3 (reg-a, model face) about 332 sf",
+  "Glass on W12: A7.1 (sched-b, panelized) about 408 sf, A1.3 (reg-a, model face) about 524 sf",
+  "Glass on W13: A7.1 (sched-b, panelized) about 231 sf, A1.3 (reg-a, model face) about 263 sf",
+  "Bridge width: model about 15.9 ft outside to outside (info bWidth 16.0), the brief says about 20 ft",
+  "Main entry: A7.0 puts 101 at the bridge vestibule ([-5.14, 38.2]), and 102 off the porch as the family entry; the 9/30 program puts the entry at the porch and the family entry at the garage",
+  "Door 107 frame is aluminum clad on A7.0; A7.1 frames the bridge glass in dark steel",
+  "Stair: the program puts it along the rear court glass with the bar just east of it; the rear court (terraces) is east on A1.2, so the bar would land outside. Placeholder puts the stair on the west glass",
+  "Height figure: A1.2 and A2.3 quote the tip, 29.37 ft over grade, as the max; the governing point is the south wing corner at 29.75 ft, the tightest cell 29.76 ft (A1.3 agrees)",
+  "Fire pit: A2.1 draws the pit circle centered near (33, 24), the model's pit is at (27, 24) inside the bench; the plan path's arc flags pick the far center"
+ ]
+}

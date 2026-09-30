@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v21 Colophon paragraphs</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v21, Colophon paragraphs. Territory: Editorial and book typography.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v21 · Colophon paragraphs · Editorial and book typography */
+.tb .txt{position:absolute;left:calc(var(--u)*.3);right:calc(var(--u)*.28)}
+.tb .txt p{margin:0 0 .75em;font:400 var(--t-val)/1.42 var(--fs);text-align:left;hyphens:manual;-webkit-hyphens:manual;text-wrap:pretty}
+.tb .txt p::first-line{letter-spacing:.005em}
+.tb .sc{font:400 var(--t-lab)/1 var(--ft);letter-spacing:.2em;text-transform:uppercase;margin-right:.35em}
+.tb .txt .it{font-style:italic;color:var(--muted)}
+.tb .fleur{text-align:center;color:var(--accent);font:italic 400 var(--t-val)/1 var(--fs);margin:calc(var(--u)*.1) 0 calc(var(--u)*.3)}
+.tb .folio{display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid var(--ink);padding-top:calc(var(--u)*.12);margin-top:calc(var(--u)*.2)}
+.tb .folio .sn{font:italic 400 max(calc(46px*var(--fl)),calc(var(--u)*1.28))/.9 var(--fs);letter-spacing:0}
+.tb .folio .sn .fc{width:auto}
+.tb .folio .r{font:italic 400 var(--t-sm)/1.3 var(--fs);color:var(--muted);text-align:right;padding-bottom:.3em}
+.tb .txt .ttl{font:400 max(calc(17px*var(--fl)),calc(var(--u)*.34))/1.1 var(--fs);margin:0 0 .25em;text-align:left}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v21', name: 'Colophon paragraphs',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh, F = S.firm;
+    return `<div class="txt" style="top:${c.U(c.lockBottom - .5 + .4)}">
+      <p><span class="sc">Project</span>${e(P.name)}, ${e(P.site)}, ${e(P.street)}, ${e(P.city)}, in ${e(P.county)}. Parcel ${e(P.apn)}, zoned ${e(P.zoning)}. For ${e(P.owner)} of ${e(P.ownerCo)}.</p>
+      <p><span class="sc">Issued</span>No. 2 on ${e(c.iss[0].date)}, ${e(c.iss[0].for)}. <span class="it">No. 1 on ${e(c.iss[1].date)}, ${e(c.iss[1].for)}.</span></p>
+      <p><span class="sc">Agency</span>Lahontan design review (LCC), no. pending. Placer County building permit, no. pending. ${e(S.fire)}.</p>
+      <p><span class="sc">Record</span>${e(S.aor.name)}, architect of record. <span class="it">${e(S.aor.note)}.</span></p>
+    </div>
+    <div class="txt" style="bottom:${c.U(.3)}">
+      <div class="fleur" aria-hidden="true">· · ·</div>
+      <div class="ttl">${e(sh.title)}</div>
+      <p><span class="it">${e(sh.scale)}. Drawn by ${e(S.drawnBy)}, ${e(S.date)}.</span></p>
+      <div class="status">${e(S.status)}</div>
+      <div class="folio"><div class="sn">${e(sh.id)}</div><div class="r">folio ${c.i + 1}<br>of ${c.N}</div></div>
+      <p style="margin-top:.8em;font-size:var(--t-sm);color:var(--muted);text-align:left"><span class="sc" style="color:var(--ink)">${e(F.name)}</span>${e(F.line)}, ${F.addr.map(e).join(', ')}. ${e(F.phone)}. ${e(F.email)}. ${e(S.copy)}</p>
+    </div>`;
+  }
+});
+</script>
+</body>
+</html>

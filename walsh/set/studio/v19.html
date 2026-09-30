@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v19 Lettering guidelines</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v19, Lettering guidelines. Territory: Drafting machine and vellum.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v19 · Lettering guidelines · Drafting machine and vellum */
+.tb{--row:max(calc(13.5px*var(--fl)),calc(var(--u)*.2))}
+.tb .ames{position:absolute;left:calc(var(--u)*.12);right:calc(var(--u)*.12);bottom:calc(var(--u)*.2);
+  background:repeating-linear-gradient(180deg,transparent 0,transparent calc(var(--row) - 1px),rgba(27,26,24,.1) calc(var(--row) - 1px),rgba(27,26,24,.1) var(--row)),
+    repeating-linear-gradient(180deg,transparent 0,transparent calc(var(--row)*.3),rgba(192,122,44,.07) calc(var(--row)*.3),rgba(192,122,44,.07) calc(var(--row)*.3 + 1px),transparent calc(var(--row)*.3 + 1px),transparent var(--row));
+  padding:0 calc(var(--u)*.16);display:flex;flex-direction:column;justify-content:flex-end}
+.tb .ames::before{content:"";position:absolute;top:0;bottom:0;left:calc(var(--u)*.16 - 4px);width:1px;background:rgba(27,26,24,.14)}
+.tb .ames *{line-height:var(--row) !important}
+.tb .ames .sec{margin-top:var(--row)}
+.tb .ames .lab{height:var(--row);line-height:calc(var(--row) * 1.35) !important;white-space:nowrap;letter-spacing:.14em}
+.tb .ames .val,.tb .ames .sm,.tb .ames .meta > span{display:block;height:var(--row);line-height:calc(var(--row)*1.08) !important;white-space:nowrap}
+.tb .ames .pname{margin:0;height:calc(var(--row)*2);line-height:calc(var(--row)*2) !important}
+.tb .ames .stitle{margin:0;height:var(--row);line-height:calc(var(--row)*1.02) !important}
+.tb .ames .status{margin:0;height:var(--row)}
+.tb .ames .meta{display:block}
+.tb .ames .iss li{height:var(--row)}
+.tb .ames .sn{height:calc(var(--row)*4);line-height:calc(var(--row)*4.3) !important;font-size:calc(var(--row)*3.5)}
+.tb .ames .stamp{display:block;position:relative}
+.tb .ames .stamp .val,.tb .ames .stamp .sm{padding-right:calc(var(--row)*3.4)}
+.tb .ames .stamp .sm{white-space:normal;height:auto}
+.tb .ames .stamp .seal{position:absolute;right:0;top:var(--row);width:calc(var(--row)*3);height:calc(var(--row)*3);line-height:1 !important}
+.tb .ames .colo{white-space:normal}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v19', name: 'Lettering guidelines',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh;
+    return `<div class="ames" style="top:${c.U(c.lockBottom - .5 + .22)}">
+      ${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}
+      <div style="flex:1"></div>
+      <div class="sec"><span class="lab">Sheet title</span><div class="stitle">${e(sh.title)}</div><div class="meta"><span><span class="il">Scale</span>${e(sh.scale)}</span><span><span class="il">Date</span>${e(S.date)} <span class="il" style="margin-left:.6em">Drawn</span>${e(S.drawnBy)}</span></div><div class="status">${e(S.status)}</div></div>
+      ${c.f.number()}
+      <div class="sec"><span class="val">${e(S.copy.split('. ')[0])}.</span><span class="val">Drawings are instruments of service.</span></div>
+    </div>`;
+  }
+});
+</script>
+</body>
+</html>

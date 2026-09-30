@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v26 Fractured planes</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v26, Fractured planes. Territory: Zaha inspired, swept curves and fractured planes.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v26 · Fractured planes · Zaha inspired, swept curves and fractured planes */
+.tb .grp{position:absolute;left:calc(var(--u)*.34);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.ov .sw{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+
+.ov .pl{fill:rgba(27,26,24,.035);stroke:rgba(27,26,24,.16);stroke-width:.8;vector-effect:non-scaling-stroke}
+.ov .pl.w{fill:rgba(255,255,255,.5);stroke:rgba(27,26,24,.1)}
+.ov .pl.l{fill:none;stroke:rgba(27,26,24,.22)}
+.ov .pl.o{fill:var(--accent);stroke:none;opacity:.85}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v26', name: 'Fractured planes',
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>`,
+
+  svg: c => {
+    const k = 0.738, P = pts => `<polygon points="${pts.map(p => p.map(v => v.toFixed(3)).join(',')).join(' ')}"`;
+    const perp = (x, y, len) => [x + len, y - len * k];          // square to the roof line
+    const along = (x, y, t) => [x + t * k, y + t];                // on the roof line
+    const a0 = [32, 11.35], a1 = perp(...a0, 3.5), a3 = [32, 13.1], a2 = perp(...a3, 3.5);
+    const b0 = [32.9, 11.9], b1 = [33.95, 11.9], b2 = along(...b1, 2.2), b3 = along(...b0, 2.2);
+    const d0 = [32, 15.35], d1 = perp(...d0, 2.1), d2 = [d1[0], d1[1] + .055], d3 = [32, 15.405];
+    const e0 = [33.2, 13.7], e1 = perp(...e0, 2.3), e2 = along(...e1, 1.05), e3 = along(...e0, 1.05);
+    return `<defs><clipPath id="tbc"><rect x="${c.tbx}" y="0.5" width="${(35.5 - c.tbx).toFixed(2)}" height="23"/></clipPath></defs><g clip-path="url(#tbc)">${P([a0, a1, a2, a3])} class="pl"/>${P([e0, e1, e2, e3])} class="pl w"/>${P([b0, b1, b2, b3])} class="pl"/>
+      <line class="pl l" x1="31.6" y1="${(12.2 + .4 * k).toFixed(3)}" x2="35.5" y2="${(12.2 - 3.5 * k).toFixed(3)}"/>
+      ${P([d0, d1, d2, d3])} class="pl o"/></g>`;
+  }
+});
+</script>
+</body>
+</html>

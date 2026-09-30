@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v13 Museum wall label</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v13, Museum wall label. Territory: Gallery label, museum placard.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v13 · Museum wall label · Gallery label, museum placard */
+.tb .card{position:absolute;background:#fbfaf7;border-radius:calc(var(--u)*.05);
+  box-shadow:0 0 0 1px rgba(27,26,24,.1),0 1px 1px rgba(27,26,24,.06),0 calc(var(--u)*.05) calc(var(--u)*.16) rgba(27,26,24,.1),0 calc(var(--u)*.2) calc(var(--u)*.5) rgba(27,26,24,.05)}
+
+.tb .wall{position:absolute;left:calc(var(--u)*.3);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.24)}
+.tb .card{left:calc(var(--u)*.18);right:calc(var(--u)*.18);bottom:calc(var(--u)*.22);padding:calc(var(--u)*.26) calc(var(--u)*.24) calc(var(--u)*.24)}
+.tb .card .who{font:400 var(--t-val)/1.2 var(--ft);letter-spacing:.2em;text-transform:uppercase}
+.tb .card .whoa{font:400 var(--t-sm)/1.35 var(--fs);color:var(--muted);margin:.25em 0 .8em}
+.tb .card .ttl{font:italic 400 max(calc(18px*var(--fl)),calc(var(--u)*.38))/1.08 var(--fs)}
+.tb .card .ttl span{font-style:normal}
+.tb .card p{margin:.5em 0 0;font:400 var(--t-val)/1.36 var(--fs)}
+.tb .card p.mut{color:var(--muted);font-size:var(--t-sm)}
+.tb .card .foot{margin-top:calc(var(--u)*.26);padding-top:calc(var(--u)*.14);border-top:1px solid var(--rule)}
+.tb .card .foot .lab{display:flex;justify-content:space-between;white-space:nowrap;letter-spacing:.14em}
+.tb .card .sn{font-size:max(calc(40px*var(--fl)),calc(var(--u)*1.12));margin-top:.12em}
+.tb .card .status{margin-top:.8em}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v13', name: 'Museum wall label',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh, F = S.firm;
+    return `<div class="wall" style="top:${c.U(c.lockBottom - .5 + .4)}">${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+      <div class="card">
+        <div class="who">${e(F.name)}</div><div class="whoa">${e(F.line)} · San Francisco</div>
+        <div class="ttl">${e(P.name)}<span>, 2026</span></div>
+        <p>${e(sh.title)}, ${e(sh.scale)}<br>Drawn ${e(S.drawnBy)}, ${e(S.date)}<br>${e(P.site)} · ${e(P.street)}, ${e(P.city)}</p>
+        <p class="mut">Commissioned by ${e(P.owner)}, ${e(P.ownerCo)}. APN ${e(P.apn)} · ${e(P.zoning)} · ${e(P.county)}.</p>
+        <div class="status">${e(S.status)}</div>
+        <div class="foot"><span class="lab"><span>Sheet ${c.i + 1} of ${c.N}</span></span><div class="sn">${c.cells(sh.id)}</div></div>
+      </div>`;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v35 Pulse leaders</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v35, Pulse leaders. Territory: Studio Cognitive Pulse overlay.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v35 · Pulse leaders · Studio Cognitive Pulse overlay */
+.tb .grp{position:absolute;left:calc(var(--u)*.62);right:calc(var(--u)*.24);display:flex;flex-direction:column;gap:calc(var(--u)*.24)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.2)}
+.tb .s-num .sn{font-size:max(calc(40px*var(--fl)),calc(var(--u)*1.12))}
+.tb .pl{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.tb .pl path{fill:none;stroke:var(--ink);stroke-opacity:.6;stroke-width:1;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.tb .pl circle{fill:var(--accent)}
+.play .tb .pl path{stroke-dasharray:1 1;animation:draw .9s var(--ease) both;animation-delay:calc(var(--k) * 140ms + 400ms)}
+.play .tb .pl circle{animation:land .5s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(var(--k) * 140ms + 1100ms);transform-box:fill-box;transform-origin:center}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v35', name: 'Pulse leaders',
+  tb: c => `<svg class="pl" aria-hidden="true"></svg><div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>`,
+  layout: (c, el, u) => {
+    const tb = el.querySelector('.tb'), r0 = tb.getBoundingClientRect(), sv = tb.querySelector('.pl');
+    sv.setAttribute('viewBox', `0 0 ${r0.width} ${r0.height}`);
+    let h = '';
+    [...tb.querySelectorAll('.sec > .lab')].forEach((l, k) => {
+      const r = l.getBoundingClientRect(), x1 = r.left - r0.left - 5, y1 = r.top - r0.top + r.height * .55;
+      const y2 = y1 + (k % 2 ? -1 : 1) * u * .28;
+      h += `<path pathLength="1" style="--k:${k}" d="M${x1.toFixed(1)} ${y1.toFixed(1)} C${(x1 - u * .22).toFixed(1)} ${y1.toFixed(1)} ${(u * .12).toFixed(1)} ${y2.toFixed(1)} 0 ${y2.toFixed(1)}"/><circle style="--k:${k}" cx="0" cy="${y2.toFixed(1)}" r="${Math.max(3, u * .055).toFixed(1)}"/>`;
+    });
+    sv.innerHTML = h;
+  }
+});
+</script>
+</body>
+</html>

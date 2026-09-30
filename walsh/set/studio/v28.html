@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v28 Angled datum cuts</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v28, Angled datum cuts. Territory: Zaha inspired, swept curves and fractured planes.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v28 · Angled datum cuts · Zaha inspired, swept curves and fractured planes */
+.tb .grp{position:absolute;left:calc(var(--u)*.3);right:calc(var(--u)*.3);display:flex;flex-direction:column;gap:calc(var(--u)*.28)}
+.tb .grp.b{bottom:calc(var(--u)*.26);gap:calc(var(--u)*.24)}
+.tb .sec{position:relative;padding-top:calc(var(--u)*.16)}
+.tb .cut{position:absolute;left:calc(var(--u)*-.3);right:0;top:0;height:calc(var(--u)*.2);transform:translateY(-70%);overflow:visible}
+.tb .cut path{fill:none;stroke:var(--ink);stroke-opacity:.5;stroke-width:1;vector-effect:non-scaling-stroke}
+.tb .cut circle{fill:var(--accent)}
+.tb .numc{position:relative;padding:calc(var(--u)*.18) calc(var(--u)*.2) calc(var(--u)*.16)}
+.tb .numc svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tb .numc svg path{fill:rgba(27,26,24,.03);stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.tb .numc .sn{font-size:max(calc(40px*var(--fl)),calc(var(--u)*1.14))}
+.tb .s-colo{padding-top:0}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v28', name: 'Angled datum cuts',
+  tb: c => {
+    // a divider: level, then a short rise on the roof angle (dx/dy 0.738)
+    const cut = `<svg class="cut" viewBox="0 0 3.2 .2" preserveAspectRatio="none"><path d="M0 .17 C.7 .205 1.9 .215 2.55 .15 S3.08 .03 3.2 .01"/><circle cx="0" cy=".17" r=".045"/></svg>`;   // curved footer line: sags, then lifts like the ribbon roof (9/30)
+    const d = h => h.replace(/^<div class="sec ([^"]*)">/, (m, cl) => `<div class="sec ${cl}">${cut}`);
+    const w = 2.9, hgt = 1.55, ch = .5;
+    const box = `<svg viewBox="0 0 ${w} ${hgt}" preserveAspectRatio="none"><path d="M.08 0 H${(w - ch * .738).toFixed(3)} L${w} ${ch} V${hgt - .08} Q${w} ${hgt} ${w - .08} ${hgt} H.08 Q0 ${hgt} 0 ${hgt - .08} V.08 Q0 0 .08 0 Z"/></svg>`;
+    return `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .42)}">${d(c.f.project())}${d(c.f.issued())}${d(c.f.permits())}${d(c.f.stamp())}</div>
+      <div class="grp b">${d(c.f.title())}<div class="numc" style="height:${c.U(hgt)}">${box}<span class="lab">Sheet ${c.i + 1} of ${c.N}</span><div class="sn">${c.cells(c.sh.id)}</div></div>${c.f.colo({ firm: true })}</div>`;
+  }
+});
+</script>
+</body>
+</html>

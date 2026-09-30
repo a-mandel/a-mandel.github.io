@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v04 Numbered sections</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v04, Numbered sections. Territory: Flush strip, refined.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v04 · Numbered sections · Flush strip, refined */
+.tb .spread{position:absolute;left:calc(var(--u)*.2);right:calc(var(--u)*.26);bottom:calc(var(--u)*.3);display:flex;flex-direction:column;justify-content:space-between}
+.tb .sec{display:grid;grid-template-columns:calc(var(--u)*.42) 1fr;align-items:start}
+.tb .sec > .no{grid-row:1 / span 9;font:400 var(--t-lab)/1.3 var(--ft);letter-spacing:.06em;color:var(--accent)}
+.tb .sec > *:not(.no){grid-column:2}
+.tb .sec.stamp{grid-template-columns:calc(var(--u)*.42) 1fr auto}
+.tb .sec.stamp .lab,.tb .sec.stamp .val,.tb .sec.stamp .sm{grid-column:2}
+.tb .sec.stamp .seal{grid-column:3;grid-row:2 / span 2}
+.tb .sec.tlive{display:flex;padding-left:calc(var(--u)*.42)}
+.tb .s-num .sn{font-size:max(calc(40px*var(--fl)),calc(var(--u)*1.12))}
+.tb .sec.s-colo{display:block;padding-left:calc(var(--u)*.42);position:relative}
+.tb .sec.s-colo > .no{position:absolute;left:0;top:0}
+.tb .hr{height:1px;background:var(--rule);margin-left:calc(var(--u)*.42)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v04', name: 'Numbered sections',
+  tb: c => {
+    let k = 0;
+    const n = h => h.replace(/^<div class="sec ([^"]*)">/, (m, cl) => `<div class="sec ${cl}"><span class="no">${c.pad2(++k)}</span>`);
+    return `<div class="spread" style="top:${c.U(c.lockBottom - .5 + .34)}">${n(c.f.project())}${n(c.f.issued())}${n(c.f.permits())}${n(c.f.stamp())}<div class="hr"></div>${n(c.f.title())}${n(c.f.number())}${c.f.live()}${n(c.f.colo({ firm: true }))}</div>`;
+  }
+});
+</script>
+</body>
+</html>

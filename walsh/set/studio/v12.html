@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v12 Tabbed fieldset cells</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v12, Tabbed fieldset cells. Territory: CAD classic, rounded cells.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v12 · Tabbed fieldset cells · CAD classic, rounded cells */
+.tb .fs{position:absolute;left:calc(var(--u)*.14);right:calc(var(--u)*.14);bottom:calc(var(--u)*.16);display:flex;flex-direction:column;gap:calc(var(--u)*.16)}
+.tb fieldset{margin:0;border:1px solid var(--hair);border-radius:calc(var(--u)*.18);padding:calc(var(--u)*.02) calc(var(--u)*.16) calc(var(--u)*.14);min-width:0}
+.tb legend{font:400 var(--t-lab)/1 var(--ft);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:0 .5em;margin-left:-.3em}
+.tb fieldset.acc{border-color:rgba(192,122,44,.7)}
+.tb fieldset.acc legend{color:var(--accent)}
+.tb fieldset .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.18));text-align:center;padding:.02em 0 .04em}
+.tb fieldset.st{display:grid;grid-template-columns:1fr auto;column-gap:calc(var(--u)*.1);align-items:center}
+.tb fieldset .iss li{grid-template-columns:1.2em 4.6em 1fr}
+.tb .fs .colo{padding:0 calc(var(--u)*.1)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v12', name: 'Tabbed fieldset cells',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh;
+    const F = (lg, h, cls) => `<fieldset class="${cls || ''}"><legend>${e(lg)}</legend>${h}</fieldset>`;
+    return `<div class="fs" style="top:${c.U(c.lockBottom - .5 + .22)}">
+      ${F('Project', `<div class="pname">${e(P.name)}</div><span class="val line">${e(P.site)}</span><span class="val line">${e(P.street)}</span><span class="val line">${e(P.city)} · ${e(P.county)}</span><span class="val line"><span class="il">APN</span>${e(P.apn)}</span><span class="val line"><span class="il">Zoning</span>${e(P.zoning)}</span><span class="val line"><span class="il">Owner</span>${e(P.owner)}</span><span class="val line">${e(P.ownerCo)}</span>`)}
+      ${F('Issued', c.f.issued({ lab: false }).replace(/^<div class="sec[^"]*">/, '').replace(/<\/div>$/, ''))}
+      ${F('Agency and permits', `<span class="val line">Design review (LCC) <span class="pend">no. pending</span></span><span class="val line">Building permit <span class="pend">no. pending</span></span><span class="val line">${e(S.fire)}</span>`)}
+      ${F(S.aor.label, `<div><span class="val line">${e(S.aor.name)}</span><span class="sm line">${e(S.aor.note)}</span></div><div class="seal">Stamp</div>`, 'st')}
+      <div style="flex:1"></div>
+      ${F('Sheet title', `<div class="stitle">${e(sh.title)}</div><div class="meta"><span><span class="il">Scale</span>${e(sh.scale)}</span><span><span class="il">Date</span>${e(S.date)}</span><span><span class="il">Drawn</span>${e(S.drawnBy)}</span></div><div class="status">${e(S.status)}</div>`)}
+      ${F(`Sheet ${c.i + 1} of ${c.N}`, `<div class="sn">${c.cells(sh.id)}</div>`, 'acc')}
+      ${c.f.colo({ firm: true })}
+    </div>`;
+  }
+});
+</script>
+</body>
+</html>

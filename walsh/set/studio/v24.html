@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v24 Dot leader contents</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v24, Dot leader contents. Territory: Editorial and book typography.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v24 · Dot leader contents · Editorial and book typography */
+.tb .toc{position:absolute;left:calc(var(--u)*.3);right:calc(var(--u)*.26);display:flex;flex-direction:column}
+.tb .toc.b{bottom:calc(var(--u)*.3)}
+.tb .hd{font:400 var(--t-lab)/1.3 var(--ft);letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:calc(var(--u)*.22) 0 .2em}
+.tb .hd:first-child{margin-top:0}
+.tb .r{display:flex;align-items:baseline;gap:.35em;font:400 var(--t-val)/1.45 var(--fs)}
+.tb .r .k{font-style:italic;color:var(--muted);white-space:nowrap}
+.tb .r .dl{flex:1;min-width:.8em;border-bottom:1px dotted rgba(27,26,24,.42);transform:translateY(-.28em)}
+.tb .r .v{white-space:nowrap;text-align:right}
+.tb .big{font:400 max(calc(17px*var(--fl)),calc(var(--u)*.34))/1.15 var(--fs);margin:0 0 .15em}
+.tb .r.sn2{align-items:flex-end;margin-top:.3em}
+.tb .r.sn2 .sn{font-size:max(calc(38px*var(--fl)),calc(var(--u)*1.02))}
+.tb .r.sn2 .k{padding-bottom:.35em}
+.tb .r.sn2 .dl{transform:translateY(-.55em)}
+.tb .colo{margin-top:calc(var(--u)*.18)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v24', name: 'Dot leader contents',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh;
+    const R = (k, v) => `<div class="r"><span class="k">${k}</span><span class="dl"></span><span class="v">${v}</span></div>`;
+    return `<div class="toc" style="top:${c.U(c.lockBottom - .5 + .36)}">
+      <div class="hd">Project</div><div class="big">${e(P.name)}</div>
+      ${R('Site', e(P.site))}${R('Street', e(P.street))}${R('City', e(P.city))}${R('County', 'Placer')}${R('APN', e(P.apn))}${R('Zoning', e(P.zoning))}${R('Owner', e(P.owner))}${R('', e(P.ownerCo))}
+      <div class="hd">Issued</div>${c.iss.map(r => R(`${r.no} · ${e(r.date)}`, e(r.for))).join('')}
+      <div class="hd">Agency and permits</div>${R('Design review', 'no. pending')}${R('Building permit', 'no. pending')}${R('Fire zone', 'Very High · 7A')}
+      <div class="hd">Architect of record</div>${R('Stamp', e(S.aor.name))}
+    </div>
+    <div class="toc b">
+      <div class="hd">Sheet</div><div class="big">${e(sh.title)}</div>
+      ${R('Scale', e(sh.scale))}${R('Date', e(S.date))}${R('Drawn', e(S.drawnBy))}
+      <div class="status">${e(S.status)}</div>
+      ${R('Sheet', `${c.i + 1} of ${c.N}`)}<div class="sn" style="text-align:right;margin-top:.12em;font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))">${c.cells(sh.id)}</div>
+      ${c.f.colo({ firm: true })}
+    </div>`;
+  }
+});
+</script>
+</body>
+</html>

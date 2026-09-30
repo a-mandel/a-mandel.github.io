@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v15 Catalogue entry</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v15, Catalogue entry. Territory: Gallery label, museum placard.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v15 · Catalogue entry · Gallery label, museum placard */
+.tb .cat{position:absolute;left:calc(var(--u)*.3);right:calc(var(--u)*.26);bottom:calc(var(--u)*.3);display:flex;flex-direction:column}
+.tb .no{display:flex;align-items:baseline;gap:calc(var(--u)*.12);border-bottom:1px solid var(--ink);padding-bottom:calc(var(--u)*.08);margin-bottom:calc(var(--u)*.16)}
+.tb .no b{font:400 max(calc(40px*var(--fl)),calc(var(--u)*1.05))/.9 var(--fs);font-weight:400}
+.tb .no span{font:italic 400 var(--t-val)/1.2 var(--fs);color:var(--muted)}
+.tb .cat p{margin:0 0 .6em;font:400 var(--t-val)/1.4 var(--fs);text-wrap:pretty}
+.tb .cat p i{color:var(--muted)}
+.tb .rh{font:400 var(--t-lab)/1 var(--ft);letter-spacing:.18em;text-transform:uppercase;margin-right:.5em;color:var(--ink)}
+.tb .cat .ttl{font:italic 400 max(calc(17px*var(--fl)),calc(var(--u)*.36))/1.1 var(--fs);margin:0 0 .1em}
+.tb .cat .sn{font-size:max(calc(40px*var(--fl)),calc(var(--u)*1.12));margin:.1em 0 .1em}
+.tb .cat .status{margin:0 0 .7em}
+.tb .top .seal{float:right;margin:0 0 .3em .6em}
+.tb .top{position:absolute;left:calc(var(--u)*.3);right:calc(var(--u)*.26)}
+.tb .top p{margin:0 0 .6em;font:400 var(--t-val)/1.4 var(--fs)}
+.tb .cat .colo{margin-top:.4em}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v15', name: 'Catalogue entry',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh;
+    return `<div class="top" style="top:${c.U(c.lockBottom - .5 + .4)}">
+        <p><span class="rh">Project</span>${e(P.name)}, ${e(P.site)}. ${e(P.street)}, ${e(P.city)}. ${e(P.county)}.</p>
+        <p><span class="rh">Parcel</span>APN ${e(P.apn)}. Zoning ${e(P.zoning)}.</p>
+        <p><span class="rh">Owner</span>${e(P.owner)}, ${e(P.ownerCo)}.</p>
+        <p><span class="rh">Issued</span>${c.iss.map(r => `${r.no}, ${e(r.date)}, ${e(r.for)}`).join('. ')}.</p>
+        <p><span class="rh">Agency</span>Design review (LCC), no. pending. Building permit, no. pending. ${e(S.fire)}.</p>
+        <div class="seal">Stamp</div><p><span class="rh">Record</span>${e(S.aor.name)}, architect of record. <i>${e(S.aor.note)}.</i></p>
+      </div>
+      <div class="cat">
+        <div class="no"><b>${c.i + 1}</b><span>of ${c.N} sheets in the set</span></div>
+        <div class="ttl">${e(sh.title)}</div>
+        <p><i>${e(sh.scale)}. Sheet, 36 by 24 in. Drawn by ${e(S.drawnBy)}, ${e(S.date)}.</i></p>
+        <div class="status">${e(S.status)}</div>
+        <span class="lab">Sheet</span><div class="sn">${c.cells(sh.id)}</div>
+        ${c.f.colo({ firm: true })}
+      </div>`;
+  }
+});
+</script>
+</body>
+</html>

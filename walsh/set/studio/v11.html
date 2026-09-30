@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v11 Ink number cell</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v11, Ink number cell. Territory: CAD classic, rounded cells.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v11 · Ink number cell · CAD classic, rounded cells */
+.tb .wrap{position:absolute;left:calc(var(--u)*.14);right:calc(var(--u)*.14);bottom:calc(var(--u)*.14);display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*.08);align-content:end}
+.tb .c{border:1px solid var(--hair);border-radius:calc(var(--u)*.1);padding:calc(var(--u)*.09) calc(var(--u)*.12) calc(var(--u)*.12);min-width:0}
+.tb .c.w{grid-column:1 / -1}
+.tb .c .lab{font-size:max(calc(8px*var(--fl)),calc(var(--u)*.1));letter-spacing:.16em;margin-bottom:.12em}
+.tb .c .val{white-space:nowrap}
+.tb .c.inkc{background:var(--ink);border-color:var(--ink);color:var(--paper);padding:calc(var(--u)*.1) calc(var(--u)*.16) calc(var(--u)*.16)}
+.tb .c.inkc .lab{color:rgba(246,245,241,.62);margin:0 0 .3em}
+.tb .c.inkc .lab b{font-weight:400;color:var(--paper)}
+.tb .c.inkc .sn{font-size:max(calc(40px*var(--fl)),calc(var(--u)*1.12));line-height:.9}
+.tb .c .iss li{grid-template-columns:1.2em 4.6em 1fr}
+.tb .c.st{display:flex;gap:calc(var(--u)*.12);align-items:center}
+.tb .c.st .seal{flex:none}
+.tb .c.st .sm{margin-top:.2em}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v11', name: 'Ink number cell',
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh;
+    const C = (cls, lab, h) => `<div class="c ${cls || ''}">${lab ? `<span class="lab">${e(lab)}</span>` : ''}${h}</div>`;
+    return `<div class="wrap" style="top:${c.U(c.lockBottom - .5 + .24)}">
+      ${C('w', 'Project', `<div class="pname">${e(P.name)}</div><span class="val line">${e(P.site)}</span><span class="val line">${e(P.street)}, ${e(P.city)}</span><span class="val line">${e(P.county)}</span>`)}
+      ${C('', 'APN', `<span class="val">${e(P.apn)}</span>`)}${C('', 'Zoning', `<span class="val">${e(P.zoning)}</span>`)}
+      ${C('w', 'Owner', `<span class="val line">${e(P.owner)} · ${e(P.ownerCo)}</span>`)}
+      ${C('w', 'Issued', c.f.issued({ lab: false }).replace(/^<div class="sec[^"]*">/, '').replace(/<\/div>$/, ''))}
+      ${C('', 'Design review', `<span class="val">LCC <span class="pend">pending</span></span>`)}${C('', 'Building permit', `<span class="val">Placer <span class="pend">pending</span></span>`)}
+      ${C('w', 'Fire hazard zone', `<span class="val">${e(S.fire)}</span>`)}
+      ${C('w st', '', `<div><span class="lab">${e(S.aor.label)}</span><span class="val line">${e(S.aor.name)}</span><span class="sm line">${e(S.aor.note)}</span></div><div class="seal">Stamp</div>`)}
+      ${C('w', 'Sheet title', `<div class="stitle">${e(sh.title)}</div><div class="status">${e(S.status)}</div>`)}
+      ${C('w', 'Scale', `<span class="val">${e(sh.scale)}</span>`)}${C('', 'Date', `<span class="val">${e(S.date)}</span>`)}${C('', 'Drawn', `<span class="val">${e(S.drawnBy)}</span>`)}
+      ${C('w inkc', '', `<span class="lab">Sheet <b>${c.i + 1} of ${c.N}</b></span><div class="sn">${c.cells(sh.id)}</div>`)}
+      <div class="w colo" style="grid-column:1 / -1;padding:calc(var(--u)*.06) calc(var(--u)*.04) 0">${e(S.copy)}</div>
+    </div>`;
+  }
+});
+</script>
+</body>
+</html>

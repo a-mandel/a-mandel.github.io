@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v08 Centered quiet column</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v08, Centered quiet column. Territory: Almost no lines.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v08 · Centered quiet column · Almost no lines */
+.tb .col{position:absolute;display:flex;flex-direction:column}
+.tb .q p{margin:0;font:italic 400 var(--t-val)/1.34 var(--fs)}
+.tb .q + .q{margin-top:calc(var(--u)*.3)}
+.tb .q p + p{margin-top:.45em}
+.tb .k{font:400 var(--t-lab)/1.3 var(--ft);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-style:normal}
+.tb .k.blk{display:block;margin-bottom:.15em}
+.tb .mut{color:var(--muted)}
+.tb .sm2{font-size:var(--t-sm) !important;line-height:1.35 !important}
+.tb .big{font:400 max(calc(19px*var(--fl)),calc(var(--u)*.4))/1.05 var(--fs);margin-bottom:.3em}
+.tb .mid{font:400 max(calc(15px*var(--fl)),calc(var(--u)*.3))/1.1 var(--fs);margin-bottom:.15em}
+.tb .st{font:400 var(--t-lab)/1.3 var(--ft) !important;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-top:.5em !important}
+.tb .is{color:var(--muted)}
+.tb .is.new{color:var(--ink)}
+.tb .qs{position:relative}
+.tb .qn .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.tb .qc p{color:var(--muted)}
+
+.tb .col{left:calc(var(--u)*.22);right:calc(var(--u)*.22);text-align:center;align-items:center}
+.tb .col.b{bottom:calc(var(--u)*.3)}
+.tb .q{display:flex;flex-direction:column;align-items:center}
+.tb .qs .seal{margin-top:calc(var(--u)*.14)}
+.tb .star{font:400 var(--t-val)/1 var(--fs);color:var(--accent);margin:calc(var(--u)*.3) 0 0;letter-spacing:.6em;padding-left:.6em}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v08', name: 'Centered quiet column',
+  rule: false,
+  lock: { dx: .72 },
+  tb: c => {
+    const S = c.S, P = S.project, e = c.esc, sh = c.sh, F = S.firm;
+    const top = `<div class="q q1"><div class="big">${e(P.name)}</div>
+        <p>${e(P.site)}<br>${e(P.street)}<br>${e(P.city)} · ${e(P.county)}</p>
+        <p><span class="k">APN</span> ${e(P.apn)}<br><span class="k">Zoning</span> ${e(P.zoning)}</p>
+        <p>${e(P.owner)}<br><span class="mut">${e(P.ownerCo)}</span></p></div>
+      <div class="q"><span class="k blk">Issued</span>${c.iss.map((r, k) => `<p class="is${k ? '' : ' new'}"><span class="k">${r.no}</span> ${e(r.date)} &nbsp;${e(r.for)}</p>`).join('')}</div>
+      <div class="q"><span class="k blk">Agency</span><p>Design review (LCC) <span class="mut">no. pending</span><br>Building permit <span class="mut">no. pending</span><br>${e(S.fire)}</p></div>
+      <div class="q qs"><span class="k blk">Architect of record</span><p>${e(S.aor.name)}<br><span class="mut sm2">${e(S.aor.note)}</span></p><div class="seal">Stamp</div></div>`;
+    const bot = `<div class="q"><div class="mid">${e(sh.title)}</div><p>${e(sh.scale)} · ${e(S.date)} · ${e(S.drawnBy)}</p><p class="st">${e(S.status)}</p></div>
+      <div class="q qn"><span class="k blk">Sheet ${c.i + 1} of ${c.N}</span><div class="sn">${c.cells(sh.id)}</div></div>
+      <div class="q qc"><p class="sm2"><span class="k">${e(F.name)}</span><br>${e(F.line)} · ${F.addr.map(e).join(', ')} · ${e(F.phone)} · ${e(F.email)}<br>${e(S.copy)}</p></div>`;
+
+    return `<div class="col" style="top:${c.U(c.lockBottom - .5 + .42)}">${top}</div><div class="col b"><div class="star" aria-hidden="true">· · ·</div>${bot}</div>`;
+  }
+});
+</script>
+</body>
+</html>

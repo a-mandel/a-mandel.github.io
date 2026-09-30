@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v03 Plumb line strip</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v03, Plumb line strip. Territory: Flush strip, refined.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v03 · Plumb line strip · Flush strip, refined */
+.tb .plumb{position:absolute;width:1px;background:var(--ink);opacity:.5}
+.tb .bob{position:absolute;width:max(7px,calc(var(--u)*.15));height:max(7px,calc(var(--u)*.15));border-radius:50%;background:var(--accent);transform:translate(-50%,-50%)}
+.tb .hang{position:absolute;left:0;right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.26)}
+.tb .sec{position:relative;padding-left:var(--pl)}
+.tb .sec::before{content:"";position:absolute;left:calc(var(--pl) - var(--u)*.3);top:calc(var(--t-lab)*.62);width:calc(var(--u)*.18);height:1px;background:var(--ink);opacity:.6}
+.tb .sec.nt::before{display:none}
+.tb .s-num{padding-left:0}
+.tb .s-num::before{display:none}
+.tb .s-num .lab{padding-left:var(--pl)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2));padding-left:calc(var(--pl) - var(--u)*.06)}
+.tb .s-colo{padding-left:var(--pl)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v03', name: 'Plumb line strip',
+  lock: { dx: .3, w: 2.14 },
+  tb: c => {
+    const px = c.lock.x + 34 * c.lock.w / 357 - c.tbx;      // the post of the A, in title block inches
+    const y0 = c.lockBottom - .5 + .22, y1 = 20.2;
+    const pl = `calc(var(--u) * ${(px + .28).toFixed(3)})`;
+    return `<div class="plumb" style="left:${c.U(px)};top:${c.U(y0)};height:${c.U(y1 - y0)}"></div><span class="bob" style="left:${c.U(px + .005)};top:${c.U(y1)}"></span>
+      <div class="hang" style="--pl:${pl};top:${c.U(y0 + .3)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}${c.f.title()}</div>
+      <div class="hang" style="--pl:${pl};bottom:${c.U(.3)};gap:${c.U(.2)}">${c.f.number({ lab: 'Sheet ' + (c.i + 1) + ' of ' + c.N })}${c.f.colo({ firm: true }).replace('class="sec ', 'class="sec nt ')}</div>`;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v39 Corner block</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v39, Corner block. Territory: Wildcards.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v39 · Corner block · Wildcards */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.ov .cb{position:absolute;display:grid;grid-template-columns:calc(var(--u)*2.55) calc(var(--u)*2.75) 1fr;pointer-events:auto}
+.ov .cb > div{padding:calc(var(--u)*.2) calc(var(--u)*.26) calc(var(--u)*.2);min-width:0}
+.ov .cb > div + div{border-left:1px solid var(--rule)}
+.ov .cb .sn{font-size:max(calc(44px*var(--fl)),calc(var(--u)*1.26))}
+.ov .cb .stamp{grid-template-columns:1fr auto}
+.ov .ln{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v39', name: 'Corner block',
+  ruleTo: 19.95, footRight: 4.95,
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}</div>
+    <div class="grp" style="bottom:${c.U(23.5 - 19.6)}">${c.f.live()}${c.f.colo({ firm: true })}</div>`,
+  svg: c => `<path class="ln" d="M27.0 23.5 V20.3 Q27.0 19.95 27.35 19.95 H32 V0.5"/>`,
+  ov: c => `<div class="cb" style="left:${c.U(27.0)};right:${c.U(.5)};top:${c.U(19.95)};height:${c.U(3.55)}">
+      <div>${c.f.title()}</div><div>${c.f.stamp()}</div><div>${c.f.number()}</div></div>`
+});
+</script>
+</body>
+</html>

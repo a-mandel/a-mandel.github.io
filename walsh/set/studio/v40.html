@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v40 Vertical sheet number</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v40, Vertical sheet number. Territory: Wildcards.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v40 · Vertical sheet number · Wildcards */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .vnum{position:absolute;right:calc(var(--u)*.12);bottom:calc(var(--u)*.2);writing-mode:vertical-rl;transform:rotate(180deg);font:400 max(calc(70px*var(--fl)),calc(var(--u)*1.6))/.8 var(--ft);letter-spacing:.02em;white-space:nowrap}
+.tb .vnum .fc{inline-size:.66em;width:auto;display:inline-block;text-align:center}
+.tb .vnum .fc.pt{inline-size:.3em;width:auto}
+.tb .side{position:absolute;left:calc(var(--u)*.32);width:calc(var(--u)*1.72);bottom:calc(var(--u)*.3);display:flex;flex-direction:column;gap:calc(var(--u)*.2)}
+.tb .side .meta > span{flex-basis:100%}
+.tb .side .stitle{font-size:max(calc(16px*var(--fl)),calc(var(--u)*.32))}
+.tb .side .status,.tb .side .lab{letter-spacing:.1em}
+.tb .vlab{position:absolute;right:calc(var(--u)*.14);font:400 var(--t-lab)/1 var(--ft);letter-spacing:.2em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v40', name: 'Vertical sheet number',
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="side">${c.f.title()}<div class="sec"><span class="lab" style="white-space:nowrap;letter-spacing:.14em">Sheet ${c.i + 1} of ${c.N}</span></div><div class="sec colo"><b>${c.esc(c.S.firm.name)}</b><br>${c.esc(c.S.firm.line)}<br>${c.esc(c.S.firm.phone)}<br>${c.esc(c.S.copy)}</div></div>
+    <div class="vnum" aria-label="Sheet ${c.sh.id}">${c.cells(c.sh.id)}</div>`
+});
+</script>
+</body>
+</html>

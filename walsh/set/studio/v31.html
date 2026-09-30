@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>v31 Tension wires</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v31, Tension wires. Territory: Libeskind and Lebbeus Woods, hairline energy.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="kit.css">
+<style>
+/* v31 · Tension wires · Libeskind and Lebbeus Woods, hairline energy */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.18)}
+.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.ov .h{stroke:var(--ink);stroke-width:.8;vector-effect:non-scaling-stroke;fill:none}
+.ov .o{fill:var(--accent)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="kit.js"></script>
+<script>
+KIT.mount({
+  no: 'v31', name: 'Tension wires',
+  tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.issued()}${c.f.permits()}${c.f.stamp()}</div>
+    <div class="grp b">${c.f.title()}${c.f.number()}${c.f.colo({ firm: true })}</div>`,
+
+  svg: c => {
+    const A = [35.2, 16.55];
+    let h = '';
+    for (let k = 0; k < 9; k++) { const y = 11.0 + k * 0.62; h += `<line class="h" x1="32" y1="${y.toFixed(2)}" x2="${A[0]}" y2="${A[1]}" style="stroke-opacity:${(0.1 + k * 0.025).toFixed(3)}"/>`; }
+    for (let k = 0; k < 5; k++) { const y = 11.2 + k * .5; h += `<line class="h" x1="35.5" y1="${y.toFixed(2)}" x2="${A[0]}" y2="${A[1]}" style="stroke-opacity:.12"/>`; }
+    h += `<line class="h" x1="${A[0]}" y1="${A[1]}" x2="${A[0]}" y2="${A[1] + .5}" style="stroke-opacity:.5"/>`;
+    return h + `<circle class="o" cx="${A[0]}" cy="${A[1]}" r=".065"/>`;
+  }
+});
+</script>
+</body>
+</html>
