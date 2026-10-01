@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Palimpsest</title>
+<meta name="description" content="ANDRÉ MANDEL logo motion study S01, Palimpsest. Territory: time and decay.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#fbfaf7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<style>
+:root{--ink:#1b1a18;--muted:#6c6963;--faint:#a19e97;--page:#fbfaf7;--paper:#f6f3ec;--accent:#c4571f}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--page);color:var(--ink);-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;font-family:'EB Garamond',Garamond,'Times New Roman',serif;-webkit-font-smoothing:antialiased}
+main{display:flex;flex-direction:column;align-items:center;padding:16px}
+#stage{position:relative;background:var(--paper);box-shadow:0 1px 2px rgba(27,26,24,.06),0 18px 46px rgba(27,26,24,.11);overflow:hidden}
+#stage canvas,#stage img.fb{position:absolute;inset:0;width:100%;height:100%;display:block}
+#stage img.fb{object-fit:contain;padding:6% 7% 9% 9%}
+.cap{width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:18px}
+.cap .t{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cap .h{font-family:'Tenor Sans','Gill Sans',Optima,sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:10.5px;color:var(--ink);display:flex;gap:12px;align-items:baseline}
+.cap .h .n{color:var(--muted)}
+.cap .h .d{color:var(--faint);letter-spacing:.12em;font-variant-numeric:tabular-nums;min-width:6.5em}
+.cap .h .d:empty{display:none}
+.cap i{font-size:15px;line-height:1.3;color:var(--muted)}
+.ctl{display:flex;gap:8px;flex:none}
+.pill{font-family:'Tenor Sans','Gill Sans',Optima,sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:10px;line-height:1;padding:8px 14px 7px;border:1px solid rgba(27,26,24,.32);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s,color .2s}
+.pill:hover{background:var(--ink);color:var(--page)}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--page)}
+</style>
+</head>
+<body>
+<main>
+  <div id="stage" role="img" aria-label="The ANDRÉ MANDEL lockup surfacing from beneath layers of older erased drawings"><canvas id="cv"></canvas></div>
+  <div class="cap" id="cap">
+    <div class="t">
+      <div class="h"><span class="n">S01</span><span>Palimpsest</span><span class="d" id="date"></span></div>
+      <i>A rubbing finds the mark pressed under years of graphite; the eraser clears, and the ink rises from beneath.</i>
+    </div>
+    <div class="ctl"><button class="pill" id="replay" type="button">Replay</button></div>
+  </div>
+</main>
+<script>
+/* s01 Palimpsest: older drawings live on the sheet; a pencil rubbing finds the mark pressed into the paper, the eraser
+   clears the field, and the ink comes up from beneath. Eight graphite layers are drawn once into two textures. */
+window.STUDY = {
+  dur: 14.2, tail: 0,
+  textures: async ({ WIN, loadImg, MARKS }) => {
+    const PPI = 300, CW = Math.round(WIN.w * PPI), CH = Math.round(WIN.h * PPI);
+    const [m05, mT14, m01, m12, mT03] = await Promise.all(['lock05', 'lockT14', 'mark01', 'lock12', 'lockT03'].map(n => loadImg(MARKS + n + '.webp')));
+    let sd = 7;
+    const rnd = () => (sd = (Math.imul(sd, 1664525) + 1013904223) >>> 0) / 4294967296;
+    const J = (a) => (rnd() - .5) * 2 * a;
+    const mk = () => { const c = document.createElement('canvas'); c.width = CW; c.height = CH; const x = c.getContext('2d', { willReadFrequently: true });
+      x.fillStyle = '#000'; x.fillRect(0, 0, CW, CH); x.setTransform(PPI, 0, 0, PPI, 0, 0); x.lineCap = 'round'; x.lineJoin = 'round'; return [c, x]; };
+    const W = (a) => `rgba(255,255,255,${a})`;
+    // a pencil line: two slightly different passes, a touch of wobble, tapering pressure
+    function pencil(x, pts, w, a, wob = .006) {
+      for (let pass = 0; pass < 2; pass++) {
+        x.strokeStyle = W(a * (pass ? .55 : 1)); x.lineWidth = w * (pass ? .7 : 1); x.beginPath();
+        pts.forEach((p, i) => { const q = [p[0] + J(wob), p[1] + J(wob)]; i ? x.lineTo(q[0], q[1]) : x.moveTo(q[0], q[1]); });
+        x.stroke();
+      }
+    }
+    function line(x, x1, y1, x2, y2, w, a, over = .06) {
+      const dx = x2 - x1, dy = y2 - y1, l = Math.hypot(dx, dy), ux = dx / l, uy = dy / l, n = Math.max(2, Math.ceil(l / .25));
+      const pts = []; for (let i = 0; i <= n; i++) { const t = i / n; pts.push([x1 - ux * over + (dx + 2 * ux * over) * t, y1 - uy * over + (dy + 2 * uy * over) * t]); }
+      pencil(x, pts, w, a, .003);
+    }
+    function arc(x, cx, cy, r, a0, a1, w, a) { const pts = [], n = Math.ceil(Math.abs(a1 - a0) * r / .05) + 2;
+      for (let i = 0; i <= n; i++) { const t = a0 + (a1 - a0) * i / n, rr = r * (1 + J(.004)); pts.push([cx + Math.cos(t) * rr, cy + Math.sin(t) * rr]); } pencil(x, pts, w, a, .002); }
+    function hatchPat(x, ang, gap, w, a) { const c = document.createElement('canvas'), s = 64; c.width = c.height = s; const h = c.getContext('2d');
+      h.strokeStyle = W(a); h.lineWidth = w; for (let k = -s; k < 2 * s; k += gap) { h.beginPath(); h.moveTo(k, 0); h.lineTo(k + s, s); h.stroke(); }
+      const p = x.createPattern(c, 'repeat'); p.setTransform(new DOMMatrix().rotate(ang).scale(1 / PPI)); return p; }
+    // an older version of the mark, drawn in graphite: a hatched fill and a soft contour
+    function oldMark(x, img, cx, cy, wIn, ang, hAng, fillA, edgeA) {
+      const hIn = wIn * img.height / img.width, t = document.createElement('canvas'); t.width = CW; t.height = CH;
+      const tx = t.getContext('2d'); tx.setTransform(PPI, 0, 0, PPI, 0, 0); tx.translate(cx, cy); tx.rotate(ang * Math.PI / 180);
+      tx.drawImage(img, -wIn / 2, -hIn / 2, wIn, hIn); tx.setTransform(1, 0, 0, 1, 0, 0);
+      tx.globalCompositeOperation = 'source-in'; tx.fillStyle = '#fff'; tx.fillRect(0, 0, CW, CH);
+      const e = document.createElement('canvas'); e.width = CW; e.height = CH; const ex = e.getContext('2d');
+      ex.filter = 'blur(1.4px)'; ex.drawImage(t, 0, 0); ex.filter = 'none';
+      ex.globalCompositeOperation = 'destination-out'; ex.filter = 'blur(.4px)'; ex.drawImage(t, 2.2, 2.2); ex.drawImage(t, -2.2, -2.2); ex.filter = 'none';
+      const f = document.createElement('canvas'); f.width = CW; f.height = CH; const fx = f.getContext('2d');
+      fx.fillStyle = hatchPat(fx, hAng, 7, 1.4, 1); fx.fillRect(0, 0, CW, CH);
+      fx.globalCompositeOperation = 'destination-in'; fx.drawImage(t, 0, 0);
+      x.save(); x.setTransform(1, 0, 0, 1, 0, 0);
+      x.globalAlpha = fillA; x.drawImage(f, 0, 0); x.globalAlpha = edgeA; x.drawImage(e, 0, 0); x.globalAlpha = 1; x.restore();
+    }
+    function hand(x, s, px, py, size, a, ang = 0) {
+      x.save(); x.translate(px, py); x.rotate(ang); x.fillStyle = W(a);
+      x.font = `${size}px "Nothing You Could Do", "Bradley Hand", "Segoe Print", cursive`; x.fillText(s, 0, 0); x.restore();
+    }
+    function smudge(x, cx, cy, rx, ry, a, ang = 0) {
+      x.save(); x.translate(cx, cy); x.rotate(ang); x.scale(1, ry / rx);
+      const g = x.createRadialGradient(0, 0, 0, 0, 0, rx); g.addColorStop(0, W(a)); g.addColorStop(.6, W(a * .4)); g.addColorStop(1, W(0));
+      x.fillStyle = g; x.fillRect(-rx, -rx, 2 * rx, 2 * rx); x.restore();
+    }
+    const L = [];
+    // 0 the oldest: a first version of the mark, larger and leaning, and the land under the house
+    { const [c, x] = mk();
+      oldMark(x, m05, 1.62, 2.55, 2.9, -7, 38, .55, .85);
+      for (let k = 0; k < 13; k++) { const pts = [], r0 = .25 + k * .16;
+        for (let i = 0; i <= 90; i++) { const t = i / 90 * Math.PI * 2, wob = Math.sin(t * 3 + k * .7) * .06 + Math.sin(t * 5 - k) * .03;
+          pts.push([2.95 + Math.cos(t) * (r0 + wob) * 1.25, 4.9 + Math.sin(t) * (r0 + wob) * .62]); }
+        pencil(x, pts, .006, .5 - k * .02, .002); }
+      L.push(c); }
+    // 1 construction: the roof stroke angle, compass arcs, a regulating diagonal, the sidebar axis and the inch
+    { const [c, x] = mk(); const K = Math.atan(1 / .738);
+      line(x, .35, .25, .35 + Math.cos(K) * 6, .25 + Math.sin(K) * 6, .005, .9);
+      line(x, .1, 2.89, 3.4, 2.89, .004, .8); line(x, 1.75, .05, 1.75, 5.2, .004, .7); line(x, .12, 4.33, 3.38, 4.33, .004, .8);
+      line(x, .12, 4.02, 3.38, 4.02, .0035, .6);
+      arc(x, .56, 4.33, 3.75, -1.45, -.1, .005, .75); arc(x, .56, 4.33, 2.32, -1.6, .02, .004, .55); arc(x, 3.0, .64, 1.9, 1.6, 3.2, .004, .5);
+      [[.56, 4.33], [3.0, .64], [1.75, 2.89]].forEach(([a, b]) => { line(x, a - .07, b, a + .07, b, .004, .9, 0); line(x, a, b - .07, a, b + .07, .004, .9, 0); });
+      // a dimension string across the top
+      line(x, .46, .34, 3.02, .34, .0035, .8); [.46, 1.27, 3.02].forEach(a => line(x, a - .03, .37, a + .03, .31, .005, .9, 0));
+      hand(x, '2 9/16', 1.55, .29, .13, .85); hand(x, '53.6°', 1.2, 1.58, .12, .8, .93);
+      L.push(c); }
+    // 2 the newest sketch: a heavy gestural A over to the right, and notes to self
+    { const [c, x] = mk();
+      oldMark(x, mT14, 2.05, 2.25, 2.35, 4, -52, .4, 1);
+      hand(x, 'lift the tip', 2.12, .5, .15, .95, -.08); hand(x, 'fold', .32, 3.28, .15, .9, -.04);
+      hand(x, 'slower here', 1.95, 3.6, .13, .85, .05);
+      pencil(x, [[2.05, .56], [2.42, .74], [2.62, 1.02]], .006, .9); pencil(x, [[2.55, .94], [2.62, 1.02], [2.6, .9]], .006, .9);
+      L.push(c); }
+    // 3 lettering trials: the name larger and letterspaced, guidelines, a monogram
+    { const [c, x] = mk();
+      line(x, .1, 4.9, 3.4, 4.9, .003, .7); line(x, .1, 4.62, 3.4, 4.62, .003, .7);
+      x.fillStyle = W(.85); x.font = '0.34px "EB Garamond", Garamond, serif'; x.letterSpacing = '0.09px'; x.fillText('MANDEL', .34, 4.9);
+      x.letterSpacing = '0px'; x.font = 'italic 0.3px "EB Garamond", Garamond, serif'; x.globalAlpha = .7; x.fillText('André', .55, 3.75); x.globalAlpha = 1;
+      x.font = '0.55px "EB Garamond", Garamond, serif'; x.fillStyle = W(.55); x.fillText('A', 2.7, 5.2); x.fillText('M', 2.98, 5.2);
+      L.push(c); }
+    // 4 the ribbon roof in section: the fold beam, joists square to it, the lifted tip
+    { const [c, x] = mk(); const ox = .25, oy = 1.85;
+      pencil(x, [[ox, oy + .9], [ox + 1.3, oy + .55], [ox + 2.9, oy - .35]], .007, .85);
+      pencil(x, [[ox, oy + 1.02], [ox + 1.3, oy + .67], [ox + 2.95, oy - .24]], .005, .7);
+      for (let k = 0; k < 14; k++) { const t = k / 13, px = ox + .1 + t * 2.7, py = oy + .88 - t * 1.1 + (t > .45 ? -(t - .45) * .25 : 0);
+        line(x, px, py, px + .07, py + .13, .004, .65, 0); }
+      line(x, ox + 1.3, oy + .55, ox + 1.3, oy + 2.1, .004, .6); hand(x, '28.7\'', ox + 2.55, oy - .5, .12, .8);
+      L.push(c); }
+    // 5 hatch tests and a thumb of graphite where a hand rested
+    { const [c, x] = mk();
+      x.fillStyle = hatchPat(x, 28, 9, 1.3, .8); x.beginPath(); x.moveTo(.2, 1.05); x.lineTo(.62, .82); x.lineTo(.62, 1.3); x.closePath(); x.fill();
+      pencil(x, [[.2, 1.05], [.62, .82], [.62, 1.3], [.2, 1.05]], .004, .8);
+      smudge(x, 3.05, 4.55, .55, .22, .45, -.4); smudge(x, .6, 2.2, .7, .3, .22, .7); smudge(x, 2.4, 1.1, .4, .16, .2, -.9);
+      for (let k = 0; k < 9; k++) { const y0 = 5.0 + k * .025; pencil(x, [[2.1, y0], [2.5, y0 - .04], [2.9, y0 + .01]], .004, .4); }
+      L.push(c); }
+    // 6 trials in the margin: three small marks in bubbles, a fourth crossed out
+    { const [c, x] = mk();
+      [[m01, .55, .6], [m12, 1.0, .58], [mT03, 1.45, .6]].forEach(([im, a, b], i) => { oldMark(x, im, a, b + 4.45, .3, J(4), 45 + i * 30, .9, 1); arc(x, a, b + 4.47, .25, 0, 6.29, .004, .8); });
+      L.push(c); }
+    // 7 handling: soft graphite haze that a sleeve drags across a sheet over months
+    { const [c, x] = mk();
+      for (let k = 0; k < 16; k++) smudge(x, rnd() * 3.5, rnd() * 5.25, .3 + rnd() * .9, .1 + rnd() * .3, .1 + rnd() * .12, rnd() * 3);
+      L.push(c); }
+    // pack eight layers into two textures, one per channel
+    const N = CW * CH, A = new Uint8ClampedArray(N * 4), B = new Uint8ClampedArray(N * 4);
+    L.forEach((c, i) => { const d = c.getContext('2d').getImageData(0, 0, CW, CH).data, T = i < 4 ? A : B, ch = i % 4;
+      for (let p = 0; p < N; p++) T[p * 4 + ch] = d[p * 4]; });
+    return [{ name: 'uLA', w: CW, h: CH, data: new ImageData(A, CW, CH), mip: true }, { name: 'uLB', w: CW, h: CH, data: new ImageData(B, CW, CH), mip: true }];
+  },
+  frag: `
+uniform sampler2D uLA; uniform sampler2D uLB;
+const float RUB0 = .6, RUB1 = 4.6, INK0 = 9.6, INK1 = 12.9;
+const vec4 SA = vec4(.55, .62, .85, .5), SB = vec4(.5, .6, .52, .6);
+const vec4 GA = vec4(.12, .12, .14, .07), GB = vec4(.08, .12, .1, .06);
+/* eraser swaths: center (sheet in), angle, half length, half width; start, duration, strength */
+const int NS = 11;
+const vec4 SW[NS] = vec4[NS](
+  vec4(33.18, 1.30, 1.02, .78), vec4(33.62, 1.95, 1.0, .9), vec4(34.15, 2.62, .9, .95), vec4(34.62, 3.30, .82, .8),
+  vec4(33.05, 2.95, 1.57, .62), vec4(33.55, 2.78, .1, .45), vec4(33.95, 4.30, 0., 1.05), vec4(34.0, 4.18, .04, 1.1),
+  vec4(34.95, 3.75, .7, .45), vec4(33.3, .75, -.2, .45), vec4(34.1, 3.6, .6, .7));
+const vec4 SW2[NS] = vec4[NS](
+  vec4(.27, 4.6, .95, 1.), vec4(.26, 5.2, .95, 1.), vec4(.27, 5.8, .9, 1.), vec4(.25, 6.4, .9, 1.),
+  vec4(.22, 6.9, .8, .95), vec4(.2, 7.3, .7, .9), vec4(.22, 7.6, 1.0, 1.), vec4(.14, 8.3, .8, .9),
+  vec4(.2, 8.6, .7, .8), vec4(.18, 8.9, .6, .7), vec4(.5, 9.1, 1.1, .45));
+float swath(vec2 s, float t, int i){
+  vec4 a = SW[i], b = SW2[i];
+  float k = win(t, b.y, b.y + b.z); if (k <= 0.) return 0.;
+  vec2 u = vec2(cos(a.z), sin(a.z)), q = s - a.xy;
+  float x = dot(q, u), y = dot(q, vec2(-u.y, u.x));
+  float hl = a.w, hw = b.x;
+  float rag = (gn(vec2(x * 9., float(i) * 3.1)) - .5) * .06 + (gn(vec2(x * 40., float(i))) - .5) * .015;
+  float side = smoothstep(hw + .02, hw - .03, abs(y + rag));
+  float fr = mix(-hl - .2, hl + .1, ease(k));
+  float ends = smoothstep(hl + .02, hl - .12, abs(x)) * smoothstep(fr + .06, fr - .06, x * (mod(float(i), 2.) * 2. - 1.));
+  float streak = gn(vec2(x * 6., y * 70.) + float(i) * 7.);
+  return side * ends * b.w * (1. - .28 * smoothstep(.5, .9, streak));
+}
+void main(){
+  vec2 s = sheetP(), st = s - WIN.xy, uv = st / WIN.zw;
+  float t = uT;
+  vec3 c = paperB(s);
+  float d = dMark(s);
+  vec2 gd = gMark(s, .004);
+  float to = toothB(s);
+  // the mark was pressed in first, hard: a shallow groove that later graphite skips over
+  float groove = smoothstep(.005, -.004, d);
+  float lip = exp(-max(d, 0.) / .006) * step(0., d);
+  float E = 0.;
+  for (int i = 0; i < NS; i++) E = 1. - (1. - E) * (1. - swath(s, t, i));
+  // then broad passes back and forth across the whole rubbing, each leaving a little graphite behind
+  vec2 eu = normalize(vec2(1., -.3)), en = vec2(-eu.y, eu.x);
+  float ea = dot(s - vec2(34.05, 2.6), eu), eb = dot(s - vec2(34.05, 2.6), en);
+  for (int i = 0; i < 12; i++) {
+    float fi = float(i);
+    vec2 r = h22(vec2(fi, 3.));
+    float yb = -2.25 + fi * .41 + (r.x - .5) * .1;
+    float st0 = 7.25 + fi * .19 + r.y * .12;
+    float k = win(t, st0, st0 + .55);
+    if (k <= 0.) continue;
+    float hl = sqrt(max(0., 1. - pow(yb / 2.5, 2.))) * 2.05 + .1;
+    float dir = mod(fi, 2.) * 2. - 1.;
+    float head = mix(-hl, hl, ease(k));
+    float rag = (gn(vec2(ea * 6., fi * 5.)) - .5) * .08;
+    float across = smoothstep(.29, .2, abs(eb - yb + rag));
+    float along = smoothstep(hl + .05, hl - .2, abs(ea)) * smoothstep(head + .06, head - .06, ea * dir);
+    float strk = gn(vec2(ea * 3., eb * 60.) + fi * 7.);
+    E = 1. - (1. - E) * (1. - across * along * (.86 - .2 * smoothstep(.5, .9, strk)));
+  }
+  // the older drawings
+  vec4 la = texture(uLA, uv), lb = texture(uLB, uv);
+  vec4 skip = vec4(1. - .3 * groove);
+  vec4 da = la * SA * mix(vec4(1.), GA / SA, E) * skip, db = lb * SB * mix(vec4(1.), GB / SB, E) * skip;
+  float tone = 1.;
+  tone *= 1. - .62 * da.x; tone *= 1. - .62 * da.y; tone *= 1. - .62 * db.x; tone *= 1. - .62 * db.y;
+  tone *= 1. - .62 * da.w; tone *= 1. - .62 * db.z; tone *= 1. - .62 * db.w; tone *= 1. - .66 * da.z;
+  // the rubbing: the side of a soft lead in parallel strokes, band after band, down across the mark
+  vec2 ru = normalize(vec2(1., -.36)), rn = vec2(-ru.y, ru.x);
+  float ra = dot(s - vec2(34.05, 2.6), ru), rb = dot(s - vec2(34.05, 2.6), rn);
+  float bw = .085, rub = 0.;
+  for (int j = -1; j <= 1; j++) {
+    float bi = floor(rb / bw) + float(j);
+    vec2 r = h22(vec2(bi, 17.));
+    float yb = (bi + .5) * bw + (r.y - .5) * .02;
+    float across = smoothstep(bw * 1.05, bw * .3, abs(rb - yb));
+    float ext = sqrt(max(0., 1. - pow(yb / 2.15, 2.))) * 1.72;
+    float a0 = -ext - .1 - r.x * .3, a1 = ext + .1 + r.y * .32;
+    float start = mix(RUB0, RUB1 - .7, clamp((yb + 2.1) / 4.2, 0., 1.)) + (r.x - .5) * .25;
+    float k = win(t, start, start + .6 + .2 * r.y);
+    float head = mix(a0, a1, ease(k));
+    float feather = (gn(vec2(rb * 30., bi)) - .5) * .35;
+    float along = smoothstep(a0 - .05 + feather, a0 + .3 + feather, ra) * smoothstep(head + .04, head - .2, ra)
+                * smoothstep(a1 + .05 - feather, a1 - .35 - feather, ra);
+    float dens = .3 + .14 * r.x;
+    rub = max(rub, across * along * dens);
+  }
+  float strk = gn(vec2(ra * 7., rb * 190.)) * .55 + gn(vec2(ra * 3., rb * 420.) + 9.) * .45;
+  float grain = smoothstep(.28, .78, to * .7 + strk * .5);
+  float rubD = rub * (.35 + .9 * grain) * (.85 + .3 * fbm3(s * 4.));
+  rubD *= (1. - .94 * groove) * (1. + .7 * lip);
+  rubD *= 1. - .94 * E;
+  tone *= 1. - .62 * clamp(rubD, 0., 1.);
+  // the paper where the eraser worked: cleaner, the tooth raised, a faint scuff
+  c = mix(c, c * 1.012 + .005, E);
+  c *= 1. - E * (to - .5) * .05;
+  vec3 gph = vec3(.29, .29, .31);
+  c = mix(gph, c, tone) * mix(1., tone, .15);
+  // eraser crumbs riding along, then brushed away
+  vec2 cg2 = s * 30.; vec2 ci = floor(cg2), cr = h22(ci);
+  float crumbOn = step(.8, h12(ci + 3.)) * smoothstep(.1, .5, E) * (1. - win(t, 10.0, 11.0));
+  float crumb = smoothstep(.13 * (.5 + cr.y), 0., length((fract(cg2) - .5 - (cr - .5) * .6) * vec2(1., 1.8)));
+  c = mix(c, vec3(.6, .57, .54), crumb * crumbOn * .55);
+  // the groove catches the light: lit on one side, shaded on the other
+  float rel = dot(gd, normalize(vec2(-.6, -.8)));
+  c *= 1. + rel * smoothstep(.008, 0., abs(d + .002)) * .09 * (1. - win(t, INK0 + 1., INK1));
+  // the ink rises from beneath: it soaks up along the spine of each stroke and spreads to the edge
+  float ik = win(t, INK0, INK1);
+  float depth = -d + (fbm(s * 20.) - .5) * .045 + (fbm3(s * 2.5) - .5) * .06;
+  float thr = mix(.2, -.08, ease(ik));
+  float wet = smoothstep(thr - .012, thr + .03, depth);
+  vec3 inkC = vec3(.105, .1, .093) * (.93 + .14 * to);
+  float body = mix(.5 + .4 * fbm(s * 8. + 4.), 1., smoothstep(.45, 1., ik));
+  float inkA = wet * body * mix(smoothstep(.004, -.004, d), markTex(s).g, smoothstep(.7, 1., ik));
+  c = mix(c, inkC, clamp(inkA, 0., 1.) * .97);
+  float halo = exp(-max(d, 0.) / .018) * step(0., d) * smoothstep(-.06, .02, -thr) * (1. - smoothstep(.7, 1., ik));
+  c *= 1. - halo * .06;
+  // the printed frame, eased a touch where the eraser crossed it
+  vec4 fr = frameTex(s);
+  float fl = max(max(fr.r, fr.g), fr.b) * (1. - .2 * E);
+  c = mix(c, vec3(.106, .102, .094), fl * .92);
+  fragColor = vec4(c, 1.);
+}`
+};
+
+</script>
+<script>
+/* motion core: the sidebar stage, the lockup as a distance field, the frame, a WebGL2 canvas and the clock */
+(function () {
+  const S = window.STUDY;
+  const WIN = { x: 32.3, y: 0.1, w: 3.5, h: 5.25 };                 // the stage, in sheet inches
+  const TBX = 32.5, TXL = TBX + 0.3, TXR = 35.5 - 0.22, LK = (TXR - TXL) / 346;
+  const L = { x: TXL - 6 * LK, y: 0.74, w: 357 * LK, h: 520 * LK };  // the lockup, as on v2
+  const stage = document.getElementById('stage'), cap = document.getElementById('cap'), cv = document.getElementById('cv');
+  const dateEl = document.getElementById('date'), replayBtn = document.getElementById('replay');
+  const q = new URLSearchParams(location.search);
+  const FIX = q.has('t') ? parseFloat(q.get('t')) : null;
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MARKS = '../../../../marks/';
+
+  /* ---------------------------------------------------------------- layout */
+  let W = 0, H = 0, PX = 0;
+  function layout() {
+    const vw = document.documentElement.clientWidth, vh = window.innerHeight;
+    let h = Math.min(vh - 118, (vw - 32) * 1.5, 760);
+    h = Math.max(h, 270);
+    const w = Math.round(h / 1.5); h = Math.round(w * 1.5);
+    stage.style.width = w + 'px'; stage.style.height = h + 'px'; cap.style.width = w + 'px';
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const cap2 = (S.maxPixels || 1.15e6);
+    if (w * h * dpr * dpr > cap2) dpr = Math.sqrt(cap2 / (w * h));
+    W = Math.round(w * dpr); H = Math.round(h * dpr);
+    cv.width = W; cv.height = H; PX = WIN.w / W;
+  }
+
+  /* ---------------------------------------------------------------- helpers */
+  const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  const fontsReady = (list, ms) => Promise.race([
+    Promise.all(list.map(f => document.fonts ? document.fonts.load(f).catch(() => 0) : 0)),
+    new Promise(r => setTimeout(r, ms))
+  ]);
+  // 1D squared distance transform (Felzenszwalb and Huttenlocher)
+  function edt1(f, n, d, v, z) {
+    let k = 0; v[0] = 0; z[0] = -1e20; z[1] = 1e20;
+    for (let q2 = 1; q2 < n; q2++) {
+      let s;
+      do { const r = v[k]; s = ((f[q2] + q2 * q2) - (f[r] + r * r)) / (2 * q2 - 2 * r); if (s <= z[k]) k--; else break; } while (k >= 0);
+      k++; v[k] = q2; z[k] = s; z[k + 1] = 1e20;
+    }
+    k = 0;
+    for (let q2 = 0; q2 < n; q2++) { while (z[k + 1] < q2) k++; const r = v[k]; d[q2] = (q2 - r) * (q2 - r) + f[r]; }
+  }
+  function edt(grid, w, h) {
+    const n = Math.max(w, h), f = new Float64Array(n), d = new Float64Array(n), v = new Int32Array(n), z = new Float64Array(n + 1);
+    for (let x = 0; x < w; x++) { for (let y = 0; y < h; y++) f[y] = grid[y * w + x]; edt1(f, h, d, v, z); for (let y = 0; y < h; y++) grid[y * w + x] = d[y]; }
+    for (let y = 0; y < h; y++) { for (let x = 0; x < w; x++) f[x] = grid[y * w + x]; edt1(f, w, d, v, z); for (let x = 0; x < w; x++) grid[y * w + x] = d[x]; }
+  }
+
+  /* the lockup as a signed distance field in inches (R), its alpha (G), a study channel (B), the name mask (A) */
+  function markField(img) {
+    const MW = 714, MH = 1040, c = document.createElement('canvas'); c.width = MW; c.height = MH;
+    const x = c.getContext('2d', { willReadFrequently: true }); x.imageSmoothingQuality = 'high'; x.drawImage(img, 0, 0, MW, MH);
+    const a = x.getImageData(0, 0, MW, MH).data, N = MW * MH, al = new Float32Array(N);
+    for (let i = 0; i < N; i++) al[i] = a[i * 4 + 3] / 255;
+    const INF = 1e12, gin = new Float64Array(N), gout = new Float64Array(N);
+    for (let i = 0; i < N; i++) { const ins = al[i] >= 0.5; gout[i] = ins ? 0 : INF; gin[i] = ins ? INF : 0; }
+    edt(gout, MW, MH); edt(gin, MW, MH);
+    const ipx = L.w / MW, out = new Float32Array(N * 4);
+    const extra = S.markExtra ? S.markExtra(al, MW, MH, L) : null;
+    for (let i = 0; i < N; i++) {
+      let dpx = al[i] >= 0.5 ? -(Math.sqrt(gin[i]) - 0.5) : Math.sqrt(gout[i]) - 0.5;
+      if (Math.abs(dpx) < 1.2) dpx = (0.5 - al[i]) * 1.1;       // the alpha knows the edge better than the grid
+      out[i * 4] = dpx * ipx; out[i * 4 + 1] = al[i]; out[i * 4 + 2] = extra ? extra[i] : 0;
+      out[i * 4 + 3] = (Math.floor(i / MW) > 460 * 2) ? 1 : 0;
+    }
+    return { w: MW, h: MH, data: out };
+  }
+
+  /* the frame: the border with the concave corner (R), the vertical rule (G), ruler ticks and numbers (B) */
+  function frameCanvas() {
+    const ppi = 220, c = document.createElement('canvas'); c.width = Math.round(WIN.w * ppi); c.height = Math.round(WIN.h * ppi);
+    const x = c.getContext('2d');
+    x.fillStyle = '#000'; x.fillRect(0, 0, c.width, c.height);
+    x.setTransform(ppi, 0, 0, ppi, -WIN.x * ppi, -WIN.y * ppi);
+    const GAP = 0.3, ENV = py => 53.38 + 0.0741 * py + 0.001358 * py * py, CUT = py => [L.x + ENV(py) * LK + GAP, L.y + py * LK];
+    let a = (0.5 - L.y) / LK, b = a; while (CUT(b)[0] < 35.5 && b < 700) b += 0.25;
+    const V1 = CUT(a), V2 = [35.5, CUT(b)[1]], R = 0.34, pts = [];
+    for (let py = a; py <= b; py += 2) pts.push(CUT(py)); pts.push(CUT(b));
+    const sIn = pts.findIndex(p => Math.hypot(p[0] - V1[0], p[1] - V1[1]) >= R);
+    let sOut = pts.length - 1; while (sOut > 0 && Math.hypot(pts[sOut][0] - V2[0], pts[sOut][1] - V2[1]) < R) sOut--;
+    x.lineJoin = 'round'; x.lineCap = 'round';
+    x.strokeStyle = '#f00'; x.lineWidth = 0.0125; x.beginPath();
+    x.moveTo(31, 0.5); x.lineTo(V1[0] - R, 0.5); x.quadraticCurveTo(V1[0], 0.5, pts[sIn][0], pts[sIn][1]);
+    for (let i = sIn; i <= sOut; i++) x.lineTo(pts[i][0], pts[i][1]);
+    x.quadraticCurveTo(35.5, V2[1], 35.5, V2[1] + R); x.lineTo(35.5, 9); x.stroke();
+    x.strokeStyle = '#0f0'; x.lineWidth = 0.01; x.beginPath(); x.moveTo(TBX, 0.5); x.lineTo(TBX, 9); x.stroke();
+    // ruler: the inch marks that land on this stage (33 along the top, 5 down the right), numbered in Tenor Sans
+    x.strokeStyle = 'rgba(0,0,255,.5)'; x.lineWidth = 0.009; x.beginPath();
+    x.moveTo(33, 0.5 - 0.12); x.lineTo(33, 0.5); x.moveTo(35.5, 5); x.lineTo(35.5 + 0.12, 5); x.stroke();
+    x.fillStyle = 'rgba(0,0,255,.62)'; x.font = '0.12px "Tenor Sans", "Gill Sans", Optima, sans-serif';
+    x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('33', 33, 0.16); x.fillText('5', 35.74, 5.14);
+    return c;
+  }
+
+  /* ---------------------------------------------------------------- GL */
+  const VS = `#version 300 es
+in vec2 p; out vec2 vUv; void main(){ vUv = p * .5 + .5; gl_Position = vec4(p, 0., 1.); }`;
+  const COMMON = `#version 300 es
+precision highp float;
+precision highp sampler2D;
+uniform vec2 uRes; uniform float uT; uniform float uPx; uniform float uDur;
+uniform sampler2D uMark; uniform sampler2D uFrame; uniform sampler2D uPaperT;
+in vec2 vUv; out vec4 fragColor;
+const vec4 WIN = vec4(${WIN.x}, ${WIN.y}, ${WIN.w}, ${WIN.h});
+const vec4 LCK = vec4(${L.x.toFixed(5)}, ${L.y}, ${L.w.toFixed(5)}, ${L.h.toFixed(5)});
+float h12(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
+vec2 h22(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973)); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.xx + p3.yz) * p3.zy); }
+float gn(vec2 p){ vec2 i = floor(p), f = fract(p), u = f * f * (3. - 2. * f);
+  float a = dot(h22(i) * 2. - 1., f), b = dot(h22(i + vec2(1, 0)) * 2. - 1., f - vec2(1, 0));
+  float c = dot(h22(i + vec2(0, 1)) * 2. - 1., f - vec2(0, 1)), d = dot(h22(i + vec2(1, 1)) * 2. - 1., f - vec2(1, 1));
+  return mix(mix(a, b, u.x), mix(c, d, u.x), u.y) * 1.25 + .5; }
+const mat2 RM = mat2(1.6, 1.2, -1.2, 1.6);
+float fbm(vec2 p){ float s = 0., a = .5; for (int i = 0; i < 5; i++){ s += a * gn(p); p = RM * p + 3.1; a *= .5; } return s / .97; }
+float fbm3(vec2 p){ float s = 0., a = .5; for (int i = 0; i < 3; i++){ s += a * gn(p); p = RM * p + 3.1; a *= .5; } return s / .875; }
+mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, s, -s, c); }
+vec2 sheetP(){ return vec2(WIN.x + vUv.x * WIN.z, WIN.y + (1. - vUv.y) * WIN.w); }
+vec2 markUV(vec2 s){ return (s - LCK.xy) / LCK.zw; }
+vec4 markTex(vec2 s){ return texture(uMark, clamp(markUV(s), 0., 1.)); }
+float dMark(vec2 s){ vec2 u = markUV(s), c = clamp(u, 0., 1.); return texture(uMark, c).r + length((u - c) * LCK.zw); }
+vec2 gMark(vec2 s, float e){ return vec2(dMark(s + vec2(e, 0)) - dMark(s - vec2(e, 0)), dMark(s + vec2(0, e)) - dMark(s - vec2(0, e))) / (2. * e); }
+float cover(float d){ float aa = uPx * .8; return smoothstep(aa, -aa, d); }
+vec4 frameTex(vec2 s){ return texture(uFrame, (s - WIN.xy) / WIN.zw); }
+float ease(float x){ x = clamp(x, 0., 1.); return x * x * (3. - 2. * x); }
+float win(float t, float a, float b){ return clamp((t - a) / (b - a), 0., 1.); }
+/* weathered paper, after v2: warm off white, fibers, mottling, a little yellowing and foxing */
+float tooth(vec2 s){ return gn(s * 170.) * .6 + gn(s * 410. + 7.) * .4; }
+vec3 paper(vec2 s){
+  vec3 c = vec3(.965, .953, .925);
+  float m = fbm3(s * 1.4 + 2.);
+  c *= 1. - (m - .5) * .045;
+  float y = fbm3(s * .55 + 9.);
+  c = mix(c, vec3(.925, .885, .80), smoothstep(.5, .9, y) * .22);
+  float f = gn(rot(.35) * s * vec2(16., 120.));
+  c *= 1. - smoothstep(.74, .92, f) * .035;
+  float f2 = gn(rot(-1.1) * s * vec2(22., 150.) + 4.);
+  c *= 1. - smoothstep(.78, .95, f2) * .025;
+  c *= 1. - (tooth(s) - .5) * .03;
+  vec2 g = s * 6.; vec2 id = floor(g), r = h22(id);
+  float on = step(.84, h12(id + 5.)), fd = length(fract(g) - .2 - .6 * r);
+  c = mix(c, vec3(.70, .52, .32), on * smoothstep(.045 * (.4 + r.x), 0., fd) * (.18 + .2 * r.y));
+  // the edges of the sheet have seen the most air
+  float e = smoothstep(.9, 0., min(36. - s.x, s.y));
+  c = mix(c, vec3(.88, .82, .70), e * .14);
+  return c;
+}
+vec2 winUV(vec2 s){ vec2 u = (s - WIN.xy) / WIN.zw; return vec2(u.x, 1. - u.y); }   // baked fields are stored bottom up
+vec3 paperB(vec2 s){ return texture(uPaperT, winUV(s)).rgb; }
+float toothB(vec2 s){ return texture(uPaperT, winUV(s)).a; }
+`;
+  let gl, prog, uni = {}, extraTex = [];
+  function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { const log = gl.getShaderInfoLog(s); console.error(log); throw new Error(log); } return s; }
+  function tex(unit, w, h, data, opts = {}) {
+    const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+    if (data instanceof Float32Array) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.FLOAT, data);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, data);
+    const mip = opts.mip && !(data instanceof Float32Array);
+    if (mip) gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mip ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    return t;
+  }
+
+  /* ---------------------------------------------------------------- clock */
+  let t0 = 0, running = false, raf = 0, ready = false, fixedT = null;
+  const DUR = S.dur;
+  function now() { return fixedT != null ? fixedT : (performance.now() - t0) / 1000; }
+  function draw(t) {
+    gl.viewport(0, 0, W, H);
+    gl.useProgram(prog);
+    gl.uniform2f(uni.uRes, W, H); gl.uniform1f(uni.uT, t); gl.uniform1f(uni.uPx, PX); gl.uniform1f(uni.uDur, DUR);
+    if (S.uniforms) S.uniforms(gl, prog, t);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (dateEl && S.date) dateEl.textContent = S.date(Math.min(t, DUR));
+  }
+  function frame() {
+    const t = now();
+    draw(Math.min(t, DUR + (S.tail || 0)));
+    if (fixedT == null && t < DUR + (S.tail || 0) + 0.2) raf = requestAnimationFrame(frame); else running = false;
+  }
+  function play() {
+    cancelAnimationFrame(raf);
+    if (reduce) { fixedT = DUR + (S.tail || 0); draw(fixedT); return; }
+    if (FIX != null) { fixedT = FIX; draw(FIX); return; }
+    fixedT = null; t0 = performance.now(); running = true; raf = requestAnimationFrame(frame);
+  }
+  window.__seek = t => { fixedT = t; draw(t); };
+  window.__restart = play;
+
+  async function boot() {
+    layout();
+    gl = cv.getContext('webgl2', { antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: true });
+    if (!gl) { fallback(); return; }
+    const [img] = await Promise.all([loadImg(MARKS + 'am10_lockup.webp'),
+      fontsReady(['12px "Tenor Sans"', '12px "Nothing You Could Do"', 'italic 12px "EB Garamond"'], 1500)]);
+    const mf = markField(img);
+    const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, COMMON + S.frag);
+    prog = gl.createProgram(); gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.bindAttribLocation(prog, 0, 'p'); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+    gl.useProgram(prog);
+    ['uRes', 'uT', 'uPx', 'uDur', 'uMark', 'uFrame'].forEach(n => uni[n] = gl.getUniformLocation(prog, n));
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    tex(0, mf.w, mf.h, mf.data);
+    tex(1, 0, 0, frameCanvas());
+    let unit = 3;
+    const units = { uMark: 0, uFrame: 1, uPaperT: 2 };
+    if (S.textures) {
+      const list = await S.textures({ WIN, L, LK, loadImg, MARKS });
+      list.forEach(d => { tex(unit, d.w, d.h, d.data, d); units[d.name] = unit++; });
+    }
+    /* bake: static fields rendered once into float textures, so a frame only reads them */
+    const bakes = [{ name: 'uPaperT', ppi: 300, frag: 'void main(){ vec2 s = sheetP(); fragColor = vec4(paper(s), tooth(s)); }' }].concat(S.bake || []);
+    const half = gl.getExtension('EXT_color_buffer_float') || gl.getExtension('EXT_color_buffer_half_float');
+    gl.getExtension('OES_texture_float_linear');
+    for (const b of bakes) {
+      const bw = Math.round(WIN.w * b.ppi), bh = Math.round(WIN.h * b.ppi);
+      const u = b.name === 'uPaperT' ? 2 : unit++;
+      const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + u); gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texImage2D(gl.TEXTURE_2D, 0, half ? gl.RGBA16F : gl.RGBA8, bw, bh, 0, gl.RGBA, half ? gl.HALF_FLOAT : gl.UNSIGNED_BYTE, null);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, b.nearest ? gl.NEAREST : gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, b.nearest ? gl.NEAREST : gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      const fb = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+      const bp = gl.createProgram(); gl.attachShader(bp, vs); gl.attachShader(bp, sh(gl.FRAGMENT_SHADER, COMMON + (S.bakeCommon || '') + b.frag));
+      gl.bindAttribLocation(bp, 0, 'p'); gl.linkProgram(bp); gl.useProgram(bp);
+      gl.activeTexture(gl.TEXTURE0 + u); gl.bindTexture(gl.TEXTURE_2D, null);
+      Object.entries(units).forEach(([n, k]) => { const l = gl.getUniformLocation(bp, n); if (l) gl.uniform1i(l, k); });
+      gl.uniform2f(gl.getUniformLocation(bp, 'uRes'), bw, bh); gl.uniform1f(gl.getUniformLocation(bp, 'uPx'), WIN.w / bw);
+      gl.viewport(0, 0, bw, bh); gl.drawArrays(gl.TRIANGLES, 0, 3);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.deleteFramebuffer(fb);
+      gl.activeTexture(gl.TEXTURE0 + u); gl.bindTexture(gl.TEXTURE_2D, t);
+      units[b.name] = u;
+    }
+    gl.useProgram(prog);
+    Object.entries(units).forEach(([n, k]) => { const l = gl.getUniformLocation(prog, n); if (l) gl.uniform1i(l, k); });
+    ready = true; play();
+  }
+  function fallback() {
+    const i = document.createElement('img'); i.className = 'fb'; i.src = MARKS + 'am10_lockup.webp'; i.alt = '';
+    stage.appendChild(i); cv.remove();
+  }
+  replayBtn.addEventListener('click', () => { if (ready) play(); });
+  if (S.controls) S.controls(() => { if (ready) { if (running || fixedT == null) {} draw(now()); if (!running) draw(Math.min(now(), DUR + (S.tail || 0))); } }, play);
+  let rt = 0;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { layout(); if (ready && !running) draw(fixedT != null ? fixedT : DUR + (S.tail || 0)); }, 80); });
+  boot().catch(e => { console.error(e); fallback(); });
+})();
+
+</script>
+</body>
+</html>

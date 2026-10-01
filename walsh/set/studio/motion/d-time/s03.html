@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Weathering</title>
+<meta name="description" content="ANDRÉ MANDEL logo motion study S03, Weathering. Territory: time and decay.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#fbfaf7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<style>
+:root{--ink:#1b1a18;--muted:#6c6963;--faint:#a19e97;--page:#fbfaf7;--paper:#f6f3ec;--accent:#c4571f}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--page);color:var(--ink);-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;font-family:'EB Garamond',Garamond,'Times New Roman',serif;-webkit-font-smoothing:antialiased}
+main{display:flex;flex-direction:column;align-items:center;padding:16px}
+#stage{position:relative;background:var(--paper);box-shadow:0 1px 2px rgba(27,26,24,.06),0 18px 46px rgba(27,26,24,.11);overflow:hidden}
+#stage canvas,#stage img.fb{position:absolute;inset:0;width:100%;height:100%;display:block}
+#stage img.fb{object-fit:contain;padding:6% 7% 9% 9%}
+.cap{width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-top:18px}
+.cap .t{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cap .h{font-family:'Tenor Sans','Gill Sans',Optima,sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:10.5px;color:var(--ink);display:flex;gap:12px;align-items:baseline}
+.cap .h .n{color:var(--muted)}
+.cap .h .d{color:var(--faint);letter-spacing:.12em;font-variant-numeric:tabular-nums;min-width:6.5em}
+.cap .h .d:empty{display:none}
+.cap i{font-size:15px;line-height:1.3;color:var(--muted)}
+.ctl{display:flex;gap:8px;flex:none}
+.pill{font-family:'Tenor Sans','Gill Sans',Optima,sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:10px;line-height:1;padding:8px 14px 7px;border:1px solid rgba(27,26,24,.32);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s,color .2s}
+.pill:hover{background:var(--ink);color:var(--page)}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--page)}
+</style>
+</head>
+<body>
+<main>
+  <div id="stage" role="img" aria-label="The ANDRÉ MANDEL lockup weathering through the seasons, rusting and taking on verdigris"><canvas id="cv"></canvas></div>
+  <div class="cap" id="cap">
+    <div class="t">
+      <div class="h"><span class="n">S03</span><span>Weathering</span><span class="d" id="date"></span></div>
+      <i>A year passes over the sheet in seconds: the mark is cast iron, and rust, rain, snow and verdigris take their turns.</i>
+    </div>
+    <div class="ctl"><button class="pill" id="replay" type="button">Replay</button></div>
+  </div>
+</main>
+<script>
+/* s03 Weathering: the printed ink becomes metal, the A in weathering steel, the name in cast bronze, set into the sheet.
+   Then a year goes by in sixteen seconds. The sun swings the plate's shadow around like a sundial; spring rain starts the
+   rust at the edges, summer bakes it to umber and runs it down the paper, autumn turns the bronze to verdigris, winter
+   frosts the sheet and caps the mark with snow, and the thaw leaves tide lines. The date in the caption keeps time. */
+(function () {
+  const Y0 = new Date(2026, 2, 20), T0 = 1.3, T1 = 15.6;
+  window.STUDY = {
+    dur: 16.4, tail: 0,
+    date: t => {
+      const k = Math.min(Math.max((t - T0) / (T1 - T0), 0), 1), d = new Date(Y0.getTime() + Math.round(k * 364) * 864e5);
+      return `${d.getMonth() + 1}/${d.getDate()}/${String(d.getFullYear()).slice(2)}`;
+    },
+    bake: [
+      { name: 'uN', ppi: 300, frag: `void main(){ vec2 s = sheetP();
+          float g = gn(s * 170.) * .45 + gn(s * 70. + 3.) * .3 + gn(s * 420. + 9.) * .25;
+          fragColor = vec4(fbm(s * 6.5) * .72 + fbm3(s * 26.) * .28, g, fbm(s * 8. + 5.) * .7 + fbm3(s * 30. + 1.) * .3, fbm3(s * 1.15 + 8.)); }` },
+      { name: 'uF', ppi: 300, frag: `void main(){ vec2 s = sheetP();
+          fragColor = vec4(fbm(s * 40.), fbm3(s * 95. + 4.), fbm(s * 16. + 2.), smoothstep(.62, .8, gn(s * 230. + 1.)) ); }` },
+      { name: 'uRun', ppi: 150, frag: `void main(){ vec2 s = sheetP();
+          float ir = 0., br = 0., wsum = 0.;
+          for (int i = 1; i <= 56; i++) { float o = float(i) * .012, w = exp(-o / .2);
+            vec2 q = s - vec2(sin(o * 9. + s.x * 3.) * .006, o);
+            vec4 m = markTex(q); ir += m.g * (1. - m.a) * w; br += m.g * m.a * w; wsum += w; }
+          float col = smoothstep(.45, .85, gn(vec2(s.x * 48., s.y * .7))) * .8 + .2 * gn(vec2(s.x * 140., s.y * 2.));
+          float frost = fbm(s * 34.) * .6 + abs(gn(rot(.7) * s * 90.) - .5) * .8;
+          fragColor = vec4(ir / wsum * 3.2 * col, br / wsum * 3.2 * col, frost, gn(vec2(s.x * 30., 1.))); }` }
+    ],
+    frag: `
+uniform sampler2D uN; uniform sampler2D uRun; uniform sampler2D uF;
+const float T0 = ${T0.toFixed(2)}, T1 = ${T1.toFixed(2)};
+float bump(float t, float a, float b, float c, float d){ return win(t, a, b) * (1. - win(t, c, d)); }
+float H(vec2 s){ return smoothstep(0., .018, -dMark(s)); }    // the plate's height, a soft bevel at its edge
+void main(){
+  vec2 s = sheetP(), u = winUV(s);
+  float t = uT;
+  float yr = clamp((t - T0) / (T1 - T0), 0., 1.);              // 0 the equinox in March, 1 a year later
+  // seasons
+  float metal = ease(win(t, .25, 1.6));
+  float rain = bump(t, 2.0, 2.5, 3.6, 4.4) + bump(t, 9.0, 9.5, 10.5, 11.3) * .9 + bump(t, 14.2, 14.5, 15.0, 15.8) * .8;
+  float summer = bump(t, 4.6, 5.8, 8.2, 9.2);
+  float autumn = bump(t, 8.4, 9.4, 11.4, 12.2);
+  float winter = bump(t, 11.4, 12.2, 14.2, 15.0);
+  float snow = bump(t, 12.0, 13.4, 14.3, 15.2);
+  float frost = bump(t, 11.6, 12.6, 14.1, 14.9);
+  float thaw = win(t, 14.2, 15.6);
+  float rustP = ease(win(t, 2.0, 14.)) * .78 + ease(win(t, 2.2, 4.4)) * .22;
+  float verd = ease(win(t, 8.6, 14.8));
+  float tarnish = ease(win(t, 1.8, 8.6));
+  // the sun: high and to the south in summer, low and raking in winter; azimuth wanders with the year
+  float az = -2.2 + .9 * sin(yr * 6.2832 + .3) + yr * .6;
+  float el = mix(.35, 1.1, .5 + .5 * sin(yr * 6.2832));
+  vec3 L = normalize(vec3(cos(az) * cos(el), sin(az) * cos(el), sin(el)));
+  vec3 grade = vec3(1.) + vec3(.035, .005, -.04) * summer + vec3(.03, -.01, -.06) * autumn + vec3(-.05, -.015, .035) * winter;
+
+  vec4 N = texture(uN, u), R = texture(uRun, u), F = texture(uF, u);
+  vec3 pc = paperB(s);
+  float to = toothB(s);
+  float d = dMark(s);
+  vec4 mt = markTex(s);
+  float inside = mt.g, isName = mt.a;
+
+  // ---------------------------------------------------------------- the paper
+  pc *= 1. - .04 * ease(win(t, 4.5, 9.)) * vec3(0., .25, .8);    // a summer of sun yellows it a touch
+  // wet patches under the rain, cockling the sheet a little; then drying
+  float wf = fbm3(s * 1.1 + vec2(0., t * .35)) + (N.w - .5) * .4;
+  float wet = smoothstep(.5, .64, wf + rain * .45 - .35) * rain;
+  float streak = smoothstep(.4, .8, gn(vec2(s.x * 40., s.y * 1.2 - t * 2.)));
+  pc *= 1. - wet * (.012 + .03 * streak);
+  // rust and verdigris run down the sheet below the mark, darker where the drips gather
+  float runI = R.r * smoothstep(.15, .85, rustP) * (.6 + .4 * rain + .4 * win(t, 9., 15.)), runB = R.g * verd;
+  pc = mix(pc, pc * vec3(.86, .62, .42), clamp(runI, 0., 1.) * .55);
+  pc = mix(pc, pc * vec3(.7, .9, .86), clamp(runB, 0., 1.) * .5);
+  // tide lines where the thaw dried out
+  float tl = smoothstep(.012, .0, abs(N.w - .58 + (fbm3(s * 9.) - .5) * .04)) + .6 * smoothstep(.01, .0, abs(N.w - .43));
+  pc = mix(pc, pc * vec3(.86, .78, .66), tl * thaw * .45);
+  pc *= 1. - smoothstep(.43, .58, N.w) * thaw * .03;
+  // the printed frame
+  vec4 fr = frameTex(s);
+  pc = mix(pc, vec3(.106, .102, .094), max(max(fr.r, fr.g), fr.b) * .9);
+  // the plate's shadow on the sheet: a sundial through the year
+  vec2 sh = -L.xy / max(L.z, .25) * .028 * metal;
+  float shd = markTex(s + sh * .5).g * .5 + markTex(s + sh).g * .5;
+  pc *= 1. - shd * (1. - inside) * .26 * metal;
+  // frost: fine crystalline bloom across the sheet, cool and bright where it catches
+  float fz = smoothstep(.55, .9, R.b + frost * .5 - .25) * frost;
+  pc = mix(pc, vec3(.9, .93, .96), fz * .45);
+  pc += vec3(.6) * smoothstep(.93, .99, gn(s * 260.)) * fz * .4;
+
+  // ---------------------------------------------------------------- the metal
+  float e = .0035;
+  vec2 gH = vec2(H(s + vec2(e, 0.)) - H(s - vec2(e, 0.)), H(s + vec2(0., e)) - H(s - vec2(0., e))) / (2. * e);
+  float pit = N.g;
+  float rough = (pit - .5) * 2. + (F.y - .5) * 1.4;
+  float scale = smoothstep(.0, 1., rustP) * (F.x - .5) * 2.;
+  vec3 n = normalize(vec3(-gH.x * .018 - rough * .16 - scale * .2, gH.y * .018 + rough * .16 + scale * .14, 1.));   // sheet y runs down
+  float edgeI = smoothstep(.0, .035, -d);
+  // weathering steel: rust starts at the edges and where water sits, then spreads and matures
+  float th = N.r * .72 + edgeI * .28 - .05;
+  float rp = rustP * 1.12;
+  float cov = smoothstep(th - .07, th + .05, rp + (F.y - .5) * .06);
+  float mat = clamp((rp - th) * 2.4, 0., 1.);
+  vec3 iron = vec3(.2, .205, .215) * (.82 + .36 * pit) + vec3(.0, .01, .03) * F.z;   // mill scale, a little blue
+  vec3 r1 = vec3(.78, .4, .14), r2 = vec3(.52, .23, .1), r3 = vec3(.3, .14, .085);
+  vec3 rust = mix(r1, r2, smoothstep(0., .5, mat));
+  // a mature patina is never one color: dark umber plates, fresh orange blooms, a powdery ochre in the hollows
+  rust = mix(rust, r3, smoothstep(.4, 1., mat) * smoothstep(.35, .7, F.z) * .85);
+  rust = mix(rust, vec3(.74, .38, .13), smoothstep(.6, .82, F.x) * .55 * smoothstep(.2, .9, mat));
+  rust = mix(rust, vec3(.66, .48, .26), smoothstep(.7, .9, F.y) * .3);
+  rust *= .72 + .5 * pit + .25 * (F.y - .5);
+  rust *= 1. - F.w * .35;
+  vec3 steel = mix(iron, rust, cov);
+  // cast bronze: bright, then tarnished brown, then verdigris from the edges and the hollows
+  vec3 bz = mix(vec3(.66, .46, .24), vec3(.36, .24, .13), tarnish) * (.88 + .24 * pit);
+  float vth = N.b * .75 + edgeI * .3 - .08;
+  float vcov = smoothstep(vth - .04, vth + .04, verd * 1.1);
+  vec3 vg = mix(vec3(.38, .66, .58), vec3(.26, .52, .47), N.r) * (.86 + .28 * pit);
+  vg = mix(vg, vec3(.62, .8, .74), smoothstep(.75, .95, N.g) * .4);
+  vec3 bronze = mix(bz, vg, vcov);
+  vec3 base = mix(steel, bronze, isName);
+  // light it: soft diffuse, a sheen that dies as the surface weathers
+  float dif = clamp(dot(n, L), 0., 1.);
+  float spec = pow(clamp(dot(reflect(-L, n), vec3(0., 0., 1.)), 0., 1.), 24.);
+  float shine = mix(mix(.55, .05, cov), mix(.9, .12, max(tarnish * .7, vcov)), isName);
+  vec3 mc = base * (.42 + .78 * dif) + spec * shine * vec3(1., .96, .9) * .5;
+  // rain beads on the plate
+  vec2 bg = s * 90.; vec2 bi = floor(bg), brd = h22(bi);
+  float bead = smoothstep(.22, .1, length(fract(bg) - .5 - (brd - .5) * .5)) * step(.7, h12(bi + 2.)) * rain;
+  mc = mix(mc, mc * .7, bead * .6); mc += bead * .18 * smoothstep(.12, .02, length(fract(bg) - .4 - (brd - .5) * .5));
+  mc *= 1. - wet * .15;
+  // snow settles on every upward edge of the mark: inside the plate within a few hundredths of open air above it,
+  // and a soft pile standing just above the edge
+  float sh2 = snow * (.034 + .034 * N.r);
+  float capIn = step(d, 0.) * smoothstep(-.004, .004, dMark(s - vec2(0., sh2)));
+  float capUp = smoothstep(sh2 * .55, 0., d) * step(0., d) * smoothstep(.004, -.004, dMark(s + vec2(0., sh2 * .8)));
+  float drift = max(capIn, capUp) * smoothstep(.25, .5, N.r * .5 + .55 * snow) * step(.001, snow);
+  drift *= smoothstep(.0, .3, F.z + snow * .6);
+  vec3 snowC = vec3(.95, .965, .98) * (.92 + .08 * F.y) - vec3(.07, .05, .01) * capUp * smoothstep(0., sh2 * .5, d);
+
+  // ---------------------------------------------------------------- compose
+  vec3 ink = vec3(.105, .1, .093) * (.93 + .14 * to);
+  vec3 plate = mix(ink, mc, metal);
+  float aa = cover(d);
+  vec3 col = mix(pc, plate, mix(inside, aa, metal));
+  col = mix(col, snowC, clamp(drift, 0., 1.) * .95);
+  col *= grade;
+  fragColor = vec4(col, 1.);
+}`
+  };
+})();
+
+</script>
+<script>
+/* motion core: the sidebar stage, the lockup as a distance field, the frame, a WebGL2 canvas and the clock */
+(function () {
+  const S = window.STUDY;
+  const WIN = { x: 32.3, y: 0.1, w: 3.5, h: 5.25 };                 // the stage, in sheet inches
+  const TBX = 32.5, TXL = TBX + 0.3, TXR = 35.5 - 0.22, LK = (TXR - TXL) / 346;
+  const L = { x: TXL - 6 * LK, y: 0.74, w: 357 * LK, h: 520 * LK };  // the lockup, as on v2
+  const stage = document.getElementById('stage'), cap = document.getElementById('cap'), cv = document.getElementById('cv');
+  const dateEl = document.getElementById('date'), replayBtn = document.getElementById('replay');
+  const q = new URLSearchParams(location.search);
+  const FIX = q.has('t') ? parseFloat(q.get('t')) : null;
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MARKS = '../../../../marks/';
+
+  /* ---------------------------------------------------------------- layout */
+  let W = 0, H = 0, PX = 0;
+  function layout() {
+    const vw = document.documentElement.clientWidth, vh = window.innerHeight;
+    let h = Math.min(vh - 118, (vw - 32) * 1.5, 760);
+    h = Math.max(h, 270);
+    const w = Math.round(h / 1.5); h = Math.round(w * 1.5);
+    stage.style.width = w + 'px'; stage.style.height = h + 'px'; cap.style.width = w + 'px';
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const cap2 = (S.maxPixels || 1.15e6);
+    if (w * h * dpr * dpr > cap2) dpr = Math.sqrt(cap2 / (w * h));
+    W = Math.round(w * dpr); H = Math.round(h * dpr);
+    cv.width = W; cv.height = H; PX = WIN.w / W;
+  }
+
+  /* ---------------------------------------------------------------- helpers */
+  const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  const fontsReady = (list, ms) => Promise.race([
+    Promise.all(list.map(f => document.fonts ? document.fonts.load(f).catch(() => 0) : 0)),
+    new Promise(r => setTimeout(r, ms))
+  ]);
+  // 1D squared distance transform (Felzenszwalb and Huttenlocher)
+  function edt1(f, n, d, v, z) {
+    let k = 0; v[0] = 0; z[0] = -1e20; z[1] = 1e20;
+    for (let q2 = 1; q2 < n; q2++) {
+      let s;
+      do { const r = v[k]; s = ((f[q2] + q2 * q2) - (f[r] + r * r)) / (2 * q2 - 2 * r); if (s <= z[k]) k--; else break; } while (k >= 0);
+      k++; v[k] = q2; z[k] = s; z[k + 1] = 1e20;
+    }
+    k = 0;
+    for (let q2 = 0; q2 < n; q2++) { while (z[k + 1] < q2) k++; const r = v[k]; d[q2] = (q2 - r) * (q2 - r) + f[r]; }
+  }
+  function edt(grid, w, h) {
+    const n = Math.max(w, h), f = new Float64Array(n), d = new Float64Array(n), v = new Int32Array(n), z = new Float64Array(n + 1);
+    for (let x = 0; x < w; x++) { for (let y = 0; y < h; y++) f[y] = grid[y * w + x]; edt1(f, h, d, v, z); for (let y = 0; y < h; y++) grid[y * w + x] = d[y]; }
+    for (let y = 0; y < h; y++) { for (let x = 0; x < w; x++) f[x] = grid[y * w + x]; edt1(f, w, d, v, z); for (let x = 0; x < w; x++) grid[y * w + x] = d[x]; }
+  }
+
+  /* the lockup as a signed distance field in inches (R), its alpha (G), a study channel (B), the name mask (A) */
+  function markField(img) {
+    const MW = 714, MH = 1040, c = document.createElement('canvas'); c.width = MW; c.height = MH;
+    const x = c.getContext('2d', { willReadFrequently: true }); x.imageSmoothingQuality = 'high'; x.drawImage(img, 0, 0, MW, MH);
+    const a = x.getImageData(0, 0, MW, MH).data, N = MW * MH, al = new Float32Array(N);
+    for (let i = 0; i < N; i++) al[i] = a[i * 4 + 3] / 255;
+    const INF = 1e12, gin = new Float64Array(N), gout = new Float64Array(N);
+    for (let i = 0; i < N; i++) { const ins = al[i] >= 0.5; gout[i] = ins ? 0 : INF; gin[i] = ins ? INF : 0; }
+    edt(gout, MW, MH); edt(gin, MW, MH);
+    const ipx = L.w / MW, out = new Float32Array(N * 4);
+    const extra = S.markExtra ? S.markExtra(al, MW, MH, L) : null;
+    for (let i = 0; i < N; i++) {
+      let dpx = al[i] >= 0.5 ? -(Math.sqrt(gin[i]) - 0.5) : Math.sqrt(gout[i]) - 0.5;
+      if (Math.abs(dpx) < 1.2) dpx = (0.5 - al[i]) * 1.1;       // the alpha knows the edge better than the grid
+      out[i * 4] = dpx * ipx; out[i * 4 + 1] = al[i]; out[i * 4 + 2] = extra ? extra[i] : 0;
+      out[i * 4 + 3] = (Math.floor(i / MW) > 460 * 2) ? 1 : 0;
+    }
+    return { w: MW, h: MH, data: out };
+  }
+
+  /* the frame: the border with the concave corner (R), the vertical rule (G), ruler ticks and numbers (B) */
+  function frameCanvas() {
+    const ppi = 220, c = document.createElement('canvas'); c.width = Math.round(WIN.w * ppi); c.height = Math.round(WIN.h * ppi);
+    const x = c.getContext('2d');
+    x.fillStyle = '#000'; x.fillRect(0, 0, c.width, c.height);
+    x.setTransform(ppi, 0, 0, ppi, -WIN.x * ppi, -WIN.y * ppi);
+    const GAP = 0.3, ENV = py => 53.38 + 0.0741 * py + 0.001358 * py * py, CUT = py => [L.x + ENV(py) * LK + GAP, L.y + py * LK];
+    let a = (0.5 - L.y) / LK, b = a; while (CUT(b)[0] < 35.5 && b < 700) b += 0.25;
+    const V1 = CUT(a), V2 = [35.5, CUT(b)[1]], R = 0.34, pts = [];
+    for (let py = a; py <= b; py += 2) pts.push(CUT(py)); pts.push(CUT(b));
+    const sIn = pts.findIndex(p => Math.hypot(p[0] - V1[0], p[1] - V1[1]) >= R);
+    let sOut = pts.length - 1; while (sOut > 0 && Math.hypot(pts[sOut][0] - V2[0], pts[sOut][1] - V2[1]) < R) sOut--;
+    x.lineJoin = 'round'; x.lineCap = 'round';
+    x.strokeStyle = '#f00'; x.lineWidth = 0.0125; x.beginPath();
+    x.moveTo(31, 0.5); x.lineTo(V1[0] - R, 0.5); x.quadraticCurveTo(V1[0], 0.5, pts[sIn][0], pts[sIn][1]);
+    for (let i = sIn; i <= sOut; i++) x.lineTo(pts[i][0], pts[i][1]);
+    x.quadraticCurveTo(35.5, V2[1], 35.5, V2[1] + R); x.lineTo(35.5, 9); x.stroke();
+    x.strokeStyle = '#0f0'; x.lineWidth = 0.01; x.beginPath(); x.moveTo(TBX, 0.5); x.lineTo(TBX, 9); x.stroke();
+    // ruler: the inch marks that land on this stage (33 along the top, 5 down the right), numbered in Tenor Sans
+    x.strokeStyle = 'rgba(0,0,255,.5)'; x.lineWidth = 0.009; x.beginPath();
+    x.moveTo(33, 0.5 - 0.12); x.lineTo(33, 0.5); x.moveTo(35.5, 5); x.lineTo(35.5 + 0.12, 5); x.stroke();
+    x.fillStyle = 'rgba(0,0,255,.62)'; x.font = '0.12px "Tenor Sans", "Gill Sans", Optima, sans-serif';
+    x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('33', 33, 0.16); x.fillText('5', 35.74, 5.14);
+    return c;
+  }
+
+  /* ---------------------------------------------------------------- GL */
+  const VS = `#version 300 es
+in vec2 p; out vec2 vUv; void main(){ vUv = p * .5 + .5; gl_Position = vec4(p, 0., 1.); }`;
+  const COMMON = `#version 300 es
+precision highp float;
+precision highp sampler2D;
+uniform vec2 uRes; uniform float uT; uniform float uPx; uniform float uDur;
+uniform sampler2D uMark; uniform sampler2D uFrame; uniform sampler2D uPaperT;
+in vec2 vUv; out vec4 fragColor;
+const vec4 WIN = vec4(${WIN.x}, ${WIN.y}, ${WIN.w}, ${WIN.h});
+const vec4 LCK = vec4(${L.x.toFixed(5)}, ${L.y}, ${L.w.toFixed(5)}, ${L.h.toFixed(5)});
+float h12(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
+vec2 h22(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973)); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.xx + p3.yz) * p3.zy); }
+float gn(vec2 p){ vec2 i = floor(p), f = fract(p), u = f * f * (3. - 2. * f);
+  float a = dot(h22(i) * 2. - 1., f), b = dot(h22(i + vec2(1, 0)) * 2. - 1., f - vec2(1, 0));
+  float c = dot(h22(i + vec2(0, 1)) * 2. - 1., f - vec2(0, 1)), d = dot(h22(i + vec2(1, 1)) * 2. - 1., f - vec2(1, 1));
+  return mix(mix(a, b, u.x), mix(c, d, u.x), u.y) * 1.25 + .5; }
+const mat2 RM = mat2(1.6, 1.2, -1.2, 1.6);
+float fbm(vec2 p){ float s = 0., a = .5; for (int i = 0; i < 5; i++){ s += a * gn(p); p = RM * p + 3.1; a *= .5; } return s / .97; }
+float fbm3(vec2 p){ float s = 0., a = .5; for (int i = 0; i < 3; i++){ s += a * gn(p); p = RM * p + 3.1; a *= .5; } return s / .875; }
+mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, s, -s, c); }
+vec2 sheetP(){ return vec2(WIN.x + vUv.x * WIN.z, WIN.y + (1. - vUv.y) * WIN.w); }
+vec2 markUV(vec2 s){ return (s - LCK.xy) / LCK.zw; }
+vec4 markTex(vec2 s){ return texture(uMark, clamp(markUV(s), 0., 1.)); }
+float dMark(vec2 s){ vec2 u = markUV(s), c = clamp(u, 0., 1.); return texture(uMark, c).r + length((u - c) * LCK.zw); }
+vec2 gMark(vec2 s, float e){ return vec2(dMark(s + vec2(e, 0)) - dMark(s - vec2(e, 0)), dMark(s + vec2(0, e)) - dMark(s - vec2(0, e))) / (2. * e); }
+float cover(float d){ float aa = uPx * .8; return smoothstep(aa, -aa, d); }
+vec4 frameTex(vec2 s){ return texture(uFrame, (s - WIN.xy) / WIN.zw); }
+float ease(float x){ x = clamp(x, 0., 1.); return x * x * (3. - 2. * x); }
+float win(float t, float a, float b){ return clamp((t - a) / (b - a), 0., 1.); }
+/* weathered paper, after v2: warm off white, fibers, mottling, a little yellowing and foxing */
+float tooth(vec2 s){ return gn(s * 170.) * .6 + gn(s * 410. + 7.) * .4; }
+vec3 paper(vec2 s){
+  vec3 c = vec3(.965, .953, .925);
+  float m = fbm3(s * 1.4 + 2.);
+  c *= 1. - (m - .5) * .045;
+  float y = fbm3(s * .55 + 9.);
+  c = mix(c, vec3(.925, .885, .80), smoothstep(.5, .9, y) * .22);
+  float f = gn(rot(.35) * s * vec2(16., 120.));
+  c *= 1. - smoothstep(.74, .92, f) * .035;
+  float f2 = gn(rot(-1.1) * s * vec2(22., 150.) + 4.);
+  c *= 1. - smoothstep(.78, .95, f2) * .025;
+  c *= 1. - (tooth(s) - .5) * .03;
+  vec2 g = s * 6.; vec2 id = floor(g), r = h22(id);
+  float on = step(.84, h12(id + 5.)), fd = length(fract(g) - .2 - .6 * r);
+  c = mix(c, vec3(.70, .52, .32), on * smoothstep(.045 * (.4 + r.x), 0., fd) * (.18 + .2 * r.y));
+  // the edges of the sheet have seen the most air
+  float e = smoothstep(.9, 0., min(36. - s.x, s.y));
+  c = mix(c, vec3(.88, .82, .70), e * .14);
+  return c;
+}
+vec2 winUV(vec2 s){ vec2 u = (s - WIN.xy) / WIN.zw; return vec2(u.x, 1. - u.y); }   // baked fields are stored bottom up
+vec3 paperB(vec2 s){ return texture(uPaperT, winUV(s)).rgb; }
+float toothB(vec2 s){ return texture(uPaperT, winUV(s)).a; }
+`;
+  let gl, prog, uni = {}, extraTex = [];
+  function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { const log = gl.getShaderInfoLog(s); console.error(log); throw new Error(log); } return s; }
+  function tex(unit, w, h, data, opts = {}) {
+    const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+    if (data instanceof Float32Array) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.FLOAT, data);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, data);
+    const mip = opts.mip && !(data instanceof Float32Array);
+    if (mip) gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mip ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    return t;
+  }
+
+  /* ---------------------------------------------------------------- clock */
+  let t0 = 0, running = false, raf = 0, ready = false, fixedT = null;
+  const DUR = S.dur;
+  function now() { return fixedT != null ? fixedT : (performance.now() - t0) / 1000; }
+  function draw(t) {
+    gl.viewport(0, 0, W, H);
+    gl.useProgram(prog);
+    gl.uniform2f(uni.uRes, W, H); gl.uniform1f(uni.uT, t); gl.uniform1f(uni.uPx, PX); gl.uniform1f(uni.uDur, DUR);
+    if (S.uniforms) S.uniforms(gl, prog, t);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (dateEl && S.date) dateEl.textContent = S.date(Math.min(t, DUR));
+  }
+  function frame() {
+    const t = now();
+    draw(Math.min(t, DUR + (S.tail || 0)));
+    if (fixedT == null && t < DUR + (S.tail || 0) + 0.2) raf = requestAnimationFrame(frame); else running = false;
+  }
+  function play() {
+    cancelAnimationFrame(raf);
+    if (reduce) { fixedT = DUR + (S.tail || 0); draw(fixedT); return; }
+    if (FIX != null) { fixedT = FIX; draw(FIX); return; }
+    fixedT = null; t0 = performance.now(); running = true; raf = requestAnimationFrame(frame);
+  }
+  window.__seek = t => { fixedT = t; draw(t); };
+  window.__restart = play;
+
+  async function boot() {
+    layout();
+    gl = cv.getContext('webgl2', { antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: true });
+    if (!gl) { fallback(); return; }
+    const [img] = await Promise.all([loadImg(MARKS + 'am10_lockup.webp'),
+      fontsReady(['12px "Tenor Sans"', '12px "Nothing You Could Do"', 'italic 12px "EB Garamond"'], 1500)]);
+    const mf = markField(img);
+    const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, COMMON + S.frag);
+    prog = gl.createProgram(); gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.bindAttribLocation(prog, 0, 'p'); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+    gl.useProgram(prog);
+    ['uRes', 'uT', 'uPx', 'uDur', 'uMark', 'uFrame'].forEach(n => uni[n] = gl.getUniformLocation(prog, n));
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    tex(0, mf.w, mf.h, mf.data);
+    tex(1, 0, 0, frameCanvas());
+    let unit = 3;
+    const units = { uMark: 0, uFrame: 1, uPaperT: 2 };
+    if (S.textures) {
+      const list = await S.textures({ WIN, L, LK, loadImg, MARKS });
+      list.forEach(d => { tex(unit, d.w, d.h, d.data, d); units[d.name] = unit++; });
+    }
+    /* bake: static fields rendered once into float textures, so a frame only reads them */
+    const bakes = [{ name: 'uPaperT', ppi: 300, frag: 'void main(){ vec2 s = sheetP(); fragColor = vec4(paper(s), tooth(s)); }' }].concat(S.bake || []);
+    const half = gl.getExtension('EXT_color_buffer_float') || gl.getExtension('EXT_color_buffer_half_float');
+    gl.getExtension('OES_texture_float_linear');
+    for (const b of bakes) {
+      const bw = Math.round(WIN.w * b.ppi), bh = Math.round(WIN.h * b.ppi);
+      const u = b.name === 'uPaperT' ? 2 : unit++;
+      const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + u); gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texImage2D(gl.TEXTURE_2D, 0, half ? gl.RGBA16F : gl.RGBA8, bw, bh, 0, gl.RGBA, half ? gl.HALF_FLOAT : gl.UNSIGNED_BYTE, null);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, b.nearest ? gl.NEAREST : gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, b.nearest ? gl.NEAREST : gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      const fb = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+      const bp = gl.createProgram(); gl.attachShader(bp, vs); gl.attachShader(bp, sh(gl.FRAGMENT_SHADER, COMMON + (S.bakeCommon || '') + b.frag));
+      gl.bindAttribLocation(bp, 0, 'p'); gl.linkProgram(bp); gl.useProgram(bp);
+      gl.activeTexture(gl.TEXTURE0 + u); gl.bindTexture(gl.TEXTURE_2D, null);
+      Object.entries(units).forEach(([n, k]) => { const l = gl.getUniformLocation(bp, n); if (l) gl.uniform1i(l, k); });
+      gl.uniform2f(gl.getUniformLocation(bp, 'uRes'), bw, bh); gl.uniform1f(gl.getUniformLocation(bp, 'uPx'), WIN.w / bw);
+      gl.viewport(0, 0, bw, bh); gl.drawArrays(gl.TRIANGLES, 0, 3);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.deleteFramebuffer(fb);
+      gl.activeTexture(gl.TEXTURE0 + u); gl.bindTexture(gl.TEXTURE_2D, t);
+      units[b.name] = u;
+    }
+    gl.useProgram(prog);
+    Object.entries(units).forEach(([n, k]) => { const l = gl.getUniformLocation(prog, n); if (l) gl.uniform1i(l, k); });
+    ready = true; play();
+  }
+  function fallback() {
+    const i = document.createElement('img'); i.className = 'fb'; i.src = MARKS + 'am10_lockup.webp'; i.alt = '';
+    stage.appendChild(i); cv.remove();
+  }
+  replayBtn.addEventListener('click', () => { if (ready) play(); });
+  if (S.controls) S.controls(() => { if (ready) { if (running || fixedT == null) {} draw(now()); if (!running) draw(Math.min(now(), DUR + (S.tail || 0))); } }, play);
+  let rt = 0;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { layout(); if (ready && !running) draw(fixedT != null ? fixedT : DUR + (S.tail || 0)); }, 80); });
+  boot().catch(e => { console.error(e); fallback(); });
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>s02 Lemon juice</title>
+<meta name="description" content="ANDRÉ MANDEL logo motion study s02, Lemon juice. Territory: singe and brand.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="../../../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Tenor+Sans&display=swap">
+<style>
+:root{--ink:#1b1a18;--muted:#6c6963;--faint:#a19e97;--page:#ffffff;--pill:rgba(27,26,24,.22);
+  --ft:'Tenor Sans','Gill Sans','Optima',sans-serif;--fs:'EB Garamond',Garamond,'Times New Roman',serif}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--page);color:var(--ink);-webkit-text-size-adjust:100%}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:16px;overflow:hidden;font-family:var(--fs);-webkit-font-smoothing:antialiased}
+#stage{position:relative;flex:none;border-radius:3px;overflow:hidden;background:#f3efe6;
+  box-shadow:0 1px 2px rgba(27,26,24,.08),0 14px 40px rgba(27,26,24,.10),0 2px 10px rgba(27,26,24,.05)}
+#gl,#frame,#still{position:absolute;inset:0;width:100%;height:100%;display:block}
+#still{object-fit:contain;opacity:0}
+#frame{pointer-events:none;overflow:hidden}
+#frame .bd{fill:none;stroke:var(--ink);stroke-width:.0105}
+#frame .vr{stroke:var(--ink);stroke-width:.0085}
+#frame .tk{stroke:var(--ink);stroke-opacity:.45;stroke-width:.0075}
+.cap{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;max-width:min(520px,92vw)}
+.no{font:400 11px/1.2 var(--ft);letter-spacing:.24em;text-transform:uppercase;color:var(--ink)}
+.no b{font-weight:400;color:var(--muted);margin-right:.7em}
+.line{font:italic 400 15px/1.35 var(--fs);color:var(--muted);margin:0}
+.ctl{display:flex;gap:8px;margin-top:6px}
+.pill{font:400 10px/1 var(--ft);letter-spacing:.22em;text-transform:uppercase;color:var(--ink);background:none;border:1px solid var(--pill);
+  border-radius:999px;padding:7px 13px 6px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.pill:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pill:focus-visible{outline:1px solid #c4571f;outline-offset:2px}
+.pill.alt{color:var(--muted)}
+.pill.alt:hover{color:#fff}
+</style>
+</head>
+<body>
+<div id="stage" aria-label="Title block sidebar with the ANDRÉ MANDEL lockup">
+  <canvas id="gl"></canvas>
+  <img id="still" src="../../../../marks/am10_lockup.webp" alt="André Mandel">
+  <svg id="frame" aria-hidden="true"></svg>
+</div>
+<div class="cap">
+  <div class="no"><b>s02</b>Lemon juice</div>
+  <p class="line">A candle passes behind the sheet and the hidden mark browns through, darker where the ink pooled, like a letter written in lemon.</p>
+  <div class="ctl"><button class="pill" id="replay" type="button">Replay</button><button class="pill alt" id="ending" type="button"></button></div>
+</div>
+<script id="vs" type="x-shader/x-vertex">
+attribute vec2 aP; varying vec2 vUv;
+void main(){ vUv = vec2(aP.x * .5 + .5, .5 - aP.y * .5); gl_Position = vec4(aP, 0., 1.); }
+</script>
+<script id="fs" type="x-shader/x-fragment">
+precision highp float;
+varying vec2 vUv;
+uniform sampler2D uH, uA, uB;
+uniform vec2 uIn, uTex;
+uniform float uT, uEnd, uPx;
+const vec3 INK = vec3(.102, .102, .094);
+
+float h21(vec2 p){ vec3 q = fract(vec3(p.xyx) * .1031); q += dot(q, q.yzx + 33.33); return fract((q.x + q.y) * q.z); }
+float vn(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);
+  return mix(mix(h21(i), h21(i + vec2(1., 0.)), u.x), mix(h21(i + vec2(0., 1.)), h21(i + 1.), u.x), u.y); }
+float fbm(vec2 p){ float s = 0., a = .5; for (int i = 0; i < 4; i++){ s += a * vn(p); p = p * 2.03 + vec2(17.1, 9.2); a *= .5; } return s / .9375; }
+vec3 ramp5(float t, vec3 a, vec3 b, vec3 c, vec3 d, vec3 e){ t = clamp(t, 0., 1.) * 4.;
+  return t < 1. ? mix(a, b, t) : t < 2. ? mix(b, c, t - 1.) : t < 3. ? mix(c, d, t - 2.) : mix(d, e, t - 3.); }
+/* toasted paper and char, applied as a multiply */
+vec3 toast(float b){ return ramp5(b, vec3(1.), vec3(.95, .86, .69), vec3(.80, .58, .33), vec3(.47, .27, .12), vec3(.17, .105, .07)); }
+/* incandescence: dull red, iron red, orange, pale gold */
+vec3 heat(float T){ return ramp5(T, vec3(.20, .02, .01), vec3(.58, .07, .02), vec3(.88, .24, .04), vec3(1., .52, .13), vec3(1., .80, .48)); }
+
+/* fields: m mask, sd signed distance (grid px, negative inside), far distances, blurs, path order */
+float gM, gSd, gOut, gIn, gB10, gB40, gGeo, gGeoH;
+void fields(vec2 uv){
+  vec4 H = texture2D(uH, uv), A = texture2D(uA, uv), B = texture2D(uB, uv);
+  gM = H.r; gSd = H.g * 32. - 16.;
+  gOut = gSd < 14. ? max(gSd, 0.) : A.r * 255.;
+  gIn = gSd > -14. ? max(-gSd, 0.) : A.g * 63.75;
+  gB10 = A.b; gB40 = A.a; gGeo = B.r; gGeoH = B.g;
+}
+/* impression: the lockup as a shallow deboss, lit from the upper left */
+float emboss(vec2 uv){
+  vec2 ex = vec2(1.4 / (uTex.x * 2.), 0.), ey = vec2(0., 1.4 / (uTex.y * 2.));
+  float dx = texture2D(uH, uv + ex).b - texture2D(uH, uv - ex).b;
+  float dy = texture2D(uH, uv + ey).b - texture2D(uH, uv - ey).b;
+  vec3 n = normalize(vec3(-dx, -dy, .55)), L = normalize(vec3(-.55, .7, .6));
+  return dot(n, L) - L.z;
+}
+
+/* burnished char: deep umber, a darker crisped rim, a soft sheen where the impression catches the light */
+vec3 charCol(vec2 p, float sd, float e){
+  float big = fbm(p * 7. + 3.), fine = vn(p * 160.);
+  vec3 c = mix(vec3(.062, .040, .030), vec3(.155, .092, .055), smoothstep(.3, .8, big) * smoothstep(-.4, -3.5, sd));
+  c *= .93 + .1 * fine;
+  c *= 1. - .35 * exp(-pow((sd + .55) / .55, 2.));
+  c += vec3(.13, .09, .065) * smoothstep(.0, .3, e);
+  return c;
+}
+/* ridged crackle, 0 on the plates, 1 on the seams */
+float crackle(vec2 p){
+  float a = abs(fbm(p * 7. + 1.7) - .5), b = abs(fbm(p * 15. + 8.1) - .5);
+  return max(smoothstep(.04, 0., a), .45 * smoothstep(.025, 0., b));
+}
+float FIB, FORM;
+vec3 paper(vec2 p){
+  FORM = fbm(p * 6.5 + 2.3);
+  float mott = fbm(p * 1.1 + 7.7);
+  vec3 c = vec3(.953, .938, .902);
+  c *= 1. - .04 * (mott - .5) - .03 * (FORM - .5);
+  vec2 q = vec2(.97 * p.x + .24 * p.y, -.24 * p.x + .97 * p.y);
+  float fa = vn(vec2(q.x * 5., q.y * 95.)), fb = vn(vec2(p.y * 6., p.x * 80.) + 11.);
+  FIB = (smoothstep(.80, .98, fa) * .6 + smoothstep(.82, .98, fb) * .4) * smoothstep(.3, .75, vn(p * 3. + 5.));
+  c *= 1. - .03 * FIB;
+  // foxing, a few soft spots
+  float fx = .10 * smoothstep(.22, 0., length(p - vec2(.34, 4.42)) * (1. + .5 * vn(p * 9.)))
+           + .07 * smoothstep(.12, 0., length(p - vec2(3.24, 4.05)) * (1. + .6 * vn(p * 12.)))
+           + .06 * smoothstep(.09, 0., length(p - vec2(2.62, .22)))
+           + .05 * smoothstep(.45, 0., length((p - vec2(3.1, 1.6)) * vec2(1., .6)));
+  c = mix(c, c * vec3(.83, .74, .60), fx);
+  c += (h21(floor(gl_FragCoord.xy)) - .5) * .014;
+  return c;
+}
+/* s02 Lemon juice: a candle passes behind the sheet; invisible ink browns through, darker where it pooled at the edges */
+vec2 flame(float s){ return vec2(1.7 - 1.15 * cos(s * 7.854), 4.6 - 4.2 * s); }
+void main(){
+  vec2 uv = vUv, p = uv * uIn;
+  fields(uv);
+  vec3 col = paper(p);
+  float t = uT;
+  float s = clamp((t - .3) / 4.2, 0., 1.);
+  s = s * s * (3. - 2. * s);
+  float ink = uEnd * smoothstep(5.6, 8., t);
+  /* heat soaked in so far, summed along the candle's path */
+  float acc = 0.;
+  for (int i = 0; i < 20; i++){
+    float si = (float(i) + .5) / 20. * s;
+    vec2 d = (p - flame(si)) * vec2(1., .85);
+    acc += exp(-dot(d, d) / .8);
+  }
+  acc *= s / 20. * 4.2;
+  acc += .32 * smoothstep(3.2, 5.6, t) * (.6 + .4 * gB40);          // the sheet keeps warming as the flame leaves
+  float fade = smoothstep(.15, .8, t) * (1. - smoothstep(4.0, 5.3, t));
+  vec2 dc = (p - flame(s) - vec2(.05 * sin(t * 9.), .05 * sin(t * 6.3))) * vec2(1., .78);
+  float L = exp(-dot(dc, dc) / .75) * fade * (.93 + .07 * sin(t * 13.) * sin(t * 5.1));
+  float Lw = exp(-dot(dc, dc) / 3.) * fade;
+
+  /* backlit: the sheet glows amber and its formation shows through */
+  col *= 1. - L * (.36 * (FORM - .5) + .12 * FIB);
+  col *= 1. + L * vec3(.20, .07, -.05) + Lw * vec3(.06, .02, -.02);
+  col = mix(col, col * vec3(1.04, .93, .78), L * .35);
+
+  /* the paper toasts a little where the flame lingered */
+  float pt = clamp(acc * .2 + gB10 * smoothstep(.4, 1.2, acc) * .16, 0., .45);
+  pt *= .75 + .6 * FIB + .4 * (fbm(p * 7. + 4.) - .5);
+  col *= toast(pt * .5 * mix(1., .25, ink));
+
+  /* the ink: wicked into the fibers, browns with heat, darker where it pooled at the edges */
+  float aa = max(uPx, .45) * 1.15;
+  float sdC = gSd - .35 - .85 * FIB - .5 * (fbm(p * 30.) - .5);
+  float M = smoothstep(aa, -aa, sdC);
+  float br = smoothstep(.3, 1.05, acc + .3 * (fbm(p * 14. + 2.) - .5));
+  float ring = exp(-gIn / 1.6) * .5 + .14 * smoothstep(.55, .9, fbm(p * 40. + 6.));
+  float b = clamp(br * (.8 + ring), 0., 1.25);
+  vec3 straw = vec3(.965, .935, .86), amber = vec3(.80, .58, .30), sepia = vec3(.45, .25, .11), deep = vec3(.22, .12, .06);
+  vec3 juice = b < .4 ? mix(straw, amber, b / .4) : b < .8 ? mix(amber, sepia, (b - .4) / .4) : mix(sepia, deep, clamp((b - .8) / .45, 0., 1.));
+  float e = emboss(uv);
+  /* before it browns, the dried juice is only a faint sheen in the paper */
+  col += vec3(.03) * M * (1. - br) * smoothstep(0., .3, e) * (.4 + L);
+  vec3 under = col;
+  col = mix(col, col * juice, M * smoothstep(0., .12, br));
+  col += vec3(.16, .05, 0.) * L * M * br * (1. - br * .6);
+  col = mix(col, INK, gM * ink);
+  col = mix(col, under * mix(vec3(1.), toast(pt * .12), ink), max(M - gM, 0.) * ink);
+  gl_FragColor = vec4(clamp(col, 0., 1.), 1.);
+}
+
+</script>
+<script>
+(() => {
+'use strict';
+const CFG = {end:'scorch',dur:5.6,inkDur:8.0,geo:false};
+const qs = new URLSearchParams(location.search);
+let END = qs.get('end') || CFG.end;
+const FREEZE = qs.has('t') ? parseFloat(qs.get('t')) : null;
+const RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* sheet geometry from v2: sidebar from the 32 1/2 line, the lockup filling its text margins */
+const TBX = 32.5, TXL = TBX + .3, TXR = 35.5 - .22, LK = (TXR - TXL) / 346, PPI = 1 / LK;
+const LOCK = { x: TXL - 6 * LK, y: .74 };
+const SX = 32.3, SY = .2;                              // the crop shown on the stage, sheet inches
+const GW = Math.round(3.5 * PPI), GH = Math.round(5.1 * PPI);
+const WIN = GW * LK, HIN = GH * LK;                    // stage size in inches
+const LX = (LOCK.x - SX) * PPI, LY = (LOCK.y - SY) * PPI;
+
+/* border: the concave corner off the roof stroke (ported from v2) */
+const GAP = .3, ENV = py => 53.38 + .0741 * py + .001358 * py * py;
+const CUT = py => [LOCK.x + ENV(py) * LK + GAP, LOCK.y + py * LK];
+let PY0 = (.5 - LOCK.y) / LK, PY1 = PY0; while (CUT(PY1)[0] < 35.5 && PY1 < 700) PY1 += .25;
+const V1 = CUT(PY0), V2 = [35.5, CUT(PY1)[1]];
+function borderPath() {
+  const r = .34, f = n => +n.toFixed(4), pts = [];
+  for (let py = PY0; py <= PY1; py += 2) pts.push(CUT(py));
+  pts.push(CUT(PY1));
+  const sIn = pts.findIndex(p => Math.hypot(p[0] - V1[0], p[1] - V1[1]) >= r);
+  let sOut = pts.length - 1; while (sOut > 0 && Math.hypot(pts[sOut][0] - V2[0], pts[sOut][1] - V2[1]) < r) sOut--;
+  const body = pts.slice(sIn, sOut + 1).map(p => `L${f(p[0])} ${f(p[1])}`).join(' ');
+  return `M31 .5 H${f(V1[0] - r)} Q${f(V1[0])} .5 ${f(pts[sIn][0])} ${f(pts[sIn][1])} ${body} Q35.5 ${f(V2[1])} 35.5 ${f(V2[1] + r)} V10`;
+}
+const svg = document.getElementById('frame');
+svg.setAttribute('viewBox', `${SX} ${SY} ${WIN} ${HIN}`);
+let ticks = '';
+for (let x = 33; x <= 35; x++) if (x < V1[0] - .4) ticks += `<line class="tk" x1="${x}" y1="${.5 - .12}" x2="${x}" y2=".5"/>`;
+for (let y = 1; y <= 5; y++) if (y > V2[1] + .4) ticks += `<line class="tk" x1="35.5" y1="${y}" x2="${35.5 + (y % 6 ? .12 : .24)}" y2="${y}"/>`;
+svg.innerHTML = `<path class="bd" d="${borderPath()}"/><line class="vr" x1="${TBX}" y1=".5" x2="${TBX}" y2="10"/>${ticks}`;
+
+/* layout: fit the stage to the viewport */
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), still = document.getElementById('still');
+still.style.cssText = `left:${(LX / GW) * 100}%;top:${(LY / GH) * 100}%;width:${(357 / GW) * 100}%;height:${(520 / GH) * 100}%;inset:auto`;
+function fit() {
+  const availW = Math.min(innerWidth - 32, 620), availH = innerHeight - 170;
+  const s = Math.max(40, Math.min(availW / WIN, Math.max(availH, 260) / HIN));
+  stage.style.width = Math.round(WIN * s) + 'px'; stage.style.height = Math.round(HIN * s) + 'px';
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = Math.round(WIN * s * dpr); cv.height = Math.round(HIN * s * dpr);
+}
+
+/* ---------- fields, computed once from the lockup ---------- */
+const INF = 1e20;
+function edt1(f, n, d, v, z) {
+  let k = 0; v[0] = 0; z[0] = -INF; z[1] = INF;
+  for (let q = 1; q < n; q++) {
+    let s = ((f[q] + q * q) - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]);
+    while (s <= z[k]) { k--; s = ((f[q] + q * q) - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]); }
+    k++; v[k] = q; z[k] = s; z[k + 1] = INF;
+  }
+  k = 0;
+  for (let q = 0; q < n; q++) { while (z[k + 1] < q) k++; d[q] = (q - v[k]) * (q - v[k]) + f[v[k]]; }
+}
+function edt(g, w, h) {
+  const n = Math.max(w, h), f = new Float64Array(n), d = new Float64Array(n), v = new Int32Array(n), z = new Float64Array(n + 1);
+  for (let x = 0; x < w; x++) { for (let y = 0; y < h; y++) f[y] = g[y * w + x]; edt1(f, h, d, v, z); for (let y = 0; y < h; y++) g[y * w + x] = d[y]; }
+  for (let y = 0; y < h; y++) { const o = y * w; for (let x = 0; x < w; x++) f[x] = g[o + x]; edt1(f, w, d, v, z); for (let x = 0; x < w; x++) g[o + x] = d[x]; }
+}
+function boxH(s, d, w, h, r) { const k = 1 / (2 * r + 1);
+  for (let y = 0; y < h; y++) { const o = y * w; let a = 0; for (let x = 0; x <= r && x < w; x++) a += s[o + x];
+    for (let x = 0; x < w; x++) { d[o + x] = a * k; const xa = x + r + 1, xr = x - r; if (xa < w) a += s[o + xa]; if (xr >= 0) a -= s[o + xr]; } } }
+function boxV(s, d, w, h, r) { const k = 1 / (2 * r + 1);
+  for (let x = 0; x < w; x++) { let a = 0; for (let y = 0; y <= r && y < h; y++) a += s[y * w + x];
+    for (let y = 0; y < h; y++) { d[y * w + x] = a * k; const ya = y + r + 1, yr = y - r; if (ya < h) a += s[ya * w + x]; if (yr >= 0) a -= s[yr * w + x]; } } }
+function blur(src, w, h, sig) {
+  const a = Float32Array.from(src), b = new Float32Array(w * h), r = Math.max(1, Math.round((Math.sqrt(4 * sig * sig + 1) - 1) / 2));
+  for (let i = 0; i < 3; i++) { boxH(a, b, w, h, r); boxV(b, a, w, h, r); }
+  return a;
+}
+/* geodesic order along the strokes from the tip of the A (Dial's buckets; paper costs six times the ink) */
+function geodesic(m, w, h, sx, sy) {
+  const N = w * h, D = new Int32Array(N).fill(2e9), B = 90, buckets = Array.from({ length: B }, () => []);
+  const s = sy * w + sx; D[s] = 0; buckets[0].push(s);
+  const nb = [[1, 0, 10], [-1, 0, 10], [0, 1, 10], [0, -1, 10], [1, 1, 14], [1, -1, 14], [-1, 1, 14], [-1, -1, 14]];
+  let cur = 0, pending = 1;
+  while (pending > 0) {
+    const bk = buckets[cur % B];
+    while (bk.length) {
+      const i = bk.pop(); pending--;
+      if (D[i] !== cur) continue;
+      const x = i % w, y = (i / w) | 0;
+      for (const [dx, dy, c] of nb) {
+        const X = x + dx, Y = y + dy; if (X < 0 || Y < 0 || X >= w || Y >= h) continue;
+        const j = Y * w + X, cost = m[j] > .4 ? c : c * 6, nd = cur + cost;
+        if (nd < D[j]) { D[j] = nd; buckets[nd % B].push(j); pending++; }
+      }
+    }
+    cur++;
+  }
+  return D;
+}
+function build(img) {
+  const S = 2, HW = GW * S, HH = GH * S;
+  const c = document.createElement('canvas'); c.width = HW; c.height = HH;
+  const x = c.getContext('2d', { willReadFrequently: true });
+  x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+  x.drawImage(img, LX * S, LY * S, 357 * S, 520 * S);
+  const px = x.getImageData(0, 0, HW, HH).data;
+  const mh = new Float32Array(HW * HH);
+  for (let i = 0; i < mh.length; i++) mh[i] = px[i * 4 + 3] / 255;
+  const fo = new Float32Array(HW * HH), fi = new Float32Array(HW * HH);
+  for (let i = 0; i < mh.length; i++) { const on = mh[i] > .5; fo[i] = on ? 0 : INF; fi[i] = on ? INF : 0; }
+  edt(fo, HW, HH); edt(fi, HW, HH);
+  const bh = blur(mh, HW, HH, 2.2);
+  const H = new Uint8Array(HW * HH * 4);
+  for (let i = 0; i < mh.length; i++) {
+    const sd = (fo[i] > 0 ? Math.sqrt(fo[i]) - .5 : -(Math.sqrt(fi[i]) - .5)) / S;
+    H[i * 4] = mh[i] * 255; H[i * 4 + 1] = Math.max(0, Math.min(255, (sd + 16) / 32 * 255)); H[i * 4 + 2] = bh[i] * 255; H[i * 4 + 3] = 255;
+  }
+  // grid fields
+  const m = new Float32Array(GW * GH), A = new Uint8Array(GW * GH * 4), Bt = new Uint8Array(GW * GH * 4);
+  for (let y = 0; y < GH; y++) for (let x2 = 0; x2 < GW; x2++) {
+    const i = y * GW + x2, j = (y * S) * HW + x2 * S;
+    m[i] = (mh[j] + mh[j + 1] + mh[j + HW] + mh[j + HW + 1]) / 4;
+    A[i * 4] = Math.min(255, Math.sqrt(fo[j]) / S); A[i * 4 + 1] = Math.min(255, Math.sqrt(fi[j]) / S * 4);
+  }
+  const b10 = blur(m, GW, GH, 10), b40 = blur(m, GW, GH, 40);
+  let k10 = 0, k40 = 0; for (let i = 0; i < m.length; i++) { k10 = Math.max(k10, b10[i]); k40 = Math.max(k40, b40[i]); }
+  for (let i = 0; i < m.length; i++) { A[i * 4 + 2] = b10[i] / k10 * 255; A[i * 4 + 3] = b40[i] / k40 * 255; }
+  if (CFG.geo) {
+    const D = geodesic(m, GW, GH, Math.round(LX + 22), Math.round(LY + 6));
+    let mx = 0; for (let i = 0; i < m.length; i++) if (m[i] > .5 && D[i] < 2e9) mx = Math.max(mx, D[i]);
+    const g = new Float32Array(m.length), gm = new Float32Array(m.length);
+    for (let i = 0; i < m.length; i++) { g[i] = Math.min(1, D[i] / mx); gm[i] = g[i] * Math.min(1, m[i] * 2); }
+    const mm = m.map(v => Math.min(1, v * 2));
+    const n6 = blur(gm, GW, GH, 6), d6 = blur(mm, GW, GH, 6), n20 = blur(gm, GW, GH, 22), d20 = blur(mm, GW, GH, 22);
+    for (let i = 0; i < m.length; i++) {
+      const gh = d6[i] > .03 ? n6[i] / d6[i] : d20[i] > .002 ? n20[i] / d20[i] : 1;
+      Bt[i * 4] = g[i] * 255; Bt[i * 4 + 1] = Math.min(1, gh) * 255; Bt[i * 4 + 3] = 255;
+    }
+  }
+  return { H, HW, HH, A, Bt };
+}
+
+/* ---------- GL ---------- */
+const gl = cv.getContext('webgl', { antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: true });
+function fallback() { cv.style.display = 'none'; still.style.opacity = 1; }
+if (!gl) { fallback(); }
+function sh(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
+let prog, U = {};
+function tex(unit, w, h, data) { const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
+  [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER].forEach(p => gl.texParameteri(gl.TEXTURE_2D, p, gl.LINEAR));
+  [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(p => gl.texParameteri(gl.TEXTURE_2D, p, gl.CLAMP_TO_EDGE)); }
+function init(F) {
+  prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, document.getElementById('vs').textContent));
+  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, document.getElementById('fs').textContent));
+  gl.linkProgram(prog); if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+  gl.useProgram(prog);
+  const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'aP'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  tex(0, F.HW, F.HH, F.H); tex(1, GW, GH, F.A); tex(2, GW, GH, F.Bt);
+  const u = n => (U[n] = U[n] || gl.getUniformLocation(prog, n));
+  gl.uniform1i(u('uH'), 0); gl.uniform1i(u('uA'), 1); gl.uniform1i(u('uB'), 2);
+  gl.uniform2f(u('uIn'), WIN, HIN); gl.uniform2f(u('uTex'), GW, GH);
+  U.get = u;
+  if (CFG.setup) CFG.setup(gl, u);
+}
+function draw(t) {
+  gl.viewport(0, 0, cv.width, cv.height);
+  gl.uniform1f(U.get('uT'), t); gl.uniform1f(U.get('uPx'), GW / cv.width); gl.uniform1f(U.get('uEnd'), END === 'ink' ? 1 : 0);
+  if (CFG.update) CFG.update(gl, U.get, t);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+}
+
+/* ---------- play ---------- */
+const total = () => END === 'ink' ? CFG.inkDur : CFG.dur;
+let raf = 0, t0 = 0, ready = false;
+function frame(now) { const t = (now - t0) / 1000; draw(Math.min(t, total())); if (t < total()) raf = requestAnimationFrame(frame); else raf = 0; }
+function play() {
+  if (!ready) return; cancelAnimationFrame(raf);
+  if (FREEZE !== null) { draw(FREEZE); return; }
+  if (RM) { draw(total()); return; }
+  t0 = performance.now(); raf = requestAnimationFrame(frame);
+}
+const endBtn = document.getElementById('ending');
+const label = () => { endBtn.textContent = END === 'ink' ? 'Ending · Ink' : 'Ending · Scorch'; };
+label();
+document.getElementById('replay').addEventListener('click', play);
+endBtn.addEventListener('click', () => { END = END === 'ink' ? 'scorch' : 'ink'; label(); play(); });
+let lastT = 0;
+addEventListener('resize', () => { fit(); if (ready && !raf) draw(FREEZE !== null ? FREEZE : total()); });
+fit();
+if (gl) {
+  const img = new Image();
+  img.onload = () => {
+    try { const F = build(img); init(F); ready = true; window.__ready = true; play(); }
+    catch (e) { console.error(e); fallback(); window.__ready = true; }
+  };
+  img.onerror = () => { fallback(); window.__ready = true; };
+  img.src = '../../../../marks/am10_lockup.webp';
+} else window.__ready = true;
+})();
+</script>
+</body>
+</html>

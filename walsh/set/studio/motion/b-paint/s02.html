@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>S02 Bloom and settle</title>
+<meta name="description" content="ANDRÉ MANDEL logo motion study S02, Bloom and settle. Territory: painted in and gooey.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#fbfaf7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=Tenor+Sans&display=swap">
+<style>
+:root{--page:#fbfaf7;--paper:#f6f3ec;--ink:#1b1a18;--muted:#6c6963;--rule:rgba(27,26,24,.2);--accent:#c4571f;
+  --ft:'Tenor Sans','Gill Sans','Optima',sans-serif;--fs:'EB Garamond',Garamond,'Times New Roman',serif;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--page);color:var(--ink)}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:16px;font-family:var(--fs);-webkit-font-smoothing:antialiased;overflow:hidden}
+#stage{position:relative;flex:none;border-radius:3px;overflow:hidden;background-color:var(--paper);
+  box-shadow:0 1px 1px rgba(27,26,24,.05),0 14px 40px -12px rgba(60,48,30,.22)}
+#stage>*{position:absolute;inset:0;width:100%;height:100%}
+.tex{pointer-events:none;background:
+  radial-gradient(ellipse 34% 22% at 82% 90%,rgba(168,128,66,.07),rgba(168,128,66,0) 70%),
+  radial-gradient(circle at 12% 70%,rgba(150,108,58,.10) 0,rgba(150,108,58,.05) 1.2%,rgba(150,108,58,0) 2.4%),
+  radial-gradient(circle at 88% 18%,rgba(150,108,58,.08) 0,rgba(150,108,58,0) 1.6%),
+  radial-gradient(circle at 64% 96%,rgba(130,82,38,.10) 0,rgba(130,82,38,0) .9%),
+  radial-gradient(ellipse 60% 50% at 40% 38%,rgba(255,255,253,.45),rgba(255,255,253,0) 70%),
+  linear-gradient(90deg,rgba(168,128,66,.05),rgba(168,128,66,0) 14%),
+  linear-gradient(0deg,rgba(168,128,66,.05),rgba(168,128,66,0) 10%),
+  var(--paper-svg) 0 0/100% 100% no-repeat}
+.frame{pointer-events:none}
+.frame path,.frame line{fill:none;stroke:var(--ink);vector-effect:non-scaling-stroke}
+.frame .bd{stroke-width:1.1}.frame .vr{stroke-width:.9}.frame .tk{stroke-opacity:.42;stroke-width:1}
+.zl{position:absolute;transform:translate(-50%,-50%);font:400 9px/1 var(--ft);color:var(--muted);opacity:.6;letter-spacing:.06em}
+canvas{pointer-events:none}
+#final{left:0;top:0;right:auto;bottom:auto;height:auto;opacity:0;pointer-events:none;user-select:none}
+#final.on{opacity:1}
+.cap{margin-top:18px;text-align:center;max-width:min(92vw,460px)}
+.cap .n{font:400 10.5px/1.4 var(--ft);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.cap .n b{font-weight:400;color:var(--ink)}
+.cap .d{margin:4px 0 0;font:italic 400 15px/1.35 var(--fs);color:#3c3a36}
+.pill{margin-top:14px;font:400 10px/1 var(--ft);letter-spacing:.24em;text-transform:uppercase;color:var(--ink);background:transparent;
+  border:1px solid var(--rule);border-radius:999px;padding:8px 16px 7px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.pill:hover{background:var(--ink);color:var(--page);border-color:var(--ink)}
+.pill:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+
+</style>
+</head>
+<body>
+<div id="stage" aria-label="André Mandel logo, Bloom and settle" role="img">
+  <div class="tex"></div>
+  <canvas id="under"></canvas>
+  <canvas id="gl"></canvas>
+  <canvas id="ink"></canvas>
+  <svg class="frame" id="frame" aria-hidden="true"></svg>
+  <img id="final" src="../../../../marks/am10_lockup.webp" width="357" height="520" alt="">
+</div>
+<div class="cap">
+  <div class="n"><b>S02</b>&nbsp;&nbsp;Bloom and settle</div>
+  <p class="d">Drops of wet ink bloom into the paper, wick out along its fibers, then draw back and settle into the exact mark.</p>
+  <button class="pill" id="replay" type="button">Replay</button>
+</div>
+<script>
+'use strict';
+/* ANDRÉ MANDEL logo motion, painted in and gooey (9/30/26). Shared stage: the top of the 3 in title block sidebar
+   from walsh/set/v2.html at true proportion, the lockup placed exactly as v2 places it. */
+const $ = s => document.querySelector(s);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const mix = (a, b, t) => a + (b - a) * t;
+const EZ = { out: t => 1 - Math.pow(1 - t, 3), in: t => t * t * t, io: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+  sine: t => .5 - .5 * Math.cos(Math.PI * t), lin: t => t };
+const rng = seed => { let s = seed >>> 0; return () => (s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296; };
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* sheet geometry in inches, as v2 */
+const BL = 1.25, TBX = 32.5, TXL = TBX + .3, TXR = 35.5 - .22, LK = (TXR - TXL) / 346;
+const LOCK = { x: TXL - 6 * LK, y: .74, w: 357 * LK, h: 520 * LK };
+const GAP = .3, ENV = py => 53.38 + .0741 * py + .001358 * py * py, CUT = py => [LOCK.x + ENV(py) * LK + GAP, LOCK.y + py * LK];
+function cutSpan() { let a = (.5 - LOCK.y) / LK, b = a; while (CUT(b)[0] < 35.5 && b < 700) b += .25; return [a, b]; }
+const [PY0, PY1] = cutSpan(), V1 = CUT(PY0), V2 = [35.5, CUT(PY1)[1]];
+function borderPath() {
+  const R = .3, r = .34, f = n => +n.toFixed(4), pts = [];
+  for (let py = PY0; py <= PY1; py += 2) pts.push(CUT(py));
+  pts.push(CUT(PY1));
+  const sIn = pts.findIndex(p => Math.hypot(p[0] - V1[0], p[1] - V1[1]) >= r);
+  let sOut = pts.length - 1; while (sOut > 0 && Math.hypot(pts[sOut][0] - V2[0], pts[sOut][1] - V2[1]) < r) sOut--;
+  const body = pts.slice(sIn, sOut + 1).map(p => `L${f(p[0])} ${f(p[1])}`).join(' ');
+  return `M${f(BL + R)} .5 H${f(V1[0] - r)} Q${f(V1[0])} .5 ${f(pts[sIn][0])} ${f(pts[sIn][1])} ${body} Q35.5 ${f(V2[1])} 35.5 ${f(V2[1] + r)} V${23.5 - R}`;
+}
+const VIEW = { x: 32.3, y: 0, w: 3.7, h: 4.75 };
+const TOP_TICKS = [33, 34, 35].filter(x => x < V1[0] - .4), RIGHT_TICKS = [1, 2, 3, 4].filter(y => y > V2[1] + .4);
+function buildFrame() {
+  let t = '';
+  TOP_TICKS.forEach(x => t += `<line class="tk" x1="${x}" y1=".38" x2="${x}" y2=".5"/>`);
+  RIGHT_TICKS.forEach(y => t += `<line class="tk" x1="35.5" y1="${y}" x2="35.62" y2="${y}"/>`);
+  const fr = $('#frame');
+  fr.setAttribute('viewBox', `${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`); fr.setAttribute('preserveAspectRatio', 'none');
+  fr.innerHTML = `<path class="bd" d="${borderPath()}"/><line class="vr" x1="${TBX}" y1=".5" x2="${TBX}" y2="23.5"/>${t}`;
+  TOP_TICKS.forEach(x => { const s = document.createElement('span'); s.className = 'zl'; s.textContent = x; s.dataset.x = x; s.dataset.y = .16; $('#stage').appendChild(s); });
+  RIGHT_TICKS.forEach(y => { const s = document.createElement('span'); s.className = 'zl'; s.textContent = y; s.dataset.x = 35.74; s.dataset.y = y + .14; $('#stage').appendChild(s); });
+}
+
+/* pale weathered paper: fibers, grain, mottling and a little foxing, one SVG baked as the stage background */
+function paperSVG() {
+  const W = 592, H = 760, r = rng(71);
+  let fib = '';
+  for (let k = 0; k < 46; k++) {
+    const x = r() * W, y = r() * H, l = 6 + 22 * r(), a = r() * Math.PI, c = Math.cos(a), s = Math.sin(a);
+    fib += `<path d='M${x.toFixed(1)} ${y.toFixed(1)} q${(c * l * .5 - s * 3).toFixed(1)} ${(s * l * .5 + c * 3).toFixed(1)} ${(c * l).toFixed(1)} ${(s * l).toFixed(1)}' stroke='rgba(118,100,74,${(.05 + .07 * r()).toFixed(3)})' stroke-width='.7' fill='none'/>`;
+  }
+  let fox = '';
+  for (let k = 0; k < 16; k++) {
+    const edge = r() < .65, x = edge ? (r() < .5 ? r() * 40 : W - r() * 40) : r() * W, y = edge ? r() * H : r() * H, rr = 1 + 4 * Math.pow(r(), 2);
+    fox += `<circle cx='${x.toFixed(1)}' cy='${y.toFixed(1)}' r='${(rr * 2.2).toFixed(1)}' fill='url(#fx)' opacity='${(.25 + .5 * r()).toFixed(2)}'/>`;
+  }
+  const f = (id, bf, oct, seed, m) => `<filter id='${id}' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='${bf}' numOctaves='${oct}' seed='${seed}'/><feColorMatrix values='${m}'/></filter>`;
+  return `<svg xmlns='http://www.w3.org/2000/svg' width='${W}' height='${H}' viewBox='0 0 ${W} ${H}' preserveAspectRatio='none'>` +
+    `<defs><radialGradient id='fx'><stop offset='0' stop-color='rgb(150,100,52)' stop-opacity='.35'/><stop offset='.5' stop-color='rgb(168,112,56)' stop-opacity='.12'/><stop offset='1' stop-color='rgb(168,112,56)' stop-opacity='0'/></radialGradient></defs>` +
+    f('a', '.006 .07', 3, 11, '0 0 0 0 .40 0 0 0 0 .36 0 0 0 0 .30 5 0 0 0 -3.1') +
+    f('c', '.016 .03', 2, 31, '0 0 0 0 .99 0 0 0 0 .98 0 0 0 0 .95 5 0 0 0 -3.2') +
+    f('g', '.7', 2, 2, '0 0 0 0 .30 0 0 0 0 .28 0 0 0 0 .25 1.6 0 0 0 -.62') +
+    f('m', '.0045 .006', 4, 23, '0 0 0 0 .55 0 0 0 0 .47 0 0 0 0 .36 2.2 0 0 0 -1.0') +
+    f('y', '.003 .004', 3, 47, '0 0 0 0 .78 0 0 0 0 .62 0 0 0 0 .36 3 0 0 0 -1.2') +
+    `<rect width='100%' height='100%' filter='url(#y)' opacity='.06'/><rect width='100%' height='100%' filter='url(#m)' opacity='.1'/>` +
+    `<rect width='100%' height='100%' filter='url(#a)' opacity='.07'/><rect width='100%' height='100%' filter='url(#c)' opacity='.35'/><rect width='100%' height='100%' filter='url(#g)' opacity='.07'/>` +
+    fib + fox + `</svg>`;
+}
+
+/* stage fit: true proportion, scaled to the viewport */
+let U = 100, DPR = 1, BOX = { x: 0, y: 0, w: 1, h: 1, s: 1 }, CW = 1, CH = 1;
+function fit() {
+  const capH = $('.cap').offsetHeight + 18;
+  U = Math.max(52, Math.min((innerWidth - 32) / VIEW.w, (innerHeight - 40 - capH) / VIEW.h, 168));
+  DPR = Math.min(2, window.devicePixelRatio || 1);
+  const st = $('#stage'), W = VIEW.w * U, H = VIEW.h * U;
+  st.style.width = W + 'px'; st.style.height = H + 'px';
+  BOX = { x: (LOCK.x - VIEW.x) * U, y: (LOCK.y - VIEW.y) * U, w: LOCK.w * U, h: LOCK.h * U, s: LOCK.w * U / 357 };
+  const fi = $('#final'); fi.style.left = BOX.x + 'px'; fi.style.top = BOX.y + 'px'; fi.style.width = BOX.w + 'px'; fi.style.height = BOX.h + 'px';
+  st.querySelectorAll('.zl').forEach(s => { s.style.left = (s.dataset.x - VIEW.x) * U + 'px'; s.style.top = (s.dataset.y - VIEW.y) * U + 'px'; s.style.fontSize = Math.max(7, .12 * U) + 'px'; });
+  CW = Math.round(W * DPR); CH = Math.round(H * DPR);
+  st.querySelectorAll('canvas').forEach(c => { c.width = CW; c.height = CH; });
+  STUDY.resize && STUDY.resize();
+}
+/* lockup px to stage canvas device px */
+const toDev = ctx => ctx.setTransform(BOX.s * DPR, 0, 0, BOX.s * DPR, BOX.x * DPR, BOX.y * DPR);
+
+/* timeline: play once, hold the true lockup image as the final state */
+let RAF = 0, T0 = 0, DONE = false, NOW = 0;
+function render(t) { NOW = t; $('#final').classList.remove('on'); STUDY.draw(t); }
+function finish() { DONE = true; $('#final').classList.add('on'); STUDY.clear(); }
+function tick(now) { const t = (now - T0) / 1000; if (t >= STUDY.T) { finish(); return; } render(t); RAF = requestAnimationFrame(tick); }
+function play() { cancelAnimationFrame(RAF); DONE = false; STUDY.reset && STUDY.reset(); if (REDUCED) { finish(); return; } T0 = performance.now(); RAF = requestAnimationFrame(tick); }
+window.__seek = t => { cancelAnimationFrame(RAF); if (t >= STUDY.T) finish(); else { DONE = false; render(t); } };
+
+const LOCKIMG = new Image();
+LOCKIMG.src = '../../../../marks/am10_lockup.webp';
+
+/* offscreen helpers */
+const off = () => document.createElement('canvas');
+function sizeBox(c) { c.width = Math.ceil(BOX.w * DPR) + 2; c.height = Math.ceil(BOX.h * DPR) + 2; return c; }
+
+/* resample a brush spine [x, y, r] through Catmull Rom, then every 1 lockup px of arc length */
+function spine(P) {
+  const d = [];
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
+    for (let k = 0; k < 24; k++) {
+      const t = k / 24, t2 = t * t, t3 = t2 * t;
+      const cr = j => .5 * (2 * p1[j] + (-p0[j] + p2[j]) * t + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t2 + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t3);
+      d.push([cr(0), cr(1), p1[2] + (p2[2] - p1[2]) * t]);
+    }
+  }
+  d.push(P[P.length - 1]);
+  const S = [0];
+  for (let i = 1; i < d.length; i++) S.push(S[i - 1] + Math.hypot(d[i][0] - d[i - 1][0], d[i][1] - d[i - 1][1]));
+  const len = S[S.length - 1], n = Math.ceil(len) + 1, X = new Float32Array(n), Y = new Float32Array(n), R = new Float32Array(n), NX = new Float32Array(n), NY = new Float32Array(n);
+  let j = 0;
+  for (let i = 0; i < n; i++) {
+    const s = Math.min(i, len); while (j < S.length - 2 && S[j + 1] < s) j++;
+    const u = (s - S[j]) / Math.max(1e-6, S[j + 1] - S[j]);
+    X[i] = mix(d[j][0], d[j + 1][0], u); Y[i] = mix(d[j][1], d[j + 1][1], u); R[i] = mix(d[j][2], d[j + 1][2], u);
+  }
+  for (let i = 0; i < n; i++) {
+    const a = Math.max(0, i - 2), b = Math.min(n - 1, i + 2), dx = X[b] - X[a], dy = Y[b] - Y[a], l = Math.hypot(dx, dy) || 1;
+    NX[i] = -dy / l; NY[i] = dx / l;
+  }
+  return { X, Y, R, NX, NY, n, len };
+}
+
+/* the stroke skeleton of the lockup, in lockup px, measured off am10_lockup.webp */
+const GEO = {"strokes":{"diag":[[25,10,26],[29,28,32],[34,48,31],[42,70,26],[54,98,23],[66,126,22],[79,154,22],[92,178,23],[104,200,24],[118,222,24],[131,242,23],[145,262,24],[160,281,25],[172,296,24],[187,318,25],[205,340,26],[226,362,25],[248,382,24],[272,402,22],[296,420,19],[318,434,15],[336,443,12],[352,450,10]],"leg":[[36,184,10],[36,200,18],[36,220,20],[36,250,18],[36,280,16],[36,320,14],[36,360,14],[36,400,14],[36,433,14]],"bar":[[30,278,14],[60,277,15],[90,276,15],[120,274,16],[150,276,16]]},"name":[[[[29.5,471],[29.5,515]],[[30,472],[50,514]],[[71,472],[50,514]],[[71.5,471],[71.5,515]]],[[[116,471],[97,515]],[[116,471],[135,515]],[[105,500],[128,500]]],[[[160,471],[160,515]],[[161,472],[193,514]],[[192.5,471],[192.5,515]]],[[[218.5,471],[218.5,515]],[[219,474],[232,474],[244,478],[250,493],[244,508],[232,512],[219,512]]],[[[277,471],[277,515]],[[277,474],[302,474]],[[277,493],[299,493]],[[277,512],[303,512]]],[[[327,471],[327,515]],[[327,512],[352,512]]]],"R":6.4};
+
+/* MANDEL, lettered like a draftsman with a guide: pencil guide lines ruled first, the letters inked stroke by stroke
+   with a technical pen, the guides erased once the ink is down */
+function Lettering(t0, o = {}) {
+  const v = o.speed || 620, lift = o.lift || .03, gap = o.gap || .06, R = GEO.R;
+  const G = { t0, guides: [471.5, 493, 514.5], strokes: [] };
+  let t = t0 + (o.guideLead ?? .42);
+  GEO.name.forEach((L, li) => {
+    L.forEach(st => {
+      let len = 0; const seg = [];
+      for (let i = 0; i < st.length - 1; i++) { const l = Math.hypot(st[i + 1][0] - st[i][0], st[i + 1][1] - st[i][1]); seg.push(l); len += l; }
+      G.strokes.push({ pts: st, seg, len, ts: t, te: t + len / v }); t += len / v + lift;
+    });
+    t += gap;
+  });
+  G.tEnd = t;
+  G.fade = [t + .2, t + .85];
+  G.mask = (m, now) => {  // m: a 2D context in lockup px
+    m.fillStyle = '#fff';
+    for (const s of G.strokes) {
+      if (now <= s.ts) break;
+      let rem = s.len * clamp((now - s.ts) / (s.te - s.ts));
+      m.beginPath();
+      for (let i = 0; i < s.seg.length && rem > 0; i++) {
+        const a = s.pts[i], b = s.pts[i + 1], u = Math.min(1, rem / s.seg[i]), steps = Math.max(1, Math.ceil(s.seg[i] * u / 1.5));
+        for (let k = 0; k <= steps; k++) { const x = mix(a[0], b[0], u * k / steps), y = mix(a[1], b[1], u * k / steps); m.moveTo(x + R, y); m.arc(x, y, R, 0, 7); }
+        rem -= s.seg[i];
+      }
+      m.fill();
+    }
+  };
+  const gr = rng(9), grain = Array.from({ length: 240 }, () => .55 + .45 * gr());
+  G.guidesDraw = (c, now) => {  // c: a 2D context in lockup px, under the ink
+    const fade = 1 - sstep(G.fade[0], G.fade[1], now);
+    if (fade <= 0 || now < t0) return;
+    c.lineCap = 'butt'; c.lineWidth = .62 / BOX.s;
+    G.guides.forEach((y, k) => {
+      const ts = t0 + k * .09, u = EZ.io(clamp((now - ts) / .3)); if (u <= 0) return;
+      const x0 = -8, x1 = x0 + (370 - x0) * u, a = (k === 1 ? .22 : .42) * fade;
+      for (let x = x0, i = 0; x < x1; x += 1.5, i++) {
+        c.strokeStyle = `rgba(74,70,64,${(a * grain[i % 240]).toFixed(3)})`;
+        c.beginPath(); c.moveTo(x, y); c.lineTo(Math.min(x1, x + 1.5), y); c.stroke();
+      }
+    });
+  };
+  return G;
+}
+
+/* a full stage size scratch canvas drawn in lockup px, then the lockup laid in through it: the reveal is always
+   the true mark, never a redrawing of it */
+const MK = off(), MKX = MK.getContext('2d'), TMP = off(), TMPX = TMP.getContext('2d');
+function sizeScratch() { [MK, TMP].forEach(c => { c.width = CW; c.height = CH; }); }
+function begin(x) { x.setTransform(1, 0, 0, 1, 0, 0); x.globalCompositeOperation = 'source-over'; x.globalAlpha = 1; x.clearRect(0, 0, CW, CH); toDev(x); }
+function inkThrough(x) { x.globalCompositeOperation = 'source-in'; x.drawImage(LOCKIMG, 0, 0, 357, 520); x.globalCompositeOperation = 'source-over'; }
+function blit(dst, src, op = 'source-over') { dst.setTransform(1, 0, 0, 1, 0, 0); dst.globalCompositeOperation = op; dst.drawImage(src, 0, 0); dst.globalCompositeOperation = 'source-over'; }
+
+function boot(prep) {
+  buildFrame();
+  document.documentElement.style.setProperty('--paper-svg', `url("data:image/svg+xml,${encodeURIComponent(paperSVG())}")`);
+  $('#replay').addEventListener('click', play);
+  let rt = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => { fit(); sizeScratch(); if (DONE) finish(); else if (REDUCED) finish(); else render(NOW); }); });
+  (LOCKIMG.decode ? LOCKIMG.decode() : new Promise(r => LOCKIMG.onload = r)).then(() => prep && prep()).then(() => {
+    fit(); sizeScratch(); window.__ready = true; play();
+  }).catch(e => { console.error(e); fit(); finish(); window.__ready = true; });
+}
+
+/* fields for the shader, measured once off the lockup at 2x: a signed distance to the mark's edge (lockup px, positive
+   outside) and an arrival time, how long the ink takes to flow from its sources to every point of the mark */
+const F2 = 2, FW = 357 * F2, FH = 520 * F2, MARK_Y = 458;
+function edt1(f, n, d, v, z) {
+  let k = 0; v[0] = 0; z[0] = -1e20; z[1] = 1e20;
+  for (let q = 1; q < n; q++) {
+    let s = ((f[q] + q * q) - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]);
+    while (s <= z[k]) { k--; s = ((f[q] + q * q) - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]); }
+    k++; v[k] = q; z[k] = s; z[k + 1] = 1e20;
+  }
+  k = 0;
+  for (let q = 0; q < n; q++) { while (z[k + 1] < q) k++; d[q] = (q - v[k]) * (q - v[k]) + f[v[k]]; }
+}
+function edt(sites, W, H) {   // squared distance to the nearest site
+  const g = new Float32Array(W * H), n = Math.max(W, H), f = new Float32Array(n), d = new Float32Array(n), v = new Int32Array(n), z = new Float32Array(n + 1);
+  for (let i = 0; i < W * H; i++) g[i] = sites[i] ? 0 : 1e20;
+  for (let x = 0; x < W; x++) { for (let y = 0; y < H; y++) f[y] = g[y * W + x]; edt1(f, H, d, v, z); for (let y = 0; y < H; y++) g[y * W + x] = d[y]; }
+  for (let y = 0; y < H; y++) { for (let x = 0; x < W; x++) f[x] = g[y * W + x]; edt1(f, W, d, v, z); for (let x = 0; x < W; x++) g[y * W + x] = d[x]; }
+  return g;
+}
+function markFields(img, o) {
+  const c = off(); c.width = FW; c.height = FH;
+  const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(img, 0, 0, FW, FH);
+  const px = x.getImageData(0, 0, FW, FH).data, N = FW * FH, IN = new Uint8Array(N), OUT = new Uint8Array(N);
+  for (let i = 0; i < N; i++) { const y = (i / FW) | 0, a = y < MARK_Y * F2 ? px[i * 4 + 3] : 0; IN[i] = a > 127; OUT[i] = !IN[i]; }
+  const dO = edt(IN, FW, FH), dI = edt(OUT, FW, FH), SD = new Float32Array(N);
+  for (let i = 0; i < N; i++) SD[i] = (Math.sqrt(dO[i]) - Math.sqrt(dI[i]) + (IN[i] ? .5 : -.5)) / F2;
+  const RG0 = new Float32Array(N * 2);
+  if (o.noT) { for (let i = 0; i < N; i++) RG0[2 * i] = Math.max(-60, Math.min(60, SD[i])); return RG0; }
+  // arrival: Dijkstra on the 2x grid over the mark grown by o.dil lockup px
+  const T = new Float64Array(N).fill(5000), dom = new Uint8Array(N);
+  for (let i = 0; i < N; i++) dom[i] = SD[i] < o.dil;
+  let cap = 1 << 20, hk = new Float64Array(cap), hi = new Int32Array(cap), hn = 0;
+  const push = (k, i) => {
+    if (hn >= cap) { cap *= 2; const a = new Float64Array(cap), b = new Int32Array(cap); a.set(hk); b.set(hi); hk = a; hi = b; }
+    let j = hn++; while (j > 0) { const p = (j - 1) >> 1; if (hk[p] <= k) break; hk[j] = hk[p]; hi[j] = hi[p]; j = p; } hk[j] = k; hi[j] = i;
+  };
+  const pop = () => {
+    const k = hk[0], i = hi[0], lk = hk[--hn], li = hi[hn]; let j = 0;
+    for (;;) { let c2 = 2 * j + 1; if (c2 >= hn) break; if (c2 + 1 < hn && hk[c2 + 1] < hk[c2]) c2++; if (hk[c2] >= lk) break; hk[j] = hk[c2]; hi[j] = hi[c2]; j = c2; }
+    hk[j] = lk; hi[j] = li; return [k, i];
+  };
+  o.sources.forEach(([sx, sy, st]) => { const i = Math.round(sy * F2) * FW + Math.round(sx * F2); if (dom[i] && st < T[i]) { T[i] = st; push(st, i); } });
+  const NB = [[1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1], [1, 1, 1.4142], [1, -1, 1.4142], [-1, 1, 1.4142], [-1, -1, 1.4142]];
+  while (hn) {
+    const [k, i] = pop(); if (k > T[i]) continue;
+    const x0 = i % FW, y0 = (i / FW) | 0;
+    for (const [dx, dy, l] of NB) {
+      const xx = x0 + dx, yy = y0 + dy; if (xx < 0 || yy < 0 || xx >= FW || yy >= FH) continue;
+      const j = yy * FW + xx; if (!dom[j]) continue;
+      const nk = k + l / F2 * (SD[j] < 0 ? o.costIn : o.costOut);
+      if (nk < T[j]) { T[j] = nk; push(nk, j); }
+    }
+  }
+  const RG = new Float32Array(N * 2);
+  for (let i = 0; i < N; i++) { RG[2 * i] = Math.max(-60, Math.min(60, SD[i])); RG[2 * i + 1] = T[i]; }
+  return RG;
+}
+function GL(canvas, fragSrc) {
+  const gl = canvas.getContext('webgl2', { premultipliedAlpha: true, antialias: false, alpha: true });
+  if (!gl) return null;
+  const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(o)); return o; };
+  const p = gl.createProgram();
+  gl.attachShader(p, sh(gl.VERTEX_SHADER, '#version 300 es\nin vec2 a;void main(){gl_Position=vec4(a,0.,1.);}'));
+  gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fragSrc)); gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) console.error(gl.getProgramInfoLog(p));
+  gl.useProgram(p);
+  const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const al = gl.getAttribLocation(p, 'a'); gl.enableVertexAttribArray(al); gl.vertexAttribPointer(al, 2, gl.FLOAT, false, 0, 0);
+  const U = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+  for (let i = 0; i < n; i++) { const nm = gl.getActiveUniform(p, i).name.replace(/\[0\]$/, ''); U[nm] = gl.getUniformLocation(p, nm); }
+  const tex = (unit, w, h, ifmt, fmt, type, data, filter) => {
+    const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    if (data instanceof HTMLImageElement) { gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true); gl.texImage2D(gl.TEXTURE_2D, 0, ifmt, fmt, type, data); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false); }
+    else gl.texImage2D(gl.TEXTURE_2D, 0, ifmt, w, h, 0, fmt, type, data);
+    return t;
+  };
+  return { gl, U, tex,
+    lockTex(img, unit = 0) { return tex(unit, 0, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img, gl.LINEAR); },
+    fieldTex(RG, unit = 1) { return tex(unit, FW, FH, gl.RG16F, gl.RG, gl.FLOAT, RG, gl.LINEAR); },
+    frame(set) { gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); set(gl, U); gl.drawArrays(gl.TRIANGLES, 0, 3); },
+    clear() { gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); } };
+}
+/* shared GLSL: the box uniform maps device px to lockup px, plus hash noise for paper fiber */
+const GLSL_HEAD = `#version 300 es
+precision highp float;
+uniform sampler2D uLock, uField;
+uniform vec4 uBox;      // lockup origin x, y in device px (top left), device px per lockup px, canvas height
+uniform float uT;
+out vec4 o;
+vec2 lockP(){ vec2 f = vec2(gl_FragCoord.x, uBox.w - gl_FragCoord.y); return (f - uBox.xy) / uBox.z; }
+vec2 fld(vec2 p){ return texture(uField, p / vec2(357., 520.)).rg; }
+vec4 lockS(vec2 p){ return texture(uLock, p / vec2(357., 520.)); }
+float h21(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f);
+  return mix(mix(h21(i), h21(i + vec2(1, 0)), f.x), mix(h21(i + vec2(0, 1)), h21(i + vec2(1, 1)), f.x), f.y); }
+float fbm(vec2 p){ float a = .5, s = 0.; for (int i = 0; i < 5; i++) { s += a * vn(p); p = mat2(1.6, 1.2, -1.2, 1.6) * p; a *= .5; } return s; }
+/* paper fiber: long thin streaks in a few directions */
+float fiber(vec2 p){ float s = 0.;
+  for (int i = 0; i < 3; i++) { float a = 1.571 + (float(i) - 1.) * .32 + .05; mat2 r = mat2(cos(a), sin(a), -sin(a), cos(a)); vec2 q = r * p;
+    float v = vn(q * vec2(.05, .3) + float(i) * 17.); s = max(s, pow(v, 3.5) * (1. - .25 * float(i))); }
+  return s; }
+`;
+
+/* s02 · Bloom and settle. Four drops of wet ink land on the A and run along it, following a flow field measured off
+   the true mark. Where they touch the edges they wick into the paper fibers in a cobalt bleed with a water halo
+   beyond; then the water lifts, the bleed draws back into the edge and the ink dries to the exact mark. */
+const LET = Lettering(4.85, { speed: 560 });
+const DROPS = [[30, 34, 0], [168, 293, 64], [36, 214, 132], [96, 276, 196]];   // lockup px, flow length delay
+const T_LAND = .35, T_FILL = 3.35, T_SET = [3.3, 5.1];
+const FRONT_MAX = 350;
+const FRAG = GLSL_HEAD + `
+uniform float uFront, uBleed, uHalo, uDry, uFin;
+uniform vec4 uDrop[4];   // x, y, landed time ago (s), size
+void main(){
+  vec2 p = lockP();
+  if (p.x < -40. || p.y < -40. || p.x > 400. || p.y > 470.) { o = vec4(0); return; }
+  vec2 f = fld(p); float sd = f.x, T = f.y;
+  vec4 L = lockS(p); float la = p.y < 458. ? L.a : 0.;
+  float fib = fiber(p), fn = fbm(p * .06), fg = fbm(p * .35);
+  // the wet front: ragged, faster along the fibers
+  float tj = T + (fn - .5) * 26. - fib * 14.;
+  float w = smoothstep(uFront + 3., uFront - 9., tj);
+  float meniscus = smoothstep(uFront - 16., uFront - 4., tj) * w;
+  // drops bloom outward the moment they land
+  float drop = 0.;
+  for (int i = 0; i < 4; i++) {
+    vec4 d = uDrop[i]; if (d.z <= 0.) continue;
+    float r = d.w * (1. - exp(-d.z * 5.)) * (1. - smoothstep(.5, 1.6, d.z) * .55);
+    float dd = length(p - d.xy) - r * (.85 + .3 * fn);
+    drop = max(drop, smoothstep(1.5, -1.5, dd) * (1. - smoothstep(.6, 1.8, d.z)));
+  }
+  // capillary bleed past the edge: a soft wash that thins with distance, pulled further along the fibers
+  float reach = uBleed * (.5 + .6 * fn + 2.1 * fib);
+  float bleed = sd > 0. ? exp(-sd / max(.3, reach)) * smoothstep(16., 6., sd) * w : 0.;
+  bleed *= .55 + .45 * smoothstep(.2, .7, fg + fib * .4);
+  float halo = sd > 0. ? exp(-sd / max(.5, uHalo * (.6 + .6 * fn))) * w : 0.;
+  float core = la * max(w, drop);
+  // wet ink: blue black, pigment crowding to the rim and the wet front, a faint pale sheen in the middle
+  vec3 dryInk = L.a > 0. ? L.rgb / L.a : vec3(.105, .1, .094);
+  float rim = sd < 0. ? smoothstep(-5., -.5, sd) : 1.;
+  vec3 wetInk = mix(vec3(.10, .14, .29), vec3(.05, .065, .13), max(rim * .9, meniscus));
+  wetInk = mix(wetInk, wetInk * 1.25 + vec3(.02, .03, .06), (1. - rim) * smoothstep(.45, .8, fn) * .6);
+  vec3 cInk = mix(wetInk, dryInk, uDry);
+  float bleedA = clamp(bleed * .46, 0., 1.) * (1. - la) * (1. - uDry);
+  float tide = sd > 0. ? smoothstep(.0, .25, bleed) * smoothstep(.5, .22, bleed) : 0.;
+  vec3 cBleed = mix(vec3(.22, .30, .52), vec3(.12, .17, .34), smoothstep(.2, .9, bleed) + tide * .5);
+  bleedA = min(1., bleedA + tide * .12 * (1. - uDry) * w);
+  float haloA = halo * .06 * (1. - uDry) * (1. - la);
+  vec3 cHalo = vec3(.45, .40, .33);
+  float splash = drop * (1. - la) * (sd > 0. ? exp(-sd / 4.) : 1.) * .45 * (1. - uDry);
+  vec4 c = vec4(cHalo * haloA, haloA);
+  vec4 bb = vec4(cBleed * (bleedA + splash), bleedA + splash); bb = clamp(bb, 0., 1.);
+  c = bb + c * (1. - bb.a);
+  vec4 k = vec4(cInk * core, core);
+  c = k + c * (1. - k.a);
+  // the last breath: exactly the lockup
+  o = mix(c, vec4(L.rgb, L.a) * step(p.y, 458.), uFin);
+}`;
+let G = null, RG = null;
+const ink = $('#ink').getContext('2d'), under = $('#under').getContext('2d');
+function prep() {
+  RG = markFields(LOCKIMG, { dil: 22, costIn: 1, costOut: 2.6, sources: DROPS });
+  G = GL($('#gl'), FRAG);
+  if (!G) { STUDY.T = 0; return; }   // no WebGL2: show the lockup
+  G.lockTex(LOCKIMG, 0); G.fieldTex(RG, 1);
+}
+const front = t => FRONT_MAX * EZ.out(clamp((t - T_LAND) / (T_FILL - T_LAND))) * (1 - .0) - 6;
+const STUDY = {
+  T: LET.fade[1] + .25,
+  resize() {},
+  clear() { G && G.clear(); [ink, under].forEach(x => { x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, CW, CH); }); },
+  draw(t) {
+    const set = sstep(T_SET[0], T_SET[1], t);
+    if (G) G.frame((gl, U) => {
+      gl.uniform1i(U.uLock, 0); gl.uniform1i(U.uField, 1);
+      gl.uniform4f(U.uBox, BOX.x * DPR, BOX.y * DPR, BOX.s * DPR, CH);
+      gl.uniform1f(U.uT, t);
+      gl.uniform1f(U.uFront, front(t));
+      gl.uniform1f(U.uBleed, 2.6 * sstep(T_LAND, 2.4, t) * (1 - EZ.io(set)));
+      gl.uniform1f(U.uHalo, 9 * sstep(T_LAND, 2.8, t) * (1 - set * .4));
+      gl.uniform1f(U.uDry, EZ.sine(set));
+      gl.uniform1f(U.uFin, sstep(T_SET[1] - .1, T_SET[1] + .5, t));
+      const dv = []; DROPS.forEach(([x, y, d], i) => { const tl = T_LAND + d / FRONT_MAX * (T_FILL - T_LAND) * .42; dv.push(x, y, t - tl, i === 0 ? 30 : 22); });
+      gl.uniform4fv(U.uDrop, dv);
+    });
+    begin(under); LET.guidesDraw(under, t);
+    begin(ink); LET.mask(ink, t); inkThrough(ink);
+  }
+};
+boot(prep);
+
+</script>
+</body>
+</html>
