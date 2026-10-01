@@ -1,0 +1,32 @@
+/* binding studies (10/1/26): each variation restyles .bindg and its rivets; the sheet and title block stay v01 */
+.bindg .spine{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);white-space:nowrap;font:400 calc(var(--u)*.17)/1 var(--ft);letter-spacing:.5em;color:rgba(246,244,238,.5);text-shadow:0 -1px 0 rgba(0,0,0,.6)}
+/* four rivets, tighter */
+/* brass rivets */
+.bindg.brass .rv{background:radial-gradient(circle at 34% 30%,#fff3cf 0,#e2c27a 20%,#b88d3e 50%,#7a5a22 76%,#3f2e12 100%)}
+/* oxblood cloth */
+.bindg.oxblood{background-color:#4a1b19 !important;background-blend-mode:normal}
+.bindg.oxblood::before{content:"";position:absolute;inset:0;background:rgba(110,30,26,.55);mix-blend-mode:screen;border-radius:inherit}
+/* charcoal linen */
+.bindg.linen::before{content:"";position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0 1px,transparent 1px 2px),repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,transparent 1px 2px),rgba(70,68,63,.55)}
+/* leather with a saddle stitch */
+.bindg.leather{background:linear-gradient(90deg,rgba(255,255,255,0) 60%,rgba(255,255,255,.08) 88%,rgba(0,0,0,.5) 100%),radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.06),transparent 60%),#1f1a17 !important}
+.bindg.leather::after{content:"";position:absolute;top:calc(var(--u)*.3);bottom:calc(var(--u)*.3);left:calc(var(--u)*.8);border-left:1.4px dashed rgba(214,198,170,.55)}
+.bindg.leather .rv{display:none}
+/* chicago screws: wide flat heads with a slot */
+.bindg.chicago .rv{width:max(10px,calc(var(--u)*.3));height:max(10px,calc(var(--u)*.3));background:radial-gradient(circle at 40% 35%,#e9e6df 0,#b9b5ab 40%,#7c786f 80%,#4a4741 100%)}
+.bindg.chicago .rv::after{inset:46% 18%;border-radius:1px;background:#3a3732;box-shadow:none}
+/* no cloth: bare paper with steel grommets */
+.bindg.bare{background:none !important;box-shadow:none !important}
+.bindg.bare .rv{left:calc(var(--u)*.55);width:max(9px,calc(var(--u)*.26));height:max(9px,calc(var(--u)*.26));background:radial-gradient(circle,var(--desk) 0 38%,#d9d6cf 40%,#8f8b83 62%,#5a5750 100%)}
+.bindg.bare .rv::after{display:none}
+/* black tape wrapped around the edge, no hardware */
+.bindg.tape{width:calc(var(--u)*.72) !important}
+.bindg.tape .rv{display:none}
+.bindg.tape::after{content:"";position:absolute;top:0;bottom:0;right:0;width:2px;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04))}
+/* timber lath clamp: a strip of warm timber with two bolts */
+.bindg.timber{background:repeating-linear-gradient(180deg,rgba(90,48,18,.0) 0 calc(var(--u)*.11),rgba(90,48,18,.16) calc(var(--u)*.11) calc(var(--u)*.13)),linear-gradient(90deg,#b8692e,#c97a3a 45%,#a65a24 100%) !important;box-shadow:1px 0 0 rgba(60,30,10,.5),calc(var(--u)*.03) 0 calc(var(--u)*.08) rgba(27,26,24,.3) !important}
+.bindg.timber .rv{left:50%;background:radial-gradient(circle at 34% 30%,#f2f0ea 0,#bdb8ad 30%,#6e6a62 75%,#2f2c28 100%)}
+/* wide cloth, 1 1/4 in, with a pressed hinge line */
+.bindg.hinge::after{content:"";position:absolute;top:0;bottom:0;left:calc(var(--u)*.42);width:1px;background:rgba(0,0,0,.6);box-shadow:1px 0 0 rgba(255,255,255,.07)}
+/* graphite cloth with the firm name on the spine and copper rivets */
+.bindg.copper .rv{background:radial-gradient(circle at 34% 30%,#ffe2c8 0,#d99a6c 22%,#a8603a 52%,#6d3a20 78%,#351b0e 100%)}

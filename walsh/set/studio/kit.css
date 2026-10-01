@@ -1,7 +1,7 @@
 /* ANDRÉ MANDEL title block studio · shared kit styles (9/30/26)
    Everything common to the 40 variations lives here and in kit.js.
    A variation only styles its own title block (.tb and below). */
-:root{
+:root{--cs:1;
   --paper:#f6f5f1; --paper2:#ebe9e3; --desk:#e5e3dc; --ink:#1b1a18; --muted:#6c6963; --faint:#a19e97; --rule:rgba(27,26,24,.2); --hair:rgba(27,26,24,.34); --accent:#c07a2c;
   --u:46px; --fl:1;
   --ft:'Tenor Sans','Gill Sans','Optima',sans-serif;
@@ -70,9 +70,16 @@ button:focus-visible,a:focus-visible{outline:1px solid var(--accent);outline-off
 .rv::after{content:"";position:absolute;inset:34%;border-radius:50%;background:radial-gradient(circle at 60% 65%,rgba(255,255,255,.55),rgba(60,57,52,.55) 70%);box-shadow:inset 0 0 1px rgba(0,0,0,.5)}
 
 /* the corner in the breeze */
-.curl{position:absolute;right:0;top:0;width:calc(var(--u)*3);height:calc(var(--u)*3);overflow:visible;pointer-events:none;z-index:9}
-.curl .flap{stroke:rgba(27,26,24,.18);stroke-width:.8;vector-effect:non-scaling-stroke}
+.tear{position:absolute;right:0;top:0;width:calc(var(--u)*3*var(--cs));height:calc(var(--u)*3*var(--cs));overflow:visible;pointer-events:none;z-index:5}
+.tear .tm{fill:var(--desk)}
+.tear .te{fill:none;stroke-width:.7;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.tear .fib,.curl .fib{fill:none;stroke:rgba(112,94,70,.36);stroke-width:.6;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.tear .fib{display:none}
+.curl{position:absolute;right:0;top:0;width:calc(var(--u)*3*var(--cs));height:calc(var(--u)*3*var(--cs));overflow:visible;pointer-events:none;z-index:5}
+.curl .flap{stroke:rgba(27,26,24,.2);stroke-width:.8;vector-effect:non-scaling-stroke}
+.curl .fz{fill:none;stroke:rgba(150,112,62,.17);stroke-width:1.3;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .curl .hl{fill:none;stroke:rgba(255,255,255,.75);stroke-width:1;vector-effect:non-scaling-stroke}
+.curl .crest{fill:none;stroke:#fbfaf7;stroke-width:2.2;stroke-linecap:round;vector-effect:non-scaling-stroke;filter:blur(.6px)}
 
 /* frame and true inch ruler */
 .frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2}

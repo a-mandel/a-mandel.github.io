@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>b08 Chicago screws</title>
+<meta name="description" content="ANDRÉ MANDEL title block study v01, Datum dot column. Territory: Flush strip, refined.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#e5e3dc">
+<link rel="icon" href="../../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="binding.css">
+<style>
+/* v01 · Datum dot column · Flush strip, refined */
+.tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.28);display:flex;flex-direction:column;gap:calc(var(--u)*.24)}
+.tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.2)}
+.tb .sec{position:relative}
+.tb .sec.d::before{content:"";position:absolute;left:calc(var(--u)*-.32 - var(--dot)/2);top:calc(var(--t-lab)*.65 - var(--dot)/2);width:var(--dot);height:var(--dot);border-radius:50%;background:var(--accent)}
+.tb .s-num .sn{font-size:max(calc(37px*var(--fl)),calc(var(--u)*1.109))}
+.tb .s-live{margin-top:calc(var(--u)*.06)}
+</style>
+</head>
+<body>
+<div id="desk"><div id="stage"></div></div>
+<script src="../kit.js"></script>
+<script>
+KIT.mount({
+  no: 'b08', name: "Chicago screws", binding: {"cls": "chicago", "rivets": [3, 12, 21]},
+  tb: c => {
+    const d = h => h.replace('class="sec ', 'class="sec d ');
+    return `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${d(c.f.project())}${d(c.f.issued())}${d(c.f.permits())}${d(c.f.stamp())}</div>
+      <div class="grp b">${d(c.f.title())}${d(c.f.number())}${c.f.live()}${c.f.colo({ firm: true })}</div>`;
+  }
+});
+</script>
+</body>
+</html>

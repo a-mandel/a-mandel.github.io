@@ -17,7 +17,7 @@ const SET = {
   date: '9/30/26', drawnBy: 'AM', status: 'Feasibility · not for construction',
   copy: '© 2026 André Mandel. Drawings are instruments of service.',
   live: { url: 'https://a-mandel.github.io/walsh/', show: ['a-mandel.github.io', '/walsh'], label: 'The living set' },
-  marks: { lockup: '../../marks/am10_lockup.webp', mark: '../../marks/am10_mark.webp', name: '../../marks/am10_name.webp' },
+  marks: { lockup: new URL('../../marks/am_logo.svg', document.currentScript ? document.currentScript.src : location.href).href },
   count: 17, index: 7,
   sheet: { id: 'A2.1', group: 'Architectural', title: 'Level 1 plan', foot: 'Level 1 plan', scale: '3/16 in = 1 ft',
     cap: 'Living, kitchen, bridge and suites on one main floor, wrapped around the front court tree.',
@@ -28,13 +28,218 @@ const SET = {
 const QR = { size: 41, d: 'M2 2h7v1h-7zM11 2h1v1h-1zM14 2h1v1h-1zM18 2h4v1h-4zM24 2h1v1h-1zM27 2h2v1h-2zM32 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM10 3h1v1h-1zM14 3h1v1h-1zM16 3h1v1h-1zM20 3h2v1h-2zM28 3h1v1h-1zM30 3h1v1h-1zM32 3h1v1h-1zM38 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM14 4h1v1h-1zM21 4h4v1h-4zM28 4h1v1h-1zM32 4h1v1h-1zM34 4h3v1h-3zM38 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h5v1h-5zM17 5h1v1h-1zM19 5h1v1h-1zM21 5h3v1h-3zM25 5h3v1h-3zM32 5h1v1h-1zM34 5h3v1h-3zM38 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM12 6h1v1h-1zM16 6h2v1h-2zM20 6h3v1h-3zM24 6h2v1h-2zM28 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h3v1h-3zM38 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM12 7h1v1h-1zM14 7h1v1h-1zM17 7h2v1h-2zM20 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM28 7h1v1h-1zM30 7h1v1h-1zM32 7h1v1h-1zM38 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h7v1h-7zM10 9h2v1h-2zM15 9h1v1h-1zM21 9h2v1h-2zM25 9h1v1h-1zM28 9h1v1h-1zM30 9h1v1h-1zM2 10h1v1h-1zM8 10h1v1h-1zM10 10h4v1h-4zM16 10h2v1h-2zM20 10h4v1h-4zM26 10h3v1h-3zM30 10h3v1h-3zM35 10h3v1h-3zM2 11h2v1h-2zM6 11h2v1h-2zM9 11h4v1h-4zM14 11h2v1h-2zM19 11h1v1h-1zM22 11h1v1h-1zM24 11h2v1h-2zM29 11h1v1h-1zM31 11h1v1h-1zM33 11h3v1h-3zM37 11h1v1h-1zM4 12h1v1h-1zM6 12h1v1h-1zM8 12h1v1h-1zM13 12h1v1h-1zM16 12h1v1h-1zM19 12h1v1h-1zM22 12h3v1h-3zM26 12h2v1h-2zM29 12h3v1h-3zM33 12h3v1h-3zM37 12h2v1h-2zM2 13h2v1h-2zM6 13h1v1h-1zM13 13h2v1h-2zM17 13h2v1h-2zM20 13h1v1h-1zM28 13h7v1h-7zM38 13h1v1h-1zM3 14h2v1h-2zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h3v1h-3zM16 14h1v1h-1zM18 14h1v1h-1zM21 14h2v1h-2zM25 14h2v1h-2zM30 14h1v1h-1zM32 14h2v1h-2zM35 14h1v1h-1zM38 14h1v1h-1zM3 15h2v1h-2zM6 15h2v1h-2zM9 15h1v1h-1zM11 15h5v1h-5zM17 15h5v1h-5zM25 15h1v1h-1zM29 15h2v1h-2zM33 15h1v1h-1zM35 15h1v1h-1zM2 16h1v1h-1zM7 16h2v1h-2zM11 16h1v1h-1zM14 16h1v1h-1zM16 16h4v1h-4zM22 16h2v1h-2zM26 16h1v1h-1zM28 16h8v1h-8zM37 16h2v1h-2zM4 17h3v1h-3zM9 17h4v1h-4zM14 17h1v1h-1zM18 17h4v1h-4zM24 17h2v1h-2zM28 17h1v1h-1zM31 17h1v1h-1zM33 17h1v1h-1zM35 17h4v1h-4zM4 18h1v1h-1zM7 18h6v1h-6zM16 18h3v1h-3zM21 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM31 18h2v1h-2zM34 18h1v1h-1zM36 18h3v1h-3zM2 19h1v1h-1zM6 19h2v1h-2zM10 19h1v1h-1zM14 19h1v1h-1zM20 19h1v1h-1zM22 19h2v1h-2zM25 19h1v1h-1zM27 19h1v1h-1zM29 19h1v1h-1zM35 19h3v1h-3zM3 20h2v1h-2zM7 20h5v1h-5zM14 20h2v1h-2zM17 20h1v1h-1zM19 20h1v1h-1zM22 20h11v1h-11zM34 20h1v1h-1zM36 20h1v1h-1zM38 20h1v1h-1zM4 21h1v1h-1zM7 21h1v1h-1zM10 21h3v1h-3zM15 21h2v1h-2zM20 21h3v1h-3zM26 21h1v1h-1zM31 21h3v1h-3zM35 21h1v1h-1zM38 21h1v1h-1zM3 22h1v1h-1zM5 22h1v1h-1zM7 22h4v1h-4zM12 22h2v1h-2zM17 22h1v1h-1zM19 22h1v1h-1zM21 22h1v1h-1zM24 22h5v1h-5zM31 22h2v1h-2zM34 22h1v1h-1zM36 22h1v1h-1zM2 23h2v1h-2zM5 23h2v1h-2zM9 23h3v1h-3zM13 23h1v1h-1zM15 23h1v1h-1zM17 23h1v1h-1zM21 23h1v1h-1zM23 23h1v1h-1zM25 23h3v1h-3zM29 23h2v1h-2zM34 23h1v1h-1zM36 23h1v1h-1zM2 24h1v1h-1zM4 24h1v1h-1zM7 24h4v1h-4zM12 24h2v1h-2zM17 24h2v1h-2zM20 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM27 24h4v1h-4zM32 24h4v1h-4zM37 24h2v1h-2zM4 25h1v1h-1zM11 25h1v1h-1zM18 25h1v1h-1zM23 25h1v1h-1zM28 25h8v1h-8zM38 25h1v1h-1zM3 26h1v1h-1zM5 26h1v1h-1zM8 26h1v1h-1zM12 26h1v1h-1zM15 26h2v1h-2zM18 26h3v1h-3zM23 26h1v1h-1zM26 26h1v1h-1zM30 26h1v1h-1zM32 26h2v1h-2zM38 26h1v1h-1zM2 27h1v1h-1zM5 27h1v1h-1zM9 27h1v1h-1zM11 27h1v1h-1zM14 27h3v1h-3zM18 27h1v1h-1zM25 27h1v1h-1zM28 27h3v1h-3zM33 27h1v1h-1zM2 28h1v1h-1zM6 28h1v1h-1zM8 28h1v1h-1zM11 28h1v1h-1zM13 28h1v1h-1zM16 28h1v1h-1zM19 28h2v1h-2zM22 28h3v1h-3zM26 28h2v1h-2zM29 28h3v1h-3zM36 28h3v1h-3zM2 29h1v1h-1zM6 29h2v1h-2zM11 29h2v1h-2zM15 29h1v1h-1zM17 29h1v1h-1zM20 29h1v1h-1zM22 29h1v1h-1zM25 29h1v1h-1zM28 29h3v1h-3zM33 29h4v1h-4zM38 29h1v1h-1zM2 30h1v1h-1zM4 30h1v1h-1zM6 30h1v1h-1zM8 30h5v1h-5zM15 30h1v1h-1zM19 30h1v1h-1zM24 30h15v1h-15zM10 31h3v1h-3zM14 31h2v1h-2zM17 31h6v1h-6zM25 31h1v1h-1zM30 31h1v1h-1zM34 31h1v1h-1zM2 32h7v1h-7zM12 32h2v1h-2zM15 32h1v1h-1zM17 32h1v1h-1zM21 32h5v1h-5zM30 32h1v1h-1zM32 32h1v1h-1zM34 32h1v1h-1zM38 32h1v1h-1zM2 33h1v1h-1zM8 33h1v1h-1zM11 33h1v1h-1zM13 33h1v1h-1zM18 33h5v1h-5zM24 33h2v1h-2zM29 33h2v1h-2zM34 33h1v1h-1zM2 34h1v1h-1zM4 34h3v1h-3zM8 34h1v1h-1zM11 34h2v1h-2zM14 34h2v1h-2zM18 34h1v1h-1zM21 34h1v1h-1zM23 34h1v1h-1zM25 34h3v1h-3zM29 34h6v1h-6zM36 34h2v1h-2zM2 35h1v1h-1zM4 35h3v1h-3zM8 35h1v1h-1zM12 35h1v1h-1zM15 35h1v1h-1zM18 35h1v1h-1zM20 35h1v1h-1zM25 35h3v1h-3zM29 35h1v1h-1zM31 35h2v1h-2zM38 35h1v1h-1zM2 36h1v1h-1zM4 36h3v1h-3zM8 36h1v1h-1zM11 36h3v1h-3zM17 36h2v1h-2zM21 36h1v1h-1zM26 36h3v1h-3zM37 36h2v1h-2zM2 37h1v1h-1zM8 37h1v1h-1zM11 37h3v1h-3zM16 37h1v1h-1zM21 37h2v1h-2zM25 37h2v1h-2zM28 37h4v1h-4zM34 37h2v1h-2zM38 37h1v1h-1zM2 38h7v1h-7zM10 38h2v1h-2zM17 38h2v1h-2zM20 38h1v1h-1zM22 38h1v1h-1zM24 38h3v1h-3zM30 38h4v1h-4zM38 38h1v1h-1z' };
 
 /* the corner in the breeze: gusts with a quick lift and a slow settle, still air between them */
-const FLUTTER = { lift: 0.95, rest: 0.1, curl: 0.16, turnRest: 154, turnPeak: 124, skew: 1.355, shadow: 0.24, loop: 96, seed: 11 };
+const FLUTTER = {
+  period: 5.2,        // seconds, the base breath of the breeze; slower layers ride at 2.6x and 4.2x, a quicker one at 0.62x
+  lift: 0.95,         // inches, largest fold distance along the top edge
+  rest: 0.12,         // inches, fold distance when the air is still
+  curl: 0.16,         // bow of the flap edges and the hinge, as a fraction of their length (grows a little with lift)
+  roll: 0.22,         // how far the flap rolls over near its tip as it lifts, 0 = flat flap
+  turnRest: 152,      // degrees the flap has turned over at rest (90 = on edge, 180 = folded flat)
+  turnPeak: 124,      // degrees at the height of a gust (stands up more, shows more underside)
+  skew: 1.355,        // right edge fold / top edge fold, 1.355 = parallel to the corner cut (53.6 degrees)
+  gust: 0.38,         // 0 = an even breeze, 1 = very gusty from breath to breath
+  calm: 0.44,         // wind below this (0 to 1) is a still spell: the corner settles and rests
+  rise: 0.26,         // seconds, time constant of the lift when a gust arrives (quick)
+  settle: 1.35,       // seconds, time constant of the settle when it passes (slow)
+  flutter: 0.06,      // small quick tremble of the flap at the top of a gust
+  shadow: 0.24,       // opacity of the flap's soft shadow on the page at rest
+  blur: [0.035, 0.16] // shadow softness in inches, at rest and at full lift
+};
+const FRAY = {
+  reach: 2.8,     // inches along each edge that the tear runs from the corner
+  depth: 0.105,   // inches, the deepest deckle, near the corner
+  step: 0.016,    // inches between outline samples
+  bite: 0.045,    // inches, the very corner worn away
+  fibers: 22,     // loose fibers standing off the tear
+  seed: 235
+};
+const FRAYED = (() => {
+  let sd = FRAY.seed >>> 0;
+  const rnd = () => (sd = (Math.imul(sd, 1664525) + 1013904223) >>> 0) / 4294967296;
+  const noise = n => { const v = Array.from({ length: n }, rnd); return x => { const i = Math.floor(x), f = x - i, k = f * f * (3 - 2 * f); return v[i % n] * (1 - k) + v[(i + 1) % n] * k; }; };
+  // depth of the tear at t inches from the corner: a quick falloff, soft bites, fine deckle, a couple of sharp nicks
+  const edge = nicks => {
+    const big = noise(97), mid = noise(389), R = FRAY.reach;
+    return t => {
+      const r = t / R, env = FRAY.depth * (0.3 + 0.7 * Math.exp(-t / 1.1)) * Math.max(0, 1 - r * r);
+      let d = env * (0.12 + 0.55 * big(t / 0.34) + 0.33 * mid(t / 0.055));
+      nicks.forEach(([p, w, h]) => { d += h * Math.max(0, 1 - Math.abs(t - p) / w) * Math.max(0, 1 - r); });
+      return d;
+    };
+  };
+  const dT = edge([[0.52, 0.07, 0.075], [1.46, 0.05, 0.04]]), dR = edge([[0.34, 0.06, 0.06], [1.12, 0.08, 0.05], [2.0, 0.05, 0.03]]);
+  const pts = [], side = [], par = [];     // the outline, which edge each point is on (0 top, 1 right), its t
+  const t0 = FRAY.bite;
+  for (let t = FRAY.reach; t >= t0 - 1e-9; t -= FRAY.step) { const j = (rnd() - 0.5) * 0.006; pts.push([-t + j, dT(t)]); side.push(0); par.push(t); }
+  // the worn corner: a short ragged run between the two edges
+  const a0 = pts[pts.length - 1], b0 = [-dR(t0), t0];
+  pts.push([(a0[0] * 0.4 + b0[0] * 0.6) - 0.012, (a0[1] * 0.6 + b0[1] * 0.4) + 0.01]); side.push(0); par.push(0);
+  for (let t = t0; t <= FRAY.reach + 1e-9; t += FRAY.step) { const j = (rnd() - 0.5) * 0.006; pts.push([-dR(t), t + j]); side.push(1); par.push(t); }
+  const f4 = v => +v.toFixed(4), P = p => `${f4(p[0])} ${f4(p[1])}`;
+  const line = pts.map((p, i) => (i ? 'L' : 'M') + P(p)).join(' ');
+  const R = FRAY.reach, o = 0.004;
+  const mask = `M${-R - 0.02} ${-o} L${P(pts[0])} ${line.replace(/^M/, 'L')} L${o} ${R + 0.02} L${o} ${-o} Z`;
+  const region = `${line} L0 3.4 L-3.4 3.4 L-3.4 0 Z`;
+  // loose fibers: rooted on the tear, most near the corner, standing off the edge and curling a little
+  const fibers = [];
+  for (let k = 0; k < FRAY.fibers; k++) {
+    const e = k % 2, t = t0 + (R * 0.7 - t0) * Math.pow(rnd(), 1.7);
+    let i = 0, best = 9;
+    pts.forEach((p, j) => { if (side[j] === e && Math.abs(par[j] - t) < best) { best = Math.abs(par[j] - t); i = j; } });
+    const base = pts[i], out = e ? [1, 0] : [0, -1], ang = (rnd() - 0.5) * 1.9, len = 0.025 + 0.085 * Math.pow(rnd(), 1.4) * (1 - t / R * 0.6);
+    const dx = out[0] * Math.cos(ang) - out[1] * Math.sin(ang), dy = out[0] * Math.sin(ang) + out[1] * Math.cos(ang);
+    const tip = [base[0] + dx * len - (e ? 0.02 : 0), base[1] + dy * len + (e ? 0 : 0.02)];
+    const bend = (rnd() - 0.5) * 0.9 * len;
+    const ctl = [(base[0] + tip[0]) / 2 - dy * bend, (base[1] + tip[1]) / 2 + dx * bend];
+    fibers.push({ e, t: par[i], pts: [base, ctl, tip] });
+  }
+  const fibPath = fibers.map(f => `M${P(f.pts[0])} Q${P(f.pts[1])} ${P(f.pts[2])}`).join(' ');
+  return { pts, side, par, line, mask, region, fibers, fibPath };
+})();
+
+function curlSVG(k) {
+  const W = FRAYED;
+  return `<svg class="tear" viewBox="-3 0 3 3" aria-hidden="true">
+    <defs><clipPath id="tc${k}"><path d="${W.region}"/></clipPath>
+      <radialGradient id="tg${k}" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="${FRAY.reach}">
+        <stop offset="0" stop-color="rgb(150,112,62)"/><stop offset=".45" stop-color="rgb(150,112,62)" stop-opacity=".7"/><stop offset="1" stop-color="rgb(150,112,62)" stop-opacity="0"/></radialGradient>
+      <radialGradient id="th${k}" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="${FRAY.reach}">
+        <stop offset="0" stop-color="rgb(96,78,54)" stop-opacity=".24"/><stop offset=".6" stop-color="rgb(96,78,54)" stop-opacity=".14"/><stop offset="1" stop-color="rgb(96,78,54)" stop-opacity="0"/></radialGradient></defs>
+    <g clip-path="url(#tc${k})" fill="none" stroke="url(#tg${k})" stroke-linejoin="round">
+      <path d="${W.line}" stroke-width=".2" stroke-opacity=".035"/><path d="${W.line}" stroke-width=".11" stroke-opacity=".05"/>
+      <path d="${W.line}" stroke-width=".05" stroke-opacity=".08"/><path d="${W.line}" stroke-width=".018" stroke-opacity=".12"/></g>
+    <path class="tm" d="${W.mask}"/>
+    <path class="te" d="${W.line}" stroke="url(#th${k})"/>
+    <path class="fib" d="${W.fibPath}"/>
+  </svg><svg class="curl" viewBox="-3 0 3 3" aria-hidden="true">
+    <defs>
+      <linearGradient id="cg${k}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#d8d1c3"/><stop offset=".5" stop-color="#e7e1d6"/><stop offset="1" stop-color="#f4f0e7"/></linearGradient>
+      <linearGradient id="cr${k}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#e2dccf"/><stop offset="1" stop-color="#eee9df"/></linearGradient>
+      <filter id="cb${k}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation=".05"/></filter>
+      <clipPath id="cp${k}"><path d="${W.region}"/></clipPath>
+    </defs>
+    <path class="rev" fill="url(#cr${k})" clip-path="url(#cp${k})" d=""/>
+    <path class="csh" fill="#1b1a18" filter="url(#cb${k})" d=""/>
+    <path class="flap" fill="url(#cg${k})" d=""/>
+    <path class="fz" d=""/>
+    <path class="crest" d=""/>
+    <path class="hl" d=""/>
+    <path class="fib" d=""/>
+  </svg>`;
+}
+
+const TAU = Math.PI * 2;
+// the wind: layered sines at unrelated periods, so no two gusts are alike; below FLUTTER.calm it is a still spell
+function wind(t) {
+  const P = FLUTTER.period, g = FLUTTER.gust;
+  const n = 0.46 * Math.sin(TAU * t / P + 0.3) + 0.26 * Math.sin(TAU * t / (P * 2.618) + 1.7)
+          + 0.17 * Math.sin(TAU * t / (P * 0.618) + 4.1) + 0.11 * Math.sin(TAU * t / (P * 4.236) + 0.9);
+  const w = 0.5 + 0.5 * n;                                           // 0 to 1
+  const x = Math.max(0, Math.min(1, (w - FLUTTER.calm) / (1 - FLUTTER.calm)));
+  const size = 1 - g * 0.5 * (1 + Math.sin(TAU * t / (P * 3.7) + 2.2));   // each gust a different size
+  const puff = Math.pow(Math.max(0, Math.sin(TAU * t / (P * 0.37) + 0.8)), 8) * 0.35 * (x > 0 ? 1 : 0.25);
+  return Math.min(1, x * x * (3 - 2 * x) * size + puff);
+}
+// the paper answers the wind: a quick lift, a slow settle
+function stepLift(L, t, dt) {
+  const target = wind(t), tau = target > L ? FLUTTER.rise : FLUTTER.settle;
+  return L + (target - L) * (1 - Math.exp(-dt / tau));
+}
+function curlShape(t, L) {
+  const tr = FLUTTER.flutter * L * (Math.sin(TAU * t * 2.3) + 0.6 * Math.sin(TAU * t * 3.7 + 1.3) + 0.3 * Math.sin(TAU * t * 5.9 + 0.4)) / 1.9;
+  const l = Math.max(0, Math.min(1, L + tr));
+  const a = FLUTTER.rest + (FLUTTER.lift - FLUTTER.rest) * l;
+  const b = a * (FLUTTER.skew + 0.06 * Math.sin(TAU * t / (FLUTTER.period * 0.71) + 2.1) * (0.3 + l));
+  const turn = (FLUTTER.turnRest + (FLUTTER.turnPeak - FLUTTER.turnRest) * l + 5 * tr / Math.max(.01, FLUTTER.flutter) * l + 1.5 * Math.sin(TAU * t / (FLUTTER.period * 0.53))) * Math.PI / 180;
+  const P = [-a, 0], Q = [0, b], dd = a * a + b * b;
+  const F = [-a + a * a * a / dd, a * a * b / dd];                        // foot of the corner on the fold
+  const n = [-F[0], -F[1]];                                              // fold to corner
+  const c = Math.cos(turn);
+  const T = [F[0] + n[0] * c, F[1] + n[1] * c];                          // the tip, seen from above
+  return { P, Q, F, T, n, L: l };
+}
+function bow(A, B, away, k) {
+  // control point for a gentle bow from A to B, pushed away from point 'away'
+  const m = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2], d = [B[0] - A[0], B[1] - A[1]], len = Math.hypot(d[0], d[1]) || 1;
+  let p = [-d[1] / len, d[0] / len];
+  if ((m[0] - away[0]) * p[0] + (m[1] - away[1]) * p[1] < 0) p = [-p[0], -p[1]];
+  return [m[0] + p[0] * len * k, m[1] + p[1] * len * k];
+}
+const f4 = v => v.toFixed(4);
+const pt = p => `${f4(p[0])} ${f4(p[1])}`;
+const lerp2 = (A, B, k) => [A[0] + (B[0] - A[0]) * k, A[1] + (B[1] - A[1]) * k];
+function drawCurl(sv, S, k) {
+  if (!sv) return;
+  const { P, Q, F, T, n, L } = S, cu = FLUTTER.curl * (0.8 + 0.6 * L), ro = FLUTTER.roll * L;
+  const sz = Math.hypot(n[0], n[1]), nh = [n[0] / sz, n[1] / sz];
+  const cosT = ((T[0] - F[0]) * nh[0] + (T[1] - F[1]) * nh[1]) / sz;
+  const M = lerp2(P, Q, 0.5), tipIn = lerp2(T, M, ro);                  // the tip rolls back over the flap as it lifts
+  const pull = [(M[0] - T[0]) * ro, (M[1] - T[1]) * ro];
+  // the flap's free edges bow outward and roll over toward the tip (the cubic bows of the plain corner, as offsets)
+  const perp = (A, B, away) => { const d = [B[0] - A[0], B[1] - A[1]], l = Math.hypot(d[0], d[1]) || 1; let p = [-d[1] / l, d[0] / l];
+    const m = lerp2(A, B, .5); if ((m[0] - away[0]) * p[0] + (m[1] - away[1]) * p[1] < 0) p = [-p[0], -p[1]]; return [p, l]; };
+  const [pT, lT] = perp(P, tipIn, Q), [pR, lR] = perp(Q, tipIn, P);
+  const o1 = 0.35 * cu, o2 = 0.55 * cu * (1 + 1.5 * ro), aa = -P[0], bb = Q[1];
+  const hOf = X => (X[0] - F[0]) * nh[0] + (X[1] - F[1]) * nh[1];
+  // a point of the page's corner, carried onto the turned flap: over the fold, foreshortened, rolled and bowed
+  const carry = (X, e, t) => {
+    const h = hOf(X), tt = h / sz, s2 = h * cosT - h;
+    const u = Math.max(0, Math.min(1, 1 - t / (e ? bb : aa))), g = 3 * u * (1 - u) * (1 - u) * o1 + 3 * u * u * (1 - u) * o2;
+    const pp = e ? pR : pT, ll = e ? lR : lT;
+    return [X[0] + nh[0] * s2 + pull[0] * tt * tt + pp[0] * g * ll, X[1] + nh[1] * s2 + pull[1] * tt * tt + pp[1] * g * ll];
+  };
+  // the torn outline inside the fold turns over with the flap
+  const W = FRAYED, pts = W.pts;
+  let i0 = -1, i1 = -1;
+  for (let i = 0; i < pts.length; i++) if (hOf(pts[i]) > 0) { if (i0 < 0) i0 = i; i1 = i; }
+  const cross = (A, B) => { const ha = hOf(A), hb = hOf(B), k2 = ha / (ha - hb); return lerp2(A, B, k2); };
+  const q = n => sv.querySelector(n);
+  let flap = '', shadow = '', fz = '', A = P, B = Q, hinge = bow(Q, P, T, cu * 0.5);
+  if (i0 >= 0) {
+    A = i0 > 0 ? cross(pts[i0 - 1], pts[i0]) : pts[i0];
+    B = i1 < pts.length - 1 ? cross(pts[i1], pts[i1 + 1]) : pts[i1];
+    hinge = bow(B, A, T, cu * 0.5);               // the hinge bows toward the corner: a curl, not a crease
+    const run = [];
+    for (let i = i0; i <= i1; i++) run.push(carry(pts[i], W.side[i], W.par[i]));
+    const off = [-(0.05 + 0.1 * L) * sz - 0.01, (0.08 + 0.16 * L) * sz + 0.012];   // the shadow drifts and softens as it lifts
+    const poly = (d = [0, 0]) => `M${pt([A[0] + d[0], A[1] + d[1]])} ` + run.map(p => `L${f4(p[0] + d[0])} ${f4(p[1] + d[1])}`).join(' ') +
+      ` L${pt([B[0] + d[0], B[1] + d[1]])} Q${pt([hinge[0] + d[0], hinge[1] + d[1]])} ${pt([A[0] + d[0], A[1] + d[1]])} Z`;
+    flap = poly(); shadow = poly(off);
+    fz = `M${pt(A)} ` + run.map(p => 'L' + pt(p)).join(' ') + ` L${pt(B)}`;
+  }
+  // loose fibers ride the flap when their root is inside the fold, otherwise they stay on the page
+  const fib = W.fibers.map(f => {
+    const q3 = hOf(f.pts[0]) > 0 ? f.pts.map(p => carry(p, f.e, f.t)) : f.pts;
+    return `M${pt(q3[0])} Q${pt(q3[1])} ${pt(q3[2])}`;
+  }).join(' ');
+  const rev = `M${pt(A)} L${pt(P)} L0 0 L${pt(Q)} L${pt(B)} Q${pt(hinge)} ${pt(A)} Z`;
+  // the roll's crest: a soft highlight across the flap where it turns over
+  const c0 = lerp2(P, tipIn, 0.55 + 0.2 * (1 - L)), c1 = lerp2(Q, tipIn, 0.55 + 0.2 * (1 - L));
+  const crest = flap ? `M${pt(c0)} Q${pt(bow(c0, c1, T, cu * 0.6))} ${pt(c1)}` : '';
+  q('.rev').setAttribute('d', rev);
+  q('.csh').setAttribute('d', shadow);
+  q('.csh').setAttribute('opacity', (FLUTTER.shadow * (1 - 0.4 * L) * Math.min(1, sz / 0.25)).toFixed(3));
+  q('#cb' + k + ' feGaussianBlur').setAttribute('stdDeviation', f4(FLUTTER.blur[0] + (FLUTTER.blur[1] - FLUTTER.blur[0]) * L));
+  q('.flap').setAttribute('d', flap);
+  q('.fz').setAttribute('d', fz);
+  q('.crest').setAttribute('d', crest);
+  q('.crest').setAttribute('stroke-opacity', (0.15 + 0.5 * L).toFixed(3));
+  q('.hl').setAttribute('d', flap ? `M${pt(B)} Q${pt(hinge)} ${pt(A)}` : '');
+  q('.fib').setAttribute('d', fib);
+  const g = q('#cg' + k), r = q('#cr' + k);
+  const H = [(hinge[0] + M[0]) / 2, (hinge[1] + M[1]) / 2];
+  g.setAttribute('x1', f4(H[0])); g.setAttribute('y1', f4(H[1])); g.setAttribute('x2', f4(tipIn[0])); g.setAttribute('y2', f4(tipIn[1]));
+  r.setAttribute('x1', f4(H[0])); r.setAttribute('y1', f4(H[1])); r.setAttribute('x2', '0'); r.setAttribute('y2', '0');
+}
+
 
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 const U = n => `calc(var(--u) * ${+(+n).toFixed(4)})`;
 const pad2 = n => String(n).padStart(2, '0');
 const K = 0.738;            // dx/dy of the roof stroke, 53.6 degrees from horizontal
-const LOCK_PX = { w: 357, h: 520, env: 23 };   // stroke envelope x = 23 + 0.738 y (lockup px)
+const LOGO = { x0: 5.58, y0: 4.68, w: 346.7, h: 512 };   // the A over MANDEL mark, cropped to its ink (svg units)
 const RM = matchMedia('(prefers-reduced-motion: reduce)');
 
 function mount(o) {
@@ -43,17 +248,18 @@ function mount(o) {
      Sidebar from the 32 1/2 line, the lockup fills it between the text margins,
      and the upper right corner follows the concave sweep of the logo's roof stroke. */
   const tbx = 32.5;
-  const TXL = tbx + 0.3, TXR = 35.5 - 0.22;
-  const LK = (TXR - TXL) / 346;                                   // the mark (lockup px 6 to 352) spans the text margins
-  const lock = { x: TXL - 6 * LK, y: 0.74, w: 357 * LK };
+  const TXL = tbx + 0.3, TXR = 35.5 - 0.3;                         // equal margins left and right (André 10/1)
+  const LK = (TXR - TXL) / LOGO.w;                                  // the logo is centered and spans the text margins
+  const lock = { x: TXL, y: 0.8, w: LOGO.w * LK };
   const gap = 0.3;
-  const ENV = py => 53.38 + 0.0741 * py + 0.001358 * py * py;     // the roof stroke's right edge, lockup px
+  /* the roof stroke's outer edge, fitted to the logo's ink (svg units, good to about 1.5): the corner follows it */
+  const ENV = py => { const y = py + LOGO.y0; return 52.1183 + 0.090375 * y + 0.00132779 * y * y - LOGO.x0; };
   const CUT = py => [lock.x + ENV(py) * LK + gap, lock.y + py * LK];
   let PY0 = (0.5 - lock.y) / LK, PY1 = PY0;
   while (CUT(PY1)[0] < 35.5 && PY1 < 700) PY1 += 0.25;
   const V1 = CUT(PY0), V2 = [35.5, CUT(PY1)[1]];
   const cutX = y => y <= V1[1] ? V1[0] : y >= V2[1] ? 35.5 : CUT((y - lock.y) / LK)[0];
-  const lockBottom = lock.y + lock.w * LOCK_PX.h / LOCK_PX.w;
+  const lockBottom = lock.y + LOGO.h * LK;
   const FB = o.fieldBottom || 23.5;
   const R = o.radius != null ? o.radius : 0.3;
 
@@ -73,7 +279,7 @@ function mount(o) {
     iss: SET.issuances.slice().reverse(),
     qr: cls => `<svg class="qr ${cls || ''}" viewBox="0 0 ${QR.size} ${QR.size}" shape-rendering="crispEdges" role="img" aria-label="QR code for the living set"><rect width="${QR.size}" height="${QR.size}"/><path d="${QR.d}"/></svg>`,
     cells: s => [...s].map(ch => `<span class="fc${ch === '.' ? ' pt' : ''}">${ch}</span>`).join(''),
-    lockImg: (style, cls) => `<img class="lock ${cls || ''}" src="${SET.marks.lockup}" alt="André Mandel" width="357" height="520" style="${style}">`,
+    lockImg: (style, cls) => `<img class="lock ${cls || ''}" src="${SET.marks.lockup}" alt="André Mandel" width="347" height="512" style="${style}">`,
   };
   c.f = frags(c);
 
@@ -171,13 +377,6 @@ function mount(o) {
     return `<div class="field" style="left:${U(BL)};top:${U(0.5)};width:${U(fx1 - BL)};height:${U(FB - 0.5)}">${head}${h}${foot}</div>`;
   }
 
-  function curlSVG() {
-    return `<svg class="curl" viewBox="-3 0 3 3" aria-hidden="true"><defs>
-      <linearGradient id="cg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d6d2c8"/><stop offset=".5" stop-color="#e6e3dc"/><stop offset="1" stop-color="#f4f2ed"/></linearGradient>
-      <linearGradient id="cr" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2dfd7"/><stop offset="1" stop-color="#f1efe9"/></linearGradient>
-      <filter id="cb" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation=".05"/></filter></defs>
-      <path fill="url(#cr)" d=""/><path fill="#1b1a18" filter="url(#cb)" d=""/><path class="flap" fill="url(#cg)" d=""/><path class="hl" d=""/></svg>`;
-  }
 
   /* build */
   document.title = `${o.no} · ${o.name}`;
@@ -192,8 +391,9 @@ function mount(o) {
     <div class="ov">${ovSVG}${o.ov ? o.ov(c) : ''}</div>
     <aside class="tb" aria-label="Title block" style="left:${U(tbx)};top:${U(0.5)};width:${U(35.5 - tbx)};height:${U(23)}">${tbHTML}</aside>
     ${lockHTML}
-    <div class="bindg" aria-hidden="true">${[3, 9, 15, 21].map(y => `<i class="rv" style="top:${U(y)}"></i>`).join('')}</div>
-    ${curlSVG()}</div>`;
+    ${(() => { const B = o.binding || {}; const ys = B.rivets || [3, 9, 15, 21];
+      return `<div class="bindg ${B.cls || ''}" aria-hidden="true">${ys.map(y => `<i class="rv" style="top:${U(y)}"></i>`).join('')}${B.spine ? `<span class="spine">${esc(B.spine)}</span>` : ''}${B.extra || ''}</div>`; })()}
+    ${curlSVG(0)}</div>`;
   stage.appendChild(sheet);
   if (o.after) o.after(c, sheet);
 
@@ -226,64 +426,19 @@ function mount(o) {
   addEventListener('resize', layout);
   layout();
 
-  /* the breeze */
-  const rnd = (s => () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; })(FLUTTER.seed);
-  const gusts = [];
-  for (let t = 0.8; t < FLUTTER.loop - 7;) {
-    const a = 0.18 + rnd() * 0.22, dcy = 1.2 + rnd() * 1.6, A = 0.3 + rnd() * 0.7;
-    let pk = 0; for (let x = 0; x < 6; x += 0.02) pk = Math.max(pk, (1 - Math.exp(-x / a)) * Math.exp(-x / dcy));
-    gusts.push({ t, a, d: dcy, A: A / pk });
-    t += (rnd() < 0.3 ? 0.7 + rnd() * 1.2 : 2.4 + rnd() * 5.2);   // sometimes a double gust, sometimes long stillness
-  }
-  function lift(t) {
-    t = ((t % FLUTTER.loop) + FLUTTER.loop) % FLUTTER.loop;
-    let env = 0;
-    for (const g of gusts) { const x = t - g.t; if (x > 0 && x < 14) env += g.A * (1 - Math.exp(-x / g.a)) * Math.exp(-x / g.d); }
-    env = Math.min(1.05, env);
-    const TAU = Math.PI * 2;
-    const flick = env * (0.09 * Math.sin(TAU * t / 0.43 + 0.3) + 0.055 * Math.sin(TAU * t / 0.27 + 1.1) + 0.045 * Math.sin(TAU * t / 0.71 + 2.3));
-    const breath = 0.035 * (0.5 + 0.5 * Math.sin(TAU * t / 11.3)) + 0.02 * (0.5 + 0.5 * Math.sin(TAU * t / 4.7 + 1));
-    return Math.max(0, Math.min(1, env * 0.92 + flick + breath));
-  }
-  function shape(t) {
-    const L = lift(t), TAU = Math.PI * 2;
-    const a = FLUTTER.rest + (FLUTTER.lift - FLUTTER.rest) * L;
-    const b = a * (FLUTTER.skew + 0.08 * Math.sin(TAU * t / 3.1 + 2.1) * (0.3 + L));
-    const turn = (FLUTTER.turnRest + (FLUTTER.turnPeak - FLUTTER.turnRest) * L + 3.5 * L * Math.sin(TAU * t / 0.61) + 1.5 * Math.sin(TAU * t / 5.3)) * Math.PI / 180;
-    const P = [-a, 0], Q = [0, b], dd = a * a + b * b;
-    const F = [-a + a * a * a / dd, a * a * b / dd], n = [-F[0], -F[1]], cc = Math.cos(turn);
-    return { P, Q, F, T: [F[0] + n[0] * cc, F[1] + n[1] * cc], n, L };
-  }
-  function bow(A, B, away, k) {
-    const m = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2], d = [B[0] - A[0], B[1] - A[1]], len = Math.hypot(d[0], d[1]) || 1;
-    let p = [-d[1] / len, d[0] / len];
-    if ((m[0] - away[0]) * p[0] + (m[1] - away[1]) * p[1] < 0) p = [-p[0], -p[1]];
-    return [m[0] + p[0] * len * k, m[1] + p[1] * len * k];
-  }
-  const f4 = v => v.toFixed(4), pt = p => `${f4(p[0])} ${f4(p[1])}`;
+  /* the breeze, as on the living set: gusts and still spells, the frayed flap turning over */
   const sv = sheet.querySelector('.curl');
-  function draw(S) {
-    const { P, Q, T, n, L } = S, cu = FLUTTER.curl * (0.85 + 0.3 * L);
-    const hinge = bow(Q, P, T, cu * 0.5), e1 = bow(P, T, Q, cu), e2 = bow(T, Q, P, cu);
-    const sz = Math.hypot(n[0], n[1]), sh = [-0.06 * sz - 0.01, 0.1 * sz + 0.012 + 0.05 * L], mv = p => [p[0] + sh[0], p[1] + sh[1]];
-    const q = sv.querySelectorAll('path');
-    q[0].setAttribute('d', `M${pt(P)} L0 0 L${pt(Q)} Q${pt(hinge)} ${pt(P)} Z`);
-    q[1].setAttribute('d', `M${pt(P)} Q${pt(mv(e1))} ${pt(mv(T))} Q${pt(mv(e2))} ${pt(Q)} Q${pt(hinge)} ${pt(P)} Z`);
-    q[1].setAttribute('opacity', (FLUTTER.shadow * Math.min(1, sz / 0.25) * (0.8 + 0.5 * L)).toFixed(3));
-    q[2].setAttribute('d', `M${pt(P)} Q${pt(e1)} ${pt(T)} Q${pt(e2)} ${pt(Q)} Q${pt(hinge)} ${pt(P)} Z`);
-    q[3].setAttribute('d', `M${pt(Q)} Q${pt(hinge)} ${pt(P)}`);
-    const H = [(hinge[0] + (P[0] + Q[0]) / 2) / 2, (hinge[1] + (P[1] + Q[1]) / 2) / 2];
-    const g = sv.querySelector('#cg'), r = sv.querySelector('#cr');
-    g.setAttribute('x1', f4(H[0])); g.setAttribute('y1', f4(H[1])); g.setAttribute('x2', f4(T[0])); g.setAttribute('y2', f4(T[1]));
-    r.setAttribute('x1', f4(H[0])); r.setAttribute('y1', f4(H[1])); r.setAttribute('x2', '0'); r.setAttribute('y2', '0');
+  const br = { t0: performance.now(), last: 0, raf: 0, L: 0, frozen: false };
+  function frameLoop(now) {
+    br.raf = 0; if (document.hidden || RM.matches || br.frozen) { br.last = 0; return; }
+    const t = (now - br.t0) / 1000, dt = br.last ? Math.min(0.1, (now - br.last) / 1000) : 1 / 60;
+    br.last = now; br.L = stepLift(br.L, t, dt); drawCurl(sv, curlShape(t, br.L), 0);
+    br.raf = requestAnimationFrame(frameLoop);
   }
-  const br = { t0: performance.now(), raf: 0, frozen: false };
-  function frameLoop(now) { br.raf = 0; if (document.hidden || RM.matches || br.frozen) return; draw(shape((now - br.t0) / 1000)); br.raf = requestAnimationFrame(frameLoop); }
   const startBreeze = () => { if (!br.raf && !RM.matches && !br.frozen) br.raf = requestAnimationFrame(frameLoop); };
-  draw(shape(0));
+  drawCurl(sv, curlShape(0, 0), 0);
   document.addEventListener('visibilitychange', startBreeze);
-  window.__breeze = s => { br.frozen = true; cancelAnimationFrame(br.raf); br.raf = 0; draw(shape(s)); };
-  window.__lift = lift;
+  window.__breeze = s => { br.frozen = true; cancelAnimationFrame(br.raf); br.raf = 0; let L = 0; for (let t = 0; t < s; t += 1 / 60) L = stepLift(L, t, 1 / 60); drawCurl(sv, curlShape(s, L), 0); return L; };
   window.__kit = c;
 
   addEventListener('beforeprint', () => sheet.classList.remove('play'));
