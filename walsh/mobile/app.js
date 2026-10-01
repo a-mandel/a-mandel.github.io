@@ -83,7 +83,7 @@
   const ldBar = $('#ldBar'), ldMsg = $('#ldMsg');
   const MSGS = ['Sharpening the pencils', 'Leveling the grade', 'Setting the beam at 6012', 'Framing the gable ends', 'Squaring the windows', 'Planting the pines', 'Checking 30 ft over grade'];
   const LD_T = 4.6, LD_HOLD = 0.4;               // seconds of motion, then a beat at rest before diving in
-  const LD = { built: 0, done: false, err: false, a: 0 };      // a: motion progress 0..1, advanced only by drawn frames
+  const LD = { built: 0, done: false, err: false, frozen: null, dur: 0, t: null };      // t(): motion progress 0..1
   function step(i) { LD.built = (i + 1) / MSGS.length; if (i >= MSGS.length - 1) LD.done = true; }
   const clampL = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
   const eOutL = (t, p = 3) => 1 - Math.pow(1 - t, p);
@@ -159,48 +159,78 @@
     };
   }
   function loaderArt() {
-    document.documentElement.classList.add('ld-live');   // the pencil sketch hands the dial to the drawn gyroscope
+    // Mobile fix (9/30/26): the spin used to be painted from JavaScript one frame at a time, so while the model built on a
+    // phone the main thread was busy, no frames were drawn and the dial sat blank. Now the gimbal motion runs as Web
+    // Animations on the compositor and keeps turning through the build; only the pencil strokes and the bar are painted
+    // here, and boot waits for the strokes to finish before it starts the build. The whole motion still always plays.
     const S2 = ldStrokes(), comp = $('#ldComp'), mk = $('#ldMk'), nmI = $('#ldMk img.nm'), sh = $('#ldShadow'), cR = $('#ldRingC'), cB = $('#ldBurst'), cA = $('#ldArrow');
-    const paint = t => {
-      const m = gyroC(t);
-      comp.style.transform = 'none'; cR.style.transform = m.R; cB.style.transform = m.B; cA.style.transform = m.A; mk.style.transform = m.M;
-      mk.style.opacity = clampL((t - 0.03) / 0.25); nmI.style.opacity = clampL((t - 0.86) / 0.12);
-      sh.style.opacity = t > 0 && t < 1 ? clampL(m.shadow) : 0; sh.style.transform = `scaleX(${0.7 + 0.3 * clampL(m.shadow)})`;
-      ldDraw(cR, S2.ring, clampL(t / 0.55)); ldDraw(cB, S2.burst, clampL((t - 0.15) / 0.5)); ldArrow(cA, clampL((t - 0.45) / 0.45));
-      if (!LD.err) {
-        // the bar and messages move with the dial, and never run ahead of the model build
-        const k = Math.min(t, LD.done ? 1 : Math.max(LD.built, 0.12) * 0.94);
-        ldBar.style.width = (100 * k).toFixed(1) + '%';
-        ldMsg.textContent = MSGS[Math.min(MSGS.length - 1, Math.floor(k * MSGS.length * 0.999))];
-      }
+    comp.style.transform = 'none';
+    const look = t => {   // the motion at t, as styles per element
+      const m = gyroC(t), s = t > 0 && t < 1 ? clampL(m.shadow) : 0;
+      return [[cR, { transform: m.R }], [cB, { transform: m.B }], [cA, { transform: m.A }],
+        [mk, { transform: m.M, opacity: clampL((t - 0.03) / 0.25) }], [nmI, { opacity: clampL((t - 0.86) / 0.12) }],
+        [sh, { opacity: s, transform: `scaleX(${0.7 + 0.3 * clampL(m.shadow)})` }]];
     };
-    // the clock moves only while frames are drawn, at most 34 ms a frame: a long stall (the model build on a phone)
-    // pauses the spin instead of skipping it, so the whole motion always plays (André 9/29 12:27 pm)
-    if (REDUCE) { LD.a = 1; paint(1); return; }
-    let last = 0;
-    const tick = now => {
-      if (last) LD.a = clampL(LD.a + Math.min(now - last, 34) / 1000 / LD_T);
-      last = now; paint(LD.a);
-      if (LD.a < 1 || (!LD.done && !LD.err)) requestAnimationFrame(tick);
+    const still = t => look(t).forEach(([el, st]) => Object.assign(el.style, st));
+    let drawn = -1;
+    const strokes = t => {
+      if (t === drawn) return; drawn = t;
+      ldDraw(cR, S2.ring, clampL(t / 0.55)); ldDraw(cB, S2.burst, clampL((t - 0.15) / 0.5)); ldArrow(cA, clampL((t - 0.45) / 0.45));
+    };
+    const meter = t => {
+      if (LD.err) return;
+      // the bar and messages move with the dial, and never run ahead of the model build
+      const k = Math.min(t, LD.done ? 1 : Math.max(LD.built, 0.12) * 0.94);
+      ldBar.style.width = (100 * k).toFixed(1) + '%';
+      ldMsg.textContent = MSGS[Math.min(MSGS.length - 1, Math.floor(k * MSGS.length * 0.999))];
+    };
+    // reduced motion: no spin, the pencil simply draws the compass and the mark fades in
+    LD.dur = REDUCE ? 1800 : LD_T * 1000;
+    const waapi = !REDUCE && typeof Element !== 'undefined' && typeof Element.prototype.animate === 'function';
+    let anims = [];
+    if (REDUCE) still(1);
+    else if (waapi) {
+      const N = 96, F = look(0).map(() => []);
+      for (let i = 0; i <= N; i++) look(i / N).forEach(([, st], j) => F[j].push(Object.assign({ offset: i / N }, st)));
+      try { anims = look(0).map(([el], j) => el.animate(F[j], { duration: LD.dur, easing: 'linear', fill: 'forwards' })); }
+      catch (e) { anims.forEach(a => a.cancel()); anims = []; }
+    }
+    const t0 = performance.now();
+    LD.t = () => {
+      if (LD.frozen != null) return LD.frozen;
+      const ct = anims.length ? anims[0].currentTime : null;   // follow the compositor clock so strokes and spin stay in step
+      return clampL((ct != null ? ct : performance.now() - t0) / LD.dur);
+    };
+    window.__ld = { freeze: t => { LD.frozen = t; anims.forEach(a => { a.pause(); a.currentTime = t * LD.dur; }); if (!anims.length && !REDUCE) still(t); strokes(t); meter(t); } };
+    let settled = false, first = true;
+    const tick = () => {
+      if (first) { first = false; document.documentElement.classList.add('ld-live'); }   // hand off only once the gyroscope paints
+      const t = LD.t();
+      strokes(t); meter(t);
+      if (!anims.length && !REDUCE && LD.frozen == null) still(t);
+      if (t >= 1 && !settled && LD.frozen == null) { settled = true; still(1); anims.forEach(a => a.cancel()); anims = []; }
+      if (t < 1 || (!LD.done && !LD.err)) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
   }
-  window.__ld = { freeze: t => { LD.a = t; } };
+  // resolves once the loader clock reaches x (timer based, so it also moves while frames are scarce)
+  const ldWait = x => new Promise(r => { const c = () => (LD.err || (LD.t && LD.t() >= x)) ? r() : setTimeout(c, 40); c(); });
 
   // ------------------------------------------------------------------ boot
   async function boot() {
     loaderArt();
-    const tStart = performance.now();
     step(0);
     await nextFrame(); await sleep(80);
     if (!window.THREE) { LD.err = true; ldMsg.textContent = 'The model needs a connection to load. Refresh to try again.'; return; }
     let DATA; try { DATA = await (window.__md || fetch('model.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })); } catch (e) { LD.err = true; ldMsg.textContent = 'The model needs a connection to load. Refresh to try again.'; return; }
-    step(1); await nextFrame();
+    step(1);
+    await ldWait(REDUCE ? 1 : 0.9);    // let the pencil finish the compass before the build takes the main thread
+    await nextFrame();
     const W3 = build(DATA, step);
     await W3.ready;
     step(6);
-    if (REDUCE) { const wait = 600 - (performance.now() - tStart); if (wait > 0) await sleep(wait); }
-    else { while (LD.a < 1) await nextFrame(); await sleep(LD_HOLD * 1000); }      // the full motion, then a beat at rest
+    await ldWait(1);
+    if (!REDUCE) await sleep(LD_HOLD * 1000);      // the full motion, then a beat at rest
     if (!REDUCE) { $('#ld').classList.add('dive'); await sleep(380); }
     { const dial = $('#ldDial'); dial.style.transform = ''; $('#enterGy').prepend(dial); }
     $('#loader').classList.add('gone');
