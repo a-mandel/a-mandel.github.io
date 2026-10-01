@@ -500,6 +500,7 @@
       if (has(s.mull)) RIB.body.add(segs(s.mull, INK, 0.6));
       if (has(s.furn)) { RIB.body.add(mesh(s.furn, M.furn)); RIB.body.add(edges(s.furn, INK, 0.9)); }
       addMaster(RIB.body);
+      addFrontDoor(RIB.body);
       if (has(s.joist)) { RIB.body.add(joistMesh(s.joist)); RIB.body.add(edges(s.joist, 0x5a3a1e, 0.6)); }
       if (has(s.seam)) RIB.skin.add(segs(s.seam, 0xc4c9cc, 0.42));
       if (has(s.over)) RIB.body.add(segs(s.over, INK, 0.16));   // horizontal overstrikes, subtle
@@ -509,6 +510,26 @@
       g.add(mesh(F.master, M.furn)); g.add(edges(F.master, INK, 0.9));
       g.add(mesh(F.linen, M.linen)); g.add(edges(F.linen, INK, 0.6));
       g.add(mesh(F.hearthM, M.stone)); g.add(edges(F.hearthM, INK, 0.85));
+    }
+    function boxT(x0, x1, y0, y1, z0, z1) {
+      const P = [[x0, y0, z0], [x1, y0, z0], [x1, y1, z0], [x0, y1, z0], [x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1]];
+      const F = [[0, 1, 2], [0, 2, 3], [5, 4, 7], [5, 7, 6], [4, 0, 3], [4, 3, 7], [1, 5, 6], [1, 6, 2], [3, 2, 6], [3, 6, 7], [4, 5, 1], [4, 1, 0]];
+      const out = []; F.forEach(f => f.forEach(i => out.push(...P[i]))); return out;
+    }
+    function addFrontDoor(g) {   // west wall of the north wing, off the porch (André 10/1/26): 4 ft cedar pivot, dark steel portal, stone landing
+      const X = -20.58, z0 = -1.1, z1 = 2.9, y0 = 7.5, y1 = 16.6;
+      const leaf = boxT(X - 0.3, X - 0.12, y0, y1, z0, z1);
+      g.add(mesh(leaf, M.cedar)); g.add(edges(leaf, INK, 0.9, 30));
+      const grain = []; for (let z = z0 + 0.5; z < z1 - 0.1; z += 0.5) grain.push(X - 0.31, y0 + 0.05, z, X - 0.31, y1 - 0.05, z);
+      g.add(segs(grain, 0x5a3a1e, 0.35));
+      const portal = [].concat(boxT(X - 0.75, X, y0, y1 + 0.45, z0 - 0.45, z0), boxT(X - 0.75, X, y0, y1 + 0.45, z1, z1 + 0.45), boxT(X - 0.75, X, y1, y1 + 0.45, z0 - 0.45, z1 + 0.45));
+      g.add(mesh(portal, M.dark)); g.add(edges(portal, INK, 1, 30));
+      const pull = [].concat(boxT(X - 0.62, X - 0.5, y0 + 2.6, y0 + 6.4, z1 - 0.55, z1 - 0.43), boxT(X - 0.5, X - 0.3, y0 + 2.9, y0 + 3.0, z1 - 0.53, z1 - 0.45), boxT(X - 0.5, X - 0.3, y0 + 6.0, y0 + 6.1, z1 - 0.53, z1 - 0.45));
+      g.add(mesh(pull, M.dark));
+      const land = boxT(X - 7.5, X, y0, y0 + 0.14, z0 - 1.6, z1 + 1.6);
+      g.add(mesh(land, M.stone)); g.add(edges(land, INK, 0.75, 30));
+      const joints = []; for (let x = X - 2.5; x > X - 7.4; x -= 2.5) joints.push(x, y0 + 0.15, z0 - 1.6, x, y0 + 0.15, z1 + 1.6);
+      g.add(segs(joints, INK, 0.3));
     }
     function addChimney(g, c) {
       if (!c) return;
@@ -696,7 +717,7 @@
     function eyeCam(v) { const dx = v.eye[0] - v.at[0], dy = v.eye[1] - v.at[1], dz = v.eye[2] - v.at[2], dist = Math.hypot(dx, dy, dz); return { yaw: Math.atan2(dx, dz), el: Math.asin(dy / dist), dist, t: v.at, fp: 1 }; }
     const cam = { yaw: 1.15, el: 0.42, dist: 215, t: new THREE.Vector3(...VIEWS.house.t), fp: 0 };
     const S = { scheme: 'rib', pitch: '12', inside: false, roof: false, panels: true, lens: 'ultra', trees: true, notes: true, room: false };   // always the wide angle, closer in (André 10/1/26)
-    const TS = { i: 0, look: false, near: false, fly: null, ret: 0, wasOut: true, moved: false };   // the tour: stop, interior look mode, flight, glide home time
+    const TS = { i: 0, look: false, near: false, fly: null, ret: 0, wasOut: true, moved: false, notesUntil: 0, notesCheck: 0 };   // the tour: stop, interior look mode, flight, glide home time
     const pend = { yaw: 0, el: 0, zoom: 0, walk: 0 }, vel = { yaw: 0, el: 0 };       // drag input the camera eases into
     const IN_SHEET = document.documentElement.classList.contains('in-sheet');
     if (IN_SHEET) S.lens = 'ultra';   // inside the living set the model opens on the widest lens; the quick toggle reads pressed (André 9/30)
@@ -760,11 +781,8 @@
         const sp = $('.spec').getBoundingClientRect();
         nt = Math.max($('#rtitle').getBoundingClientRect().bottom, sp.height ? sp.bottom : 0) + 6;   // hand notes stay clear of the title
       } else if (MODE === 'model') {
-        const wui = app.classList.contains('wideui');
-        const dk = (wui ? $('.rail') : $('.dock')).getBoundingClientRect(), mb = $('.mbar').getBoundingClientRect();
-        const qk = wui ? dk : $('#quick').getBoundingClientRect();
-        t = mb.bottom + 8;
-        b = Math.min(dk.top, qk.top) - 6;
+        const hd = $('.maddr').getBoundingClientRect(), mb = $('.mbar').getBoundingClientRect(), tb = $('.tourbar').getBoundingClientRect();
+        t = (hd.height ? hd.bottom : 60) + 8; b = Math.min(tb.height ? tb.top : CH, mb.height ? mb.top : CH) - 6;
       }
       vis = { l, t, r, b, nt: nt == null ? t : nt };
     }
@@ -1047,6 +1065,7 @@
         { k: 'note', p: A.grannyS || A.granny, text: 'granny suite windows\nto the south', dx: -80, dy: 70 },
         { k: 'note', key: true, p: A.endS || A.tip, text: 'glulam stops\nat the corner', dx: 80, dy: -40 },
         { k: 'note', p: A.endW || A.beamW, text: 'glulam cantilevers\n5 ft over the porch', dx: -90, dy: -60 },
+        { k: 'note', p: [-21.1, 12.5, 2.9], text: 'front door: 4 ft cedar pivot\nin a dark steel portal', dx: -70, dy: 70 },
         { k: 'note', p: A.gdoor || A.garageTip, text: 'two garage doors', dx: -70, dy: 60 },
         { k: 'note', p: [A.chim[0], I.chim.rib.top - 5991, A.chim[2]], text: 'board form chimney', dx: -80, dy: -60 },
         { k: 'note', p: A.swHigh || A.stip, text: 'south wing high corner ' + f1(I.sw.high), dx: 70, dy: -60 },
@@ -1170,7 +1189,7 @@
       { name: 'The drive', eye: [-96, 18, 47], at: [-30, 15, 18] },
       { name: 'Entry court', eye: [-46, 14.5, 40], at: [0, 17, 14] },
       { name: 'Granny suite', eye: [-36, 13, 34], at: [-8, 14, 62] },
-      { name: 'Front door', eye: [-33, 13.6, 27], at: [-22, 12.5, -1] },
+      { name: 'Front door', eye: [-33.5, 13.3, 3.5], at: [-20.6, 12.4, 0.9] },
       { name: 'Kitchen and entry', eye: [8, 12.9, 4], at: [-20, 12.3, -3], room: true },
       { name: 'Living room', eye: [33.5, 13.2, -3.5], at: [0.0, 14.8, -3.5], room: true },   // André's view from the tip end, due west (9/29)
       { name: 'Rear court', eye: [36, 13.5, 39], at: [12, 19, 6] },
@@ -1207,12 +1226,12 @@
       S.roof = !!st.roof; S.inside = !!st.inside;
       if (instant) {
         cam.yaw = p.yaw; cam.el = p.el; cam.dist = p.dist; cam.t.set(p.t[0], p.t[1], p.t[2]); cam.fp = 1;
-        S.room = !!st.room; TS.fly = null; window.__notesHold = false;
+        S.room = !!st.room; TS.fly = null; window.__notesHold = true; TS.notesUntil = 0; showPlay();
       } else { window.__notesHold = true; flyTo(p, 0, st); }
       TS.wasOut = !st.room;
       apply(); paintTour();
     }
-    function nextStop() { tourAt(TS.i + 1, false); pressSeal(); }
+    function nextStop() { TS.notesUntil = 0; TS.notesCheck = 0; tourAt(TS.i + 1, false); hidePlay(); }
     function goHome(D) {
       const st = TOUR[TS.i], p = poseOf(st);
       if (st.orbit) p.yaw = cam.yaw;                     // the arrival keeps turning from wherever you left it
@@ -1240,38 +1259,45 @@
         const E = F.E0.clone().lerp(F.E1, e); E.y += F.lift * Math.sin(Math.PI * e);
         setEye(E); cam.fp = 1;
         if (!F.mid && e > 0.5) { F.mid = true; S.room = !!F.st.room; apply(); }
-        if (u >= 1) { TS.fly = null; window.__notesHold = false; }
+        if (u >= 1) { TS.fly = null; if (F.st) startNotes(now); }
         dirty = true;
       } else if (TS.i === 0 && !pts.size && !TS.ret) { cam.yaw += dt * SPIN; dirty = true; }
       if (TS.ret && now >= TS.ret && !pts.size && pendSum() < 0.004) { TS.ret = 0; goHome(); }
+      if (TS.notesUntil) {
+        if (TS.notesCheck && now >= TS.notesCheck) { TS.notesCheck = 0; if (!notesEl.querySelector('.on')) TS.notesUntil = Math.min(TS.notesUntil, now + 300); }   // nothing to read here: straight back to play
+        if (now >= TS.notesUntil) endNotes();
+      }
     }
-    // the seal: a hand pressed wax disc, the stop number stamped in it
-    const sealBtn = $('#seal');
-    (function sealBlob() {
+    // the play button (André 10/1/26): red wax, dead center. Press it and it melts away while the view moves; the notes
+    // come up at the new view on white, then fade as the button slowly comes back.
+    const playBtn = $('#play');
+    (function waxBlob() {
       const R = rng(235), ph = [R() * 6, R() * 6, R() * 6], pts2 = [];
       for (let k = 0; k < 72; k++) {
         const a = k / 72 * Math.PI * 2;
         const r = 44 * (1 + 0.035 * Math.sin(3 * a + ph[0]) + 0.025 * Math.sin(5 * a + ph[1]) + 0.018 * Math.sin(9 * a + ph[2]) + 0.06 * Math.pow(Math.max(0, Math.cos(a - 2.2)), 18) + 0.045 * Math.pow(Math.max(0, Math.cos(a + 0.7)), 24));
         pts2.push((Math.cos(a) * r).toFixed(2) + ' ' + (Math.sin(a) * r).toFixed(2));
       }
-      const b = $('#sealBlob'); if (b) b.setAttribute('d', 'M' + pts2.join(' L') + ' Z');
+      const b = $('#playBlob'); if (b) b.setAttribute('d', 'M' + pts2.join(' L') + ' Z');
     })();
-    let sealTurn = 0;
-    function pressSeal() {
-      if (!sealBtn) return;
-      sealBtn.classList.remove('idle', 'press'); void sealBtn.offsetWidth; sealBtn.classList.add('press');
-      sealTurn += (Math.random() - 0.5) * 24; const w = $('#sealWax'); if (w) w.setAttribute('transform', 'rotate(' + sealTurn.toFixed(1) + ')');
+    let waxTurn = 0;
+    function hidePlay() {
+      if (!playBtn) return;
+      playBtn.classList.remove('idle'); playBtn.classList.add('gone');
+      waxTurn += (Math.random() - 0.5) * 30; const w = $('#playWax'); if (w) w.setAttribute('transform', 'rotate(' + waxTurn.toFixed(1) + ')');
     }
+    function showPlay() { if (playBtn) playBtn.classList.remove('gone'); }
+    const NOTES_MS = 5200;
+    function startNotes(now) { window.__notesHold = false; TS.notesUntil = now + NOTES_MS; TS.notesCheck = now + 1100; dirty = true; }
+    function endNotes() { TS.notesUntil = 0; TS.notesCheck = 0; window.__notesHold = true; showPlay(); dirty = true; }
     function paintTour() {
       const n = TOUR.length - 1, st = TOUR[TS.i];
-      const num = TS.i ? String(TS.i) : 'AM';
-      ['#sealNo', '#sealNoHi'].forEach(q => { const t = $(q); if (t) { t.textContent = num; t.setAttribute('font-size', TS.i ? (TS.i > 9 ? 30 : 36) : 25); } });
       const no = $('#tNo'), nm = $('#tName');
       if (no) no.textContent = TS.i ? String(TS.i).padStart(2, '0') + ' / ' + String(n).padStart(2, '0') : 'Tour · ' + n + ' views';
-      if (nm) nm.textContent = TS.i ? st.name : 'Tap the seal';
-      if (sealBtn) sealBtn.setAttribute('aria-label', TS.i < n ? 'Next view: ' + TOUR[TS.i + 1].name : 'Back to the arrival');
+      if (nm) nm.textContent = TS.i ? st.name : 'Press play';
+      if (playBtn) playBtn.setAttribute('aria-label', TS.i < n ? 'Next view: ' + TOUR[TS.i + 1].name : 'Back to the arrival');
     }
-    if (sealBtn) sealBtn.addEventListener('click', e => { e.stopPropagation(); if (MODE === 'model') nextStop(); });
+    if (playBtn) playBtn.addEventListener('click', e => { e.stopPropagation(); if (MODE === 'model') nextStop(); });
     function sheetFor() {
       if (S.scheme === 'rib') {
         const r = I.rib;
@@ -1292,7 +1318,7 @@
             ['11', 'Square windows', 'every window has a level head with cedar filled in above it; only the living room and the primary suite keep glass up into the rake'],
             ['12', 'Granny suite', 'its own sheet: level beam ' + f1(I.granny.beam) + ' on the lot side, lifting gently to ' + f1(I.granny.tip) + ' at the street corner; windows to the south, cedar panels on the street wall'],
             ['13', 'Porch and garage', 'no beam across the porch: the porch roof spans wall to wall; two 9 ft garage doors face the drive'],
-            ['14', 'Kitchen roof', 'bears on the lower beam at ' + f1(r.kitchenRoof) + ', 1/4 in per ft to the north and west eaves (' + f1(r.kitchenEave) + '); the porch roof continues it']
+            ['14', 'Kitchen roof', 'joists hang off the side of the lower beam in hangers, roof flush with its top at ' + f1(r.kitchenRoof) + ', 1/4 in per ft to the north and west eaves (' + f1(r.kitchenEave) + '); the porch roof continues it']
           ],
           dr: ['Only about 9% of the roof reaches 4:12, so the whole roof rides one pitch Design Variance (Lahontan VII.13).', 'The south wing corner sits about ' + f1(30 - I.sw.highOver) + ' ft under the 30 ft limit on FA grade, the north tip about ' + f1(30 - r.tipOver) + ' ft. The survey confirms both.', 'Chimney top ' + f1(I.chim.rib.top) + ', ' + f1(I.chim.rib.over) + ' ft over grade. Chimney masses may run 4 ft past the height line (VII.5) and must be 18 to 60 sf in plan (VII.20).'],
           build: ['Curved glulams, a CNC cut seat for every joist and a twisted roof deck. This is the premium option.', 'Square windows everywhere but the living room and primary suite keep most of the glass in standard rectangles; the raked glass is limited to those two rooms.', 'Flat ends shed toward the beams, so drains run in heated space and snow guards sit over the porch and entry.']
@@ -1377,7 +1403,7 @@
       const now = performance.now();
       if (MODE === 'model') {
         TS.ret = 0; vel.yaw = vel.el = 0;
-        const F = TS.fly; if (F) { if (!F.mid) { S.room = !!F.st.room; apply(); } TS.fly = null; window.__notesHold = false; }   // a touch holds the view where it is
+        const F = TS.fly; if (F) { if (!F.mid) { S.room = !!F.st.room; apply(); } TS.fly = null; if (F.st) startNotes(now); }   // a touch holds the view where it is
         if (pts.size === 1 && now - lastTap < 300) goHome(1200);                                                    // double tap: straight back to the stop
       }
       lastTap = now;
@@ -1387,7 +1413,6 @@
       const p = pts.get(e.pointerId), dx = e.clientX - p.x, dy = e.clientY - p.y, now = performance.now();
       pts.set(e.pointerId, { x: e.clientX, y: e.clientY, t: now }); moved += Math.abs(dx) + Math.abs(dy);
       if (MODE !== 'model') return;
-      if (window.__notesHold && moved > 6) { window.__notesHold = false; dirty = true; }
       if (pts.size === 1) {
         const dyaw = TS.look ? dx * 0.005 : -dx * 0.008, del = TS.look ? -dy * 0.004 : dy * 0.006;
         pend.yaw += dyaw; pend.el += del;
@@ -1402,6 +1427,7 @@
     const up = e => {
       pts.delete(e.pointerId); if (pts.size < 2) pinch0 = null;
       if (MODE === 'reel' && moved < 8 && e.type === 'pointerup') nextShot();
+      if (MODE === 'model' && !pts.size && !TS.moved && moved < 6 && TS.notesUntil && e.type === 'pointerup') endNotes();
       if (MODE === 'model' && !pts.size && TS.moved) {
         const cl = v => Math.max(-0.5, Math.min(0.5, v * 150));
         pend.yaw += cl(vel.yaw); pend.el += cl(vel.el);              // a little glide after a flick
@@ -1427,13 +1453,14 @@
       const wide = isWideUI();
       if (wide === app.classList.contains('wideui')) return;
       app.classList.toggle('wideui', wide);
-      if (wide) pfBtns.forEach(b => segEl.appendChild(b)); else pfBtns.forEach((b, i) => pfHome[i][0].insertBefore(b, pfHome[i][1] && pfHome[i][1].parentNode === pfHome[i][0] ? pfHome[i][1] : null));
+      pfBtns.forEach(b => segEl.appendChild(b));   // one bar along the bottom on every screen (André 10/1/26)
       if (wide) { rail.appendChild(quickEl); pops.forEach(p => { p.hidden = false; rail.appendChild(p); }); }
       else { [quickEl, ...pops].forEach(el => { const [par, nx] = homeOf.get(el); par.insertBefore(el, nx && nx.parentNode === par ? nx : null); }); pops.forEach(p => { p.hidden = true; }); }
       dockBtns.forEach(b => b.setAttribute('aria-expanded', 'false'));
       setTimeout(() => { try { resize(); } catch (e) { } }, 0);
     }
     function closePops() { if (app.classList.contains('wideui')) return; pops.forEach(p => { p.hidden = true; }); dockBtns.forEach(b => b.setAttribute('aria-expanded', 'false')); }
+    pfBtns.forEach(b => segEl.appendChild(b));
     window.addEventListener('resize', layoutUI); setTimeout(layoutUI, 0);
     dockBtns.forEach(b => b.addEventListener('click', e => {
       e.stopPropagation();
