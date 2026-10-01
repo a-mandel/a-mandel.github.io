@@ -16,13 +16,13 @@
 /* v38 · Bottom band hybrid · Wildcards */
 .tb .grp{position:absolute;left:calc(var(--u)*.32);right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.22)}
 .tb .grp.b{bottom:calc(var(--u)*.3);gap:calc(var(--u)*.2)}
-.tb .s-num .sn{font-size:max(calc(44px*var(--fl)),calc(var(--u)*1.26))}
+.tb .s-num .sn{font-size:max(calc(37px*var(--fl)),calc(var(--u)*1.058))}
 .tb .s-proj .pname{font-size:max(calc(19px*var(--fl)),calc(var(--u)*.4))}
 .ov .band{position:absolute;display:grid;grid-template-columns:1fr 1.1fr 1.1fr 1.2fr .9fr;column-gap:calc(var(--u)*.5);align-items:start;pointer-events:auto}
 .ov .band > div{min-width:0}
 .ov .band .sec + .sec{margin:0}
 .ov .band .stamp{grid-template-columns:1fr auto}
-.ov .hr{stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
+.ov .hr{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 </style>
 </head>
 <body>
@@ -34,7 +34,7 @@ KIT.mount({
   fieldBottom: 21.25,
   tb: c => `<div class="grp" style="top:${c.U(c.lockBottom - .5 + .34)}">${c.f.project()}${c.f.live()}</div>
     <div class="grp b">${c.f.number()}${c.f.colo({ firm: true })}</div>`,
-  svg: c => `<line class="hr" x1="${c.BL}" y1="21.25" x2="${c.tbx}" y2="21.25"/>`,
+  svg: c => (() => { const a = c.BL, b = c.tbx, w = b - a; return `<path class="hr" d="M${a} 21.27 C${a + w * .22} 21.43 ${a + w * .58} 21.45 ${a + w * .8} 21.18 S${a + w * .96} 20.97 ${b} 20.93"/>`; })(),
   ov: c => `<div class="band" style="left:${c.U(c.BL + .6)};right:${c.U(36 - c.tbx + .5)};top:${c.U(21.5)}">${c.f.issued()}${c.f.permits()}${c.f.stamp()}${c.f.title()}<div class="sec"><span class="lab">Scale · date · drawn</span><span class="val line">${c.sh.scale}</span><span class="val line">${c.S.date} · ${c.S.drawnBy}</span></div></div>`
 });
 </script>

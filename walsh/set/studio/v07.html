@@ -28,7 +28,7 @@
 .tb .is{color:var(--muted)}
 .tb .is.new{color:var(--ink)}
 .tb .qs{position:relative}
-.tb .qn .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.tb .qn .sn{font-size:max(calc(35px*var(--fl)),calc(var(--u)*1.008))}
 .tb .qc p{color:var(--muted)}
 
 .tb .col{left:calc(var(--u)*.3);right:calc(var(--u)*.26)}
@@ -53,7 +53,7 @@ KIT.mount({
         <p>${e(P.owner)}<br><span class="mut">${e(P.ownerCo)}</span></p></div>
       <div class="q"><span class="k blk">Issued</span>${c.iss.map((r, k) => `<p class="is${k ? '' : ' new'}"><span class="k">${r.no}</span> ${e(r.date)} &nbsp;${e(r.for)}</p>`).join('')}</div>
       <div class="q"><span class="k blk">Agency</span><p>Design review (LCC) <span class="mut">no. pending</span><br>Building permit <span class="mut">no. pending</span><br>${e(S.fire)}</p></div>
-      <div class="q qs"><span class="k blk">Architect of record</span><p>${e(S.aor.name)}<br><span class="mut sm2">${e(S.aor.note)}</span></p><div class="seal">Stamp</div></div>`;
+      `;
     const bot = `<div class="q"><div class="mid">${e(sh.title)}</div><p>${e(sh.scale)} · ${e(S.date)} · ${e(S.drawnBy)}</p><p class="st">${e(S.status)}</p></div>
       <div class="q qn"><span class="k blk">Sheet ${c.i + 1} of ${c.N}</span><div class="sn">${c.cells(sh.id)}</div></div>
       <div class="q qc"><p class="sm2"><span class="k">${e(F.name)}</span><br>${e(F.line)} · ${F.addr.map(e).join(', ')} · ${e(F.phone)} · ${e(F.email)}<br>${e(S.copy)}</p></div>`;

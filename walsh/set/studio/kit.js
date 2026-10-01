@@ -39,13 +39,20 @@ const RM = matchMedia('(prefers-reduced-motion: reduce)');
 
 function mount(o) {
   const BL = o.borderLeft || 1.4;          // border clears the 1 in binding and the side ruler
-  const tbx = o.tbx || 32;
-  const lock = Object.assign({ w: 2.14, dx: 0.86, y: 0.84 }, o.lock || {});
-  lock.x = lock.x != null ? lock.x : tbx + lock.dx;
-  const LK = lock.w / LOCK_PX.w;
-  const gap = o.gap != null ? o.gap : 0.34;
-  const aCut = lock.x + LOCK_PX.env * LK - K * lock.y + gap;        // cut line: X = aCut + K * Y
-  const V1 = [aCut + K * 0.5, 0.5], V2 = [35.5, (35.5 - aCut) / K];
+  /* round 2 (9/30/26): the v2 geometry for every variation, not overridable.
+     Sidebar from the 32 1/2 line, the lockup fills it between the text margins,
+     and the upper right corner follows the concave sweep of the logo's roof stroke. */
+  const tbx = 32.5;
+  const TXL = tbx + 0.3, TXR = 35.5 - 0.22;
+  const LK = (TXR - TXL) / 346;                                   // the mark (lockup px 6 to 352) spans the text margins
+  const lock = { x: TXL - 6 * LK, y: 0.74, w: 357 * LK };
+  const gap = 0.3;
+  const ENV = py => 53.38 + 0.0741 * py + 0.001358 * py * py;     // the roof stroke's right edge, lockup px
+  const CUT = py => [lock.x + ENV(py) * LK + gap, lock.y + py * LK];
+  let PY0 = (0.5 - lock.y) / LK, PY1 = PY0;
+  while (CUT(PY1)[0] < 35.5 && PY1 < 700) PY1 += 0.25;
+  const V1 = CUT(PY0), V2 = [35.5, CUT(PY1)[1]];
+  const cutX = y => y <= V1[1] ? V1[0] : y >= V2[1] ? 35.5 : CUT((y - lock.y) / LK)[0];
   const lockBottom = lock.y + lock.w * LOCK_PX.h / LOCK_PX.w;
   const FB = o.fieldBottom || 23.5;
   const R = o.radius != null ? o.radius : 0.3;
@@ -62,7 +69,7 @@ function mount(o) {
 
   const c = {
     S: SET, sh: SET.sheet, N: SET.count, i: SET.index, esc, U, pad2, K, BL, tbx, gap, lock, lockBottom, V1, V2, FB, views,
-    cutX: y => aCut + K * y, tbw: 35.5 - tbx,
+    cutX, TXL, TXR, tbw: 35.5 - tbx,
     iss: SET.issuances.slice().reverse(),
     qr: cls => `<svg class="qr ${cls || ''}" viewBox="0 0 ${QR.size} ${QR.size}" shape-rendering="crispEdges" role="img" aria-label="QR code for the living set"><rect width="${QR.size}" height="${QR.size}"/><path d="${QR.d}"/></svg>`,
     cells: s => [...s].map(ch => `<span class="fc${ch === '.' ? ' pt' : ''}">${ch}</span>`).join(''),
@@ -71,12 +78,22 @@ function mount(o) {
   c.f = frags(c);
 
   /* frame: border with the corner cut, the rule, and the true inch ruler */
+  function curvePts() {
+    const pts = [];
+    for (let py = PY0; py <= PY1; py += 2) pts.push(CUT(py));
+    pts.push(CUT(PY1));
+    return pts;
+  }
   function borderPath() {
-    const r = 0.38, dx = K / Math.hypot(K, 1), dy = 1 / Math.hypot(K, 1), f = n => +n.toFixed(4);
-    return `M${f(BL + R)} 0.5 H${f(V1[0] - r)} Q${f(V1[0])} 0.5 ${f(V1[0] + r * dx)} ${f(0.5 + r * dy)} ` +
-      `L${f(V2[0] - r * dx)} ${f(V2[1] - r * dy)} Q35.5 ${f(V2[1])} 35.5 ${f(V2[1] + r)} ` +
+    const r = 0.34, f = n => +n.toFixed(4), pts = curvePts();
+    const sIn = pts.findIndex(p => Math.hypot(p[0] - V1[0], p[1] - V1[1]) >= r);
+    let sOut = pts.length - 1; while (sOut > 0 && Math.hypot(pts[sOut][0] - V2[0], pts[sOut][1] - V2[1]) < r) sOut--;
+    const body = pts.slice(sIn, sOut + 1).map(p => `L${f(p[0])} ${f(p[1])}`).join(' ');
+    return `M${f(BL + R)} 0.5 H${f(V1[0] - r)} Q${f(V1[0])} 0.5 ${f(pts[sIn][0])} ${f(pts[sIn][1])} ${body} ` +
+      `Q35.5 ${f(V2[1])} 35.5 ${f(V2[1] + r)} ` +
       `V${23.5 - R} Q35.5 23.5 ${35.5 - R} 23.5 H${BL + R} Q${BL} 23.5 ${BL} ${23.5 - R} V${0.5 + R} Q${BL} 0.5 ${BL + R} 0.5 Z`;
   }
+
   function frame() {
     let t = '', z = '';
     const L = n => n % 6 === 0 ? 0.18 : 0.09;
@@ -94,7 +111,7 @@ function mount(o) {
     if (o.border === 'none') bd = '';
     else if (o.border === 'marks') {
       const m = 0.45;
-      bd = `<path class="bd" d="M${BL} ${0.5 + m} V0.5 H${BL + m} M${BL} ${23.5 - m} V23.5 H${BL + m} M${35.5 - m} 23.5 H35.5 V${23.5 - m} M${V1[0] - m} 0.5 H${V1[0]} L${V2[0]} ${V2[1]} V${V2[1] + m}"/>`;
+      bd = `<path class="bd" d="M${BL} ${0.5 + m} V0.5 H${BL + m} M${BL} ${23.5 - m} V23.5 H${BL + m} M${35.5 - m} 23.5 H35.5 V${23.5 - m} M${V1[0] - m} 0.5 H${V1[0]} ${curvePts().map(p => `L${+p[0].toFixed(4)} ${+p[1].toFixed(4)}`).join(' ')} V${V2[1] + m}"/>`;
     } else bd = `<path class="bd" d="${borderPath()}"/>`;
     let vr = '';
     if (o.rule !== false) {

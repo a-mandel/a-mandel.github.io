@@ -17,14 +17,14 @@
 .tb .ed{position:absolute;left:calc(var(--u)*.3);right:calc(var(--u)*.26);display:flex;flex-direction:column}
 .tb .ed.b{bottom:calc(var(--u)*.28)}
 .tb .h{font:italic 400 var(--t-val)/1.2 var(--fs);color:var(--accent);margin:0 0 .15em;display:flex;align-items:center;gap:.5em}
-.tb .h::after{content:"";flex:1;height:1px;background:var(--rule)}
+.tb .h::after{content:"";flex:1;height:calc(var(--u)*.12);align-self:center;background:var(--swoop) no-repeat 0 0/100% 100%}
 .tb .ed .blk + .blk{margin-top:calc(var(--u)*.22)}
 .tb .ed p{margin:0;font:400 var(--t-val)/1.36 var(--fs);font-variant-numeric:oldstyle-nums}
 .tb .ed p .m{color:var(--muted);font-style:italic}
 .tb .hero{font:italic 400 max(calc(26px*var(--fl)),calc(var(--u)*.56))/1 var(--fs);letter-spacing:-.01em;margin:.05em 0 .15em;white-space:nowrap}
 .tb .pn{font:400 max(calc(20px*var(--fl)),calc(var(--u)*.44))/1.05 var(--fs);margin:0 0 .15em}
 .tb .snb{display:flex;align-items:baseline;justify-content:space-between;margin-top:calc(var(--u)*.2)}
-.tb .snb .sn{font:400 max(calc(40px*var(--fl)),calc(var(--u)*1.1))/.9 var(--fs);letter-spacing:.01em}
+.tb .snb .sn{font:400 max(calc(34px*var(--fl)),calc(var(--u)*0.924))/.9 var(--fs);letter-spacing:.01em}
 .tb .snb .sn .fc{width:auto}
 .tb .snb span{font:italic 400 var(--t-val)/1 var(--fs);color:var(--muted)}
 .tb .ed .seal{float:right;margin-left:.5em}
@@ -42,7 +42,6 @@ KIT.mount({
       <div class="blk"><div class="h">Project</div><div class="pn">${e(P.name)}</div><p>${e(P.site)}, ${e(P.street)}<br>${e(P.city)} · ${e(P.county)}<br>APN ${e(P.apn)} · ${e(P.zoning)}<br><span class="m">for ${e(P.owner)}, ${e(P.ownerCo)}</span></p></div>
       <div class="blk"><div class="h">Issued</div>${c.iss.map((r, k) => `<p${k ? ' style="color:var(--muted)"' : ''}>${r.no} · ${e(r.date)} · <i>${e(r.for)}</i></p>`).join('')}</div>
       <div class="blk"><div class="h">Agency</div><p>Design review (LCC) <span class="m">no. pending</span><br>Building permit <span class="m">no. pending</span><br>${e(S.fire)}</p></div>
-      <div class="blk"><div class="h">Architect of record</div><p><span class="seal">Stamp</span>${e(S.aor.name)}<br><span class="m">${e(S.aor.note)}</span></p></div>
     </div>
     <div class="ed b">
       <div class="h">Sheet</div>

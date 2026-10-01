@@ -28,14 +28,14 @@
 .tb .is{color:var(--muted)}
 .tb .is.new{color:var(--ink)}
 .tb .qs{position:relative}
-.tb .qn .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2))}
+.tb .qn .sn{font-size:max(calc(35px*var(--fl)),calc(var(--u)*1.008))}
 .tb .qc p{color:var(--muted)}
 
-.tb .col{right:calc(var(--u)*.02);left:calc(var(--u)*.2);text-align:right;align-items:flex-end}
+.tb .col{right:calc(var(--u)*.22);left:calc(var(--u)*.3);text-align:right;align-items:flex-end}
 .tb .col.b{bottom:calc(var(--u)*.1)}
 .tb .qs .seal{margin:calc(var(--u)*.14) 0 0 auto}
 .tb .qn .sn{margin-right:-.03em}
-.tb .hl{width:calc(var(--u)*.6);height:1px;background:var(--ink);opacity:.6;margin:calc(var(--u)*.34) 0 calc(var(--u)*.02) auto}
+.tb .hl{width:calc(var(--u)*.6);height:calc(var(--u)*.1);background:var(--swoop-ink) no-repeat 0 0/100% 100%;margin:calc(var(--u)*.34) 0 calc(var(--u)*.02) auto}
 </style>
 </head>
 <body>
@@ -53,7 +53,7 @@ KIT.mount({
         <p>${e(P.owner)}<br><span class="mut">${e(P.ownerCo)}</span></p></div>
       <div class="q"><span class="k blk">Issued</span>${c.iss.map((r, k) => `<p class="is${k ? '' : ' new'}"><span class="k">${r.no}</span> ${e(r.date)} &nbsp;${e(r.for)}</p>`).join('')}</div>
       <div class="q"><span class="k blk">Agency</span><p>Design review (LCC) <span class="mut">no. pending</span><br>Building permit <span class="mut">no. pending</span><br>${e(S.fire)}</p></div>
-      <div class="q qs"><span class="k blk">Architect of record</span><p>${e(S.aor.name)}<br><span class="mut sm2">${e(S.aor.note)}</span></p><div class="seal">Stamp</div></div>`;
+      `;
     const bot = `<div class="q"><div class="mid">${e(sh.title)}</div><p>${e(sh.scale)} · ${e(S.date)} · ${e(S.drawnBy)}</p><p class="st">${e(S.status)}</p></div>
       <div class="q qn"><span class="k blk">Sheet ${c.i + 1} of ${c.N}</span><div class="sn">${c.cells(sh.id)}</div></div>
       <div class="q qc"><p class="sm2"><span class="k">${e(F.name)}</span><br>${e(F.line)} · ${F.addr.map(e).join(', ')} · ${e(F.phone)} · ${e(F.email)}<br>${e(S.copy)}</p></div>`;

@@ -18,12 +18,12 @@
 .tb .bob{position:absolute;width:max(7px,calc(var(--u)*.15));height:max(7px,calc(var(--u)*.15));border-radius:50%;background:var(--accent);transform:translate(-50%,-50%)}
 .tb .hang{position:absolute;left:0;right:calc(var(--u)*.26);display:flex;flex-direction:column;gap:calc(var(--u)*.26)}
 .tb .sec{position:relative;padding-left:var(--pl)}
-.tb .sec::before{content:"";position:absolute;left:calc(var(--pl) - var(--u)*.3);top:calc(var(--t-lab)*.62);width:calc(var(--u)*.18);height:1px;background:var(--ink);opacity:.6}
+.tb .sec::before{content:"";position:absolute;left:calc(var(--pl) - var(--u)*.3);top:calc(var(--t-lab)*.62);width:calc(var(--u)*.22);height:calc(var(--u)*.08);background:var(--swoop-ink) no-repeat 0 0/100% 100%;transform:translateY(-55%)}
 .tb .sec.nt::before{display:none}
 .tb .s-num{padding-left:0}
 .tb .s-num::before{display:none}
 .tb .s-num .lab{padding-left:var(--pl)}
-.tb .s-num .sn{font-size:max(calc(42px*var(--fl)),calc(var(--u)*1.2));padding-left:calc(var(--pl) - var(--u)*.06)}
+.tb .s-num .sn{font-size:max(calc(35px*var(--fl)),calc(var(--u)*1.008));padding-left:calc(var(--pl) - var(--u)*.06)}
 .tb .s-colo{padding-left:var(--pl)}
 </style>
 </head>
