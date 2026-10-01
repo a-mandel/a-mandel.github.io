@@ -1084,7 +1084,7 @@
     const TIPN = ftin(I.rib.tipOver), WLEN = ftin(I.wing.len), WDEP = ftin(I.wing.depth);
     const SHOTS = [
       {
-        scheme: 'rib', dur: 13, title: 'The Ribbon', fov: 86, brush: true,
+        scheme: 'rib', dur: 13, title: 'The Ribbon', fov: 86, brush: false,
         // André 10/1/26: start down the drive, swing around the court tree, land low and wide on the rear elevation
         keys: [
           { at: 0, yaw: -1.64, el: 0.06, dist: 158, t: [A.tree[0] - 6, 11, A.tree[2] + 2] },
@@ -1104,7 +1104,7 @@
         ]
       },
       {
-        scheme: 'gab', pitch: '12', dur: 12, title: 'The Modern Gable', fov: 84, brush: true,
+        scheme: 'gab', pitch: '12', dur: 12, title: 'The Modern Gable', fov: 84, brush: false,
         keys: [
           { at: 0, yaw: -1.42, el: 0.1, dist: 150, t: [A.tree[0] - 4, 11, A.tree[2] + 4] },
           { at: 0.5, yaw: -0.05, el: 0.48, dist: 132, t: [A.tree[0] + 2, 12, A.tree[2]] },
@@ -1122,7 +1122,7 @@
         ]
       },
       {
-        scheme: 'asym', dur: 12, title: 'The Asymmetric Gable', fov: 84, brush: true,
+        scheme: 'asym', dur: 12, title: 'The Asymmetric Gable', fov: 84, brush: false,
         keys: [
           { at: 0, yaw: -0.05, el: 0.13, dist: 152, t: [A.tree[0], 11, A.tree[2] + 6] },
           { at: 0.5, yaw: 0.95, el: 0.44, dist: 134, t: [A.tree[0] + 6, 12, A.tree[2]] },
