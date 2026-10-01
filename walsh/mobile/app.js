@@ -5,6 +5,7 @@
   const $$ = s => [...document.querySelectorAll(s)];
   const app = $('#app');
   const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const LD_CALM = false;   // André 9/30/26: the gyroscope intro always plays, even with Reduce Motion on
   const nextFrame = () => new Promise(r => requestAnimationFrame(() => r()));
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   let STYLE = 'annot';
@@ -185,10 +186,10 @@
       ldMsg.textContent = MSGS[Math.min(MSGS.length - 1, Math.floor(k * MSGS.length * 0.999))];
     };
     // reduced motion: no spin, the pencil simply draws the compass and the mark fades in
-    LD.dur = REDUCE ? 1800 : LD_T * 1000;
-    const waapi = !REDUCE && typeof Element !== 'undefined' && typeof Element.prototype.animate === 'function';
+    LD.dur = LD_CALM ? 1800 : LD_T * 1000;
+    const waapi = !LD_CALM && typeof Element !== 'undefined' && typeof Element.prototype.animate === 'function';
     let anims = [];
-    if (REDUCE) still(1);
+    if (LD_CALM) still(1);
     else if (waapi) {
       const N = 96, F = look(0).map(() => []);
       for (let i = 0; i <= N; i++) look(i / N).forEach(([, st], j) => F[j].push(Object.assign({ offset: i / N }, st)));
@@ -201,13 +202,13 @@
       const ct = anims.length ? anims[0].currentTime : null;   // follow the compositor clock so strokes and spin stay in step
       return clampL((ct != null ? ct : performance.now() - t0) / LD.dur);
     };
-    window.__ld = { freeze: t => { LD.frozen = t; anims.forEach(a => { a.pause(); a.currentTime = t * LD.dur; }); if (!anims.length && !REDUCE) still(t); strokes(t); meter(t); } };
+    window.__ld = { freeze: t => { LD.frozen = t; anims.forEach(a => { a.pause(); a.currentTime = t * LD.dur; }); if (!anims.length && !LD_CALM) still(t); strokes(t); meter(t); } };
     let settled = false, first = true;
     const tick = () => {
       if (first) { first = false; document.documentElement.classList.add('ld-live'); }   // hand off only once the gyroscope paints
       const t = LD.t();
       strokes(t); meter(t);
-      if (!anims.length && !REDUCE && LD.frozen == null) still(t);
+      if (!anims.length && !LD_CALM && LD.frozen == null) still(t);
       if (t >= 1 && !settled && LD.frozen == null) { settled = true; still(1); anims.forEach(a => a.cancel()); anims = []; }
       if (t < 1 || (!LD.done && !LD.err)) requestAnimationFrame(tick);
     };
@@ -224,14 +225,14 @@
     if (!window.THREE) { LD.err = true; ldMsg.textContent = 'The model needs a connection to load. Refresh to try again.'; return; }
     let DATA; try { DATA = await (window.__md || fetch('model.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })); } catch (e) { LD.err = true; ldMsg.textContent = 'The model needs a connection to load. Refresh to try again.'; return; }
     step(1);
-    await ldWait(REDUCE ? 1 : 0.9);    // let the pencil finish the compass before the build takes the main thread
+    await ldWait(LD_CALM ? 1 : 0.9);    // let the pencil finish the compass before the build takes the main thread
     await nextFrame();
     const W3 = build(DATA, step);
     await W3.ready;
     step(6);
     await ldWait(1);
-    if (!REDUCE) await sleep(LD_HOLD * 1000);      // the full motion, then a beat at rest
-    if (!REDUCE) { $('#ld').classList.add('dive'); await sleep(380); }
+    if (!LD_CALM) await sleep(LD_HOLD * 1000);      // the full motion, then a beat at rest
+    if (!LD_CALM) { $('#ld').classList.add('dive'); await sleep(380); }
     { const dial = $('#ldDial'); dial.style.transform = ''; $('#enterGy').prepend(dial); }
     $('#loader').classList.add('gone');
     setTimeout(() => { $('#loader').hidden = true; }, 1000);
