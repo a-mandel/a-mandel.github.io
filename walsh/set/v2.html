@@ -280,10 +280,9 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .tb .gc .logo img{max-width:88%;max-height:78%;object-fit:contain}
 .tb .ag .val{white-space:nowrap}
 .tb .ag .il{display:inline-block;min-width:4.6em}
-/* the band (André 10/1/26): open on both sides, the agency stamp's place in print and the play button's on screen */
+/* the band: the approval stamp spot (André 10/1/26) */
 .tb .stz{position:absolute;left:0;right:0;margin:0;display:grid;place-items:center;pointer-events:none}
 .tb .stz .stl{position:absolute;left:calc(var(--u)*.3);top:calc(var(--u)*.14);font:400 max(calc(6.5px * var(--fl)),calc(var(--u)*.085))/1 var(--ft);letter-spacing:.26em;color:var(--muted)}
-@media screen{.tb .stz .stl{display:none}}
 
 .tb .tq{display:flex;align-items:center;gap:calc(var(--u)*.18)}
 .tb .tq .qr{width:calc(var(--u)*1.3);height:calc(var(--u)*1.3)}
@@ -592,59 +591,14 @@ body:has(#drawer.show) .waxplay{display:none}
 .deal .dc .db{position:absolute;left:0;top:0;bottom:0;width:var(--u);background:#181715;box-shadow:1px 0 0 rgba(0,0,0,.4)}
 @media print{.deal{display:none !important}}
 /* ================= round 2 (André 10/1/26) */
-/* the band (André 10/1/26): sumi nav buttons, previous and next, with the index under them. Play lives on the model,
-   where one press runs the whole tour. */
-.bnv{pointer-events:auto;display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*.26)}
-.bnr{display:flex;gap:calc(var(--u)*.1)}
-.stp{pointer-events:auto;appearance:none;border:0;background:none;padding:0;cursor:pointer;width:calc(var(--u)*1.34);height:calc(var(--u)*1.34);border-radius:50%;
-  color:#1b1a18;opacity:.86;transition:opacity .3s ease,transform .45s cubic-bezier(.3,1.4,.5,1);-webkit-tap-highlight-color:transparent}
-.stp svg{width:100%;height:100%;display:block;overflow:visible}
-.stp.l svg{transform:scaleX(-1)}
-.stp .ens,.stp .chv{transform-box:fill-box;transform-origin:50% 50%;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
-.stp:hover,.stp:focus-visible{opacity:1;transform:scale(1.07)}
-.stp:hover .ens{animation:stpSpin 7s linear infinite}
-.stp:hover .chv{transform:translateX(2.5px)}
-.stp:focus-visible{outline:1px solid var(--accent);outline-offset:4px}
-.bix{pointer-events:auto;appearance:none;border:0;background:none;cursor:pointer;color:var(--ink);font:400 calc(var(--t-lab) * 1.2)/1 var(--ft);letter-spacing:.34em;text-transform:uppercase;
-  padding:.4em .2em .35em .55em;border-bottom:1px solid rgba(27,26,24,.38);transition:border-color .25s ease,letter-spacing .35s ease}
-.bix:hover,.bix:focus-visible{border-bottom-color:var(--ink);letter-spacing:.42em}
-@keyframes stpSpin{to{transform:rotate(360deg)}}
-/* a new sheet stamps its buttons a moment after it lands */
-.play .bnv{animation:stpIn .55s cubic-bezier(.3,1.5,.5,1) both;animation-delay:2.1s}
-@keyframes stpIn{0%{opacity:0;transform:scale(1.18) rotate(-4deg)}60%{opacity:.95}100%{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.stp:hover .ens,.play .bnv{animation:none}}
-@media print{.bnv{display:none !important}}
 
-/* the logo: a sumi keeper per sheet, painted in on arrival, a wet ink glint now and then */
+/* the logo: a sumi keeper per sheet, static (André 10/1/26) */
 .tb .lockw{position:absolute;display:block;pointer-events:none}
 .tb .lockw .lock{position:static;display:block;width:100%;height:auto}
-.tb .lockw .sheen{position:absolute;inset:0;-webkit-mask:var(--lk) center / 100% 100% no-repeat;mask:var(--lk) center / 100% 100% no-repeat;
-  background:linear-gradient(118deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.55) 47%,rgba(255,255,255,.16) 53%,rgba(255,255,255,0) 60%) no-repeat;background-size:260% 260%;background-position:120% 120%;
-  animation:lkSheen 9s ease-in-out infinite;animation-delay:6s;mix-blend-mode:screen}
-@keyframes lkSheen{0%,62%{background-position:120% 120%}90%,100%{background-position:-30% -30%}}
-.play .lockw .lock,.logoin .lockw .lock{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 220' preserveAspectRatio='none'%3E%3Cpath d='M0 0 L100 0 L100 109.62 L98 111.04 L96 109.88 L94 110.90 L92 105.68 L90 106.75 L88 106.69 L86 111.32 L84 109.96 L82 110.46 L80 110.63 L78 113.60 L76 114.28 L74 111.09 L72 109.30 L70 107.64 L68 110.39 L66 107.51 L64 107.62 L62 105.32 L60 110.59 L58 111.29 L56 113.12 L54 110.31 L52 112.01 L50 112.95 L48 112.69 L46 109.69 L44 106.33 L42 107.96 L40 108.01 L38 109.69 L36 106.30 L34 109.44 L32 110.46 L30 114.96 L28 111.94 L26 111.72 L24 110.21 L22 112.20 L20 110.54 L18 107.41 L16 106.03 L14 106.69 L12 110.38 L10 108.96 L8 110.12 L6 109.10 L4 114.32 L2 113.25 L0 113.31 Z' fill='black'/%3E%3C/svg%3E") 0 0/100% 220% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 220' preserveAspectRatio='none'%3E%3Cpath d='M0 0 L100 0 L100 109.62 L98 111.04 L96 109.88 L94 110.90 L92 105.68 L90 106.75 L88 106.69 L86 111.32 L84 109.96 L82 110.46 L80 110.63 L78 113.60 L76 114.28 L74 111.09 L72 109.30 L70 107.64 L68 110.39 L66 107.51 L64 107.62 L62 105.32 L60 110.59 L58 111.29 L56 113.12 L54 110.31 L52 112.01 L50 112.95 L48 112.69 L46 109.69 L44 106.33 L42 107.96 L40 108.01 L38 109.69 L36 106.30 L34 109.44 L32 110.46 L30 114.96 L28 111.94 L26 111.72 L24 110.21 L22 112.20 L20 110.54 L18 107.41 L16 106.03 L14 106.69 L12 110.38 L10 108.96 L8 110.12 L6 109.10 L4 114.32 L2 113.25 L0 113.31 Z' fill='black'/%3E%3C/svg%3E") 0 0/100% 220% no-repeat;
-  animation:lkCurtain 4.2s cubic-bezier(.65,0,.35,1) both;animation-delay:.5s}
-/* the logo paints in as a curtain (André picked study 5, 10/1/26): the ink lowers from the top, ragged like a wet brush line */
-@keyframes lkCurtain{from{-webkit-mask-position:0 100%;mask-position:0 100%}to{-webkit-mask-position:0 0;mask-position:0 0}}
-@keyframes lkPaint{from{-webkit-mask-position:100% 100%;mask-position:100% 100%}to{-webkit-mask-position:0 0;mask-position:0 0}}
-@media (prefers-reduced-motion:reduce){.tb .lockw .sheen,.play .lockw .lock{animation:none}}
-@media print{.tb .lockw .sheen{display:none}}
-.logowait .sheet .lockw{visibility:hidden}
-.logowait .sheet .lockw .lock{animation:none}
 
 /* the sheet number is the index: hover it and its label turns into prev, Index, next */
 .tb .snb{appearance:none;border:0;background:none;padding:0;margin:0;cursor:pointer;display:block;color:inherit;text-align:left}
 .tb .snl{position:relative;display:block}
-.tb .snav{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;gap:calc(var(--u)*.1);opacity:0;pointer-events:none;transition:opacity .25s ease}
-.tb .snav button{appearance:none;border:1px solid rgba(27,26,24,.35);background:var(--paper);border-radius:999px;cursor:pointer;color:var(--ink);
-  font:400 var(--t-lab)/1 var(--ft);letter-spacing:.2em;text-transform:uppercase;padding:.45em .8em .4em;margin:0}
-.tb .snav button[data-step]{letter-spacing:0;padding:.35em .65em .4em;font-size:calc(var(--t-lab) * 1.3)}
-.tb .snav button:hover{border-color:var(--ink)}
-.tb .snum:hover .snav,.tb .snum:focus-within .snav{opacity:1;pointer-events:auto}
-.tb .snum:hover .snl .lab,.tb .snum:focus-within .snl .lab{opacity:0}
-.tb .snl .lab{transition:opacity .25s ease}
-.tb .snb:hover .sn{color:#000}
-@media print{.tb .snav{display:none}}
 
 /* notes wait for a hover (André 10/1/26): on a desktop the dots stay as hints, the leader and words draw in when the
    pointer reaches what they point at. Press N to show them all. Print and phones show every note. */
@@ -752,7 +706,6 @@ const SET = {
   fire: 'Very High FHSZ · Chapter 7A',
   // title block (André 10/1): the GC logo is a placeholder wordmark until Elevated sends a file: set gc.logo to an image
   // path and it drops into the same box
-  aor: { k: 'Architect of record', v: 'Joseph Benveniste, AIA' },
   gc: { name: 'Elevated Developers Inc.', role: 'General contractor', logo: '' },
   // oldest first here; the title block shows newest first
   issuances: [ { no: 1, date: '9/28/26', for: 'Feasibility FA2' }, { no: 2, date: '9/30/26', for: 'Living set, cartoon' }, { no: 3, date: '9/30/26', for: 'Living set, drawings' } ],
@@ -875,8 +828,7 @@ const BL = 1.25;                     // border left
 const K = 0.738;                     // dx/dy of the roof stroke (53.6 degrees from horizontal)
 const TBX = 32.5;                                       // sidebar from the 32 1/2 line, 3 in wide (André 9/30)
 const TXL = TBX + 0.3, TXR = 35.5 - 0.22;               // the sidebar's text margins
-/* the free sidebar (André 10/1/26): the agency stamp band breaks the sidebar into two rounded bubbles, open to the
-   drawing on the left and to the margin on the right. The play button lives in the band on screen. */
+/* the sidebar runs straight down (André 10/1/26); the band is the approval stamp spot, left open */
 const BAND = [13.6, 17.6], BRAD = 0.5;                  // sheet inches, top and bottom of the band; corner radius
 /* the lockup fills the sidebar at its old size; MANDEL (lockup px 26 to 352, center 189) sits centered between the
    sidebar's two vertical lines, the 32 1/2 rule and the border at 35 1/2, the mark rides along (André 10/1) */
@@ -907,11 +859,9 @@ function borderPath() {
   const body = pts.slice(sIn, sOut + 1).map(p => `L${f(p[0])} ${f(p[1])}`).join(' ');
   return `M${f(BL + R)} 0.5 H${f(V1[0] - r)} Q${f(V1[0])} 0.5 ${f(pts[sIn][0])} ${f(pts[sIn][1])} ${body} ` +
     `Q35.5 ${f(V2[1])} 35.5 ${f(V2[1] + r)} ` +
-    // the upper bubble rounds off above the band and climbs the sidebar rule back to the top edge
-    `V${f(BAND[0] - BRAD)} Q35.5 ${BAND[0]} ${f(35.5 - BRAD)} ${BAND[0]} H${f(TBX + BRAD)} Q${TBX} ${BAND[0]} ${TBX} ${f(BAND[0] - BRAD)} V0.5 ` +
-    // the lower bubble starts at the bottom edge, rounds over the band, and runs on around the sheet
-    `M${TBX} 23.5 V${f(BAND[1] + BRAD)} Q${TBX} ${BAND[1]} ${f(TBX + BRAD)} ${BAND[1]} H${f(35.5 - BRAD)} Q35.5 ${BAND[1]} 35.5 ${f(BAND[1] + BRAD)} ` +
-    `V${23.5 - R} Q35.5 23.5 ${35.5 - R} 23.5 H${BL + R} Q${BL} 23.5 ${BL} ${23.5 - R} V${0.5 + R} Q${BL} 0.5 ${BL + R} 0.5`;
+    `V${23.5 - R} Q35.5 23.5 ${35.5 - R} 23.5 H${BL + R} Q${BL} 23.5 ${BL} ${23.5 - R} V${0.5 + R} Q${BL} 0.5 ${BL + R} 0.5 Z ` +
+    // the sidebar rule runs straight down, top edge to bottom edge
+    `M${TBX} 0.5 V23.5`;
 }
 
 /* the ruler: a mark at every inch measured from the paper's edges (x 0 at the left edge, y 0 at the top), numbered by
@@ -1271,9 +1221,9 @@ function titleBlock(sh, i) {
   // no sheet index here (André 9/30): it lives on A0.1 and behind the Sheet index button
   const lw = LOCK.w, lx = LOCK.x - TBX, ly = LOCK.y - 0.5, G = SET.gc;
   const gcLogo = G.logo ? `<img src="${esc(G.logo)}" alt="${esc(G.name)}">` : `<b>ELEVATED</b><i>logo</i>`;
-  const ag = [[SET.aor.k === 'Architect of record' ? 'AOR' : SET.aor.k, SET.aor.v], ...SET.permits.map(p => [p.tb === 'Design review (LCC)' ? 'LCC' : 'Permit', p.v])];
+  const ag = [...SET.permits.map(p => [p.tb === 'Design review (LCC)' ? 'LCC' : 'Permit', p.v])];
   return `<aside class="tb" aria-label="Title block">
-    <span class="lockw" style="left:${U(lx)};top:${U(ly)};width:${U(lw)};--lk:url(${esc(keeper(i))})"><img class="lock" src="${esc(keeper(i))}" alt="André Mandel" width="357" height="520"><i class="sheen" aria-hidden="true"></i></span>
+    <span class="lockw" style="left:${U(lx)};top:${U(ly)};width:${U(lw)};--lk:url(${esc(keeper(i))})"><img class="lock" src="${esc(keeper(i))}" alt="André Mandel" width="357" height="520"></span>
     <div class="tbc up" style="top:${U(LOCK_BOTTOM - 0.5 + 0.22)};bottom:${U(23.5 - BAND[0] + 0.24)}">
       <div class="sec"><span class="lab">Project</span><div class="pname">${esc(P.name)}</div>
         <span class="val line">${esc(P.street)}</span><span class="val line">Lot 235 · ${esc(P.city)}</span><span class="val line">${esc(P.county)}</span>
@@ -1282,12 +1232,12 @@ function titleBlock(sh, i) {
       <div class="sec gc"><span class="lab">${esc(G.role)}</span><div class="logo" title="Logo placeholder">${gcLogo}</div><span class="val line">${esc(G.name)}</span></div>
       <div class="sec ag"><span class="lab">Agencies</span>${ag.map(([k, v]) => `<span class="val line"><span class="il">${esc(k)}</span>${esc(v)}</span>`).join('')}<span class="val line">${esc(SET.fire)}</span></div>
     </div>
-    <div class="stz" style="top:${U(BAND[0] - 0.5)};height:${U(BAND[1] - BAND[0])}" aria-label="Agency stamp space"><span class="stl">AGENCY STAMP</span>${stampNav()}</div>
+    <div class="stz" style="top:${U(BAND[0] - 0.5)};height:${U(BAND[1] - BAND[0])}" aria-label="Approval stamp space"><span class="stl">APPROVAL STAMP</span></div>
     <div class="tbc dn" style="top:${U(BAND[1] - 0.5 + 0.26)}">
       <div class="sec tq">${qrSVG()}${liveText()}</div>
       <div class="sec colo"><b>${esc(F.signer || F.name)}</b><span>${esc(F.addr.join(', '))}</span><span>${esc(F.phone)} · ${esc(F.email)}</span><span class="cp">${esc(SET.copy)}</span></div>
       <div class="sec sid"><div class="stitle">${esc(stTitle(sh))}</div><div class="meta"><span class="sc">${esc(scaleText(sh.scale))}</span></div>
-        <div class="snum"><span class="snl"><span class="lab">Sheet ${i + 1} of ${N}</span><span class="snav"><button type="button" data-step="-1" aria-label="Previous sheet">&lsaquo;</button><button type="button" data-panel>Index</button><button type="button" data-step="1" aria-label="Next sheet">&rsaquo;</button></span></span><button type="button" class="snb" data-panel aria-label="Sheet index"><span class="sn" data-sn="${sh.id}" aria-label="Sheet ${sh.id}">${cells(sh.id)}</span></button></div></div>
+        <div class="snum"><span class="snl"><span class="lab">Sheet ${i + 1} of ${N}</span></span><button type="button" class="snb" data-panel aria-label="Sheet index"><span class="sn" data-sn="${sh.id}" aria-label="Sheet ${sh.id}">${cells(sh.id)}</span></button></div></div>
     </div></aside>`;
 }
 /* the logo (André 10/1/26): the sumi tail keepers with MANDEL in Tenor, one per sheet, so the set feels hand made */
@@ -1295,8 +1245,6 @@ const KEEPERS = ['44', '01', '14', '48'];
 const keeper = k => `../marks/sumi/lock${KEEPERS[k % KEEPERS.length]}.webp`;
 /* the play button (André 10/1/26): a sumi stamp in the band, an enso brushed around a play mark, inked like a
    rubber stamp and always moving. One press turns one sheet; the next sheet stamps its own in a moment later. */
-const chvBtn = (d, label) => `<button type="button" class="stp ${d < 0 ? 'l' : 'r'}" data-step="${d}" aria-label="${label}"><svg viewBox="-60 -60 120 120" aria-hidden="true"><g class="ens"><use href="#stpRing"/></g><g class="chv"><use href="#stpChv"/></g></svg></button>`;
-const stampNav = () => `<div class="bnv" role="group" aria-label="Sheet navigation"><div class="bnr">${chvBtn(-1, 'Previous sheet')}${chvBtn(1, 'Next sheet')}</div><button type="button" class="bix" data-panel aria-label="Sheet index">Index</button></div>`;
 (function stampDefs() {
   let sd = 9137; const R = () => (sd = sd * 16807 % 2147483647) / 2147483647;
   const a0 = -1.0, sweep = 5.55, f = v => v.toFixed(2);
@@ -2444,7 +2392,7 @@ function deal(done) {
   ['pointerdown', 'keydown', 'wheel'].forEach(ev => addEventListener(ev, skip, { capture: true, once: true }));
   anims[n - 1].onfinish = land;
 }
-const start = () => { if (fromHash() === 0) document.documentElement.classList.add('logowait'); setTimeout(logoIn, 14000); go(fromHash()); startBreeze(); deskArrows(); const idle = window.requestIdleCallback || (f => setTimeout(f, 600)); idle(bakePaper, { timeout: 1500 }); idle(bakeVariants, { timeout: 2500 }); };
+const start = () => { setTimeout(logoIn, 14000); go(fromHash()); startBreeze(); deskArrows(); const idle = window.requestIdleCallback || (f => setTimeout(f, 600)); idle(bakePaper, { timeout: 1500 }); idle(bakeVariants, { timeout: 2500 }); };
 (document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1200))]) : Promise.resolve()).then(() => { layout(); start(); });
 </script>
 </body>
