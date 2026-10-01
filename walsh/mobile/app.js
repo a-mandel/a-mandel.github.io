@@ -722,6 +722,7 @@
     const IN_SHEET = document.documentElement.classList.contains('in-sheet');
     if (IN_SHEET) S.lens = 'ultra';   // inside the living set the model opens on the widest lens; the quick toggle reads pressed (André 9/30)
     const REEL_SHEET_K = 1.4;          // inside a sheet the reel stands this much further back
+    let reelFov = null;                // a shot may ask for a wider lens (André 10/1/26: the scheme shots go wide angle)
     let reelScheme = { scheme: 'rib', pitch: '12', see: true, room: false };
 
     function apply() {
@@ -800,7 +801,7 @@
       const ph = CW < 520 ? 0 : 1, fp = Math.max(0, Math.min(1, cam.fp || 0));
       const lens = MODE === 'reel' ? 'wide' : S.lens;
       const reelSheet = MODE === 'reel' && IN_SHEET;
-      const fovO = MODE === 'reel' ? (CW < 520 ? 62 : reelSheet ? 64 : 54) : LENS[lens][ph];
+      const fovO = MODE === 'reel' ? (reelFov ? (CW < 520 ? Math.min(reelFov, 80) : reelFov) : (CW < 520 ? 62 : reelSheet ? 64 : 54)) : LENS[lens][ph];
       const fovE = EYE[lens === 'ultra' ? 'ultra' : 'wide'][ph];
       camera.fov = fovO + (fovE - fovO) * fp; camera.aspect = CW / CH;
       const vw = Math.max(80, vis.r - vis.l), vh = Math.max(80, vis.b - vis.t);
@@ -858,7 +859,9 @@
       list.forEach((a, i) => {
         if (a.only && a.only !== STYLE) return;
         if (lean && !(a.key || (MODE === 'model' && a.k === 'run'))) return;
-        const delay = (MODE === 'reel' ? 900 : 150) + i * (MODE === 'reel' ? 420 : 60);
+        // a brushed shot holds its notes until the name has had its moment (André 10/1/26)
+        let sb = 0; try { sb = MODE === 'reel' && SHOTS[shot] && SHOTS[shot].brush ? SHOTS[shot].dur * 600 : 0; } catch (e) { sb = 0; }
+        const delay = (MODE === 'reel' ? (sb || 900) : 150) + i * (MODE === 'reel' ? 420 : 60);
         if (a.k === 'note') {
           const d = document.createElement('div'); d.className = 'note'; d.textContent = a.text; notesEl.appendChild(d);
           const path = mkSvg('path', { fill: 'none', stroke: col, 'stroke-width': sumi ? 1.5 : 1.1, 'stroke-linecap': 'round', opacity: 0 });
@@ -992,11 +995,103 @@
       if (STYLE === 'sumi' && s.width > 10) brush(g, sweepPts(s.left - 8, s.bottom - 3, s.left + Math.min(s.width, 230) * 0.9, s.bottom - 7, 9, 3, 90), { color: '#c63a22', seed: 9, dry: 0.7, alpha: 0.9, fill: 0.5, bristles: 26 });
     }
 
+
+    // ---------------- the scheme name, brushed across the middle (André 10/1/26)
+    // Capitals drawn as Tenor Sans skeletons in a 100 unit cap height, painted with the same dry brush as the logo, so
+    // the reel adds no new typeface. Painted once per shot into a bitmap, then wiped in left to right as the camera turns.
+    const bt = $('#btitle'), btBuf = document.createElement('canvas');
+    let btFor = '';
+    const arcP = (cx, cy, rx, ry, a0, a1, n = 44) => Array.from({ length: n + 1 }, (_, i) => { const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; return [cx + rx * Math.cos(a), cy + ry * Math.sin(a)]; });
+    const GL = {
+      A: [74, [[0, 100], [37, 0], [74, 100]], [[16, 64], [58, 64]]],
+      B: [64, [[0, 100], [0, 0]], [[0, 0], [34, 0]].concat(arcP(34, 24, 24, 24, -90, 90)).concat([[0, 48]]), [[0, 48], [36, 48]].concat(arcP(36, 74, 28, 26, -90, 90)).concat([[0, 100]])],
+      C: [88, arcP(46, 50, 46, 50, -42, -318, 60)],
+      D: [80, [[0, 0], [0, 100]], [[0, 0], [30, 0]].concat(arcP(30, 50, 50, 50, -90, 90, 50)).concat([[0, 100]])],
+      E: [56, [[56, 0], [0, 0], [0, 100], [58, 100]], [[0, 50], [46, 50]]],
+      F: [54, [[54, 0], [0, 0], [0, 100]], [[0, 50], [44, 50]]],
+      G: [90, arcP(46, 50, 46, 50, -38, -322, 60), [[54, 58], [92, 58], [92, 94]]],
+      H: [70, [[0, 0], [0, 100]], [[70, 0], [70, 100]], [[0, 50], [70, 50]]],
+      I: [0, [[0, 0], [0, 100]]],
+      K: [64, [[0, 0], [0, 100]], [[62, 0], [0, 60]], [[20, 42], [66, 100]]],
+      L: [54, [[0, 0], [0, 100], [56, 100]]],
+      M: [92, [[0, 100], [4, 0], [46, 92], [88, 0], [92, 100]]],
+      N: [74, [[0, 100], [0, 0], [74, 100], [74, 0]]],
+      O: [100, arcP(50, 50, 50, 50, -90, 272, 72)],
+      P: [60, [[0, 100], [0, 0]], [[0, 0], [32, 0]].concat(arcP(32, 26, 26, 26, -90, 90)).concat([[0, 52]])],
+      R: [64, [[0, 100], [0, 0]], [[0, 0], [32, 0]].concat(arcP(32, 26, 26, 26, -90, 90)).concat([[0, 52]]), [[28, 52], [66, 100]]],
+      S: [62, arcP(32, 25, 28, 24, -25, -270, 40).concat(arcP(32, 75, 30, 25, -90, 155, 40))],
+      T: [72, [[0, 0], [72, 0]], [[36, 0], [36, 100]]],
+      U: [70, [[0, 0], [0, 64]].concat(arcP(35, 64, 35, 36, 180, 0, 36)).concat([[70, 0]])],
+      W: [96, [[0, 0], [22, 100], [48, 18], [74, 100], [96, 0]]],
+      Y: [72, [[0, 0], [36, 52]], [[72, 0], [36, 52], [36, 100]]]
+    };
+    function strokePts(path, w) {
+      const L = [0]; for (let i = 1; i < path.length; i++) L.push(L[i - 1] + Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1]));
+      const tot = L[L.length - 1] || 1, n = Math.max(18, Math.round(tot / 2)), out = [];
+      for (let k = 0, j = 0; k <= n; k++) {
+        const sd = tot * k / n; while (j < path.length - 2 && L[j + 1] < sd) j++;
+        const a = path[j], b = path[j + 1] || a, f = Math.min(1, (sd - L[j]) / ((L[j + 1] - L[j]) || 1)), t = k / n;
+        const ww = w * (0.62 + 0.38 * Math.sin(Math.PI * Math.min(1, t * 1.3 + 0.12))) * (t > 0.66 ? 1 - (t - 0.66) * 1.9 : 1);   // pressed in, lifting off dry
+        out.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, Math.max(1, ww)]);
+      }
+      return out;
+    }
+    function prepTitle(s) {
+      const key = s.brush ? s.title + '|' + CW + 'x' + CH : '';
+      if (key === btFor) return;
+      btFor = key;
+      bt.width = Math.round(CW * DPR); bt.height = Math.round(CH * DPR);
+      btBuf.width = bt.width; btBuf.height = bt.height;
+      const g = btBuf.getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, btBuf.width, btBuf.height);
+      if (!s.brush) return;
+      const txt = s.title.toUpperCase(), GAP = 30, SP = 64;
+      let units = 0; [...txt].forEach((c, i) => { units += c === ' ' ? SP : (GL[c] ? GL[c][0] : 60) + (i < txt.length - 1 ? GAP : 0); });
+      const S = Math.min(CW * 0.08 / 100, CW * 0.84 / units, CH * 0.14 / 100) * DPR;
+      const x0 = (bt.width - units * S) / 2, y0 = bt.height * 0.31 - 50 * S;   // across the house, clear of the dial in the middle
+      g.setTransform(S, 0, 0, S, x0, y0);
+      const R = rng(235);
+      let x = 0;
+      [...txt].forEach((c, ci) => {
+        if (c === ' ') { x += SP; return; }
+        const G = GL[c]; if (!G) { x += 60 + GAP; return; }
+        G.slice(1).forEach((st, k) => {
+          const jit = st.map(p => [x + p[0] + (R() - 0.5) * 2.2, p[1] + (R() - 0.5) * 2.2]);
+          brush(g, strokePts(jit, 21), { color: '#121110', seed: 41 + ci * 13 + k * 7, dry: 0.78, alpha: 0.95, fill: 0.82, bristles: 64 });
+        });
+        x += G[0] + GAP;
+      });
+      g.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    function paintTitle(u) {
+      const s = SHOTS[shot];
+      const g = bt.getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, bt.width, bt.height);
+      if (!s || !s.brush || MODE !== 'reel') return;
+      if (bt.width !== Math.round(CW * DPR) || bt.height !== Math.round(CH * DPR)) { btFor = ''; prepTitle(s); }
+      const sm = (a, b, x) => { const k = Math.max(0, Math.min(1, (x - a) / (b - a))); return k * k * (3 - 2 * k); };
+      const rev = REDUCE ? 1 : sm(0.03, 0.32, u), fade = REDUCE ? 1 : 1 - sm(0.5, 0.62, u);
+      if (rev <= 0 || fade <= 0) return;
+      const W = bt.width, F = W * 0.08, xr = -F + (W + 2 * F) * rev;
+      g.globalAlpha = 0.88 * fade;
+      g.drawImage(btBuf, 0, 0);
+      g.globalAlpha = 1;
+      g.globalCompositeOperation = 'destination-in';
+      const gr = g.createLinearGradient(xr - F, 0, xr, 0); gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = gr; g.fillRect(0, 0, W, bt.height);
+      g.globalCompositeOperation = 'source-over';
+    }
+
     // ---------------- the reel
     const TIPN = ftin(I.rib.tipOver), WLEN = ftin(I.wing.len), WDEP = ftin(I.wing.depth);
     const SHOTS = [
       {
-        scheme: 'rib', dur: 11, title: 'The Ribbon',
+        scheme: 'rib', dur: 13, title: 'The Ribbon', fov: 86, brush: true,
+        // André 10/1/26: start down the drive, swing around the court tree, land low and wide on the rear elevation
+        keys: [
+          { at: 0, yaw: -1.64, el: 0.06, dist: 158, t: [A.tree[0] - 6, 11, A.tree[2] + 2] },
+          { at: 0.3, yaw: -0.86, el: 0.3, dist: 140, t: [A.tree[0], 12, A.tree[2]] },
+          { at: 0.66, yaw: 0.36, el: 0.5, dist: 128, t: [A.tree[0] + 4, 12, A.tree[2]] },
+          { at: 1, yaw: 1.36, el: 0.09, dist: 112, t: [A.tree[0] + 16, 14, A.tree[2] - 6] }
+        ],
         line: 'One level beam, straight joists, and a roof that lifts like a sheet of paper toward the court.',
         data: ['Tip 6023.0 · ' + f1(I.rib.tipOver) + ' ft over grade', 'Beam 6012.0 · dead level', 'Joists flat to ' + f1(I.rib.tipPitch) + ':12', 'Glulam stops at the corner'],
         from: { yaw: 1.62, el: 0.14, dist: 128, t: [12, 18, 8] }, to: { yaw: 0.72, el: 0.22, dist: 112, t: [12, 18, 8] },
@@ -1009,7 +1104,12 @@
         ]
       },
       {
-        scheme: 'gab', pitch: '12', dur: 10, title: 'The Modern Gable',
+        scheme: 'gab', pitch: '12', dur: 12, title: 'The Modern Gable', fov: 84, brush: true,
+        keys: [
+          { at: 0, yaw: -1.42, el: 0.1, dist: 150, t: [A.tree[0] - 4, 11, A.tree[2] + 4] },
+          { at: 0.5, yaw: -0.05, el: 0.48, dist: 132, t: [A.tree[0] + 2, 12, A.tree[2]] },
+          { at: 1, yaw: 1.48, el: 0.095, dist: 108, t: [A.tree[0] + 16, 14, A.tree[2] - 6] }
+        ],
         line: 'Steep, clean gables with no eaves. The gable ends open up in glass, set deep in a thick cedar frame.',
         data: ['12:12 on every wing', 'Public wing ridge ' + f1(I.gab['12'].ridges.PW), 'Max ' + ftin(I.gab['12'].over) + ' over grade', 'No eaves · square windows'],
         from: { yaw: -1.25, el: 0.15, dist: 138, t: [-13, 15, 28] }, to: { yaw: 1.5, el: 0.2, dist: 112, t: [HC[0] + 14, HC[1] - 1, HC[2] - 10] },
@@ -1022,7 +1122,12 @@
         ]
       },
       {
-        scheme: 'asym', dur: 10, title: 'The Asymmetric Gable',
+        scheme: 'asym', dur: 12, title: 'The Asymmetric Gable', fov: 84, brush: true,
+        keys: [
+          { at: 0, yaw: -0.05, el: 0.13, dist: 152, t: [A.tree[0], 11, A.tree[2] + 6] },
+          { at: 0.5, yaw: 0.95, el: 0.44, dist: 134, t: [A.tree[0] + 6, 12, A.tree[2]] },
+          { at: 1, yaw: 1.8, el: 0.1, dist: 114, t: [A.tree[0] + 16, 14, A.tree[2] - 8] }
+        ],
         line: 'Ridges a third in from the courts: steep 12:12 down to the courts, a long 6:12 out to the lot edges.',
         data: ['12:12 courts · 6:12 lot edges', 'Public wing ridge ' + f1(I.gab.a.ridges.PW), 'Max ' + ftin(I.gab.a.over) + ' over grade', 'Bridge 5:12, under both ridges'],
         from: { yaw: 0.25, el: 0.16, dist: 140, t: [-4, 15, 24] }, to: { yaw: 2.05, el: 0.22, dist: 116, t: [HC[0] + 10, HC[1] - 1, HC[2] - 6] },
@@ -1050,7 +1155,8 @@
     ];
     SHOTS.forEach(s => { if (s.from.eye) { s.from = eyeCam(s.from); s.to = eyeCam(s.to); } });
     // inside a living set sheet the reel reads as a wide view: each shot aims nearer the middle of the house (André 9/30)
-    if (IN_SHEET) SHOTS.forEach(s => [s.from, s.to].forEach(c => { if (c.fp) return; const w = c.el > 0.7 ? 0.3 : 0.7; c.t = [c.t[0] + (CEN[0] - c.t[0]) * w, c.t[1] + (CEN[1] - 4 - c.t[1]) * w, c.t[2] + (CEN[2] - c.t[2]) * w]; }));
+    SHOTS.forEach(s => { if (s.keys) { s.from = s.keys[0]; s.to = s.keys[s.keys.length - 1]; } });
+    if (IN_SHEET) SHOTS.forEach(s => !s.keys && [s.from, s.to].forEach(c => { if (c.fp) return; const w = c.el > 0.7 ? 0.3 : 0.7; c.t = [c.t[0] + (CEN[0] - c.t[0]) * w, c.t[1] + (CEN[1] - 4 - c.t[1]) * w, c.t[2] + (CEN[2] - c.t[2]) * w]; }));
     const MODEL_ANN = {
       rib: () => [
         { k: 'note', key: true, p: A.beam, text: 'beam dead level, 6012', dx: -60, dy: -90 },
@@ -1121,9 +1227,20 @@
       cam.fp = (f.fp || 0) + ((to.fp || 0) - (f.fp || 0)) * e;
       cam.t.set(f.t[0] + (to.t[0] - f.t[0]) * e, f.t[1] + (to.t[1] - f.t[1]) * e, f.t[2] + (to.t[2] - f.t[2]) * e);
     }
+    const cr = (p0, p1, p2, p3, u) => 0.5 * (2 * p1 + (p2 - p0) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u + (3 * p1 - p0 - 3 * p2 + p3) * u * u * u);
+    function keyCam(K, e) {
+      let j = 0; while (j < K.length - 2 && e > K[j + 1].at) j++;
+      const a = K[Math.max(0, j - 1)], b = K[j], c = K[j + 1], d = K[Math.min(K.length - 1, j + 2)];
+      const u = Math.max(0, Math.min(1, (e - b.at) / ((c.at - b.at) || 1)));
+      const v = k => cr(a[k], b[k], c[k], d[k], u);
+      cam.yaw = v('yaw'); cam.el = v('el'); cam.dist = v('dist'); cam.fp = 0;
+      cam.t.set(cr(a.t[0], b.t[0], c.t[0], d.t[0], u), cr(a.t[1], b.t[1], c.t[1], d.t[1], u), cr(a.t[2], b.t[2], c.t[2], d.t[2], u));
+    }
     function startShot(i) {
       shot = i; shotT0 = performance.now();
       const s = SHOTS[i];
+      reelFov = s.fov || null;
+      prepTitle(s);
       reelScheme = { scheme: s.scheme, pitch: s.pitch || '10', see: s.scheme === 'rib' && !s.room, room: !!s.room };
       apply();
       const tk = $('#ticks');
@@ -1134,8 +1251,8 @@
       const ul = $('#shotData'); ul.innerHTML = '';
       s.data.forEach((t, k) => { const li = document.createElement('li'); li.textContent = t; li.style.animationDelay = (0.5 + k * 0.35) + 's'; ul.appendChild(li); });
       $$('#ticks i').forEach((el, k) => { el.className = k < i ? 'done' : ''; if (k === i) { void el.offsetWidth; el.style.setProperty('--dur', s.dur + 's'); el.className = 'run'; } });
-      setCam(s.from, s.to, 0);
-      measure(); drawDeco();
+      if (s.keys) keyCam(s.keys, 0); else setCam(s.from, s.to, 0);
+      measure(); drawDeco(); paintTitle(0);
       setAnn(s.ann);
     }
     function nextShot() {
@@ -1147,8 +1264,9 @@
     function reelTick(now) {
       const s = SHOTS[shot], t = window.__reelT != null ? window.__reelT : (now - shotT0) / 1000 / s.dur;
       // always moving (André 9/28 9:00 pm): a steady drift with soft ends, so every clip reads as motion
-      const u = Math.min(1, t), e = 0.35 * u + 0.65 * (0.5 - 0.5 * Math.cos(Math.PI * u));
-      setCam(s.from, s.to, e);
+      const u = Math.min(1, t), e = s.keys ? 0.2 * u + 0.8 * (0.5 - 0.5 * Math.cos(Math.PI * u)) : 0.35 * u + 0.65 * (0.5 - 0.5 * Math.cos(Math.PI * u));
+      if (s.keys) keyCam(s.keys, e); else setCam(s.from, s.to, e);
+      paintTitle(u);
       if (window.__reelT != null) return;
       if (t >= 1 - 0.47 / s.dur) nextShot();
     }

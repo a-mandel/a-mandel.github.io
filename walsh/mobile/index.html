@@ -107,6 +107,9 @@
   #cv, #deco { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   #cv { z-index: 0; }
   #deco { z-index: 1; pointer-events: none; }
+  /* the scheme name, brushed across the middle of the reel (André 10/1/26) */
+  #btitle { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 2; pointer-events: none; mix-blend-mode: multiply; }
+  #app:not([data-mode="reel"]) #btitle { display: none; }
   #stage { position: absolute; inset: 0; z-index: 2; touch-action: none; cursor: grab; }
   [data-mode="reel"] #stage { cursor: pointer; }
   #stage:active { cursor: grabbing; }
@@ -521,6 +524,7 @@
 <div id="app" data-mode="loading" data-style="annot">
   <canvas id="cv" aria-label="Live 3D model of the Walsh Residence on Lahontan Lot 235"></canvas>
   <canvas id="deco" aria-hidden="true"></canvas>
+  <canvas id="btitle" aria-hidden="true"></canvas>
   <div id="stage"></div>
   <svg id="ov" aria-hidden="true"></svg>
   <div id="notes" aria-hidden="true"></div>

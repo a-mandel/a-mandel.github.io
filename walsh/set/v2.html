@@ -581,6 +581,14 @@ body:has(.sheet.on[data-kind="model"]) .waxplay{display:none}
 body:has(#drawer.show) .waxplay{display:none}
 @media print{.waxplay{display:none!important}}
 
+
+/* the deal on arrival */
+.deal{position:absolute;inset:0;z-index:40;pointer-events:none;perspective:calc(var(--u)*120)}
+.deal .dc{position:absolute;inset:0;border-radius:calc(var(--u)*.05);background:var(--paper);transform-origin:50% 50%;will-change:transform;overflow:hidden}
+.deal .dc .dp{position:absolute;inset:0;background:var(--paper-tex,none) 0 0/100% 100% no-repeat}
+.deal .dc svg{position:absolute;inset:0;width:100%;height:100%}
+.deal .dc .db{position:absolute;left:0;top:0;bottom:0;width:var(--u);background:#181715;box-shadow:1px 0 0 rgba(0,0,0,.4)}
+@media print{.deal{display:none !important}}
 /* ================= round 2 (André 10/1/26) */
 /* the sumi stamp play button, in the band */
 .stp{pointer-events:auto;appearance:none;border:0;background:none;padding:0;cursor:pointer;width:calc(var(--u)*2.05);height:calc(var(--u)*2.05);border-radius:50%;
@@ -2378,7 +2386,48 @@ function deskArrows() {
 }
 addEventListener('resize', deskArrows);
 
-const start = () => { go(fromHash()); startBreeze(); deskArrows(); const idle = window.requestIdleCallback || (f => setTimeout(f, 600)); idle(bakePaper, { timeout: 1500 }); idle(bakeVariants, { timeout: 2500 }); };
+/* the deal (André 10/1/26): on arrival the sheets fly in from the left and land on the drafting table one on another,
+   quick at first then slower, the last one square; then the sheet's own arrival plays. Desktop only, once per load,
+   skipped for reduced motion; any click, key or wheel lands it at once. Light paper stand ins, not live sheets. */
+function deal(done) {
+  if (mob || RM.matches || cur < 0) { done(); return; }
+  const n = 15, wrap = document.createElement('div');
+  wrap.className = 'deal';
+  const frame = `<svg viewBox="0 0 36 24" preserveAspectRatio="none" aria-hidden="true"><path d="${borderPath()}" fill="none" stroke="#1b1a18" stroke-opacity=".5" stroke-width=".9" vector-effect="non-scaling-stroke"/></svg>`;
+  let sd = 235; const R = () => (sd = sd * 16807 % 2147483647) / 2147483647;
+  const cards = [];
+  for (let k = 0; k < n; k++) {
+    const c = document.createElement('div'); c.className = 'dc';
+    c.innerHTML = `<i class="dp"></i>${frame}<i class="db"></i>`;
+    wrap.appendChild(c); cards.push(c);
+  }
+  stage.appendChild(wrap);
+  const sheet = els[cur]; sheet.style.visibility = 'hidden';
+  let t = 0, finished = false;
+  const anims = cards.map((c, k) => {
+    const last = k === n - 1, f = k / (n - 1);
+    const dur = 520 + 420 * f;                                  // each later sheet travels a touch slower
+    const rx = last ? 0 : (R() - 0.5) * 0.9 * u, ry = last ? 0 : (R() - 0.5) * 0.7 * u, rz = last ? 0 : (R() - 0.5) * 3.2;
+    const a = c.animate([
+      { transform: `translate(${(-0.9 * innerWidth - 36 * u * 0.4).toFixed(0)}px, ${(-0.12 * innerHeight + R() * 0.2 * innerHeight).toFixed(0)}px) rotate(${(-14 + R() * 8).toFixed(1)}deg) rotateY(-24deg) scale(1.04)`, boxShadow: '0 40px 70px rgba(27,26,24,.22)', opacity: 1 },
+      { offset: 0.78, transform: `translate(${(rx + 6).toFixed(1)}px, ${(ry - 3).toFixed(1)}px) rotate(${(rz * 1.3).toFixed(2)}deg) rotateY(0deg) scale(1.006)`, boxShadow: '0 10px 22px rgba(27,26,24,.16)', opacity: 1 },
+      { transform: `translate(${rx.toFixed(1)}px, ${ry.toFixed(1)}px) rotate(${rz.toFixed(2)}deg) scale(1)`, boxShadow: '0 1px 3px rgba(27,26,24,.12)', opacity: 1 }
+    ], { duration: dur, delay: t, easing: 'cubic-bezier(.2,.75,.25,1)', fill: 'both' });
+    t += 175 * (1 - f) + 55 + 70 * f * f;                       // the dealing slows as the stack grows
+    return a;
+  });
+  const land = () => {
+    if (finished) return; finished = true;
+    ['pointerdown', 'keydown', 'wheel'].forEach(ev => removeEventListener(ev, skip, true));
+    sheet.style.visibility = '';
+    wrap.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 260, easing: 'ease-out', fill: 'forwards' }).onfinish = () => wrap.remove();
+    done();
+  };
+  const skip = () => { anims.forEach(a => a.finish()); land(); };
+  ['pointerdown', 'keydown', 'wheel'].forEach(ev => addEventListener(ev, skip, { capture: true, once: true }));
+  anims[n - 1].onfinish = land;
+}
+const start = () => { go(fromHash()); if (els[cur]) els[cur].classList.remove('play'); deal(() => arrive(els[cur], -1)); startBreeze(); deskArrows(); const idle = window.requestIdleCallback || (f => setTimeout(f, 600)); idle(bakePaper, { timeout: 1500 }); idle(bakeVariants, { timeout: 2500 }); };
 (document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1200))]) : Promise.resolve()).then(() => { layout(); start(); });
 </script>
 </body>
