@@ -35,7 +35,8 @@
     'A2.1': { dimFoot: 19.8, dims: L1_DIMS, rooms: ['main', 'garage', 'lower', 'terrace', 'patio'], tags: 'auto', cuts: true, hideDim: true, hideLbl: true,
       legend: [0.62, 8.35],
       tagOff: { T_W1: [-0.2, -0.53], T09: [0.32, -0.9], T_W2: [-0.3, 1.2], T20: [0.25, -0.2], T_W10: [-0.2, 1.15], T_W7: [-0.15, 2.3], T_W11: [0.6, -0.75], T_W12: [0.35, 0.3], T_W13: [-1.6, 0.34], T10: [0.1, 1.6] },
-      nudge: { entry: [0, -0.12], pantry: [0.35, 0.1], bar: [0.28, -0.05], stair: [0.35, 0.1], vestibule: [-0.55, 0.75], upper_terrace: [0.4, 1.4], nook: [-0.1, 0.55], garage: [0, -0.45] } },
+      nudge: { entry: [0, -0.12], pantry: [0.35, 0.1], bar: [0.28, -0.05], stair: [0.35, 0.1], vestibule: [-0.55, 0.75], upper_terrace: [0.4, 1.4], nook: [-0.1, 0.55], garage: [0, -0.45],
+        kitchen: [0, -0.93], living: [-1.965, 0.71], dining: [1.093, 0] } },   // clear of the 10/1/26 fit out (overlays-rooms.js)
     'A2.2': { dims: ['primary_w', 'primary_terrace'], rooms: [], tags: 'auto', legend: [0.62, 7.2],
       tagOff: { T_W7: [0.32, 1.5, 'r'], T_W11: [0.2, -1.62, 'r'], T_W12: [0.25, 0.5, 'r'], T_W13: [-1.6, -0.1, 'l'] } },
     'A2.3': { skipAlso: ['10:a'], dims: GRID_ROW, rooms: [], tags: 'auto', legend: [0.62, 9.0], noGridDimsWest: true,

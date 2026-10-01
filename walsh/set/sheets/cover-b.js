@@ -60,7 +60,7 @@
     id: 'A0.5', group: 'General', title: 'Axonometrics', short: 'Axonometrics', foot: 'Axonometrics',
     scale: 'Not to scale', issued: [4],
     cap: 'The ribbon on its ground from the four corners. One gesture on every roof, the court tree held in the middle.',
-    data: ['Ribbon scheme on the FA grade', 'Tip 6023.0, about 29.4 ft over grade', 'Every roof under 30 ft', 'Cut from the pocket model, 10/1/26'],
+    data: ['Ribbon scheme on the FA grade', 'Tip 6023.0, about 29.4 ft over grade', 'Every roof under 30 ft', 'Cut from the pocket model, 9/30/26'],
     html: ctx => CSS + AXONS.map((a, i) => {
       const [x, y] = AXPOS[i], q = axoXY(a.yaw, a.n.at);
       const nt = inside(q) ? note(ctx, a.n.text, q, a.n.dx, a.n.dy, AXO.w, AXO.h, 400 + i * 420) : '';
