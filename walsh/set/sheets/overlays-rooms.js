@@ -117,10 +117,12 @@
       circ(D.game, 1.4, 'sf'); [[0, -2.1], [2.1, 0], [0, 2.1], [-2.1, 0]].forEach(([a, b]) => circ([D.game[0] + a, D.game[1] + b], 0.55, 'sf'));
     }
     // hand notes, on white, with a dotted leader and the orange dot
-    D.notes.forEach(n => {
+    // on a desktop they wait for a hover on their dot, like every note in the set (André 10/1/26)
+    D.notes.forEach((n, k) => {
       const A = P(...n.at), T = [A[0] + n.dx, A[1] + n.dy];
-      svg.push(`<path class="nl" d="M${f3(T[0])} ${f3(T[1])} Q${f3((A[0] + T[0]) / 2)} ${f3(T[1])} ${f3(A[0])} ${f3(A[1])}"/><circle class="nd" cx="${f3(A[0])}" cy="${f3(A[1])}" r=".045"/>`);
-      html.push(`<div class="hn${(n.a ? n.a === 'r' : n.dx < 0) ? ' r' : ''}" style="left:${U(T[0])};top:${U(T[1])}">${E(n.t)}</div>`);
+      svg.push(`<path class="nl" data-n="${k}" d="M${f3(T[0])} ${f3(T[1])} Q${f3((A[0] + T[0]) / 2)} ${f3(T[1])} ${f3(A[0])} ${f3(A[1])}"/><circle class="nd" cx="${f3(A[0])}" cy="${f3(A[1])}" r=".045"/>`);
+      html.push(`<div class="hn${(n.a ? n.a === 'r' : n.dx < 0) ? ' r' : ''}" data-n="${k}" style="left:${U(T[0])};top:${U(T[1])}">${E(n.t)}</div>`);
+      html.push(`<i class="rhit" data-n="${k}" style="left:${U(A[0])};top:${U(A[1])}" aria-hidden="true"></i>`);
     });
     html.push(`<div class="hn st" style="left:${U(D.stamp.at[0])};top:${U(D.stamp.at[1])}">${E(D.stamp.t)}</div>`);
     return `<div class="rmx" data-ov="${id}"><svg class="rsv" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="rmH${id.replace('.', '')}" width=".09" height=".09" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2=".09" stroke="#1b1a18" stroke-opacity=".35" stroke-width=".012"/></pattern></defs>${svg.join('').replace(/class="ch"/g, `class="ch" fill="url(#rmH${id.replace('.', '')})"`)}</svg>${html.join('')}</div>`;
@@ -146,6 +148,14 @@
 .rmx .hn.st{transform:none;color:var(--muted);background:none;box-shadow:none}
 @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){.rmx{display:none}}
 @media print{.rmx .hn{box-shadow:none}}
+.rmx .rhit{display:none}
+@media screen and (hover:hover) and (pointer:fine){
+  .hovernotes .rmx .rhit{display:block;position:absolute;width:calc(var(--u)*1.1);height:calc(var(--u)*1.1);transform:translate(-50%,-50%);border-radius:50%;pointer-events:auto;cursor:help;z-index:2}
+  .hovernotes:not(.allnotes) .rmx .nl[data-n]{opacity:0;transition:opacity .25s ease}
+  .hovernotes:not(.allnotes) .rmx .hn[data-n]{opacity:0;clip-path:inset(-40% 100% -40% -10%);transition:opacity .25s ease,clip-path .25s ease}
+  .hovernotes .rmx .nl.on[data-n]{opacity:1;transition:opacity .4s ease}
+  .hovernotes .rmx .hn.on[data-n]{opacity:1;clip-path:inset(-40% -10% -40% -10%);transition:opacity .3s ease .2s,clip-path .7s ease .2s;pointer-events:auto}
+}
 `;
   if (typeof document !== 'undefined' && !document.getElementById('ov-rooms-css')) {
     const st = document.createElement('style'); st.id = 'ov-rooms-css'; st.textContent = CSS; (document.head || document.documentElement).appendChild(st);

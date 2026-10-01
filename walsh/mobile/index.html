@@ -527,7 +527,7 @@
 
   <header class="top">
     <div class="brand"><span id="brandName">Walsh Residence</span></div>
-    <div class="brand-r"><button type="button" class="fontbtn" id="fontBtn" aria-expanded="false" aria-controls="fontPop" aria-label="Choose the typeface for the title">Aa</button><img class="brand-mark" src="../marks/am10_lockup.webp" alt="André Mandel"></div>
+    <div class="brand-r"><button type="button" class="fontbtn" id="fontBtn" aria-expanded="false" aria-controls="fontPop" aria-label="Choose the typeface for the title">Aa</button><img class="brand-mark" src="../marks/sumi/lock44.webp" alt="André Mandel"></div>
 
   </header>
   <div class="maddr model-ui" aria-hidden="true"><p>8154 Lahontan Drive · Lot 235 · Truckee</p><p>APN 108 160 012 000 · RS PD 1.7</p><p>Feasibility FA2 · 9/28/26</p></div>
@@ -718,10 +718,11 @@
 </div>
 
 <script>
-  /* logo (André 9/29 8:52 pm): stroke No. 10, MANDEL in Tenor Sans from S 068, aligned to the post */
+  /* logo (André 10/1/26): the sumi tail keepers with MANDEL in Tenor, a different one each visit */
   (function () {
     var set = function (sel, src) { var img = document.querySelector(sel); if (!img) return; var keep = img.src; img.onerror = function () { img.onerror = null; img.src = keep; }; img.src = src; };
-    set('.brand-mark', '../marks/am10_lockup.webp'); set('#ldMk img.mk', '../marks/am10_mark.webp'); set('#ldMk img.nm', '../marks/am10_name.webp');
+    var K = ['44', '01', '14', '48'], k = K[Math.floor(Math.random() * K.length)];
+    set('.brand-mark', '../marks/sumi/lock' + k + '.webp'); set('#ldMk img.mk', '../marks/sumi/mark' + k + '.webp'); set('#ldMk img.nm', '../marks/am10_name.webp');
     var t = new URLSearchParams(location.search).get('title');
     document.getElementById('app').dataset.title = /^[abcd]$/.test(t || '') ? t : 'c';
   })();

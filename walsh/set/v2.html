@@ -278,16 +278,11 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .tb .gc .logo img{max-width:88%;max-height:78%;object-fit:contain}
 .tb .ag .val{white-space:nowrap}
 .tb .ag .il{display:inline-block;min-width:4.6em}
-/* the stamp opening (André 10/1/26): the sidebar's vertical rule breaks at the agency stamp, so the stamp zone opens
-   onto the drawing. Above, the rule rounds into the stamp's top line; below, the QR's line rounds back down into the
-   rule. Both run long and the title block clips them at the border, so the opening lands right on any sheet, in print too. */
-.tb{clip-path:inset(0 calc(var(--u)*-2))}
-.tb .stz{height:calc(var(--u)*4);margin-left:calc(var(--u)*-.3);margin-right:calc(var(--u)*-.22)}
-.tbc .sec.stz::before,.tbc .sec.stz::after{content:"";display:block;position:absolute;left:0;right:0;height:calc(var(--u)*30);border:0 solid rgba(27,26,24,.88);pointer-events:none;background:none}
-.tbc .sec.stz::before{bottom:100%;top:auto;border-left-width:1px;border-bottom-width:1px;border-bottom-left-radius:calc(var(--u)*.5)}
-.tbc .sec.stz::after{top:100%;border-left-width:1px;border-top-width:1px;border-top-left-radius:calc(var(--u)*.5)}
-.tb .stz span{position:absolute;left:calc(var(--u)*.3);top:calc(var(--u)*.12);font:400 max(calc(6.5px * var(--fl)),calc(var(--u)*.085))/1 var(--ft);letter-spacing:.26em;color:var(--muted)}
-.tbc .sec.stz + .sec::after{display:none}
+/* the band (André 10/1/26): open on both sides, the agency stamp's place in print and the play button's on screen */
+.tb .stz{position:absolute;left:0;right:0;margin:0;display:grid;place-items:center;pointer-events:none}
+.tb .stz .stl{position:absolute;left:calc(var(--u)*.3);top:calc(var(--u)*.14);font:400 max(calc(6.5px * var(--fl)),calc(var(--u)*.085))/1 var(--ft);letter-spacing:.26em;color:var(--muted)}
+@media screen{.tb .stz .stl{display:none}}
+
 .tb .tq{display:flex;align-items:center;gap:calc(var(--u)*.18)}
 .tb .tq .qr{width:calc(var(--u)*1.3);height:calc(var(--u)*1.3)}
 .tb .tq .lt{gap:.2em}
@@ -558,7 +553,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
   <span class="sep"></span>
   <button id="print">Print</button>
 </nav>
-<button type="button" class="waxplay amplay idle" id="wplay" aria-label="Next sheet"><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle class="pr" r="44"/><circle class="pr2" r="47.5"/><path class="pt" d="M-11 -17 L19 0 L-11 17 Z"/></svg></button>
+
 <style>
 /* the wax play button (André 10/1/26): dead center, turns to the next sheet; it melts away during the turn, comes back
    slowly, then rests faint so the drawing reads, and wakes when the pointer moves */
@@ -585,6 +580,83 @@ body:has(.sheet.on[data-kind="model"]) .waxplay{display:none}
 @keyframes wpBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 body:has(#drawer.show) .waxplay{display:none}
 @media print{.waxplay{display:none!important}}
+
+/* ================= round 2 (André 10/1/26) */
+/* the sumi stamp play button, in the band */
+.stp{pointer-events:auto;appearance:none;border:0;background:none;padding:0;cursor:pointer;width:calc(var(--u)*2.05);height:calc(var(--u)*2.05);border-radius:50%;
+  color:#1b1a18;opacity:.86;transition:opacity .3s ease,transform .45s cubic-bezier(.3,1.4,.5,1);-webkit-tap-highlight-color:transparent}
+.stp svg{width:100%;height:100%;display:block;overflow:visible}
+.stp .ens{transform-box:fill-box;transform-origin:50% 50%;animation:stpSpin 22s linear infinite}
+.stp .tri{transform-box:fill-box;transform-origin:50% 50%;animation:stpBeckon 3.4s cubic-bezier(.4,0,.2,1) infinite}
+.stp .rip{fill:none;stroke:#1b1a18;stroke-width:1.1;opacity:0;transform-box:fill-box;transform-origin:50% 50%;animation:stpRipple 3.4s cubic-bezier(.2,.6,.3,1) infinite}
+.stp:hover,.stp:focus-visible{opacity:1;transform:scale(1.05)}
+.stp:hover .ens{animation-duration:6s}
+.stp:hover .tri{animation:none;transform:translateX(3px)}
+.stp:focus-visible{outline:1px solid var(--accent);outline-offset:4px}
+@keyframes stpSpin{to{transform:rotate(360deg)}}
+@keyframes stpBeckon{0%,70%,100%{transform:none}78%{transform:translateX(2.5px) scale(.93)}86%{transform:translateX(-1px) scale(1.04)}93%{transform:none}}
+@keyframes stpRipple{0%,72%{opacity:0;transform:scale(1)}80%{opacity:.34;transform:scale(1.02)}100%{opacity:0;transform:scale(1.3)}}
+/* a new sheet stamps its own play button a moment after it lands, so a press reads as stamp, turn, stamp */
+.play .stp{animation:stpIn .55s cubic-bezier(.3,1.5,.5,1) both;animation-delay:2.1s}
+@keyframes stpIn{0%{opacity:0;transform:scale(1.32) rotate(-8deg)}60%{opacity:.95}100%{opacity:.86;transform:none}}
+@media (prefers-reduced-motion:reduce){.stp .ens,.stp .tri,.stp .rip,.play .stp{animation:none}}
+@media print{.stp{display:none !important}}
+
+/* the logo: a sumi keeper per sheet, painted in on arrival, a wet ink glint now and then */
+.tb .lockw{position:absolute;display:block;pointer-events:none}
+.tb .lockw .lock{position:static;display:block;width:100%;height:auto}
+.tb .lockw .sheen{position:absolute;inset:0;-webkit-mask:var(--lk) center / 100% 100% no-repeat;mask:var(--lk) center / 100% 100% no-repeat;
+  background:linear-gradient(118deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.55) 47%,rgba(255,255,255,.16) 53%,rgba(255,255,255,0) 60%) no-repeat;background-size:260% 260%;background-position:120% 120%;
+  animation:lkSheen 9s ease-in-out infinite;animation-delay:3s;mix-blend-mode:screen}
+@keyframes lkSheen{0%,62%{background-position:120% 120%}90%,100%{background-position:-30% -30%}}
+.play .lockw .lock{-webkit-mask:linear-gradient(135deg,#000 42%,transparent 58%) 0 0/300% 300% no-repeat;mask:linear-gradient(135deg,#000 42%,transparent 58%) 0 0/300% 300% no-repeat;
+  animation:lkPaint 1.5s cubic-bezier(.45,.05,.25,1) both;animation-delay:.25s}
+@keyframes lkPaint{from{-webkit-mask-position:100% 100%;mask-position:100% 100%}to{-webkit-mask-position:0 0;mask-position:0 0}}
+@media (prefers-reduced-motion:reduce){.tb .lockw .sheen,.play .lockw .lock{animation:none}}
+@media print{.tb .lockw .sheen{display:none}}
+
+/* the sheet number is the index: hover it and its label turns into prev, Index, next */
+.tb .snb{appearance:none;border:0;background:none;padding:0;margin:0;cursor:pointer;display:block;color:inherit;text-align:left}
+.tb .snl{position:relative;display:block}
+.tb .snav{position:absolute;left:0;top:50%;transform:translateY(-50%);display:flex;gap:calc(var(--u)*.1);opacity:0;pointer-events:none;transition:opacity .25s ease}
+.tb .snav button{appearance:none;border:1px solid rgba(27,26,24,.35);background:var(--paper);border-radius:999px;cursor:pointer;color:var(--ink);
+  font:400 var(--t-lab)/1 var(--ft);letter-spacing:.2em;text-transform:uppercase;padding:.45em .8em .4em;margin:0}
+.tb .snav button[data-step]{letter-spacing:0;padding:.35em .65em .4em;font-size:calc(var(--t-lab) * 1.3)}
+.tb .snav button:hover{border-color:var(--ink)}
+.tb .snum:hover .snav,.tb .snum:focus-within .snav{opacity:1;pointer-events:auto}
+.tb .snum:hover .snl .lab,.tb .snum:focus-within .snl .lab{opacity:0}
+.tb .snl .lab{transition:opacity .25s ease}
+.tb .snb:hover .sn{color:#000}
+@media print{.tb .snav{display:none}}
+
+/* notes wait for a hover (André 10/1/26): on a desktop the dots stay as hints, the leader and words draw in when the
+   pointer reaches what they point at. Press N to show them all. Print and phones show every note. */
+.ng{display:contents}
+.nhit{display:none}
+@media screen and (hover:hover) and (pointer:fine){
+  .hovernotes .nhit{display:block;position:absolute;z-index:3;width:calc(var(--u)*1.15);height:calc(var(--u)*1.15);transform:translate(-50%,-50%);border-radius:50%;pointer-events:auto;cursor:help}
+  .hovernotes:not(.allnotes) .ng .ld path{stroke-dashoffset:1;transition:stroke-dashoffset .28s ease}
+  .hovernotes:not(.allnotes) .ng .note{opacity:0;clip-path:inset(-30% 100% -30% -6%);transition:opacity .25s ease,clip-path .25s ease}
+  .hovernotes:not(.allnotes) .play .ng .ld path,.hovernotes:not(.allnotes) .play .ng .note{animation:none}
+  .hovernotes .ng.on .ld path{stroke-dashoffset:0;transition:stroke-dashoffset .5s var(--ease)}
+  .hovernotes .ng.on .note{opacity:1;clip-path:inset(-30% -6% -30% -6%);transition:opacity .3s ease .28s,clip-path .7s ease .28s;pointer-events:auto}
+  .hovernotes .ng .dot{transition:scale .35s cubic-bezier(.3,1.5,.5,1)}
+  .hovernotes .ng.on .dot{scale:1.6}
+  .hovernotes:not(.allnotes) .ng:not(.on) .dot{animation:dotHint 4.8s ease-in-out infinite}
+  .hovernotes:not(.allnotes) .play .ng:not(.on) .dot{animation:land .55s cubic-bezier(.3,1.5,.5,1) both,dotHint 4.8s ease-in-out 2.4s infinite;animation-delay:calc(var(--d) * 1ms + 400ms),calc(var(--d) * 1ms + 2400ms)}
+  @keyframes dotHint{0%,100%{box-shadow:0 0 0 0 rgba(192,122,44,0)}50%{box-shadow:0 0 0 calc(var(--u)*.08) rgba(192,122,44,.18)}}
+}
+
+/* click a sheet to look closer: 200%, pan with the hand, click again to step back */
+@media screen and (hover:hover) and (pointer:fine){
+  .zoomable #desk{cursor:zoom-in}
+  .zoomable #desk .model,.zoomable #desk button,.zoomable #desk a,.zoomable #desk .nhit{cursor:auto}
+  .zoomable #desk .stp,.zoomable #desk button{cursor:pointer}
+  .zoomed #desk{cursor:grab}
+  .zoomed.panning #desk,.zoomed.panning #desk *{cursor:grabbing !important}
+  #stage.zt{transition:transform .42s cubic-bezier(.3,.1,.2,1)}
+}
+
 @media (prefers-reduced-motion:reduce){.waxplay.idle svg{animation:none}.amplay{animation:none;opacity:.4}}
 </style>
 <div class="strip" id="strip">
@@ -615,7 +687,7 @@ body:has(#drawer.show) .waxplay{display:none}
 <script src="sheets/sched-a.js"></script>
 <script src="sheets/sched-b.js"></script>
 <script src="sheets/height.js"></script>
-<script src="sheets/overlays-rooms.js?v=261001"></script>
+<script src="sheets/overlays-rooms.js?v=261001b"></script>
 <script src="sheets/overlays-plans.js?v=261001"></script>
 <script src="sheets/overlays-sectelev.js"></script>
 <script src="sheets/overlays-site.js"></script>
@@ -642,6 +714,8 @@ const FLUTTER = {
   settle: 1.35,       // seconds, time constant of the settle when it passes (slow)
   flutter: 0.06,      // small quick tremble of the flap at the top of a gust
   shadow: 0.24,       // opacity of the flap's soft shadow on the page at rest
+  hoverLift: 2.0,     // inches, fold distance when the pointer rests on the corner: it curls over toward the logo (André 10/1/26)
+  hoverTurn: 146,     // degrees the flap has turned over under the pointer
   blur: [0.035, 0.16] // shadow softness in inches, at rest and at full lift
 };
 
@@ -669,7 +743,7 @@ const SET = {
   copy: '© 2026 André Mandel. Drawings are instruments of service.',
   live: { url: 'https://a-mandel.github.io/walsh/', show: ['a-mandel.github.io', '/walsh'], label: 'The living set' },
   model: { src: '../mobile/?sheet', still: 'sheets/assets/cover-a/cover-still.webp' },
-  marks: { lockup: '../marks/am10_lockup.webp', mark: '../marks/am10_mark.webp' },
+  marks: { lockup: '../marks/sumi/lock44.webp', mark: '../marks/sumi/mark44.webp' },   // No. 44, Tenor MANDEL (André 10/1/26)
   groups: ['General', 'Feasibility', 'Architectural', 'Landscape'],
   sheets: [
     { id: 'A0.0', group: 'General', title: 'Cover · the site', short: 'Cover · the site', foot: 'The site', scale: 'Live model', kind: 'model', issued: [2, 3],
@@ -784,6 +858,9 @@ const BL = 1.25;                     // border left
 const K = 0.738;                     // dx/dy of the roof stroke (53.6 degrees from horizontal)
 const TBX = 32.5;                                       // sidebar from the 32 1/2 line, 3 in wide (André 9/30)
 const TXL = TBX + 0.3, TXR = 35.5 - 0.22;               // the sidebar's text margins
+/* the free sidebar (André 10/1/26): the agency stamp band breaks the sidebar into two rounded bubbles, open to the
+   drawing on the left and to the margin on the right. The play button lives in the band on screen. */
+const BAND = [13.6, 17.6], BRAD = 0.5;                  // sheet inches, top and bottom of the band; corner radius
 /* the lockup fills the sidebar at its old size; MANDEL (lockup px 26 to 352, center 189) sits centered between the
    sidebar's two vertical lines, the 32 1/2 rule and the border at 35 1/2, the mark rides along (André 10/1) */
 const LK = (TXR - TXL) / 346;                           // inches per lockup px
@@ -813,7 +890,11 @@ function borderPath() {
   const body = pts.slice(sIn, sOut + 1).map(p => `L${f(p[0])} ${f(p[1])}`).join(' ');
   return `M${f(BL + R)} 0.5 H${f(V1[0] - r)} Q${f(V1[0])} 0.5 ${f(pts[sIn][0])} ${f(pts[sIn][1])} ${body} ` +
     `Q35.5 ${f(V2[1])} 35.5 ${f(V2[1] + r)} ` +
-    `V${23.5 - R} Q35.5 23.5 ${35.5 - R} 23.5 H${BL + R} Q${BL} 23.5 ${BL} ${23.5 - R} V${0.5 + R} Q${BL} 0.5 ${BL + R} 0.5 Z`;
+    // the upper bubble rounds off above the band and climbs the sidebar rule back to the top edge
+    `V${f(BAND[0] - BRAD)} Q35.5 ${BAND[0]} ${f(35.5 - BRAD)} ${BAND[0]} H${f(TBX + BRAD)} Q${TBX} ${BAND[0]} ${TBX} ${f(BAND[0] - BRAD)} V0.5 ` +
+    // the lower bubble starts at the bottom edge, rounds over the band, and runs on around the sheet
+    `M${TBX} 23.5 V${f(BAND[1] + BRAD)} Q${TBX} ${BAND[1]} ${f(TBX + BRAD)} ${BAND[1]} H${f(35.5 - BRAD)} Q35.5 ${BAND[1]} 35.5 ${f(BAND[1] + BRAD)} ` +
+    `V${23.5 - R} Q35.5 23.5 ${35.5 - R} 23.5 H${BL + R} Q${BL} 23.5 ${BL} ${23.5 - R} V${0.5 + R} Q${BL} 0.5 ${BL + R} 0.5`;
 }
 
 /* the ruler: a mark at every inch measured from the paper's edges (x 0 at the left edge, y 0 at the top), numbered by
@@ -1020,9 +1101,9 @@ function noteHTML(n, w, h, d) {
   const [px, py] = n.p;
   const cx = sx + (px - sx) * 0.18, cy = sy + (py - sy) * 0.85;
   const P = v => +(v * 100).toFixed(3), X = v => +(v * w).toFixed(4), Y = v => +(v * h).toFixed(4);
-  return `<svg class="ld" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true" style="--d:${d}"><path pathLength="1" d="M${X(sx)} ${Y(sy)} Q${X(cx)} ${Y(cy)} ${X(px)} ${Y(py)}"/></svg>
+  return `<span class="ng"><svg class="ld" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true" style="--d:${d}"><path pathLength="1" d="M${X(sx)} ${Y(sy)} Q${X(cx)} ${Y(cy)} ${X(px)} ${Y(py)}"/></svg>
     <span class="note${n.a === 'r' ? ' r' : ''}" style="left:${P(n.t[0])}%;top:${P(n.t[1])}%;--d:${d};--nx:${P(n.t[0])}">${esc(n.text)}</span>
-    <span class="dot" style="left:${P(px)}%;top:${P(py)}%;--d:${d}"></span>`;
+    <span class="dot" style="left:${P(px)}%;top:${P(py)}%;--d:${d}"></span><i class="nhit" style="left:${P(px)}%;top:${P(py)}%" aria-hidden="true"></i></span>`;
 }
 
 function viewTitle(num, t, s) {
@@ -1155,7 +1236,7 @@ function siteFooter(sh, i) {
     <h2 class="shot">${esc(sh.foot || sh.short || sh.title)}</h2>
     <p class="shotline">${esc(sh.cap || '')}</p>
     <ul class="rdata">${(sh.data || []).map((d, k) => `<li style="--k:${k}">${esc(d)}</li>`).join('')}</ul>
-    <div class="act">${live}<div class="row">${sh.kind === 'model' ? '<button type="button" class="btn" data-reel="toModel">Enter the model</button><button type="button" class="btn" data-reel="toInfo">FA package</button>' : ''}<button type="button" class="btn" data-panel>Sheet index</button></div></div>
+    <div class="act">${live}<div class="row">${sh.kind === 'model' ? '<button type="button" class="btn" data-reel="toInfo">FA package</button>' : ''}</div></div>
   </footer>`;
 }
 function liveText() {
@@ -1175,21 +1256,64 @@ function titleBlock(sh, i) {
   const gcLogo = G.logo ? `<img src="${esc(G.logo)}" alt="${esc(G.name)}">` : `<b>ELEVATED</b><i>logo</i>`;
   const ag = [[SET.aor.k === 'Architect of record' ? 'AOR' : SET.aor.k, SET.aor.v], ...SET.permits.map(p => [p.tb === 'Design review (LCC)' ? 'LCC' : 'Permit', p.v])];
   return `<aside class="tb" aria-label="Title block">
-    <img class="lock" src="${esc(SET.marks.lockup)}" alt="André Mandel" width="357" height="520" style="left:${U(lx)};top:${U(ly)};width:${U(lw)}">
-    <div class="tbc" style="top:${U(LOCK_BOTTOM - 0.5 + 0.22)}">
+    <span class="lockw" style="left:${U(lx)};top:${U(ly)};width:${U(lw)};--lk:url(${esc(keeper(i))})"><img class="lock" src="${esc(keeper(i))}" alt="André Mandel" width="357" height="520"><i class="sheen" aria-hidden="true"></i></span>
+    <div class="tbc up" style="top:${U(LOCK_BOTTOM - 0.5 + 0.22)};bottom:${U(23.5 - BAND[0] + 0.24)}">
       <div class="sec"><span class="lab">Project</span><div class="pname">${esc(P.name)}</div>
         <span class="val line">${esc(P.street)}</span><span class="val line">Lot 235 · ${esc(P.city)}</span><span class="val line">${esc(P.county)}</span>
         <span class="val line"><span class="il">APN</span>${esc(P.apn)}</span><span class="val line"><span class="il">Owner</span>${esc(P.owner)}</span></div>
       <div class="sec"><span class="lab">Issued</span><ol class="iss"><li class="hd" aria-hidden="true"><span>No</span><span>Date</span><span>For</span></li>${issRows}</ol></div>
       <div class="sec gc"><span class="lab">${esc(G.role)}</span><div class="logo" title="Logo placeholder">${gcLogo}</div><span class="val line">${esc(G.name)}</span></div>
       <div class="sec ag"><span class="lab">Agencies</span>${ag.map(([k, v]) => `<span class="val line"><span class="il">${esc(k)}</span>${esc(v)}</span>`).join('')}<span class="val line">${esc(SET.fire)}</span></div>
-      <div class="sec stz" aria-label="Agency stamp space"><span>AGENCY STAMP</span></div>
+    </div>
+    <div class="stz" style="top:${U(BAND[0] - 0.5)};height:${U(BAND[1] - BAND[0])}" aria-label="Agency stamp space"><span class="stl">AGENCY STAMP</span>${stampPlay()}</div>
+    <div class="tbc dn" style="top:${U(BAND[1] - 0.5 + 0.26)}">
       <div class="sec tq">${qrSVG()}${liveText()}</div>
       <div class="sec colo"><b>${esc(F.signer || F.name)}</b><span>${esc(F.addr.join(', '))}</span><span>${esc(F.phone)} · ${esc(F.email)}</span><span class="cp">${esc(SET.copy)}</span></div>
       <div class="sec sid"><div class="stitle">${esc(stTitle(sh))}</div><div class="meta"><span class="sc">${esc(scaleText(sh.scale))}</span></div>
-        <div class="snum"><span class="lab">Sheet ${i + 1} of ${N}</span><div class="sn" data-sn="${sh.id}" aria-label="Sheet ${sh.id}">${cells(sh.id)}</div></div></div>
+        <div class="snum"><span class="snl"><span class="lab">Sheet ${i + 1} of ${N}</span><span class="snav"><button type="button" data-step="-1" aria-label="Previous sheet">&lsaquo;</button><button type="button" data-panel>Index</button><button type="button" data-step="1" aria-label="Next sheet">&rsaquo;</button></span></span><button type="button" class="snb" data-panel aria-label="Sheet index"><span class="sn" data-sn="${sh.id}" aria-label="Sheet ${sh.id}">${cells(sh.id)}</span></button></div></div>
     </div></aside>`;
 }
+/* the logo (André 10/1/26): the sumi tail keepers with MANDEL in Tenor, one per sheet, so the set feels hand made */
+const KEEPERS = ['44', '01', '14', '48'];
+const keeper = k => `../marks/sumi/lock${KEEPERS[k % KEEPERS.length]}.webp`;
+/* the play button (André 10/1/26): a sumi stamp in the band, an enso brushed around a play mark, inked like a
+   rubber stamp and always moving. One press turns one sheet; the next sheet stamps its own in a moment later. */
+const stampPlay = () => `<button type="button" class="stp" data-step="1" aria-label="Next sheet"><svg viewBox="-60 -60 120 120" aria-hidden="true">
+  <circle class="rip" r="44"/><g class="ens"><use href="#stpRing"/></g><g class="tri"><use href="#stpTri"/></g></svg></button>`;
+(function stampDefs() {
+  let sd = 9137; const R = () => (sd = sd * 16807 % 2147483647) / 2147483647;
+  const a0 = -1.0, sweep = 5.55, f = v => v.toFixed(2);
+  const rad = t => 41 + 1.5 * Math.sin(t * 9.1 + 1) + 0.8 * Math.sin(t * 23 + 2) + 2.6 * t;          // a hand drawn circle, opening out a touch
+  const wid = t => (6 + 7.5 * Math.min(1, t / 0.05)) * Math.pow(Math.max(0, 1 - t), 0.5) * (1 + 0.1 * Math.sin(t * 37)) + 0.6;
+  const at = (t, o) => { const a = a0 + sweep * t, r = rad(t) + o; return [r * Math.cos(a), r * Math.sin(a)]; };
+  const T1 = 0.8, n = 160, out = [], inn = [];
+  for (let i = 0; i <= n; i++) { const t = T1 * i / n, w = wid(t) / 2, j = (R() - 0.5) * 0.5; out.push(at(t, w + j)); inn.push(at(t, -w + j)); }
+  const body = 'M' + out.map(p => f(p[0]) + ' ' + f(p[1])).join(' L') + ' L' + inn.reverse().map(p => f(p[0]) + ' ' + f(p[1])).join(' L') + ' Z';
+  // the tail breaks into dry hairs, like the logo's own sweep
+  let hairs = '';
+  for (let k = 0; k < 13; k++) {
+    const o = (k / 12 - 0.5) * wid(0.62) * 0.95, t0 = 0.6 + R() * 0.08, t1 = 0.84 + R() * 0.15, pts = [];
+    for (let t = t0; t <= t1; t += 0.008) pts.push(at(t, o * (1 - (t - t0) * 0.6)));
+    const dash = `${f(3 + R() * 14)} ${f(0.6 + R() * 2.4)} ${f(2 + R() * 8)} ${f(0.5 + R() * 1.6)}`;
+    hairs += `<path d="M${pts.map(p => f(p[0]) + ' ' + f(p[1])).join(' L')}" stroke-width="${f(0.5 + R() * 1.1)}" stroke-dasharray="${dash}"/>`;
+  }
+  const h0 = at(0, 0);
+  const tri = 'M-12.5 -18.5 Q4 -9.6 20.5 0.2 Q4 9.8 -12.5 18.8 Q-14 0 -12.5 -18.5 Z';
+  const svg = `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <filter id="stpTex" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".34" numOctaves="3" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -12 8.9" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="in" result="ink"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="3" result="w"/>
+      <feDisplacementMap in="ink" in2="w" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <symbol id="stpRing" overflow="visible"><g filter="url(#stpTex)" fill="currentColor"><path d="${body}"/>
+      <ellipse cx="${f(h0[0])}" cy="${f(h0[1])}" rx="7.4" ry="6.6" transform="rotate(${f(a0 * 180 / Math.PI + 90)} ${f(h0[0])} ${f(h0[1])})"/>
+      <g fill="none" stroke="currentColor" stroke-linecap="round">${hairs}</g></g></symbol>
+    <symbol id="stpTri" overflow="visible"><g filter="url(#stpTex)"><path d="${tri}" fill="currentColor" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/></g></symbol>
+  </defs></svg>`;
+  document.body.insertAdjacentHTML('afterbegin', svg);
+})();
 /* the sheet title as lettered in the title block: the part before any ' · ', so 'Cover · the site' reads COVER */
 const stTitle = s => String(s.title).split(' · ')[0];
 /* scales in drafting form: '1/4 in = 1 ft' reads 1/4" = 1'-0"; sheets without a drawn scale read NTS */
@@ -1330,6 +1454,7 @@ function layout() {
     u = 14; root.style.setProperty('--u', u + 'px');
     stage.style.left = stage.style.top = '0px';
     hairlines();
+    pointerModes();
     return;
   }
   const ctrlH = 50;
@@ -1343,6 +1468,7 @@ function layout() {
   $('#ctrl').style.bottom = Math.max(6, Math.round((below - 34) / 2)) + 'px';
   hairlines();
   els.forEach(fitTitleBlock);
+  pointerModes();
 }
 // leaders are drawn in view inches; keep them one screen pixel wide at any scale
 function hairlines(scope) {
@@ -1354,10 +1480,11 @@ function hairlines(scope) {
 }
 // too tall for this window: ease the px floors down until the title block fits
 function fitTitleBlock(el) {
-  const tbc = el.querySelector('.tb .tbc'); if (!tbc) return;
+  const gs = [...el.querySelectorAll('.tb .tbc')]; if (!gs.length) return;
   el.style.removeProperty('--fl');
   let fl = 1;
-  while (tbc.scrollHeight > tbc.clientHeight + 1 && fl > .5) { fl -= .05; el.style.setProperty('--fl', fl.toFixed(2)); }
+  const over = () => gs.some(g => g.scrollHeight > g.clientHeight + 1);
+  while (over() && fl > .5) { fl -= .05; el.style.setProperty('--fl', fl.toFixed(2)); }
 }
 addEventListener('resize', layout);
 MQ.addEventListener ? MQ.addEventListener('change', layout) : MQ.addListener(layout);
@@ -1481,6 +1608,7 @@ function updateChrome(i, prev) {
 function go(i, dir) {
   i = Math.max(0, Math.min(N - 1, i));
   if (i === cur) return;
+  if (ZM && ZM.on) setZoom(false);
   if (anim) { anim.forEach(a => a.finish()); anim = null; }
   hideThumb();
   const prev = cur, next = els[i], old = prev >= 0 ? els[prev] : null;
@@ -1626,6 +1754,8 @@ addEventListener('hashchange', () => go(fromHash()));
 
 /* ================================================================ input */
 document.addEventListener('click', e => {
+  const st = e.target.closest('[data-step]');
+  if (st) { e.stopPropagation(); const d = +st.dataset.step, n = cur + d; go(n >= N ? 0 : n < 0 ? N - 1 : n, d); return; }
   const p = e.target.closest('[data-panel]');
   if (p) { openDrawer(); return; }
   const t = e.target.closest('[data-go]');
@@ -1634,7 +1764,8 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.target.closest && e.target.closest('input,textarea')) return;
   const k = e.key;
-  if (k === 'Escape') { closeDrawer(); return; }
+  if (k === 'Escape') { closeDrawer(); if (ZM && ZM.on) setZoom(false); return; }
+  if ((k === 'n' || k === 'N') && !e.metaKey && !e.ctrlKey) { document.body.classList.toggle('allnotes'); return; }
   if ($('#drawer').classList.contains('show')) return;
   if (k === 'Enter' && e.target.matches && e.target.matches('.si-t.link')) { go(idxOf(e.target.dataset.go)); return; }
   if (k === 'ArrowRight' || k === 'PageDown') { go(cur + 1, 1); e.preventDefault(); }
@@ -1685,6 +1816,11 @@ addEventListener('touchend', e => {
 }, { passive: true });
 const wh = { acc: 0, last: 0, spent: false, until: 0 };
 addEventListener('wheel', e => {
+  if (ZM && ZM.on && !e.ctrlKey) {                                // zoomed in: the wheel and trackpad pan the sheet
+    e.preventDefault();
+    const k = e.deltaMode === 1 ? 16 : 1;
+    ZM.tx -= e.deltaX * k; ZM.ty -= e.deltaY * k; applyZoom(); return;
+  }
   if (inModel(e.target) || blocked() || e.ctrlKey) return;
   const now = performance.now();
   const gap = now - wh.last; wh.last = now;
@@ -1706,6 +1842,83 @@ function closeDrawer() { if (!$('#drawer').classList.contains('show')) return; $
 $('#ib').onclick = () => $('#drawer').classList.contains('show') ? closeDrawer() : openDrawer();
 $('#scrim').onclick = closeDrawer;
 $('#dclose').onclick = closeDrawer;
+
+/* ================================================================ round 2 (André 10/1/26): hover notes, zoom, the corner under the pointer */
+var FINE = matchMedia('(hover:hover) and (pointer:fine)');
+function pointerModes() {
+  if (!FINE || !ZM) return;       // layout runs before this block on first load
+  const on = FINE.matches && !mob;
+  document.body.classList.toggle('hovernotes', on);
+  document.body.classList.toggle('zoomable', on);
+  if (!on && ZM.on) setZoom(false);
+}
+FINE.addEventListener && FINE.addEventListener('change', pointerModes);
+// notes: reach the dot and the note draws in; leave and it lets go after a breath
+// the room fit out notes on A2.1 and A2.2 carry a number instead of a wrapper
+const roomNote = (h, on) => { const box = h.closest('.rmx'); if (!box) return; box.querySelectorAll(`[data-n="${h.dataset.n}"]`).forEach(e => e.classList.toggle('on', on)); };
+stage.addEventListener('pointerover', e => {
+  const r = e.target.closest && e.target.closest('.rmx .rhit, .rmx .hn.on'); if (r) { clearTimeout(roomNote._t); roomNote(r, true); return; }
+  const h = e.target.closest && e.target.closest('.nhit, .ng.on .note'); if (!h) return;
+  const g = h.closest('.ng'); if (!g) return;
+  clearTimeout(g._t); g.classList.add('on');
+});
+stage.addEventListener('pointerout', e => {
+  const r = e.target.closest && e.target.closest('.rmx .rhit, .rmx .hn'); if (r) { const to = e.relatedTarget; if (to && to.closest && to.closest(`.rmx [data-n="${r.dataset.n}"]`)) return; clearTimeout(roomNote._t); roomNote._t = setTimeout(() => roomNote(r, false), 380); return; }
+  const h = e.target.closest && e.target.closest('.nhit, .ng .note'); if (!h) return;
+  const g = h.closest('.ng'); if (!g) return;
+  const to = e.relatedTarget;
+  if (to && g.contains(to) && to.closest('.nhit, .note')) return;
+  clearTimeout(g._t); g._t = setTimeout(() => g.classList.remove('on'), 380);
+});
+// zoom: a click looks closer at 200% around the pointer, drag pans with the hand, a click steps back
+var ZM = { on: false, s: 2, tx: 0, ty: 0, drag: null };
+const noZoom = el => !!(el && el.closest && el.closest('button,a,input,select,textarea,label,.model,iframe,[data-go],[data-panel],[data-step],.nhit,.ng.on .note,.rhit,.rmx .hn.on,.drawer,.ctrl,.darr,.si-t,.thumb'));
+function applyZoom() {
+  const sw = 36 * u * ZM.s, shh = 24 * u * ZM.s, L = parseFloat(stage.style.left) || 0, T = parseFloat(stage.style.top) || 0, m = 48;
+  ZM.tx = Math.min(-L + m, Math.max(innerWidth - L - sw - m, ZM.tx));
+  ZM.ty = Math.min(-T + m, Math.max(innerHeight - T - shh - m, ZM.ty));
+  stage.style.transformOrigin = '0 0';
+  stage.style.transform = `translate(${ZM.tx.toFixed(1)}px,${ZM.ty.toFixed(1)}px) scale(${ZM.s})`;
+}
+function setZoom(on, cx, cy) {
+  stage.classList.add('zt'); clearTimeout(setZoom._t);
+  if (on) {
+    const L = parseFloat(stage.style.left) || 0, T = parseFloat(stage.style.top) || 0;
+    const px = cx - L, py = cy - T;
+    ZM.tx = px - ZM.s * px; ZM.ty = py - ZM.s * py;          // the point under the pointer stays put
+    ZM.on = true; applyZoom();
+  } else { ZM.on = false; stage.style.transform = ''; }
+  document.body.classList.toggle('zoomed', ZM.on);
+  hideThumb();
+  setZoom._t = setTimeout(() => stage.classList.remove('zt'), 460);
+}
+$('#desk').addEventListener('pointerdown', e => {
+  if (!document.body.classList.contains('zoomable') || e.button !== 0 || blocked() || noZoom(e.target)) return;
+  ZM.drag = { x: e.clientX, y: e.clientY, tx: ZM.tx, ty: ZM.ty, moved: 0, id: e.pointerId };
+  if (ZM.on) e.preventDefault();
+});
+addEventListener('pointermove', e => {
+  const d = ZM.drag; if (!d || d.id !== e.pointerId) return;
+  const dx = e.clientX - d.x, dy = e.clientY - d.y; d.moved = Math.max(d.moved, Math.hypot(dx, dy));
+  if (!ZM.on || d.moved < 4) return;
+  document.body.classList.add('panning');
+  ZM.tx = d.tx + dx; ZM.ty = d.ty + dy; applyZoom();
+});
+addEventListener('pointerup', e => {
+  const d = ZM.drag; if (!d || d.id !== e.pointerId) return;
+  ZM.drag = null; document.body.classList.remove('panning');
+  if (d.moved < 5) setZoom(!ZM.on, e.clientX, e.clientY);
+});
+addEventListener('pointercancel', () => { ZM.drag = null; document.body.classList.remove('panning'); });
+// the corner: under the pointer the flap curls over toward the logo, and settles back when it leaves
+addEventListener('pointermove', e => {
+  if (mob || cur < 0 || ZM.on) { breeze.hov = false; return; }
+  const L = parseFloat(stage.style.left) || 0, T = parseFloat(stage.style.top) || 0, R = L + 36 * u;
+  breeze.hov = e.clientX > R - 3.1 * u && e.clientX < R + 0.4 * u && e.clientY > T - 0.4 * u && e.clientY < T + 3.1 * u && !blocked();
+  if (breeze.hov) startBreeze();
+}, { passive: true });
+document.addEventListener('pointerleave', () => { breeze.hov = false; });
+pointerModes();
 
 /* ================================================================ live thumbnail */
 const thumb = $('#thumb');
@@ -1808,18 +2021,20 @@ function stepLift(L, t, dt) {
   const target = wind(t), tau = target > L ? FLUTTER.rise : FLUTTER.settle;
   return L + (target - L) * (1 - Math.exp(-dt / tau));
 }
-function curlShape(t, L) {
+function curlShape(t, L, H = 0) {
   const tr = FLUTTER.flutter * L * (Math.sin(TAU * t * 2.3) + 0.6 * Math.sin(TAU * t * 3.7 + 1.3) + 0.3 * Math.sin(TAU * t * 5.9 + 0.4)) / 1.9;
   const l = Math.max(0, Math.min(1, L + tr));
-  const a = FLUTTER.rest + (FLUTTER.lift - FLUTTER.rest) * l;
+  let a = FLUTTER.rest + (FLUTTER.lift - FLUTTER.rest) * l;
+  a += (FLUTTER.hoverLift - a) * H;
   const b = a * (FLUTTER.skew + 0.06 * Math.sin(TAU * t / (FLUTTER.period * 0.71) + 2.1) * (0.3 + l));
-  const turn = (FLUTTER.turnRest + (FLUTTER.turnPeak - FLUTTER.turnRest) * l + 5 * tr / Math.max(.01, FLUTTER.flutter) * l + 1.5 * Math.sin(TAU * t / (FLUTTER.period * 0.53))) * Math.PI / 180;
+  let turn = (FLUTTER.turnRest + (FLUTTER.turnPeak - FLUTTER.turnRest) * l + 5 * tr / Math.max(.01, FLUTTER.flutter) * l + 1.5 * Math.sin(TAU * t / (FLUTTER.period * 0.53))) * Math.PI / 180;
+  turn += (FLUTTER.hoverTurn * Math.PI / 180 - turn) * H;
   const P = [-a, 0], Q = [0, b], dd = a * a + b * b;
   const F = [-a + a * a * a / dd, a * a * b / dd];                        // foot of the corner on the fold
   const n = [-F[0], -F[1]];                                              // fold to corner
   const c = Math.cos(turn);
   const T = [F[0] + n[0] * c, F[1] + n[1] * c];                          // the tip, seen from above
-  return { P, Q, F, T, n, L: l };
+  return { P, Q, F, T, n, L: Math.max(l, H * 0.8) };
 }
 function bow(A, B, away, k) {
   // control point for a gentle bow from A to B, pushed away from point 'away'
@@ -1894,14 +2109,15 @@ function drawCurl(sv, S, k) {
   g.setAttribute('x1', f4(H[0])); g.setAttribute('y1', f4(H[1])); g.setAttribute('x2', f4(tipIn[0])); g.setAttribute('y2', f4(tipIn[1]));
   r.setAttribute('x1', f4(H[0])); r.setAttribute('y1', f4(H[1])); r.setAttribute('x2', '0'); r.setAttribute('y2', '0');
 }
-const breeze = { t0: performance.now(), last: 0, raf: 0, L: 0 };
+const breeze = { t0: performance.now(), last: 0, raf: 0, L: 0, H: 0, hov: false };
 function breezeFrame(now) {
   breeze.raf = 0;
   if (cur < 0 || document.hidden || RM.matches) { breeze.last = 0; return; }
   const t = (now - breeze.t0) / 1000, dt = breeze.last ? Math.min(0.1, (now - breeze.last) / 1000) : 1 / 60;
   breeze.last = now;
   breeze.L = stepLift(breeze.L, t, dt);
-  drawCurl(els[cur].querySelector('.curl'), curlShape(t, breeze.L), cur);
+  breeze.H += ((breeze.hov ? 1 : 0) - breeze.H) * (1 - Math.exp(-dt / (breeze.hov ? 0.3 : 0.75)));
+  drawCurl(els[cur].querySelector('.curl'), curlShape(t, breeze.L, breeze.H), cur);
   breeze.raf = requestAnimationFrame(breezeFrame);
 }
 function startBreeze() { if (!breeze.raf && !RM.matches) breeze.raf = requestAnimationFrame(breezeFrame); }
