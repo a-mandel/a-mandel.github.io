@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="../logo.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>S03 Viscous arrival</title>
@@ -53,7 +54,7 @@ canvas{pointer-events:none}
   <canvas id="gl"></canvas>
   <canvas id="ink"></canvas>
   <svg class="frame" id="frame" aria-hidden="true"></svg>
-  <img id="final" src="../../../../marks/am10_lockup.webp" width="357" height="520" alt="">
+  <img id="final" data-am="lock" width="357" height="520" alt="">
 </div>
 <div class="cap">
   <div class="n"><b>S03</b>&nbsp;&nbsp;Viscous arrival</div>
@@ -154,7 +155,7 @@ function play() { cancelAnimationFrame(RAF); DONE = false; STUDY.reset && STUDY.
 window.__seek = t => { cancelAnimationFrame(RAF); if (t >= STUDY.T) finish(); else { DONE = false; render(t); } };
 
 const LOCKIMG = new Image();
-LOCKIMG.src = '../../../../marks/am10_lockup.webp';
+LOCKIMG.src = AM_LOGO.lock;
 
 /* offscreen helpers */
 const off = () => document.createElement('canvas');

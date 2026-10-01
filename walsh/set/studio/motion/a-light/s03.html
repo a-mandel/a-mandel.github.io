@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="../logo.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Pine Shade</title>
@@ -34,7 +35,7 @@ main{display:flex;flex-direction:column;align-items:center;gap:16px;padding:16px
 <main>
   <div id="stage" aria-label="ANDRÉ MANDEL lockup on the title block sidebar, Pine shade">
     <canvas id="cv"></canvas>
-    <img id="still" src="../../../../marks/am10_lockup.webp" alt="">
+    <img id="still" data-am="lock" alt="">
   </div>
   <div class="cap">
     <div class="hd"><span class="no">S03</span><span class="nm">Pine shade</span></div>
@@ -459,7 +460,7 @@ img.onload = () => {
   }));
 };
 img.onerror = fallback;
-img.src = '../../../../marks/am10_lockup.webp';
+img.src = AM_LOGO.lock;
 })();
 </script>
 

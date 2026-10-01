@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="../logo.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>s02 Lemon juice</title>
@@ -41,7 +42,7 @@ body{display:flex;flex-direction:column;align-items:center;justify-content:cente
 <body>
 <div id="stage" aria-label="Title block sidebar with the ANDRÉ MANDEL lockup">
   <canvas id="gl"></canvas>
-  <img id="still" src="../../../../marks/am10_lockup.webp" alt="André Mandel">
+  <img id="still" data-am="lock" alt="André Mandel">
   <svg id="frame" aria-hidden="true"></svg>
 </div>
 <div class="cap">
@@ -380,7 +381,7 @@ if (gl) {
     catch (e) { console.error(e); fallback(); window.__ready = true; }
   };
   img.onerror = () => { fallback(); window.__ready = true; };
-  img.src = '../../../../marks/am10_lockup.webp';
+  img.src = AM_LOGO.lock;
 } else window.__ready = true;
 })();
 </script>

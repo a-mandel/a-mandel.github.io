@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="../logo.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Weathering</title>
@@ -394,7 +395,7 @@ float toothB(vec2 s){ return texture(uPaperT, winUV(s)).a; }
     layout();
     gl = cv.getContext('webgl2', { antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: true });
     if (!gl) { fallback(); return; }
-    const [img] = await Promise.all([loadImg(MARKS + 'am10_lockup.webp'),
+    const [img] = await Promise.all([loadImg(AM_LOGO.lock),
       fontsReady(['12px "Tenor Sans"', '12px "Nothing You Could Do"', 'italic 12px "EB Garamond"'], 1500)]);
     const mf = markField(img);
     const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, COMMON + S.frag);
@@ -442,7 +443,7 @@ float toothB(vec2 s){ return texture(uPaperT, winUV(s)).a; }
     ready = true; play();
   }
   function fallback() {
-    const i = document.createElement('img'); i.className = 'fb'; i.src = MARKS + 'am10_lockup.webp'; i.alt = '';
+    const i = document.createElement('img'); i.className = 'fb'; i.src = AM_LOGO.lock; i.alt = '';
     stage.appendChild(i); cv.remove();
   }
   replayBtn.addEventListener('click', () => { if (ready) play(); });

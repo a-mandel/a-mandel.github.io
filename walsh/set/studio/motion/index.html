@@ -46,6 +46,11 @@ header p{margin:6px 0 0;font:italic 400 16px/1.2 var(--fs);color:var(--muted)}
 .media{display:flex;gap:0;background:var(--paper2)}
 .media .sheet{flex:1;min-width:0;position:relative}
 .media img{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-drag:none}
+.media .live{aspect-ratio:1280/900;background:#fff;overflow:hidden}
+.media .live img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.media .live iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;pointer-events:none;opacity:0;transition:opacity .25s ease}
+.media .live iframe.on{opacity:1}
+.media .live .lg{font-weight:400}
 .media .det{flex:none;display:flex;gap:3px;position:relative;border-left:1px solid var(--rule);background:var(--paper2)}
 .media .det span{flex:1;background-repeat:no-repeat;background-size:cover;background-position:center;background-color:var(--paper)}
 
@@ -127,7 +132,7 @@ header p{margin:6px 0 0;font:italic 400 16px/1.2 var(--fs);color:var(--muted)}
 <body>
 <div class="wrap" id="app">
   <header>
-    <div><h1>Logo in motion</h1><p>Round 1, 10/1/26. Sixteen studies from five crews: light, paint, heat, time and wax. The mark never changes shape. Tap a card to watch it live.</p></div>
+    <div><h1>Logo in motion</h1><p>Round 1, 10/1/26. Sixteen studies from five crews, each playing one of your ten kept sumi logos at random. The mark never changes shape.</p></div>
     <div class="hr"><span class="count" id="count"></span><button class="pill" id="undo" type="button" disabled>Undo</button></div>
   </header>
   <div class="bar"><i id="barf"></i></div>
@@ -136,7 +141,7 @@ header p{margin:6px 0 0;font:italic 400 16px/1.2 var(--fs);color:var(--muted)}
     <button class="act pass" id="bpass" type="button"><kbd>&#8592;</kbd> Pass</button>
     <button class="act keep" id="bkeep" type="button">Keep <kbd>&#8594;</kbd></button>
   </div>
-  <p class="hint">Tap a card to watch the study live in a new tab.<span class="kb"> Arrow keys work too; U undoes.</span></p>
+  <p class="hint">Each card plays live. Tap to replay, New logo to try another of your keepers.<span class="kb"> Arrow keys work too; U undoes.</span></p>
   <section class="results" id="results" aria-live="polite"></section>
 </div>
 <div class="toast" id="toast"></div>
@@ -154,10 +159,9 @@ const pos = () => st.hist.length;
 const kept = () => st.hist.filter(h => h.v === 'keep').map(h => h.no).sort();
 
 function cardHTML(d, back) {
-  return `<article class="card${back ? ' back' : ''}" data-no="${d.no}" tabindex="${back ? -1 : 0}" aria-label="${d.no}, ${esc(d.name)}. Tap to watch it live.">
-    <div class="seg" role="group" aria-label="View"><button type="button" class="on" data-view="sheet">Final</button><button type="button" data-view="det">In motion</button></div>
-    <div class="media"><div class="sheet"><img src="${SH(d.no)}" alt="${d.no} final frame" width="1400" height="872" draggable="false"><span class="open">Tap to watch live</span></div>
-      <div class="det" role="img" aria-label="${d.no} early and middle frames"><span style="background-image:url(${SH(d.no, '_a')})"></span><span style="background-image:url(${SH(d.no, '_b')})"></span><em>Early and middle</em></div></div>
+  return `<article class="card${back ? ' back' : ''}" data-no="${d.no}" tabindex="${back ? -1 : 0}" aria-label="${d.no}, ${esc(d.name)}. Plays live; tap to replay.">
+    <div class="seg" role="group" aria-label="Playback"><button type="button" data-act="replay">Replay</button><button type="button" data-act="shuffle">New logo</button><button type="button" data-act="open">Open</button></div>
+    <div class="media"><div class="sheet live"><img src="${SH(d.no)}" alt="${d.no} final frame" width="1280" height="900" draggable="false">${back ? '' : `<iframe title="${esc(d.name)}, playing live" src="${d.no}.html" loading="eager"></iframe>`}<span class="open">Logo <b class="lg">?</b> · tap to replay</span></div></div>
     <span class="stampk k">Keep</span><span class="stampk p">Pass</span>
     <div class="info"><span class="no">${d.tag}</span><span class="nm">${esc(d.name)}</span><span class="tr">${esc(d.terr)}<span class="note">${esc(d.note)}</span></span></div>
   </article>`;
@@ -180,17 +184,13 @@ function render() {
   [DECK[i + 2]].filter(Boolean).forEach(p => { new Image().src = SH(p.no); new Image().src = SH(p.no, '_a'); });
 }
 
-// the sheet and the two title block half columns share one height, and the card fits the window
-const TBA = 272 / 750, R = 1400 / 872, GAP = 4;   // one half column of the 272 x 1500 detail
+// one live stage at the study's own proportion, as large as the window allows
+const R = 1280 / 900;
 function fitDetail(c) {
   const f = () => {
-    const det = c.querySelector('.det'), mob = matchMedia('(max-width:760px)').matches, box = $('#deck').clientWidth;
-    if (mob) { c.style.width = ''; const H = Math.min(innerHeight * .58, 560); det.style.height = H + 'px'; det.style.width = (2 * TBA * H + GAP) + 'px'; return; }
-    const Hmax = Math.max(260, innerHeight - 330);
-    let W = Math.min(box, Hmax * (R + 2 * TBA) + GAP);
-    const H = (W - GAP) / (R + 2 * TBA);
-    c.style.width = W + 'px';
-    det.style.width = (2 * TBA * H + GAP) + 'px'; det.style.height = H + 'px';
+    const mob = matchMedia('(max-width:760px)').matches, box = $('#deck').clientWidth;
+    if (mob) { c.style.width = ''; return; }
+    c.style.width = Math.min(box, Math.max(320, innerHeight - 300) * R) + 'px';
   };
   f(); addEventListener('resize', f);
 }
@@ -216,17 +216,22 @@ function undo() {
 }
 
 function applyView(c) {
-  const det = st.view === 'det';
+  const det = false;
   c.classList.toggle('show-det', det);
   c.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', (x.dataset.view === 'det') === det));
 }
 function bind(c, d) {
   applyView(c);
   let p = null;
-  const open = () => window.open(`${d.no}.html`, '_blank', 'noopener');
+  const fr = c.querySelector('iframe'), lg = c.querySelector('.lg');
+  let logo = null;
+  const play = keep => { if (!fr) return; const q = keep && logo ? `?logo=${logo}` : ''; fr.classList.remove('on'); fr.src = `${d.no}.html${q}`; };
+  const grab = () => { try { const n = fr.contentWindow.AM_LOGO && fr.contentWindow.AM_LOGO.no; if (n) { logo = n; lg.textContent = n; } } catch (e) {} };
+  if (fr) { fr.addEventListener('load', () => { grab(); fr.classList.add('on'); }); const tk = setInterval(() => { if (!c.isConnected) return clearInterval(tk); grab(); if (fr.contentWindow && fr.contentWindow.document.readyState !== 'loading') fr.classList.add('on'); }, 400); }
+  const open = () => window.open(`${d.no}.html${logo ? `?logo=${logo}` : ''}`, '_blank', 'noopener');
   c.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', e => {
     e.stopPropagation();
-    st.view = b.dataset.view; save(); applyView(c);
+    const a = b.dataset.act; if (a === 'replay') play(true); else if (a === 'shuffle') play(false); else open();
   }));
   c.addEventListener('pointerdown', e => {
     if (e.button !== 0 || e.target.closest('.seg')) return;
@@ -249,7 +254,7 @@ function bind(c, d) {
     if (!p || e.pointerId !== p.id) return;
     const dt = performance.now() - p.t0, vx = p.dx / Math.max(dt, 1);
     c.classList.remove('drag');
-    if (!p.moved) { if (e.type === 'pointerup' && dt < 600) open(); p = null; return; }
+    if (!p.moved) { if (e.type === 'pointerup' && dt < 600) play(true); p = null; return; }
     if (Math.abs(p.dx) > Math.min(140, c.offsetWidth * .22) || Math.abs(vx) > .6) { decide(p.dx > 0 ? 'keep' : 'pass', { x: p.dx, y: p.dy * .25 }); }
     else { c.classList.add('snap'); c.style.transform = ''; c.querySelectorAll('.stampk').forEach(s => s.style.opacity = 0); }
     p = null;
