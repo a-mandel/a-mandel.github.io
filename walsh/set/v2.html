@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
 <style>
+.rt .phmark{display:none}
 :root{
   --paper:#f6f3ec; --paper2:#ebe9e3; --ink:#1b1a18; --muted:#6c6963; --faint:#a19e97; --rule:rgba(27,26,24,.2); --accent:#c07a2c;
   --desk:var(--paper2); /* what shows through the torn corner: the desk on screen, bare stock in print */
@@ -259,7 +260,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .tb .status{letter-spacing:.14em}
 .tb .tlive .url{font-size:max(calc(7.5px * var(--fl)),calc(var(--u)*.105))}
 /* title block 10/1 (André): MANDEL centered between the two rules, no datum dots, one QR, a 3 x 4 in stamp zone, the
-   sheet title lettered like MANDEL and the sheet number painted in sumi. Top to bottom: name, project, issued (15 rows),
+   sheet title and the sheet number lettered like MANDEL. Top to bottom: name, project, issued (15 rows),
    contractor, agencies, stamp, QR, colophon, sheet. */
 .tb{--t-sheet:max(calc(13px * var(--fl)),calc(var(--u) * .27));--t-num:max(calc(34px * var(--fl)),calc(var(--u) * 1.04))}
 .tb .pname{margin:.06em 0 .1em}
@@ -277,9 +278,16 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .tb .gc .logo img{max-width:88%;max-height:78%;object-fit:contain}
 .tb .ag .val{white-space:nowrap}
 .tb .ag .il{display:inline-block;min-width:4.6em}
-.tb .stz{height:calc(var(--u)*4);margin-left:calc(var(--u)*-.3);margin-right:calc(var(--u)*-.22);border-top:1px solid rgba(27,26,24,.45);border-bottom:1px solid rgba(27,26,24,.45)}
+/* the stamp opening (André 10/1/26): the sidebar's vertical rule breaks at the agency stamp, so the stamp zone opens
+   onto the drawing. Above, the rule rounds into the stamp's top line; below, the QR's line rounds back down into the
+   rule. Both run long and the title block clips them at the border, so the opening lands right on any sheet, in print too. */
+.tb{clip-path:inset(0 calc(var(--u)*-2))}
+.tb .stz{height:calc(var(--u)*4);margin-left:calc(var(--u)*-.3);margin-right:calc(var(--u)*-.22)}
+.tbc .sec.stz::before,.tbc .sec.stz::after{content:"";display:block;position:absolute;left:0;right:0;height:calc(var(--u)*30);border:0 solid rgba(27,26,24,.88);pointer-events:none;background:none}
+.tbc .sec.stz::before{bottom:100%;top:auto;border-left-width:1px;border-bottom-width:1px;border-bottom-left-radius:calc(var(--u)*.5)}
+.tbc .sec.stz::after{top:100%;border-left-width:1px;border-top-width:1px;border-top-left-radius:calc(var(--u)*.5)}
 .tb .stz span{position:absolute;left:calc(var(--u)*.3);top:calc(var(--u)*.12);font:400 max(calc(6.5px * var(--fl)),calc(var(--u)*.085))/1 var(--ft);letter-spacing:.26em;color:var(--muted)}
-.tbc .sec.stz::after,.tbc .sec.stz + .sec::after{display:none}
+.tbc .sec.stz + .sec::after{display:none}
 .tb .tq{display:flex;align-items:center;gap:calc(var(--u)*.18)}
 .tb .tq .qr{width:calc(var(--u)*1.3);height:calc(var(--u)*1.3)}
 .tb .tq .lt{gap:.2em}
@@ -290,8 +298,11 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .tb .sid .stitle{font:400 var(--t-sheet)/1.32 var(--ft);letter-spacing:.32em;margin:.05em -.32em .2em 0;text-transform:uppercase;text-wrap:balance}
 .tb .sid .meta .sc{font:italic 400 var(--t-val)/1.3 var(--fs);color:var(--muted)}
 .tb .sid .snum{margin-top:calc(var(--u)*.2)}
-.tb .sn{display:flex;align-items:flex-start;height:1em;margin-top:.08em;line-height:1;overflow:hidden}
-.tb .sn .fc{flex:none;height:1em;background:center / 100% 100% no-repeat;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* the sheet number in the face of MANDEL (André 10/1/26): Tenor Sans, open tracking, the split flap keeps flipping */
+.tb{--t-num:max(calc(28px * var(--fl)),calc(var(--u) * .74))}
+.tb .sn{display:flex;align-items:flex-start;height:1em;margin-top:.14em;font:400 var(--t-num)/1 var(--ft);letter-spacing:0;color:var(--ink);overflow:hidden}
+.tb .sn .fc{flex:none;width:.74em;height:1em;text-align:left}
+.tb .sn .fc.pt{width:.3em;text-align:center;margin-left:-.06em}
 /* team sheets: html(ctx) draws in field inches, origin at the field's top left (sheet x 1.25, y 0.5) */
 .fhtml{position:absolute;inset:0}
 .fover{position:absolute;inset:0;pointer-events:none}
@@ -452,6 +463,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
   .field{left:4px;top:0;width:calc(100% - 4px);height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:14px 16px 36px}
   .rt{position:relative;left:auto;top:auto;margin:0 0 26px}
   .rt h1{font-size:19px;letter-spacing:.3em}
+  .rt .phmark{display:block;position:absolute;right:0;top:-4px;height:64px;width:auto;pointer-events:none}
   .rt p{font-size:9px;letter-spacing:.14em;margin-top:6px;white-space:normal}
   .rt p.r2{margin-top:3px}
   .rb{position:relative;display:block;padding:0;margin-top:8px}
@@ -481,7 +493,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
   .dkey .kp{height:auto !important;aspect-ratio:1.216;max-width:170px}
   .dnorth{width:44px !important;height:44px !important}
   .sheet[data-kind="model"] .field{padding:0;overflow:hidden}
-  .sheet[data-kind="model"] .rt{position:absolute;left:16px;top:14px;margin:0}
+  .sheet[data-kind="model"] .rt{position:absolute;left:16px;top:14px;margin:0;right:16px}
   .sheet[data-kind="model"] .rb{display:none}
   .model{inset:0;border-radius:0}
   .strip{display:flex;position:fixed;left:0;right:0;bottom:0;height:calc(var(--sh) + env(safe-area-inset-bottom,0px));padding:0 12px env(safe-area-inset-bottom,0px) 14px;align-items:center;gap:12px;background:var(--paper);border-top:1px solid var(--rule);z-index:30}
@@ -546,22 +558,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
   <span class="sep"></span>
   <button id="print">Print</button>
 </nav>
-<button type="button" class="waxplay idle" id="wplay" aria-label="Next sheet">
-  <svg viewBox="-50 -50 100 100" aria-hidden="true">
-    <defs>
-      <radialGradient id="wpA" cx="36%" cy="30%" r="78%"><stop offset="0" stop-color="#d9493a"/><stop offset=".5" stop-color="#ad261d"/><stop offset="1" stop-color="#6c110d"/></radialGradient>
-      <radialGradient id="wpB" cx="62%" cy="68%" r="72%"><stop offset="0" stop-color="#b82d22"/><stop offset="1" stop-color="#8c1b14"/></radialGradient>
-      <filter id="wpF" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.6" stdDeviation="2.4" flood-color="#3c0a06" flood-opacity=".38"/></filter>
-    </defs>
-    <g id="wpWax"><path id="wpBlob" fill="url(#wpA)" filter="url(#wpF)" d="M44 0 A44 44 0 1 1 43.99 -0.5 Z"/></g>
-    <circle r="30" fill="url(#wpB)"/>
-    <circle r="30" fill="none" stroke="#56100b" stroke-opacity=".6" stroke-width="1.7"/>
-    <circle r="31.6" fill="none" stroke="#f08a76" stroke-opacity=".38" stroke-width=".9"/>
-    <path d="M-8 -13.5 L14.5 0 L-8 13.5 Z" transform="translate(1.1 1.2)" fill="#f19a86" fill-opacity=".5" stroke="#f19a86" stroke-opacity=".5" stroke-width="2.4" stroke-linejoin="round"/>
-    <path d="M-8 -13.5 L14.5 0 L-8 13.5 Z" fill="#6d130e" stroke="#6d130e" stroke-width="2.4" stroke-linejoin="round"/>
-    <ellipse cx="-15" cy="-24" rx="15" ry="5.5" fill="#fff" opacity=".2" transform="rotate(-28 -15 -24)"/>
-  </svg>
-</button>
+<button type="button" class="waxplay amplay idle" id="wplay" aria-label="Next sheet"><svg viewBox="-50 -50 100 100" aria-hidden="true"><circle class="pr" r="44"/><circle class="pr2" r="47.5"/><path class="pt" d="M-11 -17 L19 0 L-11 17 Z"/></svg></button>
 <style>
 /* the wax play button (André 10/1/26): dead center, turns to the next sheet; it melts away during the turn, comes back
    slowly, then rests faint so the drawing reads, and wakes when the pointer moves */
@@ -572,10 +569,23 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .waxplay.rest:hover,.waxplay.rest:focus-visible{opacity:1;transition:opacity .25s ease}
 .waxplay.idle svg{animation:wpBreathe 2.8s ease-in-out infinite}
 .waxplay:focus-visible{outline:1.5px solid #1b1a18;outline-offset:4px}
+/* the play button (André 10/1/26): no wax, not the logo. A paper disc with a hairline ring and a plain triangle that
+   breathes between clear and half opaque; full on hover; pressed, it vanishes for a few seconds while the sheet turns */
+.amplay{width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;opacity:0;animation:apPulse 3.6s ease-in-out infinite;transition:none}
+.amplay svg{width:100%;height:100%;display:block;overflow:visible}
+.amplay .pr{fill:rgba(246,243,236,.94);stroke:#1b1a18;stroke-opacity:.5;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.amplay .pr2{fill:none;stroke:#1b1a18;stroke-opacity:.16;stroke-width:1;vector-effect:non-scaling-stroke}
+.amplay .pt{fill:#1b1a18;stroke:#1b1a18;stroke-width:3;stroke-linejoin:round}
+.amplay:hover,.amplay:focus-visible{animation:none;opacity:1}
+.amplay.gone{animation:none;opacity:0;transform:scale(.86);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+.amplay.back{animation:apPulse 3.6s ease-in-out infinite}
+@keyframes apPulse{0%,100%{opacity:0}50%{opacity:.5}}
+/* the cover keeps one play button: the live model's own */
+body:has(.sheet.on[data-kind="model"]) .waxplay{display:none}
 @keyframes wpBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 body:has(#drawer.show) .waxplay{display:none}
 @media print{.waxplay{display:none!important}}
-@media (prefers-reduced-motion:reduce){.waxplay.idle svg{animation:none}}
+@media (prefers-reduced-motion:reduce){.waxplay.idle svg{animation:none}.amplay{animation:none;opacity:.4}}
 </style>
 <div class="strip" id="strip">
   <img id="smark" alt="André Mandel" width="236" height="300">
@@ -829,7 +839,6 @@ function frameSVG() {
   }
   return `<svg class="frame" viewBox="0 0 36 24" preserveAspectRatio="none" aria-hidden="true">
     <path class="bd" d="${borderPath()}"/>
-    <line class="vr" x1="${TBX}" y1="0.5" x2="${TBX}" y2="23.5"/>
     ${t}</svg>`;
 }
 
@@ -1136,7 +1145,7 @@ function fieldDraw(sh) {
 /* the live site's header and footer, carried onto the sheet */
 function siteHeader() {
   const H = SET.header;
-  return `<header class="rt"><h1>${esc(H.title)}</h1>${H.lines.map((l, k) => `<p${k ? ' class="r2"' : ''}>${esc(l)}</p>`).join('')}</header>`;
+  return `<header class="rt"><img class="phmark" src="${esc(SET.marks.lockup)}" alt="André Mandel" width="357" height="520"><h1>${esc(H.title)}</h1>${H.lines.map((l, k) => `<p${k ? ' class="r2"' : ''}>${esc(l)}</p>`).join('')}</header>`;
 }
 function siteFooter(sh, i) {
   const ticks = SHEETS.map((s, k) => `<i class="${k < i ? 'done' : k === i ? 'now' : ''}"><b></b></i>`).join('');
@@ -1278,7 +1287,7 @@ const SUMI = (() => {
   }
   return { install, paint };
 })();
-try { SUMI.install(SET.sheets.map(s => s.id)); } catch (e) { console.error('sumi sheet numbers', e); }
+// the painted sumi numbers are retired (André 10/1/26): sheet numbers now letter like MANDEL; SUMI stays for reference
 
 function buildSheet(sh, i) {
   const kind = sh.kind || 'cartoon';
@@ -1632,7 +1641,7 @@ document.addEventListener('keydown', e => {
   else if (k === 'ArrowLeft' || k === 'PageUp') { go(cur - 1, -1); e.preventDefault(); }
   else if (k === 'Home') go(0); else if (k === 'End') go(N - 1);
 });
-/* the wax play button: one press, one sheet; after the last sheet it goes back to the cover */
+/* the play button (the A mark): one press, one sheet; after the last sheet it goes back to the cover */
 (function () {
   const b = $('#wplay'); if (!b) return;
   let s = 235; const R = () => (s = s * 16807 % 2147483647, (s - 1) / 2147483646), ph = [R() * 6, R() * 6, R() * 6], pts = [];
@@ -1641,9 +1650,9 @@ document.addEventListener('keydown', e => {
     const r = 44 * (1 + 0.035 * Math.sin(3 * a + ph[0]) + 0.025 * Math.sin(5 * a + ph[1]) + 0.018 * Math.sin(9 * a + ph[2]) + 0.06 * Math.pow(Math.max(0, Math.cos(a - 2.2)), 18) + 0.045 * Math.pow(Math.max(0, Math.cos(a + 0.7)), 24));
     pts.push((Math.cos(a) * r).toFixed(2) + ' ' + (Math.sin(a) * r).toFixed(2));
   }
-  $('#wpBlob').setAttribute('d', 'M' + pts.join(' L') + ' Z');
+  if ($('#wpBlob')) $('#wpBlob').setAttribute('d', 'M' + pts.join(' L') + ' Z');
   let restT = 0, turn = 0;
-  const rest = () => { clearTimeout(restT); restT = setTimeout(() => { if (!b.classList.contains('gone')) b.classList.add('rest'); }, 3200); };
+  const rest = () => {};   // the pulse replaces the resting state (André 10/1/26)
   const wake = () => { if (b.classList.contains('gone')) return; b.classList.remove('rest'); rest(); };
   addEventListener('pointermove', wake, { passive: true });
   addEventListener('touchstart', wake, { passive: true });
@@ -1651,9 +1660,9 @@ document.addEventListener('keydown', e => {
     e.stopPropagation();
     const nx = cur + 1 >= N ? 0 : cur + 1;
     b.classList.remove('idle', 'rest'); b.classList.add('gone');
-    turn += (Math.random() - 0.5) * 30; $('#wpWax').setAttribute('transform', 'rotate(' + turn.toFixed(1) + ')');
+    turn += (Math.random() - 0.5) * 30; if ($('#wpWax')) $('#wpWax').setAttribute('transform', 'rotate(' + turn.toFixed(1) + ')');
     go(nx, nx > cur ? 1 : -1);
-    setTimeout(() => { b.classList.remove('gone'); b.setAttribute('aria-label', cur + 1 >= N ? 'Back to the cover' : 'Next sheet'); rest(); }, RM.matches ? 300 : 1500);
+    setTimeout(() => { b.classList.remove('gone'); b.setAttribute('aria-label', cur + 1 >= N ? 'Back to the cover' : 'Next sheet'); }, RM.matches ? 300 : 3200);
   });
   rest();
 })();
