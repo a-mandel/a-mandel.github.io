@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Logo Finals</title>
+<meta name="description" content="Logo finals for ANDRÉ MANDEL. Swipe right to keep, left to pass.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="../../../favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Tenor+Sans&display=swap">
+<style>
+:root{--bg:#fff;--paper:#f6f5f1;--paper2:#ebe9e3;--ink:#1b1a18;--muted:#6c6963;--faint:#a19e97;--rule:rgba(27,26,24,.14);--accent:#c4571f;--keep:#3f6b4f;--pass:#8a4b3c;
+  --ft:'Tenor Sans','Gill Sans','Optima',sans-serif;--fs:'EB Garamond',Garamond,'Times New Roman',serif;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink)}
+body{font:400 15px/1.45 var(--fs);-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 24px 40px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+h1{font:400 22px/1 var(--ft);letter-spacing:.24em;text-transform:uppercase;margin:0 0 8px}
+header p{margin:0;font-style:italic;color:var(--muted);max-width:640px}
+.hr{display:flex;align-items:center;gap:12px;flex:none}
+.count{font:400 11px/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.count b{color:var(--ink);font-weight:400}.count i{font-style:normal}
+.pill{font:400 10.5px/1 var(--ft);letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--rule);border-radius:999px;padding:10px 15px;min-height:36px;white-space:nowrap}
+.pill:hover:not(:disabled){border-color:var(--ink)}.pill:disabled{opacity:.35;cursor:default}
+.pill.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.bar{height:2px;background:var(--paper2);margin-top:-1px}.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .35s ease}
+.stage{padding:22px 0 10px}
+.deck{display:grid;place-items:center}
+.card{position:relative;grid-area:1/1;width:100%;background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 10px 34px rgba(0,0,0,.09);overflow:hidden;touch-action:pan-y;user-select:none;cursor:grab;outline:none}
+.card.drag{cursor:grabbing;transition:none}
+.card.snap{transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.card.fly{transition:transform .3s ease-in,opacity .3s ease-in}
+.card.back{transform:scale(.965) translateY(10px);opacity:.75;pointer-events:none}
+.card.enter{animation:enter .28s ease-out}
+@keyframes enter{from{transform:scale(.965) translateY(10px)}to{transform:none}}
+
+/* three panels: title block, tail, at size */
+.media{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule)}
+.pan{position:relative;background:#fff;aspect-ratio:3/4;overflow:hidden}
+.pan em{position:absolute;left:10px;top:10px;font:400 9px/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;font-style:normal;color:var(--muted);background:rgba(255,255,255,.9);padding:5px 7px;border-radius:999px;z-index:2}
+.paper{background:#f3efe6;
+  background-image:
+   radial-gradient(ellipse at 18% 82%,rgba(150,110,60,.10),transparent 42%),
+   radial-gradient(ellipse at 88% 14%,rgba(120,90,50,.08),transparent 38%),
+   url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='4'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .22 0 0 0 .09 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>")}
+.tb{position:absolute;inset:9% 12% 9% 12%;}
+.tb svg.frame{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tb img{position:absolute;left:20%;top:7%;width:56%;height:auto;mix-blend-mode:multiply}
+.tb .ln{position:absolute;left:12%;right:12%;font:400 7px/1.5 var(--ft);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.tb .ln i{display:block;font:italic 400 9px/1.3 var(--fs);letter-spacing:0;text-transform:none;color:var(--ink)}
+.tail{background-repeat:no-repeat;background-color:#fff}
+.sizes{display:grid;grid-template-rows:1fr 1fr;height:100%}
+.sizes .row{display:flex;align-items:flex-end;justify-content:center;gap:18px;padding:34px 14px 18px}
+.sizes .row.dark{background:var(--ink);align-items:center}
+.sizes .row.dark img{filter:invert(1)}
+.sizes figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:7px}
+.sizes figcaption{font:400 8px/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.sizes .dark figcaption{color:rgba(255,255,255,.5)}
+
+.stampk{position:absolute;top:22px;font:400 15px/1 var(--ft);letter-spacing:.3em;text-transform:uppercase;padding:10px 16px 9px 19px;border:1.5px solid;border-radius:999px;background:rgba(255,255,255,.92);opacity:0;pointer-events:none;z-index:3}
+.stampk.k{left:22px;color:var(--keep);transform:rotate(-8deg)}
+.stampk.p{right:22px;color:var(--pass);transform:rotate(8deg)}
+.info{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 16px;padding:16px 20px 18px}
+.info .no{font:400 22px/1 var(--ft);letter-spacing:.12em}
+.info .nm{font:400 20px/1.1 var(--fs)}
+.info .tr{margin-left:auto;font:400 10px/1 var(--ft);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:right}
+.info .note{display:block;width:100%;font-style:italic;color:var(--muted);font-size:15px}
+
+.actions{display:flex;justify-content:center;gap:16px;padding:6px 0 4px}
+.act{display:flex;align-items:center;gap:10px;font:400 12px/1 var(--ft);letter-spacing:.22em;text-transform:uppercase;border:1px solid var(--ink);border-radius:999px;padding:0 26px;min-height:50px;min-width:150px;justify-content:center}
+.act.keep:hover{background:var(--keep);border-color:var(--keep);color:#fff}
+.act.pass:hover{background:var(--pass);border-color:var(--pass);color:#fff}
+kbd{font:inherit;opacity:.5}
+.hint{text-align:center;font-style:italic;color:var(--faint);margin:10px 0 0}
+.done .actions,.done .hint{display:none}
+
+.results h2{font:400 18px/1 var(--ft);letter-spacing:.22em;text-transform:uppercase;margin:6px 0 8px}
+.rh{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.rh p{margin:0;font-style:italic;color:var(--muted)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.line{font:400 13px/1.4 var(--ft);letter-spacing:.1em;padding:12px 14px;background:var(--paper);border-radius:8px;margin:0 0 22px;user-select:all}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.tile{display:block;color:inherit;text-decoration:none;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px var(--rule)}
+.tile .im{aspect-ratio:3/4;display:grid;place-items:center}
+.tile img{width:62%;height:auto;mix-blend-mode:multiply}
+.tile div.c{padding:10px 12px;display:flex;gap:10px;align-items:baseline}
+.tile b{font:400 15px/1 var(--ft);font-weight:400;letter-spacing:.1em}
+.tile span{font-style:italic;color:var(--muted);font-size:14px}
+.passed{margin-top:22px;font:400 10.5px/1.6 var(--ft);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.empty{font-style:italic;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:#fff;font:400 11px/1 var(--ft);letter-spacing:.18em;text-transform:uppercase;padding:12px 16px;border-radius:999px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:760px){
+  .wrap{padding:16px 14px 30px}
+  header{flex-direction:column;align-items:flex-start}
+  h1{font-size:19px}
+  .media{grid-template-columns:1fr 1fr}
+  .media .pan:first-child{grid-column:1/-1;aspect-ratio:4/4.4}
+  .info .tr{margin-left:0;width:100%;text-align:left}
+  .act{min-width:0;flex:1;padding:0 14px;min-height:52px}
+  .act kbd,.hint .kb{display:none}
+  .stampk{top:16px}
+  .sizes .row{gap:10px;padding:26px 6px 8px}
+  .sizes img.lg{width:38px !important}
+  .sizes .row.dark{padding:10px 6px}
+  .sizes figcaption{font-size:7px;letter-spacing:.12em}
+  .grid{grid-template-columns:1fr 1fr;gap:12px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header>
+    <div><h1>Logo finals</h1><p>Round 1, 10/1/26. Your ten sumi tail keepers, each put to work: on the title block, the tail up close, and down at letterhead and favicon size. Keep the ones you would sign with.</p></div>
+    <div class="hr"><span class="count" id="count"></span><button class="pill" id="undo" type="button" disabled>Undo</button></div>
+  </header>
+  <div class="bar"><i id="barf"></i></div>
+  <main class="stage"><div class="deck" id="deck"></div></main>
+  <div class="actions">
+    <button class="act pass" id="bpass" type="button"><kbd>&#8592;</kbd> Pass</button>
+    <button class="act keep" id="bkeep" type="button">Keep <kbd>&#8594;</kbd></button>
+  </div>
+  <p class="hint">Swipe right to keep, left to pass.<span class="kb"> Arrow keys work too; U undoes.</span></p>
+  <section class="results" id="results" aria-live="polite"></section>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const M = '../../../marks/sumi/';
+const DECK = [
+  { no: '01', name: 'Long sweep', hairs: 39, brk: 70, type: 'Tenor MANDEL', note: 'the brush lets go at seventy percent and fans into a wide, even spray' },
+  { no: '03', name: 'Clean release', hairs: 19, brk: 75, type: 'Sumi MANDEL', note: 'fewer, finer hairs; the name lettered by brush to match' },
+  { no: '12', name: 'Late break', hairs: 37, brk: 80, type: 'Sumi MANDEL', note: 'a fuller stroke that holds its body longer before it splits' },
+  { no: '14', name: 'Bold name', hairs: 31, brk: 80, type: 'Tenor MANDEL', note: 'the heaviest Tenor MANDEL of the set, steady under a late break' },
+  { no: '39', name: 'Early feather', hairs: 40, brk: 65, type: 'Sumi MANDEL', note: 'the most hairs, breaking early, the softest and most painterly tail' },
+  { no: '44', name: 'Quiet tail', hairs: 19, brk: 75, type: 'Tenor MANDEL', note: 'number 03 with a Tenor name; crisp type under a light brush' },
+  { no: '45', name: 'Held breath', hairs: 28, brk: 90, type: 'Sumi MANDEL', note: 'stays solid to ninety percent, then a short, sharp flick' },
+  { no: '46', name: 'Ten hairs', hairs: 10, brk: 85, type: 'Sumi MANDEL', note: 'a sparse finish, the tail reads as a few clean lines' },
+  { no: '47', name: 'Nine hairs', hairs: 9, brk: 80, type: 'Sumi MANDEL', note: 'the leanest tail, almost a pen line at the very end' },
+  { no: '48', name: 'Wide spray', hairs: 35, brk: 60, type: 'Tenor MANDEL', note: 'breaks earliest, a long dusting of hairs across the floor line' }
+];
+const KEY = 'am-logo-finals-r1';
+const L = n => M + 'lock' + n + '.webp', K = n => M + 'mark' + n + '.webp';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+let st = { hist: [] };
+try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && Array.isArray(s.hist)) st = s; } catch (e) {}
+st.hist = st.hist.filter(h => DECK.some(d => d.no === h.no));
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+const pos = () => st.hist.length;
+const kept = () => st.hist.filter(h => h.v === 'keep').map(h => h.no).sort();
+
+// sidebar frame with the concave corner, in a 100 x 133 box
+const FRAME = `<svg class="frame" viewBox="0 0 100 133" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M1 1 H62 C78 3 92 16 99 34 V132 H1 Z" fill="none" stroke="#1b1a18" stroke-width=".55" vector-effect="non-scaling-stroke"/>
+  <path d="M1 103 C30 100 70 106 99 102" fill="none" stroke="#1b1a18" stroke-width=".4" vector-effect="non-scaling-stroke"/>
+  <path d="M1 118 C35 121 65 115 99 118" fill="none" stroke="#1b1a18" stroke-width=".4" vector-effect="non-scaling-stroke"/></svg>`;
+
+// lockup is 714 x 1040; the tail lives about x 330..714, y 470..900
+function tailStyle(el) {
+  const w = el.clientWidth, h = el.clientHeight, s = Math.max(w / 384, h / 430);
+  el.style.backgroundSize = (714 * s) + 'px ' + (1040 * s) + 'px';
+  el.style.backgroundPosition = (-330 * s) + 'px ' + (-470 * s) + 'px';
+}
+
+function cardHTML(d, back) {
+  return `<article class="card${back ? ' back' : ''}" data-no="${d.no}" tabindex="${back ? -1 : 0}" aria-label="Logo ${d.no}, ${esc(d.name)}">
+    <div class="media">
+      <div class="pan paper"><em>Title block</em><div class="tb">${FRAME}<img src="${L(d.no)}" alt="Logo ${d.no} lockup" draggable="false">
+        <div class="ln" style="top:81%">Walsh Residence<i>8154 Lahontan Drive, Truckee</i></div>
+        <div class="ln" style="top:91%">Sheet A1.1<i>Feasibility, 10/1/26</i></div></div></div>
+      <div class="pan tail" style="background-image:url('${L(d.no)}')"><em>Tail, up close</em></div>
+      <div class="pan"><em>At size</em><div class="sizes">
+        <div class="row">
+          <figure><img src="${L(d.no)}" class="lg" alt="" style="width:62px" draggable="false"><figcaption>Letterhead</figcaption></figure>
+          <figure><img src="${L(d.no)}" alt="" style="width:30px" draggable="false"><figcaption>Stamp</figcaption></figure>
+          <figure><img src="${K(d.no)}" alt="" style="width:20px" draggable="false"><figcaption>Icon</figcaption></figure>
+        </div>
+        <div class="row dark">
+          <figure><img src="${L(d.no)}" class="lg" alt="" style="width:62px" draggable="false"><figcaption>Reversed</figcaption></figure>
+          <figure><img src="${K(d.no)}" alt="" style="width:16px" draggable="false"><figcaption>Favicon</figcaption></figure>
+        </div></div></div>
+    </div>
+    <span class="stampk k">Keep</span><span class="stampk p">Pass</span>
+    <div class="info"><span class="no">${d.no}</span><span class="nm">${esc(d.name)}</span>
+      <span class="tr">Breaks at ${d.brk}%, ${d.hairs} hairs · ${esc(d.type)}</span>
+      <span class="note">${esc(d.note)}</span></div>
+  </article>`;
+}
+
+function fit(c) {
+  const f = () => {
+    const mob = matchMedia('(max-width:760px)').matches, box = $('#deck').clientWidth;
+    c.style.width = mob ? '' : Math.min(box, Math.max(560, (innerHeight - 330) * 0.75 * 3.05)) + 'px';
+    const t = c.querySelector('.tail'); if (t) tailStyle(t);
+  };
+  f(); addEventListener('resize', f);
+}
+
+function render() {
+  const i = pos(), N = DECK.length;
+  $('#count').innerHTML = `<b>${Math.min(i + 1, N)}</b> of ${N} · <i>${kept().length} kept</i>`;
+  $('#barf').style.width = (100 * i / N) + '%';
+  $('#undo').disabled = i === 0;
+  $('#app').classList.toggle('done', i >= N);
+  if (i >= N) { $('#deck').innerHTML = ''; results(); return; }
+  $('#results').innerHTML = '';
+  const d = DECK[i], nx = DECK[i + 1];
+  $('#deck').innerHTML = (nx ? cardHTML(nx, true) : '') + cardHTML(d, false);
+  const c = $('#deck .card:not(.back)');
+  c.classList.add('enter');
+  document.querySelectorAll('#deck .card').forEach(fit);
+  bind(c);
+  c.focus({ preventScroll: true });
+}
+
+function decide(v, cur) {
+  const i = pos(); if (i >= DECK.length) return;
+  const c = $('#deck .card:not(.back)');
+  st.hist.push({ no: DECK[i].no, v }); save();
+  const dir = v === 'keep' ? 1 : -1;
+  c.classList.remove('snap', 'enter'); c.classList.add('fly');
+  c.querySelector(v === 'keep' ? '.stampk.k' : '.stampk.p').style.opacity = 1;
+  requestAnimationFrame(() => { c.style.transform = `translate(${dir * (innerWidth * .9 + 200)}px, ${(cur && cur.y) || 0}px) rotate(${dir * 18}deg)`; c.style.opacity = '0'; });
+  const b = $('#deck .card.back'); if (b) { b.style.transition = 'transform .3s ease,opacity .3s ease'; b.style.transform = 'none'; b.style.opacity = '1'; }
+  setTimeout(render, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 300);
+}
+function undo() { if (!st.hist.length) return; const h = st.hist.pop(); save(); render(); toast(`Back to ${h.no}`); }
+
+function bind(c) {
+  let p = null;
+  c.addEventListener('pointerdown', e => {
+    if (e.button !== 0) return;
+    p = { x0: e.clientX, y0: e.clientY, t0: performance.now(), dx: 0, dy: 0, id: e.pointerId, moved: false };
+    c.setPointerCapture(e.pointerId); c.classList.remove('snap', 'enter');
+  });
+  c.addEventListener('pointermove', e => {
+    if (!p || e.pointerId !== p.id) return;
+    p.dx = e.clientX - p.x0; p.dy = e.clientY - p.y0;
+    if (!p.moved && Math.hypot(p.dx, p.dy) > 6) { p.moved = true; c.classList.add('drag'); }
+    if (!p.moved) return;
+    c.style.transform = `translate(${p.dx}px, ${p.dy * .25}px) rotate(${p.dx / 22}deg)`;
+    const k = Math.min(1, Math.abs(p.dx) / 120);
+    c.querySelector('.stampk.k').style.opacity = p.dx > 0 ? k : 0;
+    c.querySelector('.stampk.p').style.opacity = p.dx < 0 ? k : 0;
+  });
+  const end = e => {
+    if (!p || e.pointerId !== p.id) return;
+    const vx = p.dx / Math.max(performance.now() - p.t0, 1);
+    c.classList.remove('drag');
+    if (p.moved && (Math.abs(p.dx) > Math.min(140, c.offsetWidth * .22) || Math.abs(vx) > .6)) decide(p.dx > 0 ? 'keep' : 'pass', { y: p.dy * .25 });
+    else { c.classList.add('snap'); c.style.transform = ''; c.querySelectorAll('.stampk').forEach(s => s.style.opacity = 0); }
+    p = null;
+  };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+}
+
+function results() {
+  const k = kept(), N = DECK.length, by = no => DECK.find(d => d.no === no);
+  const line = `Logo keeps: ${k.length ? k.join(', ') : 'none'}`;
+  const passed = st.hist.filter(h => h.v === 'pass').map(h => h.no).sort();
+  $('#results').innerHTML = `<div class="rh"><div><h2>Your keeps</h2><p>${k.length} of ${N} kept. Paste the line back to me and I'll take it from here.</p></div>
+      <div class="btns"><button class="pill dark" id="copy" type="button">Copy picks</button><button class="pill" id="undo2" type="button">Undo last</button><button class="pill" id="again" type="button">Start over</button></div></div>
+    <p class="line">${esc(line)}</p>
+    ${k.length ? `<div class="grid">${k.map(no => `<a class="tile" href="${L(no)}" target="_blank" rel="noopener"><div class="im paper"><img src="${L(no)}" alt="Logo ${no}" loading="lazy"></div><div class="c"><b>${no}</b><span>${esc(by(no).name)}</span></div></a>`).join('')}</div>` : '<p class="empty">Nothing kept this round. Start over for another pass, or undo to step back.</p>'}
+    ${passed.length ? `<p class="passed">Passed · ${passed.join(' · ')}</p>` : ''}`;
+  $('#copy').onclick = () => copy(line);
+  $('#undo2').onclick = undo;
+  $('#again').onclick = () => { if (confirm('Start the deck over? Your picks will be cleared.')) { st = { hist: [] }; save(); render(); } };
+}
+async function copy(t) {
+  let ok = false;
+  try { await navigator.clipboard.writeText(t); ok = true; } catch (e) {
+    try { const a = document.createElement('textarea'); a.value = t; a.style.position = 'fixed'; a.style.opacity = '0'; document.body.appendChild(a); a.select(); ok = document.execCommand('copy'); a.remove(); } catch (e2) {}
+  }
+  toast(ok ? 'Copied' : 'Select the line to copy');
+}
+let tt = 0;
+function toast(s) { const t = $('#toast'); t.textContent = s; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 1400); }
+
+$('#bkeep').onclick = () => decide('keep');
+$('#bpass').onclick = () => decide('pass');
+$('#undo').onclick = undo;
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey) { if (e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); } return; }
+  if (e.key === 'ArrowRight') { e.preventDefault(); decide('keep'); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); decide('pass'); }
+  else if (e.key === 'u' || e.key === 'U' || e.key === 'Backspace') { e.preventDefault(); undo(); }
+});
+render();
+</script>
+</body>
+</html>
