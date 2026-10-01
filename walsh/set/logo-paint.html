@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Logo paint studies</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&family=Tenor+Sans&display=swap">
+<style>
+:root{--ink:#1b1a18;--muted:#8a867e;--paper:#faf9f6;--line:#dcd8cf;--accent:#c07a2c}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#fff;color:var(--ink);font-family:'Tenor Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+body{display:flex;flex-direction:column;align-items:center;min-height:100dvh;padding:max(18px,env(safe-area-inset-top)) 16px max(18px,env(safe-area-inset-bottom));overflow-x:hidden}
+h1{margin:6px 0 4px;font-weight:400;font-size:13px;letter-spacing:.34em;text-transform:uppercase}
+.sub{margin:0 0 14px;font:italic 400 16px/1.3 'EB Garamond',Georgia,serif;color:var(--muted);text-align:center}
+#stack{position:relative;width:min(88vw,330px);aspect-ratio:330/500;margin:4px 0 0;touch-action:none}
+.card{position:absolute;inset:0;border:1px solid var(--line);border-radius:18px;background:var(--paper);box-shadow:0 18px 40px -22px rgba(27,26,24,.35);display:flex;flex-direction:column;align-items:center;padding:22px 18px 18px;
+  transition:transform .45s cubic-bezier(.3,1.2,.4,1),opacity .35s ease;will-change:transform;user-select:none;-webkit-user-select:none}
+.card.drag{transition:none;cursor:grabbing}
+.card canvas{width:48%;height:auto;display:block;pointer-events:none;margin-bottom:18px}
+.card .n{margin-top:auto;font-size:10px;letter-spacing:.3em;color:var(--muted)}
+.card h2{margin:6px 0 4px;font-weight:400;font-size:15px;letter-spacing:.26em;text-transform:uppercase;text-align:center}
+.card p{margin:0;font:italic 400 15px/1.3 'EB Garamond',Georgia,serif;color:#4a4742;text-align:center;max-width:24ch}
+.card .bar{width:60%;height:2px;background:var(--line);margin-top:12px;border-radius:2px;overflow:hidden}
+.card .bar i{display:block;height:100%;width:0;background:var(--ink)}
+.stamp{position:absolute;top:18px;padding:5px 10px;border:1.5px solid;border-radius:6px;font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:0;pointer-events:none}
+.stamp.k{right:16px;color:#2f6b3a;transform:rotate(8deg)}
+.stamp.p{left:16px;color:#a33;transform:rotate(-8deg)}
+.btns{display:flex;gap:14px;margin-top:20px;align-items:center}
+.btns button{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);font:400 11px/1 'Tenor Sans',sans-serif;letter-spacing:.28em;text-transform:uppercase;border-radius:999px;padding:13px 20px 12px;cursor:pointer;transition:border-color .2s,background .2s}
+.btns button:hover{border-color:var(--ink)}
+.btns .keep{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hint{margin-top:12px;font-size:10px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+#done{display:none;width:min(92vw,420px);text-align:center;margin-top:18px}
+#done h2{font-weight:400;font-size:13px;letter-spacing:.3em;text-transform:uppercase;margin:6px 0 14px}
+#done ul{list-style:none;margin:0 0 16px;padding:0}
+#done li{display:flex;gap:12px;align-items:center;justify-content:center;padding:9px 0;border-bottom:1px solid var(--line);font:italic 400 18px/1.2 'EB Garamond',Georgia,serif}
+#done li b{font:400 11px/1 'Tenor Sans',sans-serif;letter-spacing:.3em;color:var(--muted)}
+#done .none{border:0;color:var(--muted)}
+#done .btns{justify-content:center}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 20px);transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:11px;letter-spacing:.24em;text-transform:uppercase;padding:11px 18px;border-radius:999px;opacity:0;transition:.3s;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<h1>Logo paint studies</h1>
+<p class="sub">Eight ways to paint the A. Swipe right to keep, left to pass.</p>
+<div id="stack" aria-live="polite"></div>
+<div class="btns" id="btns"><button type="button" id="pass">Pass</button><button type="button" id="replay">Replay</button><button type="button" class="keep" id="keep">Keep</button></div>
+<div class="hint" id="hint">Arrow keys work too</div>
+<div id="done"><h2>Your keepers</h2><ul id="list"></ul><div class="btns"><button type="button" id="copy">Copy list</button><button type="button" id="again">Start over</button></div></div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+const W = 357, H = 520;
+const IMG = new Image(); IMG.src = '../marks/sumi/lock44.webp';
+const mk = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; };
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const easeO = t => 1 - Math.pow(1 - t, 3);
+let sd = 11; const rnd = () => (sd = sd * 16807 % 2147483647) / 2147483647;
+
+/* ---------- painters: each draws white reveal shapes into g for progress t (0 to 1) ---------- */
+const D = [.78, .62], NV = [-.62, .78];
+const bris = []; for (let k = -46; k <= 46; k++) bris.push({ o: k * 9 + (rnd() - .5) * 4, dl: rnd(), w: 11 + rnd() * 7, sp: .55 + rnd() * .45 });
+function bristles(g, t) {
+  g.lineCap = 'round'; g.strokeStyle = '#fff';
+  const cx = W * .3, cy = H * .25, L = Math.hypot(W, H) * 1.25;
+  bris.forEach(b => {
+    const p = clamp((t * 1.55 - b.dl * .5) / b.sp); if (p <= 0) return;
+    g.lineWidth = b.w;
+    const sx = cx + NV[0] * b.o - D[0] * L * .35, sy = cy + NV[1] * b.o - D[1] * L * .35, len = L * p;
+    g.beginPath(); g.moveTo(sx, sy); g.lineTo(sx + D[0] * len, sy + D[1] * len); g.stroke();
+  });
+}
+const tmp = mk(), tg = tmp.getContext('2d');
+function sweepSoft(g, t) {
+  const p = ease(t) * 1.5 - .25, a = clamp(p - .25), b = clamp(p);
+  const gr = g.createLinearGradient(0, 0, W * .75, H * .9);
+  gr.addColorStop(0, '#fff'); gr.addColorStop(a, '#fff'); gr.addColorStop(b <= a ? Math.min(1, a + .001) : b, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, W, H);
+}
+function vnoise(s) {
+  const gw = Math.ceil(W / s) + 2, gh = Math.ceil(H / s) + 2, a = new Float32Array(gw * gh).map(() => rnd());
+  return (x, y) => { const fx = x / s, fy = y / s, ix = fx | 0, iy = fy | 0, ux = fx - ix, uy = fy - iy, sx = ux * ux * (3 - 2 * ux), sy = uy * uy * (3 - 2 * uy);
+    const v = (i, j) => a[(iy + j) * gw + ix + i];
+    return (v(0, 0) * (1 - sx) + v(1, 0) * sx) * (1 - sy) + (v(0, 1) * (1 - sx) + v(1, 1) * sx) * sy; };
+}
+const n1 = vnoise(46), n2 = vnoise(16), n3 = vnoise(6), NF = new Float32Array(W * H);
+for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) NF[y * W + x] = clamp(.5 * n1(x, y) + .3 * n2(x, y) + .2 * n3(x, y)) * .68 + .32 * (x / W * .5 + y / H * .5);
+
+const OPTS = [
+  { name: 'Slow sweep', note: 'One soft wet edge, corner to corner, no hurry.', dur: 4.4,
+    paint: (g, t) => sweepSoft(g, t) },
+  { name: 'Bristle drag', note: 'Dry bristles pull across at different speeds, so the edge frays.', dur: 4.2,
+    paint: (g, t) => bristles(g, t) },
+  { name: 'Ink bloom', note: 'The ink spreads out from the top of the A like a drop on paper.', dur: 4.6,
+    paint: (g, t) => { const R = Math.hypot(W, H) * 1.5 * ease(t * .98 + .02 * t), ox = W * .12, oy = H * .05; g.beginPath();
+      for (let i = 0; i <= 96; i++) { const a = i / 96 * Math.PI * 2, r = R * (1 + .14 * Math.sin(5 * a + 1) + .09 * Math.sin(11 * a + 2) + .05 * Math.sin(23 * a + 4)); const x = ox + Math.cos(a) * r, y = oy + Math.sin(a) * r; i ? g.lineTo(x, y) : g.moveTo(x, y); }
+      g.closePath(); g.fillStyle = '#fff'; g.fill(); } },
+  { name: 'Stroke order', note: 'The long stroke, then the stem, then the bar, then the name. Like a hand.', dur: 7,
+    paint: (g, t) => {
+      const t1 = clamp(t / .46); tg.clearRect(0, 0, W, H);
+      if (t1 > 0) { bristles(tg, t1); tg.globalCompositeOperation = 'destination-out'; tg.fillStyle = '#000';
+        tg.fillRect(0, H * .30, W * .20, H * .6); tg.fillRect(0, H * .40, W * .40, H * .20); tg.fillRect(0, H * .83, W, H); tg.globalCompositeOperation = 'source-over'; g.drawImage(tmp, 0, 0); }
+      g.fillStyle = '#fff';
+      const p2 = clamp((t - .46) / .16); if (p2 > 0) g.fillRect(0, H * .30, W * .24, p2 * H * .56);
+      const p3 = clamp((t - .62) / .14); if (p3 > 0) g.fillRect(0, H * .40, p3 * W * .56, H * .2);
+      const p4 = clamp((t - .76) / .24); if (p4 > 0) { const x1 = p4 * W * 1.12, gr = g.createLinearGradient(x1 - W * .16, 0, x1, 0); gr.addColorStop(0, '#fff'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, H * .83, W, H * .17); }
+    } },
+  { name: 'Curtain', note: 'The ink lowers from the top edge, ragged like a wet brush line.', dur: 4.2,
+    paint: (g, t) => { const y = ease(t) * H * 1.12 - H * .04; g.beginPath(); g.moveTo(0, 0);
+      for (let x = 0; x <= W; x += 5) g.lineTo(x, y + 14 * Math.sin(x * .07 + 1) + 9 * Math.sin(x * .19) + 6 * Math.sin(x * .41 + 2));
+      g.lineTo(W, 0); g.closePath(); g.fillStyle = '#fff'; g.fill(); } },
+  { name: 'Letter by letter', note: 'The A is brushed in, then each letter of the name lands in turn.', dur: 5.4,
+    paint: (g, t) => {
+      const t1 = clamp(t / .56); tg.clearRect(0, 0, W, H);
+      if (t1 > 0) { bristles(tg, t1); tg.globalCompositeOperation = 'destination-out'; tg.fillRect(0, H * .83, W, H); tg.globalCompositeOperation = 'source-over'; g.drawImage(tmp, 0, 0); }
+      const xs = [.0, .19, .34, .5, .66, .8, 1]; g.fillStyle = '#fff';
+      for (let i = 0; i < 6; i++) { const a = clamp((t - .58 - i * .065) / .08); if (a > 0) { g.globalAlpha = a; g.fillRect(xs[i] * W, H * .83, (xs[i + 1] - xs[i]) * W + 2, H * .17); } }
+      g.globalAlpha = 1; } },
+  { name: 'Dissolve', note: 'The ink arrives as grain and fills in, top left first.', dur: 4.8,
+    paint: (g, t) => { const im = g.createImageData(W, H), d = im.data, k = t * 1.7;
+      for (let i = 0, n = W * H; i < n; i++) { const a = clamp((k - NF[i]) * 6); d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = 255; d[i * 4 + 3] = a * 255; }
+      g.putImageData(im, 0, 0); } },
+  { name: 'Develop', note: 'The whole mark fades up out of the paper, like a print in the tray.', dur: 4,
+    paint: (g, t) => { g.globalAlpha = Math.pow(ease(t), 1.6); g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); g.globalAlpha = 1; } }
+];
+
+/* ---------- the stack ---------- */
+const stack = document.getElementById('stack'), hint = document.getElementById('hint'), btns = document.getElementById('btns'), done = document.getElementById('done'), list = document.getElementById('list');
+let order, keep, active = null, raf = 0, t0 = 0;
+const HOLD = 1.8;
+
+function logoDraw(ctx, mask) {
+  ctx.clearRect(0, 0, W, H);
+  if (!IMG.complete) return;
+  ctx.drawImage(IMG, 0, 0, W, H);
+  ctx.globalCompositeOperation = 'destination-in'; ctx.drawImage(mask, 0, 0); ctx.globalCompositeOperation = 'source-over';
+}
+function paintAt(card, t) {
+  const o = card._o, g = card._mg;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; g.clearRect(0, 0, W, H);
+  g.fillStyle = '#fff'; g.strokeStyle = '#fff';
+  o.paint(g, t);
+  logoDraw(card._cx, card._mask);
+  card._bar.style.width = (clamp(t) * 100).toFixed(1) + '%';
+}
+function build(i, pos, total) {
+  const o = OPTS[i], c = document.createElement('div'); c.className = 'card'; c._o = o; c._i = i;
+  const cv = mk(); c._cx = cv.getContext('2d'); c._mask = mk(); c._mg = c._mask.getContext('2d');
+  c.innerHTML = '<span class="stamp k">Keep</span><span class="stamp p">Pass</span>';
+  c.appendChild(cv);
+  const h = document.createElement('h2'); h.textContent = o.name; c.appendChild(h);
+  const p = document.createElement('p'); p.textContent = o.note; c.appendChild(p);
+  const bar = document.createElement('div'); bar.className = 'bar'; bar.innerHTML = '<i></i>'; c.appendChild(bar); c._bar = bar.firstChild;
+  const n = document.createElement('div'); n.className = 'n'; n.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0'); c.appendChild(n);
+  bindDrag(c); return c;
+}
+function layout() {
+  [...stack.children].forEach((c, k, a) => {
+    const d = a.length - 1 - k;                       // 0 is the top card, last child
+    c.style.zIndex = k; c.style.transform = d ? `translateY(${d * 10}px) scale(${1 - d * .04})` : 'none';
+    c.style.opacity = d > 2 ? 0 : 1; c.style.pointerEvents = d ? 'none' : 'auto';
+  });
+  const top = stack.lastElementChild; active = top || null; t0 = performance.now();
+  [...stack.children].forEach(c => { if (c !== top) paintAt(c, 1); });
+  if (!top) finish();
+}
+function tick(now) {
+  raf = requestAnimationFrame(tick);
+  if (!active) return;
+  const el = (now - t0) / 1000, o = active._o;
+  if (el > o.dur + HOLD) t0 = now;
+  paintAt(active, clamp(el / o.dur));
+}
+function fling(card, dir) {
+  if (card._gone) return; card._gone = true;
+  if (dir > 0) keep.push(card._i);
+  try { localStorage.setItem('logoPaintKeep', JSON.stringify(keep)); } catch (e) {}
+  card.classList.remove('drag');
+  card.style.transform = `translateX(${dir * 520}px) rotate(${dir * 22}deg)`; card.style.opacity = 0;
+  setTimeout(() => { card.remove(); layout(); }, 360);
+  active = null;
+  setTimeout(() => {}, 0);
+}
+function bindDrag(c) {
+  let x0 = 0, dx = 0, on = false;
+  const kk = c.querySelector('.stamp.k'), pp = c.querySelector('.stamp.p');
+  c.addEventListener('pointerdown', e => { if (c !== stack.lastElementChild) return; on = true; x0 = e.clientX; dx = 0; c.classList.add('drag'); c.setPointerCapture(e.pointerId); });
+  c.addEventListener('pointermove', e => { if (!on) return; dx = e.clientX - x0; c.style.transform = `translateX(${dx}px) rotate(${dx / 18}deg)`; kk.style.opacity = clamp(dx / 90); pp.style.opacity = clamp(-dx / 90); });
+  const end = () => { if (!on) return; on = false; c.classList.remove('drag'); kk.style.opacity = pp.style.opacity = 0;
+    if (Math.abs(dx) > 90) fling(c, dx > 0 ? 1 : -1); else c.style.transform = 'none'; };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+}
+function start() {
+  stack.innerHTML = ''; keep = []; done.style.display = 'none'; btns.style.display = 'flex'; hint.style.display = 'block'; stack.style.display = 'block';
+  order = OPTS.map((_, i) => i);
+  for (let k = order.length - 1; k >= 0; k--) stack.appendChild(build(order[k], k, OPTS.length));
+  layout();
+}
+function finish() {
+  stack.style.display = 'none'; btns.style.display = 'none'; hint.style.display = 'none'; done.style.display = 'block';
+  list.innerHTML = keep.length ? keep.sort((a, b) => a - b).map(i => `<li><b>${String(i + 1).padStart(2, '0')}</b>${OPTS[i].name}</li>`).join('') : '<li class="none">No keepers. Start over?</li>';
+}
+const toast = m => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); };
+document.getElementById('pass').onclick = () => { const c = stack.lastElementChild; c && fling(c, -1); };
+document.getElementById('keep').onclick = () => { const c = stack.lastElementChild; c && fling(c, 1); };
+document.getElementById('replay').onclick = () => { t0 = performance.now(); };
+document.getElementById('again').onclick = start;
+document.getElementById('copy').onclick = () => {
+  const txt = keep.length ? keep.map(i => (i + 1) + ' ' + OPTS[i].name).join(', ') : 'none';
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Copied'), () => toast(txt));
+};
+addEventListener('keydown', e => { const c = stack.lastElementChild; if (!c || done.style.display === 'block') return;
+  if (e.key === 'ArrowRight') fling(c, 1); else if (e.key === 'ArrowLeft') fling(c, -1); else if (e.key === 'r') t0 = performance.now(); });
+const go = () => { start(); cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); };
+IMG.complete ? go() : (IMG.onload = go);
+})();
+</script>
+</body>
+</html>

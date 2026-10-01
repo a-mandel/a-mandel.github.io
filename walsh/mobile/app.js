@@ -717,7 +717,7 @@
     function eyeCam(v) { const dx = v.eye[0] - v.at[0], dy = v.eye[1] - v.at[1], dz = v.eye[2] - v.at[2], dist = Math.hypot(dx, dy, dz); return { yaw: Math.atan2(dx, dz), el: Math.asin(dy / dist), dist, t: v.at, fp: 1 }; }
     const cam = { yaw: 1.15, el: 0.42, dist: 215, t: new THREE.Vector3(...VIEWS.house.t), fp: 0 };
     const S = { scheme: 'rib', pitch: '12', inside: false, roof: false, panels: true, lens: 'ultra', trees: true, notes: true, room: false };   // always the wide angle, closer in (André 10/1/26)
-    const TS = { i: 0, look: false, near: false, fly: null, ret: 0, wasOut: true, moved: false, notesUntil: 0, notesCheck: 0 };   // the tour: stop, interior look mode, flight, glide home time
+    const TS = { i: 0, look: false, near: false, fly: null, ret: 0, wasOut: true, moved: false, notesUntil: 0, notesCheck: 0, auto: false, autoAt: 0 };   // the tour: stop, interior look mode, flight, glide home time
     const pend = { yaw: 0, el: 0, zoom: 0, walk: 0 }, vel = { yaw: 0, el: 0 };       // drag input the camera eases into
     const IN_SHEET = document.documentElement.classList.contains('in-sheet');
     if (IN_SHEET) S.lens = 'ultra';   // inside the living set the model opens on the widest lens; the quick toggle reads pressed (André 9/30)
@@ -1349,7 +1349,9 @@
       TS.wasOut = !st.room;
       apply(); paintTour();
     }
-    function nextStop() { TS.notesUntil = 0; TS.notesCheck = 0; tourAt(TS.i + 1, false); hidePlay(); }
+    function nextStop() { TS.notesUntil = 0; TS.notesCheck = 0; TS.autoAt = 0; if (TS.i + 1 >= TOUR.length) TS.auto = false; tourAt(TS.i + 1, false); hidePlay(); }
+    // play runs the whole tour on its own (André 10/1/26): each view flies in, its notes come up, then on to the next, ending back at the arrival. A touch, a key or the wheel takes over.
+    function stopAuto() { TS.auto = false; TS.autoAt = 0; }
     function goHome(D) {
       const st = TOUR[TS.i], p = poseOf(st);
       if (st.orbit) p.yaw = cam.yaw;                     // the arrival keeps turning from wherever you left it
@@ -1381,6 +1383,7 @@
         dirty = true;
       } else if (TS.i === 0 && !pts.size && !TS.ret) { cam.yaw += dt * SPIN; dirty = true; }
       if (TS.ret && now >= TS.ret && !pts.size && pendSum() < 0.004) { TS.ret = 0; goHome(); }
+      if (TS.auto && TS.autoAt && now >= TS.autoAt && !TS.fly && !pts.size && pendSum() < 0.004) nextStop();
       if (TS.notesUntil) {
         if (TS.notesCheck && now >= TS.notesCheck) { TS.notesCheck = 0; if (!notesEl.querySelector('.on')) TS.notesUntil = Math.min(TS.notesUntil, now + 300); }   // nothing to read here: straight back to play
         if (now >= TS.notesUntil) endNotes();
@@ -1406,16 +1409,16 @@
     }
     function showPlay() { if (playBtn) playBtn.classList.remove('gone'); }
     const NOTES_MS = 5200;
-    function startNotes(now) { window.__notesHold = false; TS.notesUntil = now + NOTES_MS; TS.notesCheck = now + 1100; dirty = true; }
-    function endNotes() { TS.notesUntil = 0; TS.notesCheck = 0; window.__notesHold = true; showPlay(); dirty = true; }
+    function startNotes(now) { window.__notesHold = false; TS.notesUntil = now + (TS.auto ? 4300 : NOTES_MS); TS.notesCheck = now + 1100; dirty = true; }
+    function endNotes() { TS.notesUntil = 0; TS.notesCheck = 0; window.__notesHold = true; if (TS.auto) TS.autoAt = performance.now() + 450; else showPlay(); dirty = true; }
     function paintTour() {
       const n = TOUR.length - 1, st = TOUR[TS.i];
       const no = $('#tNo'), nm = $('#tName');
       if (no) no.textContent = TS.i ? String(TS.i).padStart(2, '0') + ' / ' + String(n).padStart(2, '0') : 'Tour · ' + n + ' views';
-      if (nm) nm.textContent = TS.i ? st.name : 'Press play';
+      if (nm) nm.textContent = TS.i ? st.name + (TS.auto ? ' · tap to pause' : '') : 'Press play';
       if (playBtn) playBtn.setAttribute('aria-label', TS.i < n ? 'Next view: ' + TOUR[TS.i + 1].name : 'Back to the arrival');
     }
-    if (playBtn) playBtn.addEventListener('click', e => { e.stopPropagation(); if (MODE === 'model') nextStop(); });
+    if (playBtn) playBtn.addEventListener('click', e => { e.stopPropagation(); if (MODE === 'model') { TS.auto = true; nextStop(); } });
     function sheetFor() {
       if (S.scheme === 'rib') {
         const r = I.rib;
@@ -1520,6 +1523,7 @@
       if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch0 = { last: Math.hypot(a.x - b.x, a.y - b.y) }; }
       const now = performance.now();
       if (MODE === 'model') {
+        if (TS.auto) { stopAuto(); paintTour(); }
         TS.ret = 0; vel.yaw = vel.el = 0;
         const F = TS.fly; if (F) { if (!F.mid) { S.room = !!F.st.room; apply(); } TS.fly = null; if (F.st) startNotes(now); }   // a touch holds the view where it is
         if (pts.size === 1 && now - lastTap < 300) goHome(1200);                                                    // double tap: straight back to the stop
@@ -1554,8 +1558,8 @@
       }
     };
     stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
-    stage.addEventListener('wheel', e => { if (MODE !== 'model') return; e.preventDefault(); if (TS.look) pend.walk -= e.deltaY * 0.02; else pend.zoom += e.deltaY * 0.001; TS.ret = performance.now() + 1400; dirty = true; }, { passive: false });
-    document.addEventListener('keydown', e => { if (MODE === 'model' && (e.key === 'ArrowRight' || e.key === 'Enter') && !e.target.closest('input, textarea')) { if ($('#info').hidden && $('#plans').hidden) nextStop(); } });
+    stage.addEventListener('wheel', e => { if (MODE !== 'model') return; e.preventDefault(); stopAuto(); if (TS.look) pend.walk -= e.deltaY * 0.02; else pend.zoom += e.deltaY * 0.001; TS.ret = performance.now() + 1400; dirty = true; }, { passive: false });
+    document.addEventListener('keydown', e => { if (MODE === 'model' && (e.key === 'ArrowRight' || e.key === 'Enter') && !e.target.closest('input, textarea')) { if ($('#info').hidden && $('#plans').hidden) { stopAuto(); nextStop(); } } });
 
     $('#toModel').addEventListener('click', () => enterModel(false));
 

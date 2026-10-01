@@ -307,7 +307,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 @keyframes rtick{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .act .row{display:flex;gap:calc(var(--u)*.18);justify-content:flex-end}
 .sheet[data-kind="model"] .rt,.sheet[data-kind="model"] .rb,.sheet[data-kind="model"] .model::after{transition:opacity .45s ease}
-.sheet.live-model .rt,.sheet.live-model .rb,.sheet.live-model .model::after{opacity:0;pointer-events:none}
+.sheet.live-model .rb,.sheet.live-model .model::after{opacity:0;pointer-events:none}
 .sheet.live-model .rb > *{pointer-events:none}
 /* cover model */
 /* seamless model (André 10/1/26): no frame of its own. The model paints on pure white and multiplies onto the weathered
@@ -590,35 +590,38 @@ body:has(#drawer.show) .waxplay{display:none}
 .deal .dc .db{position:absolute;left:0;top:0;bottom:0;width:var(--u);background:#181715;box-shadow:1px 0 0 rgba(0,0,0,.4)}
 @media print{.deal{display:none !important}}
 /* ================= round 2 (André 10/1/26) */
-/* the sumi stamp play button, in the band */
-.stp{pointer-events:auto;appearance:none;border:0;background:none;padding:0;cursor:pointer;width:calc(var(--u)*2.05);height:calc(var(--u)*2.05);border-radius:50%;
+/* the band (André 10/1/26): sumi nav buttons, previous and next, with the index under them. Play lives on the model,
+   where one press runs the whole tour. */
+.bnv{pointer-events:auto;display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*.26)}
+.bnr{display:flex;gap:calc(var(--u)*.1)}
+.stp{pointer-events:auto;appearance:none;border:0;background:none;padding:0;cursor:pointer;width:calc(var(--u)*1.34);height:calc(var(--u)*1.34);border-radius:50%;
   color:#1b1a18;opacity:.86;transition:opacity .3s ease,transform .45s cubic-bezier(.3,1.4,.5,1);-webkit-tap-highlight-color:transparent}
 .stp svg{width:100%;height:100%;display:block;overflow:visible}
-.stp .ens{transform-box:fill-box;transform-origin:50% 50%;animation:stpSpin 22s linear infinite}
-.stp .tri{transform-box:fill-box;transform-origin:50% 50%;animation:stpBeckon 3.4s cubic-bezier(.4,0,.2,1) infinite}
-.stp .rip{fill:none;stroke:#1b1a18;stroke-width:1.1;opacity:0;transform-box:fill-box;transform-origin:50% 50%;animation:stpRipple 3.4s cubic-bezier(.2,.6,.3,1) infinite}
-.stp:hover,.stp:focus-visible{opacity:1;transform:scale(1.05)}
-.stp:hover .ens{animation-duration:6s}
-.stp:hover .tri{animation:none;transform:translateX(3px)}
+.stp.l svg{transform:scaleX(-1)}
+.stp .ens,.stp .chv{transform-box:fill-box;transform-origin:50% 50%;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.stp:hover,.stp:focus-visible{opacity:1;transform:scale(1.07)}
+.stp:hover .ens{animation:stpSpin 7s linear infinite}
+.stp:hover .chv{transform:translateX(2.5px)}
 .stp:focus-visible{outline:1px solid var(--accent);outline-offset:4px}
+.bix{pointer-events:auto;appearance:none;border:0;background:none;cursor:pointer;color:var(--ink);font:400 calc(var(--t-lab) * 1.2)/1 var(--ft);letter-spacing:.34em;text-transform:uppercase;
+  padding:.4em .2em .35em .55em;border-bottom:1px solid rgba(27,26,24,.38);transition:border-color .25s ease,letter-spacing .35s ease}
+.bix:hover,.bix:focus-visible{border-bottom-color:var(--ink);letter-spacing:.42em}
 @keyframes stpSpin{to{transform:rotate(360deg)}}
-@keyframes stpBeckon{0%,70%,100%{transform:none}78%{transform:translateX(2.5px) scale(.93)}86%{transform:translateX(-1px) scale(1.04)}93%{transform:none}}
-@keyframes stpRipple{0%,72%{opacity:0;transform:scale(1)}80%{opacity:.34;transform:scale(1.02)}100%{opacity:0;transform:scale(1.3)}}
-/* a new sheet stamps its own play button a moment after it lands, so a press reads as stamp, turn, stamp */
-.play .stp{animation:stpIn .55s cubic-bezier(.3,1.5,.5,1) both;animation-delay:2.1s}
-@keyframes stpIn{0%{opacity:0;transform:scale(1.32) rotate(-8deg)}60%{opacity:.95}100%{opacity:.86;transform:none}}
-@media (prefers-reduced-motion:reduce){.stp .ens,.stp .tri,.stp .rip,.play .stp{animation:none}}
-@media print{.stp{display:none !important}}
+/* a new sheet stamps its buttons a moment after it lands */
+.play .bnv{animation:stpIn .55s cubic-bezier(.3,1.5,.5,1) both;animation-delay:2.1s}
+@keyframes stpIn{0%{opacity:0;transform:scale(1.18) rotate(-4deg)}60%{opacity:.95}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.stp:hover .ens,.play .bnv{animation:none}}
+@media print{.bnv{display:none !important}}
 
 /* the logo: a sumi keeper per sheet, painted in on arrival, a wet ink glint now and then */
 .tb .lockw{position:absolute;display:block;pointer-events:none}
 .tb .lockw .lock{position:static;display:block;width:100%;height:auto}
 .tb .lockw .sheen{position:absolute;inset:0;-webkit-mask:var(--lk) center / 100% 100% no-repeat;mask:var(--lk) center / 100% 100% no-repeat;
   background:linear-gradient(118deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.55) 47%,rgba(255,255,255,.16) 53%,rgba(255,255,255,0) 60%) no-repeat;background-size:260% 260%;background-position:120% 120%;
-  animation:lkSheen 9s ease-in-out infinite;animation-delay:3s;mix-blend-mode:screen}
+  animation:lkSheen 9s ease-in-out infinite;animation-delay:6s;mix-blend-mode:screen}
 @keyframes lkSheen{0%,62%{background-position:120% 120%}90%,100%{background-position:-30% -30%}}
-.play .lockw .lock{-webkit-mask:linear-gradient(135deg,#000 42%,transparent 58%) 0 0/300% 300% no-repeat;mask:linear-gradient(135deg,#000 42%,transparent 58%) 0 0/300% 300% no-repeat;
-  animation:lkPaint 1.5s cubic-bezier(.45,.05,.25,1) both;animation-delay:.25s}
+.play .lockw .lock{-webkit-mask:linear-gradient(135deg,#000 38%,transparent 62%) 0 0/300% 300% no-repeat;mask:linear-gradient(135deg,#000 38%,transparent 62%) 0 0/300% 300% no-repeat;
+  animation:lkPaint 4.6s cubic-bezier(.4,.08,.3,1) both;animation-delay:.5s}
 @keyframes lkPaint{from{-webkit-mask-position:100% 100%;mask-position:100% 100%}to{-webkit-mask-position:0 0;mask-position:0 0}}
 @media (prefers-reduced-motion:reduce){.tb .lockw .sheen,.play .lockw .lock{animation:none}}
 @media print{.tb .lockw .sheen{display:none}}
@@ -1273,7 +1276,7 @@ function titleBlock(sh, i) {
       <div class="sec gc"><span class="lab">${esc(G.role)}</span><div class="logo" title="Logo placeholder">${gcLogo}</div><span class="val line">${esc(G.name)}</span></div>
       <div class="sec ag"><span class="lab">Agencies</span>${ag.map(([k, v]) => `<span class="val line"><span class="il">${esc(k)}</span>${esc(v)}</span>`).join('')}<span class="val line">${esc(SET.fire)}</span></div>
     </div>
-    <div class="stz" style="top:${U(BAND[0] - 0.5)};height:${U(BAND[1] - BAND[0])}" aria-label="Agency stamp space"><span class="stl">AGENCY STAMP</span>${stampPlay()}</div>
+    <div class="stz" style="top:${U(BAND[0] - 0.5)};height:${U(BAND[1] - BAND[0])}" aria-label="Agency stamp space"><span class="stl">AGENCY STAMP</span>${stampNav()}</div>
     <div class="tbc dn" style="top:${U(BAND[1] - 0.5 + 0.26)}">
       <div class="sec tq">${qrSVG()}${liveText()}</div>
       <div class="sec colo"><b>${esc(F.signer || F.name)}</b><span>${esc(F.addr.join(', '))}</span><span>${esc(F.phone)} · ${esc(F.email)}</span><span class="cp">${esc(SET.copy)}</span></div>
@@ -1286,8 +1289,8 @@ const KEEPERS = ['44', '01', '14', '48'];
 const keeper = k => `../marks/sumi/lock${KEEPERS[k % KEEPERS.length]}.webp`;
 /* the play button (André 10/1/26): a sumi stamp in the band, an enso brushed around a play mark, inked like a
    rubber stamp and always moving. One press turns one sheet; the next sheet stamps its own in a moment later. */
-const stampPlay = () => `<button type="button" class="stp" data-step="1" aria-label="Next sheet"><svg viewBox="-60 -60 120 120" aria-hidden="true">
-  <circle class="rip" r="44"/><g class="ens"><use href="#stpRing"/></g><g class="tri"><use href="#stpTri"/></g></svg></button>`;
+const chvBtn = (d, label) => `<button type="button" class="stp ${d < 0 ? 'l' : 'r'}" data-step="${d}" aria-label="${label}"><svg viewBox="-60 -60 120 120" aria-hidden="true"><g class="ens"><use href="#stpRing"/></g><g class="chv"><use href="#stpChv"/></g></svg></button>`;
+const stampNav = () => `<div class="bnv" role="group" aria-label="Sheet navigation"><div class="bnr">${chvBtn(-1, 'Previous sheet')}${chvBtn(1, 'Next sheet')}</div><button type="button" class="bix" data-panel aria-label="Sheet index">Index</button></div>`;
 (function stampDefs() {
   let sd = 9137; const R = () => (sd = sd * 16807 % 2147483647) / 2147483647;
   const a0 = -1.0, sweep = 5.55, f = v => v.toFixed(2);
@@ -1318,6 +1321,7 @@ const stampPlay = () => `<button type="button" class="stp" data-step="1" aria-la
     <symbol id="stpRing" overflow="visible"><g filter="url(#stpTex)" fill="currentColor"><path d="${body}"/>
       <ellipse cx="${f(h0[0])}" cy="${f(h0[1])}" rx="7.4" ry="6.6" transform="rotate(${f(a0 * 180 / Math.PI + 90)} ${f(h0[0])} ${f(h0[1])})"/>
       <g fill="none" stroke="currentColor" stroke-linecap="round">${hairs}</g></g></symbol>
+    <symbol id="stpChv" overflow="visible"><g filter="url(#stpTex)"><path d="M-9 -20 Q6 -8.5 15.5 0 Q6 8.5 -9 20" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g></symbol>
     <symbol id="stpTri" overflow="visible"><g filter="url(#stpTex)"><path d="${tri}" fill="currentColor" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/></g></symbol>
   </defs></svg>`;
   document.body.insertAdjacentHTML('afterbegin', svg);
