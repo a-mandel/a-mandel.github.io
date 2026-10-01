@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Title card studies</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&family=Tenor+Sans&display=swap">
+<style>
+:root{--ink:#1b1a18;--muted:#8a867e;--paper:#faf9f6;--line:#dcd8cf;--accent:#c07a2c}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#fff;color:var(--ink);font-family:'Tenor Sans',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+body{display:flex;flex-direction:column;align-items:center;min-height:100dvh;padding:max(18px,env(safe-area-inset-top)) 16px max(18px,env(safe-area-inset-bottom));overflow-x:hidden}
+h1{margin:6px 0 4px;font-weight:400;font-size:13px;letter-spacing:.34em;text-transform:uppercase}
+.sub{margin:0 0 14px;font:italic 400 16px/1.3 'EB Garamond',Georgia,serif;color:var(--muted);text-align:center}
+#stack{position:relative;width:min(94vw,680px);aspect-ratio:680/420;margin:4px 0 0;touch-action:none}
+.card{position:absolute;inset:0;border:1px solid var(--line);border-radius:18px;background:var(--paper);box-shadow:0 18px 40px -22px rgba(27,26,24,.35);display:flex;flex-direction:column;align-items:center;padding:22px 18px 18px;
+  transition:transform .45s cubic-bezier(.3,1.2,.4,1),opacity .35s ease;will-change:transform;user-select:none;-webkit-user-select:none}
+.card.drag{transition:none;cursor:grabbing}
+.card canvas{width:100%;height:auto;display:block;pointer-events:none;margin-bottom:14px;border-radius:6px}
+.card .n{margin-top:auto;font-size:10px;letter-spacing:.3em;color:var(--muted)}
+.card h2{margin:6px 0 4px;font-weight:400;font-size:15px;letter-spacing:.26em;text-transform:uppercase;text-align:center}
+.card p{margin:0;font:italic 400 15px/1.3 'EB Garamond',Georgia,serif;color:#4a4742;text-align:center;max-width:24ch}
+.card .bar{display:none;width:60%;height:2px;background:var(--line);margin-top:12px;border-radius:2px;overflow:hidden}
+.card .bar i{display:block;height:100%;width:0;background:var(--ink)}
+.stamp{position:absolute;top:18px;padding:5px 10px;border:1.5px solid;border-radius:6px;font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:0;pointer-events:none}
+.stamp.k{right:16px;color:#2f6b3a;transform:rotate(8deg)}
+.stamp.p{left:16px;color:#a33;transform:rotate(-8deg)}
+.btns{display:flex;gap:14px;margin-top:20px;align-items:center}
+.btns button{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);font:400 11px/1 'Tenor Sans',sans-serif;letter-spacing:.28em;text-transform:uppercase;border-radius:999px;padding:13px 20px 12px;cursor:pointer;transition:border-color .2s,background .2s}
+.btns button:hover{border-color:var(--ink)}
+.btns .keep{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hint{margin-top:12px;font-size:10px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+#done{display:none;width:min(92vw,420px);text-align:center;margin-top:18px}
+#done h2{font-weight:400;font-size:13px;letter-spacing:.3em;text-transform:uppercase;margin:6px 0 14px}
+#done ul{list-style:none;margin:0 0 16px;padding:0}
+#done li{display:flex;gap:12px;align-items:center;justify-content:center;padding:9px 0;border-bottom:1px solid var(--line);font:italic 400 18px/1.2 'EB Garamond',Georgia,serif}
+#done li b{font:400 11px/1 'Tenor Sans',sans-serif;letter-spacing:.3em;color:var(--muted)}
+#done .none{border:0;color:var(--muted)}
+#done .btns{justify-content:center}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 20px);transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:11px;letter-spacing:.24em;text-transform:uppercase;padding:11px 18px;border-radius:999px;opacity:0;transition:.3s;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+.stage{position:relative;width:650px;height:220px;transform-origin:0 0;overflow:hidden;border-radius:8px;pointer-events:none;background:#f4f1ea url(study/tc_bg.webp) 0 0/650px 220px no-repeat}
+.vp{width:100%;aspect-ratio:650/220;position:relative;overflow:hidden;border-radius:8px;flex:none}
+.stage svg.bgs{position:absolute;left:0;top:0;width:650px;height:220px;overflow:visible}
+.stage .frost{position:absolute;inset:0;-webkit-backdrop-filter:blur(7px) saturate(.6);backdrop-filter:blur(7px) saturate(.6);background:rgba(244,241,234,.55)}
+.ttl{position:absolute;left:0;top:0;color:#1b1a18;font-family:'Tenor Sans','Gill Sans',sans-serif;text-transform:uppercase;white-space:nowrap}
+.ttl .l{position:absolute;left:84.9px;display:block}
+.ttl .h{top:35.9px;font-size:33.9px;letter-spacing:10.17px;line-height:38px}
+.ttl .p{font-size:12.98px;letter-spacing:2.6px;line-height:15px;color:#6c6963}
+.ttl.inv{color:#f4f1ea}.ttl.inv .p{color:#cfcac0}
+.card{padding:16px 16px 14px}
+.card h2{margin-top:14px}
+</style>
+</head>
+<body>
+<h1>Title card studies</h1>
+<p class="sub">Ten ways to seat the A0.0 title over the reel. Same type, new ground. Swipe right to keep.</p>
+<div id="stack" aria-live="polite"></div>
+<div class="btns" id="btns"><button type="button" id="pass">Pass</button><button type="button" class="keep" id="keep">Keep</button></div>
+<div class="hint" id="hint">Arrow keys work too</div>
+<div id="done"><h2>Your keepers</h2><ul id="list"></ul><div class="btns"><button type="button" id="copy">Copy list</button><button type="button" id="again">Start over</button></div></div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+const SW = 650, SH = 220, BX = 58, BY = 23, BR = 13, PAPER = '#f4f1ea', INK = '#1b1a18';
+const LINES = [['h', 35.9, 'Walsh Residence'], ['p', 86.5, '8154 Lahontan Drive · Lot 235 · Truckee'], ['p', 108.7, 'APN 108 160 012 000 · RS PD 1.7'], ['p', 130.8, 'Feasibility FA2 · 9/28/26']];
+const f = v => v.toFixed(1);
+/* polygon with every corner rounded by up to r */
+function roundPoly(P, r, closed = true) {
+  const n = P.length; let d = '';
+  for (let i = 0; i < n; i++) {
+    const p = P[i], a = P[(i - 1 + n) % n], b = P[(i + 1) % n];
+    if (!closed && (i === 0 || i === n - 1)) { d += (i ? ' L' : 'M') + f(p[0]) + ' ' + f(p[1]); continue; }
+    const la = Math.hypot(a[0] - p[0], a[1] - p[1]), lb = Math.hypot(b[0] - p[0], b[1] - p[1]), rr = Math.min(r, la / 2, lb / 2);
+    const p1 = [p[0] + (a[0] - p[0]) / la * rr, p[1] + (a[1] - p[1]) / la * rr], p2 = [p[0] + (b[0] - p[0]) / lb * rr, p[1] + (b[1] - p[1]) / lb * rr];
+    d += (i ? ' L' : 'M') + f(p1[0]) + ' ' + f(p1[1]) + ' Q' + f(p[0]) + ' ' + f(p[1]) + ' ' + f(p2[0]) + ' ' + f(p2[1]);
+  }
+  return d + (closed ? ' Z' : '');
+}
+/* smooth curve through points (Catmull Rom as cubic Beziers), no leading M */
+function spline(P) {
+  let d = '';
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ' C' + f(c1[0]) + ' ' + f(c1[1]) + ' ' + f(c2[0]) + ' ' + f(c2[1]) + ' ' + f(p2[0]) + ' ' + f(p2[1]);
+  }
+  return d;
+}
+/* the stepped outline: each row ends a pad past its own last letter */
+function steps(R, pad, pt, pb, padL) {
+  const L = R[0].x - padL, T = R[0].y - pt, P = [[L, T]];
+  R.forEach((r, i) => {
+    const top = i ? (R[i - 1].b + r.y) / 2 : T, bot = i < R.length - 1 ? (r.b + R[i + 1].y) / 2 : r.b + pb;
+    P.push([r.e + (r.h > 30 ? pad * 1.2 : pad), top], [r.e + (r.h > 30 ? pad * 1.2 : pad), bot]);
+  });
+  P.push([L, R[R.length - 1].b + pb]);
+  return P;
+}
+/* the clear edge: down past the name, then diagonals corner to corner under each line's end, so no stroke ever crosses a letter */
+function hull(R, pad) { const P = [[R[0].e + pad * 1.3, R[0].y - 12], [R[0].e + pad * 1.3, R[0].b + 4]]; R.slice(1).forEach(r => P.push([r.e + pad, r.b + 4])); return P; }
+/* the right hand contour through each row's end, for the flowing and border variants */
+function ends(R, pad) { return R.map(r => [r.e + pad * (r.h > 30 ? 1.3 : 1), r.y + r.h / 2]); }
+function detour(R, stepped) {
+  const E = ends(R, 16), last = R[R.length - 1], yb = last.b + 18;
+  const sx = E[0][0] + 34;
+  let c;
+  if (stepped) {
+    const P = [[sx + 30, BY], [E[0][0], BY], ...steps(R, 16, 0, 18, 0).slice(1, -1).map(p => [p[0], p[1]]), [BX, yb]];
+    P[2][1] = Math.max(P[2][1], BY + 1);
+    c = roundPoly([[sx + 30, BY], [E[0][0], BY], ...P.slice(2, -1), [BX, P[P.length - 2][1]]], 12, false);
+    const fill = c + ` L${BX} ${BY + BR} Q${BX} ${BY} ${BX + BR} ${BY} Z`;
+    return { stroke: c, fill };
+  }
+  const H = hull(R, 20); H[0] = [H[0][0], BY];
+  c = roundPoly([[H[0][0] + 50, BY], ...H, [BX, yb]], 22, false);
+  return { stroke: c, fill: c + ` L${BX} ${BY + BR} Q${BX} ${BY} ${BX + BR} ${BY} Z` };
+}
+const svgWrap = inner => `<svg class="bgs" viewBox="0 0 ${SW} ${SH}" aria-hidden="true"><defs>
+  <filter id="dk" x="-10%" y="-10%" width="120%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".05 .09" numOctaves="3" seed="4"/><feDisplacementMap in="SourceGraphic" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity=".22"/></filter>
+  <filter id="sh" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#1b1a18" flood-opacity=".16"/></filter></defs>${inner}</svg>`;
+const OPTS = [
+  { name: 'Stepped pill', note: 'Paper ground, one hairline, a rounded step at the end of every line.',
+    make: R => svgWrap(`<path d="${roundPoly(steps(R, 16, 12, 12, 16), 10)}" fill="${PAPER}" fill-opacity=".95" stroke="${INK}" stroke-width="1" filter="url(#sh)"/>`) },
+  { name: 'Frosted steps', note: 'Same stepped outline, frosted glass. The reel blurs behind the words, no line.',
+    make: R => `<div class="frost" style="clip-path:path('${roundPoly(steps(R, 16, 12, 12, 16), 10)}')"></div>` },
+  { name: 'Flowing contour', note: 'One soft curve traced through the end of each line, like the logo corner.',
+    make: R => { const H = hull(R, 18), L = R[0].x - 16, T = R[0].y - 12, B = R[R.length - 1].b + 16;
+      const d = roundPoly([[L, T], ...H, [H[H.length - 1][0] - 30, B], [L, B]].map((p, i) => i === 1 ? [p[0], T] : p), 20);
+      return svgWrap(`<path d="${d}" fill="${PAPER}" fill-opacity=".95" stroke="${INK}" stroke-width="1" filter="url(#sh)"/>`); } },
+  { name: 'Border detour, flowing', note: 'The sheet border itself leaves the top edge, sweeps around the title and lands on the left edge. My pick.',
+    make: R => { const D = detour(R, false); return svgWrap(`<path d="${D.fill}" fill="${PAPER}"/><path d="${D.stroke}" fill="none" stroke="${INK}" stroke-width="1.15"/>`); } },
+  { name: 'Border detour, stepped', note: 'The border steps down line by line with rounded corners, like the sidebar bubbles.',
+    make: R => { const D = detour(R, true); return svgWrap(`<path d="${D.fill}" fill="${PAPER}"/><path d="${D.stroke}" fill="none" stroke="${INK}" stroke-width="1.15"/>`); } },
+  { name: 'Line pills', note: 'Every line gets its own pill, so each one reads as a tag.',
+    make: R => svgWrap(R.map(r => { const px = r.h > 30 ? 16 : 10, py = r.h > 30 ? 8 : 4; return `<rect x="${f(r.x - px)}" y="${f(r.y - py)}" width="${f(r.w + px * 2)}" height="${f(r.h + py * 2)}" rx="${f((r.h + py * 2) / 2)}" fill="${PAPER}" fill-opacity=".95" stroke="${INK}" stroke-width=".8"/>`; }).join('')) },
+  { name: 'Ink card', note: 'The stepped outline in solid ink, the words turn to paper. Bold, reads like a stamp.', inv: true,
+    make: R => svgWrap(`<path d="${roundPoly(steps(R, 16, 12, 12, 16), 10)}" fill="${INK}"/>`) },
+  { name: 'Torn paper label', note: 'A flowing label with a deckled edge and a soft shadow, as if pasted on.',
+    make: R => { const H = hull(R, 24), L = R[0].x - 18, T = R[0].y - 14, B = R[R.length - 1].b + 18;
+      const d = roundPoly([[L, T], [H[0][0], T], ...H.slice(1), [H[H.length - 1][0] - 30, B], [L, B]], 18);
+      return svgWrap(`<path d="${d}" fill="${PAPER}" filter="url(#dk)"/>`); } },
+  { name: 'Double hairline', note: 'Stepped paper ground with a second hairline a few points outside, like a drafted border.',
+    make: R => { const P = steps(R, 16, 12, 12, 16), P2 = steps(R, 21, 17, 17, 21);
+      return svgWrap(`<path d="${roundPoly(P2, 13)}" fill="${PAPER}" fill-opacity=".95" stroke="${INK}" stroke-width=".6"/><path d="${roundPoly(P, 10)}" fill="none" stroke="${INK}" stroke-width="1"/>`); } },
+  { name: 'Roof cut', note: 'A straight diagonal from the end of the name down past the last line, on the roof stroke angle, tied into the border.',
+    make: R => { const r0 = R[0], rl = R[R.length - 1], x1 = r0.e + 22, yb = rl.b + 16, x2 = Math.max(rl.e + 18, BX + 40);
+      const c = `M${f(x1 + 40)} ${BY} L${f(x1)} ${BY} L${f(x1)} ${f(r0.b + 4)} L${f(x2)} ${f(yb)} L${BX} ${f(yb)}`;
+      const P = [[x1 + 40, BY], [x1, BY], [x1, r0.b + 4], [x2, yb], [BX, yb]];
+      const rc = roundPoly(P, 12, false);
+      return svgWrap(`<path d="${rc} L${BX} ${BY + BR} Q${BX} ${BY} ${BX + BR} ${BY} Z" fill="${PAPER}"/><path d="${rc}" fill="none" stroke="${INK}" stroke-width="1.15"/>`); } }
+];
+const stack = document.getElementById('stack'), hint = document.getElementById('hint'), btns = document.getElementById('btns'), done = document.getElementById('done'), list = document.getElementById('list');
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+let keep = [];
+function ttlHTML(inv) { return `<div class="ttl${inv ? ' inv' : ''}">${LINES.map(([k, y, t]) => `<span class="l ${k}" style="top:${y}px">${t}</span>`).join('')}</div>`; }
+/* measure the real line ends in this browser, so the outline hugs the type as it actually sets */
+function rows(stage) {
+  const sb = stage.getBoundingClientRect(), k = sb.width / SW;
+  return [...stage.querySelectorAll('.ttl .l')].map(el => { const rg = document.createRange(); rg.selectNodeContents(el); const b = rg.getBoundingClientRect(); const ls = parseFloat(getComputedStyle(el).letterSpacing) || 0;
+    const x = (b.left - sb.left) / k, y = (b.top - sb.top) / k, w = b.width / k - ls, h = b.height / k; return { x, y, w, h, e: x + w, b: y + h }; });
+}
+function build(i, total) {
+  const o = OPTS[i], c = document.createElement('div'); c.className = 'card'; c._i = i;
+  c.innerHTML = '<span class="stamp k">Keep</span><span class="stamp p">Pass</span>';
+  const vp = document.createElement('div'); vp.className = 'vp';
+  const st = document.createElement('div'); st.className = 'stage'; st.innerHTML = ttlHTML(o.inv);
+  vp.appendChild(st); c.appendChild(vp); c._st = st; c._o = o;
+  const h = document.createElement('h2'); h.textContent = o.name; c.appendChild(h);
+  const p = document.createElement('p'); p.textContent = o.note; c.appendChild(p);
+  const n = document.createElement('div'); n.className = 'n'; n.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0'); c.appendChild(n);
+  bindDrag(c); return c;
+}
+function fit() { document.querySelectorAll('.card').forEach(c => { const w = c.querySelector('.vp').clientWidth; c._st.style.transform = `scale(${w / SW})`; }); }
+function draw() { document.querySelectorAll('.card').forEach(c => { if (c._drawn) return; const st = c._st, R = rows(st); st.insertAdjacentHTML('afterbegin', c._o.make(R)); c._drawn = true; }); }
+function layout() {
+  [...stack.children].forEach((c, k, a) => { const d = a.length - 1 - k; c.style.zIndex = k; c.style.transform = d ? `translateY(${d * 10}px) scale(${1 - d * .03})` : 'none'; c.style.opacity = d > 2 ? 0 : 1; c.style.pointerEvents = d ? 'none' : 'auto'; });
+  if (!stack.lastElementChild) finish();
+}
+function fling(card, dir) {
+  if (card._gone) return; card._gone = true; if (dir > 0) keep.push(card._i);
+  card.classList.remove('drag'); card.style.transform = `translateX(${dir * 760}px) rotate(${dir * 16}deg)`; card.style.opacity = 0;
+  setTimeout(() => { card.remove(); layout(); }, 360);
+}
+function bindDrag(c) {
+  let x0 = 0, dx = 0, on = false; const kk = c.querySelector('.stamp.k'), pp = c.querySelector('.stamp.p');
+  c.addEventListener('pointerdown', e => { if (c !== stack.lastElementChild) return; on = true; x0 = e.clientX; dx = 0; c.classList.add('drag'); c.setPointerCapture(e.pointerId); });
+  c.addEventListener('pointermove', e => { if (!on) return; dx = e.clientX - x0; c.style.transform = `translateX(${dx}px) rotate(${dx / 30}deg)`; kk.style.opacity = clamp(dx / 90); pp.style.opacity = clamp(-dx / 90); });
+  const end = () => { if (!on) return; on = false; c.classList.remove('drag'); kk.style.opacity = pp.style.opacity = 0; if (Math.abs(dx) > 90) fling(c, dx > 0 ? 1 : -1); else c.style.transform = 'none'; };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+}
+function start() {
+  stack.innerHTML = ''; keep = []; done.style.display = 'none'; btns.style.display = 'flex'; hint.style.display = 'block'; stack.style.display = 'block';
+  for (let k = OPTS.length - 1; k >= 0; k--) stack.appendChild(build(k, OPTS.length));
+  fit(); layout();
+  // measure with every card flat, then restack
+  requestAnimationFrame(() => { const t = [...stack.children].map(c => c.style.transform); stack.querySelectorAll('.card').forEach(c => c.style.transform = 'none'); draw(); stack.querySelectorAll('.card').forEach((c, k) => c.style.transform = t[k]); });
+}
+function finish() { stack.style.display = 'none'; btns.style.display = 'none'; hint.style.display = 'none'; done.style.display = 'block';
+  list.innerHTML = keep.length ? keep.sort((a, b) => a - b).map(i => `<li><b>${String(i + 1).padStart(2, '0')}</b>${OPTS[i].name}</li>`).join('') : '<li class="none">No keepers. Start over?</li>'; }
+const toast = m => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1800); };
+document.getElementById('pass').onclick = () => { const c = stack.lastElementChild; c && fling(c, -1); };
+document.getElementById('keep').onclick = () => { const c = stack.lastElementChild; c && fling(c, 1); };
+document.getElementById('again').onclick = start;
+document.getElementById('copy').onclick = () => { const txt = keep.length ? keep.map(i => (i + 1) + ' ' + OPTS[i].name).join(', ') : 'none'; (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('Copied'), () => toast(txt)); };
+addEventListener('keydown', e => { const c = stack.lastElementChild; if (!c || done.style.display === 'block') return; if (e.key === 'ArrowRight') fling(c, 1); else if (e.key === 'ArrowLeft') fling(c, -1); });
+addEventListener('resize', fit);
+(document.fonts ? document.fonts.load('34px "Tenor Sans"') : Promise.resolve()).then(start, start);
+})();
+</script>
+</body>
+</html>

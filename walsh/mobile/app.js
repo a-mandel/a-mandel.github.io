@@ -892,7 +892,9 @@
       const placed = [];
       const sc = CW < 520 ? 0.62 : 1;
       ov.setAttribute('viewBox', '0 0 ' + CW + ' ' + CH);
-      const rank = n => n.a.k === 'run' ? 0 : n.a.k === 'dim' ? 1 : 2;
+      // never more than five notes in a frame (André 10/1/26): key notes win, then the rest in order
+      const CAP = 5; let shown = 0;
+      const rank = n => n.a.k === 'run' ? 0 : n.a.k === 'dim' ? 1 : n.a.key ? 2 : 3;
       const eyeLv = MODE === 'model' ? TS.near : (cam.fp || 0) > 0.5;
       [...ANN].sort((x, y) => rank(x) - rank(y)).forEach(n => {
         const a = n.a;
@@ -906,7 +908,7 @@
         }
         if (a.k === 'note') {
           const p = toScreen(n.v);
-          const ok = on && p.ok && inVis(p.x, p.y, 10);
+          const ok = on && p.ok && inVis(p.x, p.y, 10) && shown < CAP;
           n.d.classList.toggle('on', ok); n.path.setAttribute('opacity', ok ? 0.85 : 0); n.dot.setAttribute('opacity', ok ? 1 : 0);
           if (!ok) return;
           const bw = n.d.offsetWidth, bh = n.d.offsetHeight;
@@ -922,7 +924,7 @@
             if (found) break;
           }
           if (!found) { n.d.classList.remove('on'); n.path.setAttribute('opacity', 0); n.dot.setAttribute('opacity', 0); return; }
-          placed.push({ x: bx, y: ty, w: bw, h: bh });
+          placed.push({ x: bx, y: ty, w: bw, h: bh }); shown++;
           n.d.style.transform = 'translate(' + bx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px)';
           n.d.style.left = '0px'; n.d.style.top = '0px';
           const sx = left ? bx + bw + 6 : bx - 6, sy = ty + bh * 0.55;
@@ -933,7 +935,7 @@
         } else if (a.k === 'dim') {
           const pa = toScreen(n.va), pb = toScreen(n.vb);
           const qa = toScreen(n.va.clone().add(n.off)), qb = toScreen(n.vb.clone().add(n.off));
-          const ok = on && pa.ok && pb.ok && qa.ok && qb.ok && inVis(qa.x, qa.y, 30) && inVis(qb.x, qb.y, 30) && Math.hypot(qb.x - qa.x, qb.y - qa.y) > 40;
+          const ok = on && pa.ok && pb.ok && qa.ok && qb.ok && inVis(qa.x, qa.y, 30) && inVis(qb.x, qb.y, 30) && Math.hypot(qb.x - qa.x, qb.y - qa.y) > 40 && shown < CAP;
           n.g.setAttribute('opacity', ok ? 0.8 : 0); n.d.classList.toggle('on', ok);
           if (!ok) return;
           const ux = qb.x - qa.x, uy = qb.y - qa.y, L = Math.hypot(ux, uy), ex = ux / L, ey = uy / L;
@@ -947,10 +949,11 @@
           const cx = (qa.x + qb.x) / 2 + nx * s * 11, cy = (qa.y + qb.y) / 2 + ny * s * 11;
           n.d.style.left = '0px'; n.d.style.top = '0px';
           n.d.style.transform = 'translate(' + (cx - tw / 2).toFixed(1) + 'px,' + (cy - th / 2).toFixed(1) + 'px) rotate(' + ang.toFixed(1) + 'deg)';
-          placed.push({ x: cx - tw / 2, y: cy - th / 2, w: tw, h: th });
+          placed.push({ x: cx - tw / 2, y: cy - th / 2, w: tw, h: th }); shown++;
         } else if (a.k === 'run') {
           const p = toScreen(n.v);
-          const ok = on && p.ok && inVis(p.x, p.y, 20);
+          const ok = on && p.ok && inVis(p.x, p.y, 20) && shown < CAP;
+          if (ok) shown++;
           n.g.setAttribute('opacity', ok ? 0.75 : 0); n.labs.forEach(l => l.classList.toggle('on', ok));
           if (!ok) return;
           const top = vis.t + (vis.b - vis.t) * a.top;
