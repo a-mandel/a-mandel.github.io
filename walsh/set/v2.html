@@ -102,7 +102,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .tear .fib,.curl .fib{fill:none;stroke:rgba(112,94,70,.36);stroke-width:.6;stroke-linecap:round;vector-effect:non-scaling-stroke}
 .tear .fib{display:none}
 
-/* binding: black book cloth, one inch, the paper runs under it to the left edge */
+/* binding: black book cloth, one inch, two brass Chicago screws, the paper runs under it to the left edge */
 .bindg{position:absolute;left:0;top:0;bottom:0;width:var(--u);z-index:4;pointer-events:none;
   border-radius:calc(var(--u)*.05) 0 0 calc(var(--u)*.05);
   background:
@@ -113,10 +113,12 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
     repeating-linear-gradient(90deg,rgba(0,0,0,.22) 0 1px,rgba(0,0,0,0) 1px 3px),
     #181715;
   box-shadow:1px 0 0 rgba(0,0,0,.4),calc(var(--u)*.025) 0 calc(var(--u)*.07) rgba(27,26,24,.28)}
-.rv{position:absolute;left:calc(var(--u)*.8);width:max(7px,calc(var(--u)*.2));height:max(7px,calc(var(--u)*.2));transform:translate(-50%,-50%);border-radius:50%;
-  background:radial-gradient(circle at 34% 30%,#fbfaf6 0,#d9d5cc 18%,#a7a298 46%,#6e6a62 72%,#3d3a35 100%);
-  box-shadow:0 0 0 max(.6px,calc(var(--u)*.012)) rgba(0,0,0,.6),calc(var(--u)*.015) calc(var(--u)*.03) calc(var(--u)*.05) rgba(0,0,0,.7)}
-.rv::after{content:"";position:absolute;inset:34%;border-radius:50%;background:radial-gradient(circle at 60% 65%,rgba(255,255,255,.55),rgba(60,57,52,.55) 70%);box-shadow:inset 0 0 1px rgba(0,0,0,.5)}
+.rv{position:absolute;left:calc(var(--u)*.55);width:max(10px,calc(var(--u)*.34));height:max(10px,calc(var(--u)*.34));transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff4cf 0,#e8c97c 16%,#c49a48 44%,#8a6526 74%,#4a3410 100%);
+  box-shadow:0 0 0 max(.6px,calc(var(--u)*.012)) rgba(30,20,4,.7),calc(var(--u)*.018) calc(var(--u)*.035) calc(var(--u)*.06) rgba(0,0,0,.75)}
+/* brass Chicago screws (André picked study 2, 10/1/26): a slot across each head */
+.rv::after{content:"";position:absolute;left:18%;right:18%;top:50%;height:max(1px,calc(var(--u)*.035));margin-top:calc(max(1px,calc(var(--u)*.035)) / -2);transform:rotate(-28deg);border-radius:1px;
+  background:linear-gradient(180deg,rgba(60,40,8,.85),rgba(255,236,180,.5));box-shadow:0 0 1px rgba(40,26,4,.6)}
 
 /* the corner in the breeze */
 .curl{position:absolute;right:0;top:0;width:calc(var(--u)*3*var(--cs));height:calc(var(--u)*3*var(--cs));overflow:visible;pointer-events:none;z-index:5}
@@ -956,7 +958,7 @@ function rulerLabels() {
 function paperTexture() { return '<div class="tex" aria-hidden="true"></div>'; }
 
 function bindingHTML() {
-  return `<div class="bindg" aria-hidden="true">${[4, 12, 20].map(y => `<i class="rv" style="top:${U(y)}"></i>`).join('')}</div>`;
+  return `<div class="bindg" aria-hidden="true">${[6, 18].map(y => `<i class="rv" style="top:${U(y)}"></i>`).join('')}</div>`;
 }
 
 /* ================================================================ the frayed corner

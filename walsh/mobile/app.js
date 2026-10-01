@@ -860,8 +860,9 @@
         if (a.only && a.only !== STYLE) return;
         if (lean && !(a.key || (MODE === 'model' && a.k === 'run'))) return;
         // a brushed shot holds its notes until the name has had its moment (André 10/1/26)
-        let sb = 0; try { sb = MODE === 'reel' && SHOTS[shot] && SHOTS[shot].brush ? SHOTS[shot].dur * 600 : 0; } catch (e) { sb = 0; }
-        const delay = (MODE === 'reel' ? (sb || 900) : 150) + i * (MODE === 'reel' ? 420 : 60);
+        // the reel travels clean, then the notes come up as it settles (André 10/1/26)
+        let sb = 0; try { sb = MODE === 'reel' && SHOTS[shot] ? SHOTS[shot].dur * 1000 - 150 : 0; } catch (e) { sb = 0; }
+        const delay = (MODE === 'reel' ? (sb || 900) : 150) + i * (MODE === 'reel' ? 260 : 60);
         if (a.k === 'note') {
           const d = document.createElement('div'); d.className = 'note'; d.textContent = a.text; notesEl.appendChild(d);
           const path = mkSvg('path', { fill: 'none', stroke: col, 'stroke-width': sumi ? 1.5 : 1.1, 'stroke-linecap': 'round', opacity: 0 });
@@ -1236,6 +1237,7 @@
       cam.yaw = v('yaw'); cam.el = v('el'); cam.dist = v('dist'); cam.fp = 0;
       cam.t.set(cr(a.t[0], b.t[0], c.t[0], d.t[0], u), cr(a.t[1], b.t[1], c.t[1], d.t[1], u), cr(a.t[2], b.t[2], c.t[2], d.t[2], u));
     }
+    const REEL_HOLD = 5;
     function startShot(i) {
       shot = i; shotT0 = performance.now();
       const s = SHOTS[i];
@@ -1250,7 +1252,7 @@
       $('#shotLine').textContent = s.line;
       const ul = $('#shotData'); ul.innerHTML = '';
       s.data.forEach((t, k) => { const li = document.createElement('li'); li.textContent = t; li.style.animationDelay = (0.5 + k * 0.35) + 's'; ul.appendChild(li); });
-      $$('#ticks i').forEach((el, k) => { el.className = k < i ? 'done' : ''; if (k === i) { void el.offsetWidth; el.style.setProperty('--dur', s.dur + 's'); el.className = 'run'; } });
+      $$('#ticks i').forEach((el, k) => { el.className = k < i ? 'done' : ''; if (k === i) { void el.offsetWidth; el.style.setProperty('--dur', (s.dur + REEL_HOLD) + 's'); el.className = 'run'; } });
       if (s.keys) keyCam(s.keys, 0); else setCam(s.from, s.to, 0);
       measure(); drawDeco(); paintTitle(0);
       setAnn(s.ann);
@@ -1261,14 +1263,15 @@
       const fade = $('#fade'); fade.style.opacity = 1;
       setTimeout(() => { if (MODE === 'reel') startShot((shot + 1) % SHOTS.length); fade.style.opacity = 0; switching = false; }, 470);
     }
+    // each shot travels for its duration, then holds still for five seconds with its notes up, then moves on (André 10/1/26)
     function reelTick(now) {
-      const s = SHOTS[shot], t = window.__reelT != null ? window.__reelT : (now - shotT0) / 1000 / s.dur;
+      const s = SHOTS[shot], el = (now - shotT0) / 1000, t = window.__reelT != null ? window.__reelT : el / s.dur;
       // always moving (André 9/28 9:00 pm): a steady drift with soft ends, so every clip reads as motion
       const u = Math.min(1, t), e = s.keys ? 0.2 * u + 0.8 * (0.5 - 0.5 * Math.cos(Math.PI * u)) : 0.35 * u + 0.65 * (0.5 - 0.5 * Math.cos(Math.PI * u));
       if (s.keys) keyCam(s.keys, e); else setCam(s.from, s.to, e);
       paintTitle(u);
       if (window.__reelT != null) return;
-      if (t >= 1 - 0.47 / s.dur) nextShot();
+      if (el >= s.dur + REEL_HOLD - 0.47) nextShot();
     }
 
     // ---------------- the model
@@ -1409,7 +1412,7 @@
     }
     function showPlay() { if (playBtn) playBtn.classList.remove('gone'); }
     const NOTES_MS = 5200;
-    function startNotes(now) { window.__notesHold = false; TS.notesUntil = now + (TS.auto ? 4300 : NOTES_MS); TS.notesCheck = now + 1100; dirty = true; }
+    function startNotes(now) { window.__notesHold = false; TS.notesUntil = now + (TS.auto ? 5000 : NOTES_MS); TS.notesCheck = TS.auto ? 0 : now + 1100; dirty = true; }
     function endNotes() { TS.notesUntil = 0; TS.notesCheck = 0; window.__notesHold = true; if (TS.auto) TS.autoAt = performance.now() + 450; else showPlay(); dirty = true; }
     function paintTour() {
       const n = TOUR.length - 1, st = TOUR[TS.i];
