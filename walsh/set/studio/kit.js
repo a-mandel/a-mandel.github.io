@@ -16,7 +16,7 @@ const SET = {
   aor: { label: '', name: '', note: '' },   // architect of record removed from all project documentation (9/30/26)
   date: '9/30/26', drawnBy: 'AM', status: 'Feasibility · not for construction',
   copy: '© 2026 André Mandel. Drawings are instruments of service.',
-  live: { url: 'https://a-mandel.github.io/walsh/set/v2.html', show: ['a-mandel.github.io', '/walsh', '/set/v2.html'], label: 'The living set' },
+  live: { url: 'https://a-mandel.github.io/walsh/', show: ['a-mandel.github.io', '/walsh'], label: 'The living set' },
   marks: { lockup: '../../marks/am10_lockup.webp', mark: '../../marks/am10_mark.webp', name: '../../marks/am10_name.webp' },
   count: 17, index: 7,
   sheet: { id: 'A2.1', group: 'Architectural', title: 'Level 1 plan', foot: 'Level 1 plan', scale: '3/16 in = 1 ft',

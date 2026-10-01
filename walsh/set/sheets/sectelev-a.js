@@ -229,7 +229,8 @@
     .sea-n em{font-style:italic;color:var(--ink)}
     @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
       .sheet[data-id="A3.1"] .fhtml{position:relative;inset:auto}
-      .sea-vt{transform:none}
+      .sea-vt{transform:none;max-width:100%}
+      .sea-vt .vt{white-space:normal;min-width:0}
       .sea-n,.sea-gl,.sea-ld,.sea-dim{display:none}
     }
     .sea-gl{position:absolute;transform:translate(-100%,-50%);font:italic 400 var(--l-i)/1 var(--fs);color:var(--muted);white-space:nowrap;pointer-events:none}
