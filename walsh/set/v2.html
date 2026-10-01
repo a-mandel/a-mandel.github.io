@@ -189,7 +189,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .rb{position:absolute;z-index:3;left:0;right:0;bottom:0;padding:0 calc(var(--u)*.6) calc(var(--u)*.48);display:grid;
   grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) auto;grid-template-areas:"ticks data act" "shot data act" "line data act";column-gap:calc(var(--u)*.78);row-gap:calc(var(--u)*.174);align-items:end;pointer-events:none}
 .rb > *{pointer-events:auto}
-.sheet[data-kind="model"] .rb{padding-top:calc(var(--u)*1.4);background:linear-gradient(to top,rgba(246,245,241,.94) 0%,rgba(246,245,241,.8) 50%,rgba(246,245,241,0) 100%);border-radius:0 0 calc(var(--u)*.16) calc(var(--u)*.16)}
+.sheet[data-kind="model"] .rb{padding-top:calc(var(--u)*1.4);background:none;border-radius:0 0 calc(var(--u)*.16) calc(var(--u)*.16)}
 .ticks{grid-area:ticks;display:flex;align-items:center;gap:calc(var(--u)*.13)}
 .ticks i{position:relative;flex:none;width:calc(var(--u)*.5);height:max(1.5px,calc(var(--u)*.043));background:var(--rule);overflow:hidden}
 .ticks i b{position:absolute;inset:0;background:var(--ink);transform-origin:0 50%;transform:scaleX(0)}
@@ -203,7 +203,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .act{grid-area:act;align-self:end;display:flex;flex-direction:column;align-items:flex-end;gap:calc(var(--u)*.3)}
 .btn{appearance:none;cursor:pointer;border-radius:999px;border:1px solid var(--ink);background:transparent;padding:calc(var(--u)*.26) calc(var(--u)*.39);min-height:max(calc(var(--fl)*30px),calc(var(--u)*.96));font:400 var(--s-btn)/1 var(--ft);letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
 .btn:hover{background:var(--ink);color:var(--paper)}
-.live{display:flex;align-items:flex-end;gap:calc(var(--u)*.22);text-align:right;padding:calc(var(--u)*.14);margin-right:calc(var(--u)*-.14);border-radius:calc(var(--u)*.12);background:rgba(246,245,241,.86)}
+.live{display:flex;align-items:flex-end;gap:calc(var(--u)*.22);text-align:right;padding:calc(var(--u)*.14);margin-right:calc(var(--u)*-.14);border-radius:calc(var(--u)*.12);background:none}
 .lt{display:flex;flex-direction:column;gap:calc(var(--u)*.03);min-width:0}
 .live .lt{align-items:flex-end}
 .lt .lab{color:var(--ink)}
@@ -243,10 +243,16 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .sheet.live-model .rt,.sheet.live-model .rb,.sheet.live-model .model::after{opacity:0;pointer-events:none}
 .sheet.live-model .rb > *{pointer-events:none}
 /* cover model */
-.model{position:absolute;left:calc(var(--u)*.25);top:calc(var(--u)*.25);right:calc(var(--u)*.25);bottom:calc(var(--u)*.25);border-radius:calc(var(--u)*.16);overflow:hidden;background:var(--paper)}
-.model iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent}
+/* seamless model (André 10/1/26): no frame of its own. The model paints on pure white and multiplies onto the weathered
+   sheet, so white reads as this paper, fibers and foxing included, and it fades out under the title and the captions by mask, not by a veil */
+.model{position:absolute;left:calc(var(--u)*.25);top:calc(var(--u)*.25);right:calc(var(--u)*.25);bottom:calc(var(--u)*.25);border-radius:calc(var(--u)*.16);overflow:hidden;background:transparent}
+.model iframe,.model .still{mix-blend-mode:multiply;
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,.45) calc(var(--u)*2.3),#000 calc(var(--u)*4.2),#000 calc(100% - var(--u)*4.6),rgba(0,0,0,.25) calc(100% - var(--u)*2.3),rgba(0,0,0,.08));
+          mask-image:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,.45) calc(var(--u)*2.3),#000 calc(var(--u)*4.2),#000 calc(100% - var(--u)*4.6),rgba(0,0,0,.25) calc(100% - var(--u)*2.3),rgba(0,0,0,.08))}
+.sheet.live-model .model iframe{-webkit-mask-image:none;mask-image:none}
+.model iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
 .model .still{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:50% 50%}
-.model::after{content:"";position:absolute;left:0;right:0;top:0;height:calc(var(--u)*4.2);pointer-events:none;background:linear-gradient(to bottom,rgba(246,245,241,.9),rgba(246,245,241,.55) 55%,rgba(246,245,241,0))}
+.model::after{content:none}
 .model iframe.ready + .still,.model .still.gone{display:none}
 
 /* index sheet A0.1 */

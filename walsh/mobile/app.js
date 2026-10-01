@@ -615,11 +615,11 @@
         tF: { value: rtF.texture }, tL: { value: rtL.texture }, tSun: { value: sunTex },
         res: { value: new THREE.Vector2(1, 1) }, dpr: { value: DPR }, sty: { value: 0 },
         sun: { value: new THREE.Vector4(0.7, 0.6, 0.15, 0) }, focus: { value: new THREE.Vector3(0.5, 0.5, 0.5) },
-        paper: { value: new THREE.Color(0xf3efe6) }, ink: { value: new THREE.Color(0x151412) }
+        paper: { value: new THREE.Color(0xf3efe6) }, ink: { value: new THREE.Color(0x151412) }, blank: { value: document.documentElement.classList.contains('in-sheet') ? 1 : 0 }
       },
       vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }',
       fragmentShader: [
-        'uniform sampler2D tF, tL, tSun; uniform vec2 res; uniform float dpr, sty; uniform vec4 sun; uniform vec3 focus, paper, ink; varying vec2 vUv;',
+        'uniform sampler2D tF, tL, tSun; uniform vec2 res; uniform float dpr, sty, blank; uniform vec4 sun; uniform vec3 focus, paper, ink; varying vec2 vUv;',
         'float h2(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }',
         'float n2(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(h2(i),h2(i+vec2(1,0)),f.x), mix(h2(i+vec2(0,1)),h2(i+vec2(1,1)),f.x), f.y); }',
         'float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<4;i++){ v+=a*n2(p); p*=2.03; a*=0.5; } return v; }',
@@ -631,6 +631,7 @@
         '  if (sty < 0.5) {',
         '    vec3 P = paper * (0.955 + 0.06 * grain);',
         '    P -= vec3(0.03, 0.028, 0.024) * smoothstep(0.66, 0.9, n2(vec2(px.x / (26.0 * dpr), px.y / (1.6 * dpr))));',
+        '    P = mix(P, vec3(1.0), blank);',
         '    vec3 bg = P;',
         '    if (sun.w > 0.001) { vec2 d = (vUv - sun.xy) * vec2(res.x / res.y, 1.0) / sun.z; if (max(abs(d.x), abs(d.y)) < 1.0) { vec4 S = texture2D(tSun, d * 0.5 + 0.5); bg = mix(bg, S.rgb * (0.94 + 0.08 * grain), S.a * sun.w); } }',
         '    float L = lum(F.rgb);',
@@ -655,7 +656,8 @@
         '    gl_FragColor = vec4(col, 1.0);',
         '  } else {',
         '    vec3 P = paper * (0.985 + 0.03 * grain);',
-        '    vec3 bg = mix(P, vec3(0.905, 0.912, 0.918), smoothstep(0.35, 1.0, vUv.y) * 0.55);',
+        '    P = mix(P, vec3(1.0), blank);',
+        '    vec3 bg = mix(P, vec3(0.905, 0.912, 0.918), smoothstep(0.35, 1.0, vUv.y) * 0.55 * (1.0 - blank));',   // in a sheet: pure white, no sky, the sheet's paper shows through (André 10/1/26)
         '    vec2 d = (vUv - focus.xy) * vec2(res.x / res.y, 1.0);',
         '    float dist = length(d) / focus.z + (fbm(px / (55.0 * dpr)) - 0.5) * 0.5 + (n2(vec2(px.x / (3.0 * dpr), px.y / (40.0 * dpr))) - 0.5) * 0.12;',
         '    float m = 1.0 - smoothstep(0.78, 1.12, dist);',
