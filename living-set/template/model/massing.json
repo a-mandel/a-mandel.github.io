@@ -1,0 +1,307 @@
+{
+ "_about": "Pocket model massing for the ANDR\u00c9 MANDEL living set. Plan feet (x east, y down the sheet), elevations in feet over the site datum. volumes: poly, base, eave, roof {type: gable (ridge, axis x|y) | shed (low, high, dir x|y, up min|max) | flat (top)}, overhang, glass runs [[x,y],[x,y],sill,head]. decks: poly, el, mat timber|stone. site: lot, grade, trees [x,y,canopy r,height,signature]. shots: title, line, data, cam {th, ph degrees, r radii, look [x,y,el], fov}. Or set glb to a GLB file.",
+ "title": "Sample Residence",
+ "datum": 100,
+ "volumes": [
+  {
+   "name": "Main",
+   "poly": [
+    [
+     0,
+     0
+    ],
+    [
+     64,
+     0
+    ],
+    [
+     64,
+     24
+    ],
+    [
+     0,
+     24
+    ]
+   ],
+   "base": 100,
+   "eave": 112,
+   "roof": {
+    "type": "gable",
+    "ridge": 124,
+    "axis": "x",
+    "overhang": 2
+   },
+   "glass": [
+    [
+     [
+      6,
+      24
+     ],
+     [
+      58,
+      24
+     ],
+     100.5,
+     109
+    ],
+    [
+     [
+      64,
+      4
+     ],
+     [
+      64,
+      20
+     ],
+     100.5,
+     110
+    ]
+   ]
+  },
+  {
+   "name": "Garage",
+   "poly": [
+    [
+     -30,
+     0
+    ],
+    [
+     -8,
+     0
+    ],
+    [
+     -8,
+     22
+    ],
+    [
+     -30,
+     22
+    ]
+   ],
+   "base": 99.5,
+   "eave": 109,
+   "roof": {
+    "type": "shed",
+    "low": 109,
+    "high": 113,
+    "dir": "y",
+    "up": "min",
+    "overhang": 2
+   }
+  },
+  {
+   "name": "Link",
+   "poly": [
+    [
+     -8,
+     8
+    ],
+    [
+     0,
+     8
+    ],
+    [
+     0,
+     20
+    ],
+    [
+     -8,
+     20
+    ]
+   ],
+   "base": 100,
+   "eave": 110,
+   "roof": {
+    "type": "flat",
+    "top": 110
+   },
+   "glass": [
+    [
+     [
+      -6,
+      20
+     ],
+     [
+      -2,
+      20
+     ],
+     100.5,
+     108
+    ]
+   ]
+  }
+ ],
+ "chimneys": [
+  [
+   46,
+   -1.5,
+   52,
+   1.5,
+   100,
+   128
+  ]
+ ],
+ "decks": [
+  {
+   "poly": [
+    [
+     36,
+     24.4
+    ],
+    [
+     62,
+     24.4
+    ],
+    [
+     62,
+     36
+    ],
+    [
+     36,
+     36
+    ]
+   ],
+   "el": 100,
+   "mat": "timber"
+  },
+  {
+   "poly": [
+    [
+     18,
+     24.4
+    ],
+    [
+     36,
+     24.4
+    ],
+    [
+     36,
+     32
+    ],
+    [
+     18,
+     32
+    ]
+   ],
+   "el": 99.7,
+   "mat": "stone"
+  }
+ ],
+ "site": {
+  "lot": [
+   [
+    -50,
+    -50
+   ],
+   [
+    85,
+    -55
+   ],
+   [
+    90,
+    70
+   ],
+   [
+    -55,
+    75
+   ]
+  ],
+  "grade": 99.4,
+  "trees": [
+   [
+    -38,
+    -36,
+    9,
+    46
+   ],
+   [
+    70,
+    -38,
+    11,
+    55
+   ],
+   [
+    74,
+    48,
+    10,
+    50
+   ],
+   [
+    -40,
+    58,
+    8,
+    40
+   ],
+   [
+    24,
+    52,
+    12,
+    62,
+    true
+   ],
+   [
+    52,
+    -40,
+    8,
+    44
+   ]
+  ]
+ },
+ "shots": [
+  {
+   "title": "The house",
+   "line": "One long gable over the living rooms, the garage stepping off to the west.",
+   "data": [
+    "Main level 100.0",
+    "Ridge 124.0, about",
+    "Placeholder model"
+   ],
+   "cam": {
+    "th": -38,
+    "ph": 62,
+    "r": 2.1
+   },
+   "dur": 9
+  },
+  {
+   "title": "The terrace",
+   "line": "The living room opens south onto timber and stone.",
+   "data": [
+    "Terrace about 302 sf",
+    "Patio about 136 sf",
+    "Clear glass, square panes"
+   ],
+   "cam": {
+    "th": 28,
+    "ph": 74,
+    "r": 1.35,
+    "look": [
+     44,
+     22,
+     104
+    ]
+   },
+   "dur": 9
+  },
+  {
+   "title": "From the road",
+   "line": "The arrival from the west, past the garage to the entry.",
+   "data": [
+    "Drive from Project Road",
+    "Two garage doors",
+    "Keep the big pine"
+   ],
+   "cam": {
+    "th": -96,
+    "ph": 80,
+    "r": 1.7,
+    "look": [
+     -10,
+     12,
+     104
+    ]
+   },
+   "dur": 9
+  }
+ ]
+}

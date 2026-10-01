@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- REPLACE: the browser tab and the link preview -->
+<title>Sample Living Set</title>
+<meta name="description" content="Sample Residence living plan set. ANDRÉ MANDEL residential design.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#ebe9e3">
+<link rel="icon" href="../brand/favicon-32.png">
+<link rel="apple-touch-icon" href="../brand/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="../engine/living-set.css">
+</head>
+<body>
+<!-- the desk, the stage and the chrome: the engine fills these. Keep the ids. -->
+<div id="desk">
+  <div id="stage" aria-live="polite"></div>
+</div>
+<nav class="ctrl" id="ctrl" aria-label="Sheet controls">
+  <button id="prev" aria-label="Previous sheet">&#8249;</button>
+  <span class="cn" id="cn">A0.0</span>
+  <button id="next" aria-label="Next sheet">&#8250;</button>
+  <span class="sep"></span>
+  <span class="rd" id="rd" aria-hidden="true">Inch <b>&#183;</b></span>
+  <span class="sep"></span>
+  <button id="print">Print</button>
+</nav>
+<div class="strip" id="strip">
+  <img id="smark" alt="André Mandel" width="236" height="300">
+  <div class="sx">
+    <span class="sk"><span class="sn" id="ssn" aria-live="polite"></span> · <span id="scount"></span></span>
+    <span class="stt" id="stt"></span>
+    <span class="stl" id="stl"></span>
+  </div>
+  <button class="ib" id="ib" aria-expanded="false" aria-controls="drawer">Index</button>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Sheet index"></div>
+
+<!-- load order matters: project, drawings, the crew registries, shared data, crew sheets and overlays, then the engine -->
+<script src="project.js"></script>
+<script src="draw/drawings.js"></script>
+<script>window.LIVING_SHEETS = []; window.LIVING_OVERLAYS = [];</script>
+<script src="draw/shared.js"></script>
+<script src="../engine/living-kit.js"></script>
+<!-- crew files: one per team, each pushes sheets or overlays. Add yours here -->
+<script src="sheets/notes.js"></script>
+<script src="sheets/schedules.js"></script>
+<script src="sheets/overlays.js"></script>
+<script src="../engine/living-set.js"></script>
+</body>
+</html>

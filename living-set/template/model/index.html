@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Live model</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="../../brand/favicon-32.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Tenor+Sans&display=swap">
+<link rel="stylesheet" href="../../model/pocket.css">
+</head>
+<body>
+<!-- the pocket model. Keep these ids: the cover sheet reads its reel from them (FRAMEWORK.md, 9) -->
+<div id="app" data-mode="loading">
+  <div id="stage"></div>
+  <header class="top"><h1 id="mtitle"></h1></header>
+  <footer class="foot">
+    <div><div class="ticks" id="ticks"><span id="shotNo"></span></div><h2 class="shot" id="shotTitle"></h2><p class="line" id="shotLine"></p></div>
+    <div><ul class="data" id="shotData"></ul></div>
+    <div class="act"><button type="button" class="btn" id="toModel">Enter the model</button><button type="button" class="btn" id="toReel">Back to the reel</button></div>
+  </footer>
+</div>
+<script>window.POCKET = { data: 'massing.json' };</script>
+<script src="../../model/three.r128.min.js"></script>
+<script src="../../model/pocket.js"></script>
+</body>
+</html>
