@@ -1,0 +1,75 @@
+/* Full bleed swipe decks on phones (10/1/26). Standing rule: the image under review fills the screen,
+   every time, and the nav floats over it. Shared by every studio deck; loaded after each deck's own styles.
+   Desktop is untouched. The results view (body.done) scrolls as before. */
+@media (max-width:760px), (pointer:coarse) and (max-height:520px) {
+  html:has(body:not(.done)), body:not(.done) { height: 100%; overflow: hidden; overscroll-behavior: none; }
+  body:not(.done) .wrap { padding: 0; min-height: 100dvh; max-width: none; }
+
+  /* nav overlays */
+  body:not(.done) header { position: fixed; z-index: 6; top: 0; left: 0; right: 0; flex-direction: row; align-items: center; gap: 12px;
+    padding: calc(env(safe-area-inset-top) + 12px) 16px 22px; border: 0;
+    background: linear-gradient(rgba(255,255,255,.94), rgba(255,255,255,.78) 55%, rgba(255,255,255,0)); pointer-events: none; }
+  body:not(.done) header > * { pointer-events: auto; }
+  body:not(.done) header h1 { font-size: 11.5px; letter-spacing: .26em; white-space: nowrap; }
+  body:not(.done) header p { display: none; }
+  body:not(.done) .hr { width: auto; margin-left: auto; gap: 10px; }
+  body:not(.done) .pill { background: rgba(255,255,255,.86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  body:not(.done) .bar { position: fixed; z-index: 7; top: 0; left: 0; right: 0; margin: 0; background: transparent; }
+  body:not(.done) .actions { position: fixed; z-index: 6; left: 0; right: 0; bottom: 0; gap: 10px;
+    padding: 26px 16px calc(env(safe-area-inset-bottom) + 12px);
+    background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.82) 45%, rgba(255,255,255,.94)); }
+  body:not(.done) .act { flex: 1; min-width: 0; min-height: 52px; padding: 0 14px; background: rgba(255,255,255,.86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  body:not(.done) .act kbd, body:not(.done) .hint { display: none; }
+  body:not(.done) .toast { bottom: calc(env(safe-area-inset-bottom) + 92px); }
+
+  /* the card is the screen */
+  body:not(.done) .stage { position: fixed; inset: 0; z-index: 1; padding: 0; }
+  body:not(.done) .deck { position: absolute; inset: 0; display: block; }
+  body:not(.done) .card { position: absolute; inset: 0; width: auto !important; border-radius: 0; box-shadow: none; background: var(--paper, #f6f5f1); }
+  body:not(.done) .card.back { opacity: 1; transform: none; }
+  body:not(.done) .media { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; background: var(--paper, #f6f5f1); }
+  body:not(.done) .media .sheet { position: absolute; inset: 0; flex: none; }
+  body:not(.done) .media .sheet img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  body:not(.done) .card.show-det .media .det { position: relative; display: flex; width: 100% !important; height: auto !important; max-height: 100%; aspect-ratio: 547 / 750; margin: 0; border: 0; }
+  body:not(.done) .media .live { aspect-ratio: auto; }
+  body:not(.done) .media .live img { object-fit: cover; }
+  body:not(.done) .open { left: 50%; bottom: auto; top: calc(env(safe-area-inset-top) + 64px); transform: translateX(-50%); }
+
+  /* view switch and the card's caption float too */
+  body:not(.done) .seg { display: flex; position: absolute; z-index: 4; left: 12px; top: calc(env(safe-area-inset-top) + 62px); }
+  body:not(.done) .card:has(.open) .seg { top: calc(env(safe-area-inset-top) + 100px); }
+  body:not(.done) .info { position: absolute; z-index: 3; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 84px); border: 0;
+    flex-wrap: wrap; gap: 6px 12px; padding: 30px 16px 8px; background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.86) 38%); }
+  body:not(.done) .info .no { font-size: 17px; }
+  body:not(.done) .info .nm { font-size: 19px; }
+  body:not(.done) .info .tr { margin-left: 0; width: 100%; text-align: left; }
+  body:not(.done) .info .note { margin-left: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  body:not(.done) .stampk { top: 34%; z-index: 5; }
+  body:not(.done) .media .det { display: none; }
+  body:not(.done) .card.show-det .media .sheet { display: none; }
+  body:not(.done) .seg { background: rgba(255,255,255,.92); border-radius: 999px; padding: 3px; box-shadow: 0 0 0 1px var(--rule); }
+  body:not(.done) .seg button { font: 400 9.5px/1 var(--ft); letter-spacing: .16em; text-transform: uppercase; padding: 9px 12px; border-radius: 999px; color: var(--muted); min-height: 32px; }
+  body:not(.done) .seg button.on { background: var(--ink); color: #fff; }
+}
+
+/* phone held sideways: little height, so the overlays shrink to the edges */
+@media (pointer:coarse) and (max-height:520px) and (orientation:landscape) {
+  body:not(.done) header { padding: calc(env(safe-area-inset-top) + 8px) calc(env(safe-area-inset-right) + 14px) 14px calc(env(safe-area-inset-left) + 14px); }
+  body:not(.done) .pill { padding: 7px 12px; min-height: 30px; }
+  body:not(.done) .seg { top: auto; bottom: calc(env(safe-area-inset-bottom) + 10px); left: calc(env(safe-area-inset-left) + 12px); }
+  body:not(.done) .card:has(.open) .seg { top: auto; }
+  body:not(.done) .open { top: calc(env(safe-area-inset-top) + 48px); }
+  body:not(.done) .info { left: auto; right: calc(env(safe-area-inset-right) + 196px); bottom: calc(env(safe-area-inset-bottom) + 8px); width: auto; max-width: 34%;
+    padding: 6px 12px; flex-wrap: nowrap; border-radius: 999px; background: rgba(255,255,255,.86); }
+  body:not(.done) .info .tr { display: none; }
+  body:not(.done) .info .no { font-size: 14px; } body:not(.done) .info .nm { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  body:not(.done) .actions { left: auto; width: auto; padding: 0 calc(env(safe-area-inset-right) + 12px) calc(env(safe-area-inset-bottom) + 8px) 0; background: none; gap: 8px; }
+  body:not(.done) .act { flex: none; min-width: 84px; min-height: 40px; padding: 0 14px; font-size: 10.5px; }
+  body:not(.done) .toast { bottom: calc(env(safe-area-inset-bottom) + 60px); }
+}
+
+/* portrait phone: a landscape sheet turns a quarter so it fills the screen; turn the phone to read it upright */
+@media (max-width:760px) and (orientation:portrait) {
+  body:not(.done) .media .sheet:not(.live) img { inset: auto; left: 50%; top: 50%; width: min(100dvh, 160.55vw); height: auto; max-width: none;
+    object-fit: initial; transform: translate(-50%, -50%) rotate(90deg); }
+}

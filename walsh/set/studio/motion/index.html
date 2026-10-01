@@ -128,6 +128,7 @@ header p{margin:6px 0 0;font:italic 400 16px/1.2 var(--fs);color:var(--muted)}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 </style>
+<link rel="stylesheet" href="../fullbleed.css">
 </head>
 <body>
 <div class="wrap" id="app">
@@ -158,6 +159,13 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catc
 const pos = () => st.hist.length;
 const kept = () => st.hist.filter(h => h.v === 'keep').map(h => h.no).sort();
 
+// full bleed on phones: the study's own caption and replay pill duplicate the deck's overlay, so hide them
+const FB = matchMedia('(max-width:760px), (pointer:coarse) and (max-height:520px)');
+function bleed(fr) {
+  try { const doc = fr.contentDocument; if (!FB.matches || !doc || doc.getElementById('fb')) return;
+    const st = doc.createElement('style'); st.id = 'fb'; st.textContent = '.cap,#replay{display:none!important}';
+    doc.head.appendChild(st); fr.contentWindow.dispatchEvent(new Event('resize')); } catch (e) {}
+}
 function cardHTML(d, back) {
   return `<article class="card${back ? ' back' : ''}" data-no="${d.no}" tabindex="${back ? -1 : 0}" aria-label="${d.no}, ${esc(d.name)}. Plays live; tap to replay.">
     <div class="seg" role="group" aria-label="Playback"><button type="button" data-act="replay">Replay</button><button type="button" data-act="shuffle">New logo</button><button type="button" data-act="open">Open</button></div>
@@ -227,7 +235,7 @@ function bind(c, d) {
   let logo = null;
   const play = keep => { if (!fr) return; const q = keep && logo ? `?logo=${logo}` : ''; fr.classList.remove('on'); fr.src = `${d.no}.html${q}`; };
   const grab = () => { try { const n = fr.contentWindow.AM_LOGO && fr.contentWindow.AM_LOGO.no; if (n) { logo = n; lg.textContent = n; } } catch (e) {} };
-  if (fr) { fr.addEventListener('load', () => { grab(); fr.classList.add('on'); }); const tk = setInterval(() => { if (!c.isConnected) return clearInterval(tk); grab(); if (fr.contentWindow && fr.contentWindow.document.readyState !== 'loading') fr.classList.add('on'); }, 400); }
+  if (fr) { fr.addEventListener('load', () => { grab(); bleed(fr); fr.classList.add('on'); }); const tk = setInterval(() => { if (!c.isConnected) return clearInterval(tk); grab(); if (fr.contentWindow && fr.contentWindow.document.readyState !== 'loading') { bleed(fr); fr.classList.add('on'); } }, 400); }
   const open = () => window.open(`${d.no}.html${logo ? `?logo=${logo}` : ''}`, '_blank', 'noopener');
   c.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', e => {
     e.stopPropagation();
