@@ -66,6 +66,33 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
    lines. Baked once at startup into one full sheet bitmap (see bakePaper), so page turns only composite a cached
    image. Nothing here animates. Print stays clean. */
 .tex{position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:var(--paper-tex,none) 0 0/100% 100% no-repeat}
+/* every sheet ages its own way (André 10/1/26): the shared grain, then one of eight aging layers on top, flipped on some sheets (see weatherSheet) */
+.tex::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--paper-var,none) 0 0/100% 100% no-repeat}
+.tex.fy::after{transform:scaleY(-1)}
+.tex.fx::after{transform:scaleX(-1)}
+.tex.fx.fy::after{transform:scale(-1,-1)}
+.sheet.turning{will-change:clip-path}
+/* a small deckle tear low on the bottom or outer edge of some sheets; worn ruler numbers (screen only, print reads clean) */
+.etear{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.etear .tm{fill:var(--desk)}
+.etear .te{fill:none;stroke:rgba(96,78,54,.3);stroke-width:.7;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.etear .fib{fill:none;stroke:rgba(112,94,70,.34);stroke-width:.6;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.etear .sl{fill:none;stroke:rgba(84,70,50,.34);stroke-width:.7;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.etear .slh{fill:none;stroke:rgba(255,253,247,.75);stroke-width:.9;stroke-linecap:round;vector-effect:non-scaling-stroke}
+@media screen{.zl.worn{display:none}}
+/* the page turn: the lifting leaf is clipped along the fold, its folded flap and shadows drawn here */
+.turnfx{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:4;display:none}
+.turnfx.on{display:block}
+/* desk arrows: a brush stroke in the empty desk beside the set */
+.darr{position:fixed;z-index:15;opacity:.1;color:var(--ink);transition:opacity .5s ease,transform .5s var(--ease)}
+.darr svg{display:block;width:100%;height:100%;overflow:visible}
+.darr .bs{fill:currentColor}
+.darr .hl{fill:none;stroke:var(--paper2);stroke-width:.8;stroke-linecap:round;opacity:.8}
+.darr:hover,.darr:focus-visible{opacity:.3;transform:translateY(-5px)}
+.darr.off{opacity:0;pointer-events:none}
+.darr[hidden]{display:none}
+@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){.etear,.darr{display:none !important}}
+@media print{.turnfx,.darr,.etear,.tex::after{display:none !important}}
 /* the frayed corner (André 9/30): torn deckle along both edges near the top right corner, loose fibers, an aged tone
    at the tear. Static; the flap in the breeze (.curl) draws the same outline as it lifts. */
 .tear{position:absolute;right:0;top:0;width:calc(var(--u)*3*var(--cs));height:calc(var(--u)*3*var(--cs));overflow:visible;pointer-events:none;z-index:5}
@@ -231,6 +258,40 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .tb .tlive .url{white-space:normal;word-break:break-all}
 .tb .status{letter-spacing:.14em}
 .tb .tlive .url{font-size:max(calc(7.5px * var(--fl)),calc(var(--u)*.105))}
+/* title block 10/1 (André): MANDEL centered between the two rules, no datum dots, one QR, a 3 x 4 in stamp zone, the
+   sheet title lettered like MANDEL and the sheet number painted in sumi. Top to bottom: name, project, issued (15 rows),
+   contractor, agencies, stamp, QR, colophon, sheet. */
+.tb{--t-sheet:max(calc(13px * var(--fl)),calc(var(--u) * .27));--t-num:max(calc(34px * var(--fl)),calc(var(--u) * 1.04))}
+.tb .pname{margin:.06em 0 .1em}
+.tb .iss{margin-top:.12em}
+.tb .iss li{grid-template-columns:1.6em 3.6em 1fr;column-gap:.2em;padding:.04em 0 .2em;line-height:1.2;white-space:nowrap;min-height:1.5em;background-position:0 100%}
+.tb .iss li > span:last-child{overflow:hidden;text-overflow:ellipsis}
+.tb .iss li:last-child{border-bottom:0}
+.tb .iss li.new{color:var(--ink)}
+.tb .iss li.hd{background:none;padding-top:0;color:var(--muted)}
+.tb .iss li.hd span{font:400 var(--t-lab)/1.2 var(--ft);letter-spacing:.16em;text-transform:uppercase;font-style:normal}
+.tb .iss li.nil{opacity:.5}
+.tb .gc .logo{position:relative;display:grid;place-items:center;height:calc(var(--u)*.6);margin:.3em 0 .25em;border:1px dashed rgba(27,26,24,.3);border-radius:calc(var(--u)*.05)}
+.tb .gc .logo b{font:400 max(calc(10px * var(--fl)),calc(var(--u)*.19))/1 var(--ft);letter-spacing:.42em;margin-right:-.42em;color:var(--faint)}
+.tb .gc .logo i{position:absolute;right:.6em;bottom:.45em;font:400 max(calc(5.5px * var(--fl)),calc(var(--u)*.065))/1 var(--ft);letter-spacing:.18em;text-transform:uppercase;font-style:normal;color:var(--faint)}
+.tb .gc .logo img{max-width:88%;max-height:78%;object-fit:contain}
+.tb .ag .val{white-space:nowrap}
+.tb .ag .il{display:inline-block;min-width:4.6em}
+.tb .stz{height:calc(var(--u)*4);margin-left:calc(var(--u)*-.3);margin-right:calc(var(--u)*-.22);border-top:1px solid rgba(27,26,24,.45);border-bottom:1px solid rgba(27,26,24,.45)}
+.tb .stz span{position:absolute;left:calc(var(--u)*.3);top:calc(var(--u)*.12);font:400 max(calc(6.5px * var(--fl)),calc(var(--u)*.085))/1 var(--ft);letter-spacing:.26em;color:var(--muted)}
+.tbc .sec.stz::after,.tbc .sec.stz + .sec::after{display:none}
+.tb .tq{display:flex;align-items:center;gap:calc(var(--u)*.18)}
+.tb .tq .qr{width:calc(var(--u)*1.3);height:calc(var(--u)*1.3)}
+.tb .tq .lt{gap:.2em}
+.tb .tq .url{white-space:nowrap;font-size:var(--t-sm)}
+.tb .colo span{display:block}
+.tb .colo b{display:block;margin-bottom:.4em;line-height:1.2}
+.tb .colo .cp{margin-top:.35em;font-style:italic}
+.tb .sid .stitle{font:400 var(--t-sheet)/1.32 var(--ft);letter-spacing:.32em;margin:.05em -.32em .2em 0;text-transform:uppercase;text-wrap:balance}
+.tb .sid .meta .sc{font:italic 400 var(--t-val)/1.3 var(--fs);color:var(--muted)}
+.tb .sid .snum{margin-top:calc(var(--u)*.2)}
+.tb .sn{display:flex;align-items:flex-start;height:1em;margin-top:.08em;line-height:1;overflow:hidden}
+.tb .sn .fc{flex:none;height:1em;background:center / 100% 100% no-repeat;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 /* team sheets: html(ctx) draws in field inches, origin at the field's top left (sheet x 1.25, y 0.5) */
 .fhtml{position:absolute;inset:0}
 .fover{position:absolute;inset:0;pointer-events:none}
@@ -281,7 +342,6 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .tbc{position:absolute;left:calc(var(--u)*.3);right:calc(var(--u)*.22);bottom:calc(var(--u)*.26);display:flex;flex-direction:column;justify-content:space-between}
 .sec{position:relative;flex:none}
 .sec + .sec{margin-top:calc(var(--u)*.22)}
-.sec.dat::before{content:"";position:absolute;left:calc(var(--u)*-.3 - var(--dot) / 2);top:calc(var(--t-lab) * .65 - var(--dot) / 2);width:var(--dot);height:var(--dot);border-radius:50%;background:var(--accent)}
 .lab{display:block;font:400 var(--t-lab)/1.3 var(--ft);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .val{font:italic 400 var(--t-val)/1.3 var(--fs)}
 .line{display:block}
@@ -557,6 +617,10 @@ const SET = {
   header: { title: 'Walsh Residence', lines: ['8154 Lahontan Drive · Lot 235 · Truckee', 'APN 108 160 012 000 · RS PD 1.7', 'Feasibility FA2 · 9/28/26'] },
   permits: [ { k: 'Lahontan design review (LCC)', tb: 'Design review (LCC)', v: 'no. pending' }, { k: 'Placer County building permit', tb: 'Building permit', v: 'no. pending' } ],
   fire: 'Very High FHSZ · Chapter 7A',
+  // title block (André 10/1): the GC logo is a placeholder wordmark until Elevated sends a file: set gc.logo to an image
+  // path and it drops into the same box
+  aor: { k: 'Architect of record', v: 'Joseph Benveniste, AIA' },
+  gc: { name: 'Elevated Developers Inc.', role: 'General contractor', logo: '' },
   // oldest first here; the title block shows newest first
   issuances: [ { no: 1, date: '9/28/26', for: 'Feasibility FA2' }, { no: 2, date: '9/30/26', for: 'Living set, cartoon' }, { no: 3, date: '9/30/26', for: 'Living set, drawings' } ],
   date: '9/30/26', drawnBy: 'AM', status: 'Feasibility · not for construction',
@@ -678,9 +742,10 @@ const BL = 1.25;                     // border left
 const K = 0.738;                     // dx/dy of the roof stroke (53.6 degrees from horizontal)
 const TBX = 32.5;                                       // sidebar from the 32 1/2 line, 3 in wide (André 9/30)
 const TXL = TBX + 0.3, TXR = 35.5 - 0.22;               // the sidebar's text margins
-/* the lockup fills the sidebar: the mark (lockup px 6 to 352) spans the text margins exactly */
+/* the lockup fills the sidebar at its old size; MANDEL (lockup px 26 to 352, center 189) sits centered between the
+   sidebar's two vertical lines, the 32 1/2 rule and the border at 35 1/2, the mark rides along (André 10/1) */
 const LK = (TXR - TXL) / 346;                           // inches per lockup px
-const LOCK = { x: TXL - 6 * LK, y: 0.74, w: 357 * LK };
+const LOCK = { x: (TBX + 35.5) / 2 - 189 * LK, y: 0.74, w: 357 * LK };
 const LOCK_BOTTOM = LOCK.y + 520 * LK;
 /* the corner follows the roof stroke's concave sweep: its right edge, measured off the lockup, is
    x = 53.38 + 0.0741 y + 0.001358 y^2 (lockup px, good to about 4 px), offset outward by GAP */
@@ -845,6 +910,64 @@ function curlSVG(k) {
   </svg>`;
 }
 
+/* ================================================================ every sheet its own wear (André 10/1/26)
+   Seeded by sheet index, so a sheet ages the same way on every visit. Eight aging layers (baked at idle, see
+   bakeVariant) in four orientations give 32 looks; neighbors never share one. Some sheets carry a small deckle tear
+   low on the bottom or outer edge, and a few ruler numbers have worn off. Screen only: print stays clean. */
+const WEAR = { variants: 8, tear: 0.42, worn: [1, 5] };
+const seeded = s => { s = (s * 2654435761 + 97) >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; };   // mulberry32
+function edgeTearSVG(r) {
+  const f = v => +v.toFixed(4);
+  // bottom edge (x along the sheet) or outer right edge (y along it); never near the top right corner
+  const bottom = r() < 0.62, len = 0.7 + 0.7 * r(), at = bottom ? 4 + 25 * r() : 8 + 13 * r(), depth = 0.06 + 0.06 * r();
+  const pts = [], n = Math.round(len / 0.014);
+  const nk = 0.3 + 0.4 * r(), ph = r() * 9;
+  for (let k = 0; k <= n; k++) {
+    const t = k / n, env = Math.pow(Math.sin(Math.PI * t), 0.7);
+    let d = depth * env * (0.7 + 0.2 * Math.sin(ph + t * 11) * Math.sin(ph * 1.7 + t * 5) + 0.1 * Math.sin(t * 61 + ph) + 0.06 * r());
+    const bt = Math.max(0, 1 - Math.abs(t - nk) / 0.16); d += depth * 0.7 * bt * bt * (3 - 2 * bt);   // one deeper bite
+    pts.push([t * len, Math.max(0, d)]);
+  }
+  // to sheet inches: along the edge, then in from it
+  const map = bottom ? ([s, d]) => [at + s, 24 - d] : ([s, d]) => [36 - d, at + s];
+  const P = pts.map(map), line = P.map((p, i) => (i ? 'L' : 'M') + f(p[0]) + ' ' + f(p[1])).join(' ');
+  const out = bottom ? `L${f(at + len)} 24.05 L${f(at)} 24.05 Z` : `L36.05 ${f(at + len)} L36.05 ${f(at)} Z`;
+  // a short split running in from the deepest bite, a pale lip along one side of it
+  const [bs, bd] = pts[Math.round(nk * n)], sl = 0.12 + 0.22 * r(), sa = (r() - 0.5) * 0.7;
+  const s0 = map([bs, bd]), s1 = map([bs + Math.sin(sa) * sl, bd + Math.cos(sa) * sl]), sc = map([bs + Math.sin(sa) * sl * 0.5 + 0.02, bd + Math.cos(sa) * sl * 0.5]);
+  const split = `M${f(s0[0])} ${f(s0[1])} Q${f(sc[0])} ${f(sc[1])} ${f(s1[0])} ${f(s1[1])}`;
+  const lip = bottom ? `M${f(s0[0] + 0.012)} ${f(s0[1])} Q${f(sc[0] + 0.014)} ${f(sc[1])} ${f(s1[0] + 0.008)} ${f(s1[1])}` : `M${f(s0[0])} ${f(s0[1] + 0.012)} Q${f(sc[0])} ${f(sc[1] + 0.014)} ${f(s1[0])} ${f(s1[1] + 0.008)}`;
+  let fib = '';
+  for (let k = 0; k < 6; k++) {
+    const p = P[Math.floor(r() * P.length)], l = 0.02 + 0.05 * r(), a = (r() - 0.5) * 1.6, o = bottom ? [0, 1] : [1, 0];
+    const dx = o[0] * Math.cos(a) - o[1] * Math.sin(a), dy = o[0] * Math.sin(a) + o[1] * Math.cos(a);
+    fib += `M${f(p[0])} ${f(p[1])} q${f(dx * l * 0.5 + dy * 0.01)} ${f(dy * l * 0.5 - dx * 0.01)} ${f(dx * l)} ${f(dy * l)}`;
+  }
+  return { bottom, at, len, svg: `<svg class="etear" viewBox="0 0 36 24" aria-hidden="true"><path class="tm" d="${line} ${out}"/><path class="te" d="${line}"/><path class="slh" d="${lip}"/><path class="sl" d="${split}"/><path class="fib" d="${fib}"/></svg>` };
+}
+function wearSheet(el, i) {
+  const r = seeded(i + 1);
+  // aging layer: variant and orientation; consecutive sheets always differ
+  el.dataset.wear = i % WEAR.variants;
+  const o = (Math.floor(i / WEAR.variants) + Math.floor(r() * 4)) % 4, tex = el.querySelector('.tex');
+  if (tex && o & 1) tex.classList.add('fy');
+  if (tex && o & 2) tex.classList.add('fx');
+  // a small edge tear on some sheets
+  let zl = [...el.querySelectorAll('.zl')];
+  if (r() < WEAR.tear) {
+    const T = edgeTearSVG(r);
+    el.querySelector('.paper').insertAdjacentHTML('beforeend', T.svg);
+    // the ruler numbers the tear runs through went with the paper
+    zl.forEach(z => { const v = +z.dataset.v;
+      if (T.bottom ? z.dataset.ax === 'x' && z.style.top.includes('23.84') && v > T.at - 0.5 && v < T.at + T.len + 0.5
+                   : z.dataset.ax === 'y' && z.style.left.includes('35.74') && v > T.at - 0.6 && v < T.at + T.len + 0.4) z.classList.add('worn'); });
+    zl = zl.filter(z => !z.classList.contains('worn'));
+  }
+  // a few ruler numbers worn away
+  const n = WEAR.worn[0] + Math.floor(r() * (WEAR.worn[1] - WEAR.worn[0] + 1));
+  for (let k = 0; k < n && zl.length; k++) zl.splice(Math.floor(r() * zl.length), 1)[0].classList.add('worn');
+}
+
 function qrSVG(cls) {
   return `<svg class="qr ${cls || ''}" viewBox="0 0 ${QR.size} ${QR.size}" shape-rendering="crispEdges" role="img" aria-label="QR code for the living set"><rect width="${QR.size}" height="${QR.size}"/><path d="${QR.d}"/></svg>`;
 }
@@ -985,7 +1108,7 @@ function siteHeader() {
 }
 function siteFooter(sh, i) {
   const ticks = SHEETS.map((s, k) => `<i class="${k < i ? 'done' : k === i ? 'now' : ''}"><b></b></i>`).join('');
-  const live = sh.kind === 'model' ? `<div class="live">${liveText()}${qrSVG()}</div>` : '';
+  const live = '';   // one QR on the sheet, in the title block (André 10/1)
   return `<footer class="rb">
     <div class="ticks" aria-label="Sheet ${i + 1} of ${N}">${ticks}<span>${pad2(i + 1)} / ${pad2(N)}</span></div>
     <h2 class="shot">${esc(sh.foot || sh.short || sh.title)}</h2>
@@ -1000,28 +1123,130 @@ function liveText() {
 
 function titleBlock(sh, i) {
   const F = SET.firm, P = SET.project, iss = SET.issuances;
+  // newest on top, then ruled blank rows so the table holds 15 issuances without the sidebar moving (André 10/1)
+  const ISS_ROWS = 15;
   const issRows = iss.slice().reverse().map((r, k, arr) => {
     const d = (arr.length - 1 - k) * 170 + 260;     // oldest (bottom) first, newest (top) last
     return `<li class="${k === 0 ? 'new' : ''}" style="--d:${d}">${k === 0 ? '<svg class="tick" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 5.5 L4 8.5 L9 1.5"/></svg>' : ''}<span class="n">${r.no}</span><span class="d">${esc(r.date)}</span><span>${esc(r.for)}</span></li>`;
-  }).join('');
+  }).join('') + Array.from({ length: Math.max(0, ISS_ROWS - iss.length) }, () => '<li class="nil" aria-hidden="true"><span class="n"></span><span class="d"></span><span></span></li>').join('');
   // no sheet index here (André 9/30): it lives on A0.1 and behind the Sheet index button
-  const lw = LOCK.w, lx = LOCK.x - TBX, ly = LOCK.y - 0.5;
-  const colo = `<b>${esc(F.signer || F.name)}</b> · <i>${esc(F.line)}</i>. ${F.addr.map(esc).join(', ')} · ${esc(F.phone)} · ${esc(F.email)}. ${esc(SET.copy)}`;
+  const lw = LOCK.w, lx = LOCK.x - TBX, ly = LOCK.y - 0.5, G = SET.gc;
+  const gcLogo = G.logo ? `<img src="${esc(G.logo)}" alt="${esc(G.name)}">` : `<b>ELEVATED</b><i>logo</i>`;
+  const ag = [[SET.aor.k === 'Architect of record' ? 'AOR' : SET.aor.k, SET.aor.v], ...SET.permits.map(p => [p.tb === 'Design review (LCC)' ? 'LCC' : 'Permit', p.v])];
   return `<aside class="tb" aria-label="Title block">
     <img class="lock" src="${esc(SET.marks.lockup)}" alt="André Mandel" width="357" height="520" style="left:${U(lx)};top:${U(ly)};width:${U(lw)}">
     <div class="tbc" style="top:${U(LOCK_BOTTOM - 0.5 + 0.22)}">
-      <div class="sec dat"><span class="lab">Project</span><div class="pname">${esc(P.name)}</div>
-        <span class="val line">${esc(P.site)}</span><span class="val line">${esc(P.street)}</span><span class="val line">${esc(P.city)} · ${esc(P.county)}</span>
-        <span class="val line"><span class="il">APN</span>${esc(P.apn)}</span><span class="val line"><span class="il">Zoning</span>${esc(P.zoning)}</span>
-        <span class="val line"><span class="il">Owner</span>${esc(P.owner)}</span><span class="val line">${esc(P.ownerCo)}</span></div>
-      <div class="sec dat"><span class="lab">Issued</span><ol class="iss">${issRows}</ol></div>
-      <div class="sec dat"><span class="lab">Agency and permits</span>${SET.permits.map(p => `<span class="val line">${esc(p.tb || p.k)} <span class="pend">${esc(p.v)}</span></span>`).join('')}<span class="val line">${esc(SET.fire)}</span></div>
-      <div class="sec dat snum"><span class="lab">Sheet ${i + 1} of ${N}</span><div class="sn" data-sn="${sh.id}" aria-label="Sheet ${sh.id}">${cells(sh.id)}</div></div>
-      <div class="sec tlive">${qrSVG()}${liveText()}</div>
-      <div class="sec colo">${colo}</div>
+      <div class="sec"><span class="lab">Project</span><div class="pname">${esc(P.name)}</div>
+        <span class="val line">${esc(P.street)}</span><span class="val line">Lot 235 · ${esc(P.city)}</span><span class="val line">${esc(P.county)}</span>
+        <span class="val line"><span class="il">APN</span>${esc(P.apn)}</span><span class="val line"><span class="il">Owner</span>${esc(P.owner)}</span></div>
+      <div class="sec"><span class="lab">Issued</span><ol class="iss"><li class="hd" aria-hidden="true"><span>No</span><span>Date</span><span>For</span></li>${issRows}</ol></div>
+      <div class="sec gc"><span class="lab">${esc(G.role)}</span><div class="logo" title="Logo placeholder">${gcLogo}</div><span class="val line">${esc(G.name)}</span></div>
+      <div class="sec ag"><span class="lab">Agencies</span>${ag.map(([k, v]) => `<span class="val line"><span class="il">${esc(k)}</span>${esc(v)}</span>`).join('')}<span class="val line">${esc(SET.fire)}</span></div>
+      <div class="sec stz" aria-label="Agency stamp space"><span>AGENCY STAMP</span></div>
+      <div class="sec tq">${qrSVG()}${liveText()}</div>
+      <div class="sec colo"><b>${esc(F.signer || F.name)}</b><span>${esc(F.addr.join(', '))}</span><span>${esc(F.phone)} · ${esc(F.email)}</span><span class="cp">${esc(SET.copy)}</span></div>
+      <div class="sec sid"><div class="stitle">${esc(stTitle(sh))}</div><div class="meta"><span class="sc">${esc(scaleText(sh.scale))}</span></div>
+        <div class="snum"><span class="lab">Sheet ${i + 1} of ${N}</span><div class="sn" data-sn="${sh.id}" aria-label="Sheet ${sh.id}">${cells(sh.id)}</div></div></div>
     </div></aside>`;
 }
-const cells = s => [...s].map(c => `<span class="fc${c === '.' ? ' pt' : ''}">${c}</span>`).join('');
+/* the sheet title as lettered in the title block: the part before any ' · ', so 'Cover · the site' reads COVER */
+const stTitle = s => String(s.title).split(' · ')[0];
+/* scales in drafting form: '1/4 in = 1 ft' reads 1/4" = 1'-0"; sheets without a drawn scale read NTS */
+const scaleText = s => {
+  const m = /^(\S+) in = (\d+) ft$/.exec(s || '');
+  if (m) return `${m[1]}" = ${m[2]}'-0"`;
+  return /^(None|Live model|)$/.test(s || '') ? 'NTS' : s;
+};
+const cells = s => [...s].map(c => `<span class="fc${c === '.' ? ' pt' : ''}" data-c="${c}">${c}</span>`).join('');
+
+/* ================================================================ painted sheet numbers (André 10/1)
+   Each glyph is a few sumi strokes, laid down with the pocket model's dry brush (walsh/mobile/app.js brush and
+   sweepPts), so A0.0 reads like the A of the mark. Painted once per character into a cached image; the split flap
+   keeps flipping the cell, the painted glyph rides on it. Strokes are in a 68 x 100 box (a '.' is 28 wide). */
+const SUMI = (() => {
+  const rng = s => { s = Math.abs(Math.floor(s)) % 2147483647 || 1; return () => (s = s * 16807 % 2147483647, (s - 1) / 2147483646); };
+  function brush(g, pts, o) {
+    const R = rng(o.seed || 7), n = o.bristles || 44, dry = o.dry == null ? 0.55 : o.dry;
+    const Nn = pts.map((p, i) => { const a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)]; const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1; return [-dy / L, dx / L]; });
+    const wmax = Math.max(...pts.map(p => p[2]));
+    g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = o.color;
+    if (o.fill) {
+      g.globalAlpha = o.fill; g.beginPath();
+      pts.forEach((p, i) => g.lineTo(p[0] + Nn[i][0] * p[2] * 0.36, p[1] + Nn[i][1] * p[2] * 0.36));
+      for (let i = pts.length - 1; i >= 0; i--) g.lineTo(pts[i][0] - Nn[i][0] * pts[i][2] * 0.36, pts[i][1] - Nn[i][1] * pts[i][2] * 0.36);
+      g.closePath(); g.fillStyle = o.color; g.fill();
+    }
+    for (let k = 0; k < n; k++) {
+      const off = (k / (n - 1) - 0.5) * (0.9 + R() * 0.2), ink0 = 0.6 + R() * 0.5, fade = 0.3 + R() * 0.9;
+      g.lineWidth = (wmax / n) * (1.4 + R() * 1.6);
+      g.globalAlpha = (o.alpha || 0.9) * (0.5 + R() * 0.5);
+      let on = false; g.beginPath();
+      pts.forEach((p, i) => {
+        const t = i / (pts.length - 1), ink = ink0 - t * fade * dry + (R() - 0.5) * 0.3 * dry - (Math.abs(off) > 0.4 ? 0.18 : 0);
+        if (ink < 0.2) { if (on) { g.stroke(); g.beginPath(); on = false; } return; }
+        const x = p[0] + Nn[i][0] * off * p[2], y = p[1] + Nn[i][1] * off * p[2];
+        if (!on) { g.moveTo(x, y); on = true; } else g.lineTo(x, y);
+      });
+      if (on) g.stroke();
+    }
+    g.globalAlpha = 1;
+  }
+  // a stroke along a polyline, pressed at the start and lifting off at the end, like sweepPts; a stroke may be
+  // { p: path, w: weight, tail: share of the stroke that lifts to a point } for the A's long sweep
+  function along(st, w, n) {
+    const path = st.p || st, tail = st.tail || 0.16;
+    w *= st.w || 1;
+    const seg = [], L = [0];
+    for (let i = 1; i < path.length; i++) { seg.push([path[i - 1], path[i]]); L.push(L[i - 1] + Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1])); }
+    const tot = L[L.length - 1] || 1, pts = [];
+    n = n || Math.max(24, Math.round(tot * 1.6));
+    for (let k = 0, j = 0; k <= n; k++) {
+      const s = tot * k / n; while (j < seg.length - 1 && L[j + 1] < s) j++;
+      const [a, b] = seg[j], f = Math.min(1, (s - L[j]) / ((L[j + 1] - L[j]) || 1)), t = k / n;
+      const ww = w * (0.62 + 0.38 * Math.sin(Math.PI * Math.min(1, t * 1.1 + 0.08))) * (t > 1 - tail ? 1 - (t - 1 + tail) / tail * 0.88 : 1);
+      pts.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, Math.max(1, ww)]);
+    }
+    return pts;
+  }
+  const arc = (cx, cy, rx, ry, a0, a1, n = 48) => Array.from({ length: n + 1 }, (_, i) => { const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; return [cx + rx * Math.cos(a), cy + ry * Math.sin(a)]; });
+  const qb = (a, c, b, n = 40) => Array.from({ length: n + 1 }, (_, i) => { const t = i / n, s = 1 - t; return [s * s * a[0] + 2 * s * t * c[0] + t * t * b[0], s * s * a[1] + 2 * s * t * c[1] + t * t * b[1]]; });
+  const G = {
+    // the A of the mark: one long sweep from the top left falling to a point at the lower right, a short post, a bar
+    A: [{ p: qb([16, 8], [22, 72], [66, 94]), w: 1.6, tail: 0.6 }, { p: [[9, 42], [8, 68], [7, 92]], w: 0.8 }, { p: [[9, 68], [22, 67], [34, 65]], w: 0.75 }],
+    F: [[[14, 10], [14, 90]], [[12, 12], [36, 11], [56, 13]], [[14, 49], [32, 48], [48, 49]]],
+    L: [[[14, 9], [14, 88]], [[12, 88], [36, 88], [58, 87]]],
+    '0': [arc(34, 49, 23, 40, -100, 262)],
+    '1': [[[22, 22], [36, 9], [36, 91]]],
+    '2': [arc(33, 32, 21, 21, 195, 380).concat([[12, 89]]), [[11, 88], [36, 88], [58, 87]]],
+    '3': [arc(32, 30, 19, 19, 205, 450), arc(32, 68, 23, 21, 265, 515)],
+    '4': [[[46, 9], [8, 64], [60, 64]], [[46, 9], [46, 92]]],
+    '5': [[[54, 12], [18, 12], [15, 46]], arc(33, 64, 24, 24, 235, 505)],
+    '6': [arc(37, 52, 25, 41, 300, 170), arc(34, 66, 21, 22, 180, 540)],
+    '7': [[[10, 12], [56, 12], [26, 92]]],
+    '8': [arc(34, 29, 18, 18, 90, 450), arc(34, 67, 23, 21, -90, 270)],
+    '9': [arc(34, 33, 21, 22, 0, 360), arc(13, 34, 42, 56, 0, 72)],
+    '.': [[[12, 81], [17, 85]]]
+  };
+  const cache = {};
+  function paint(c) {
+    if (c in cache) return cache[c];
+    const strokes = G[c];
+    if (!strokes) return (cache[c] = null);
+    const S = 4, W = c === '.' ? 28 : 68, cv = document.createElement('canvas');
+    cv.width = W * S; cv.height = 100 * S;
+    const g = cv.getContext('2d'); g.scale(S, S);
+    strokes.forEach((st, k) => brush(g, along(st, c === '.' ? 15 : 11.5), { color: '#151412', seed: 235 + 17 * k + c.charCodeAt(0), dry: 0.55, alpha: 0.95, fill: 0.88, bristles: 46 }));
+    return (cache[c] = cv.toDataURL('image/png'));
+  }
+  function install(ids) {
+    const chars = [...new Set(ids.join(''))];
+    let css = '';
+    chars.forEach(c => { const u = paint(c); if (u) css += `.tb .sn .fc[data-c="${c}"]{background-image:url(${u});color:transparent}\n`; });
+    const st = document.createElement('style'); st.id = 'sumi-sn'; st.textContent = css; document.head.appendChild(st);
+  }
+  return { install, paint };
+})();
+try { SUMI.install(SET.sheets.map(s => s.id)); } catch (e) { console.error('sumi sheet numbers', e); }
 
 function buildSheet(sh, i) {
   const kind = sh.kind || 'cartoon';
@@ -1038,6 +1263,7 @@ function buildSheet(sh, i) {
 const stage = $('#stage');
 SHEETS.forEach((s, i) => stage.appendChild(buildSheet(s, i)));
 const els = [...stage.children];
+els.forEach(wearSheet);
 stage.insertAdjacentHTML('beforeend', '<div class="caret" id="cx"></div><div class="caret" id="cy"></div><div class="thumb" id="thumb" aria-hidden="true"></div>');
 $('#smark').src = SET.marks.mark;
 
@@ -1112,9 +1338,9 @@ function flap(el, from, to) {
     let seq = [];
     for (let j = (a + 1) % FLAP.length; ; j = (j + 1) % FLAP.length) { seq.push(FLAP[j]); if (j === b || seq.length > 40) break; }
     seq = seq.slice(-7);
-    c.textContent = from[k] || ' ';
+    c.textContent = c.dataset.c = from[k] || ' ';
     seq.forEach((ch, s) => {
-      const t = setTimeout(() => { c.textContent = ch; c.classList.remove('flip'); void c.offsetWidth; c.classList.add('flip'); }, 90 * k + 62 * (s + 1));
+      const t = setTimeout(() => { c.textContent = c.dataset.c = ch; c.classList.remove('flip'); void c.offsetWidth; c.classList.add('flip'); }, 90 * k + 62 * (s + 1));
       flapTimers.get(el).push(t);
     });
   });
@@ -1182,8 +1408,8 @@ function coverAs(sheet, id) {
   coverAlias = id;
   const k = id ? idxOf(id) : 0, s = SHEETS[k], tb = sheet.querySelector('.tb');
   const st = tb.querySelector('.stitle'), sc = tb.querySelector('.meta .sc');
-  if (st) st.textContent = s.title;
-  if (sc) sc.textContent = s.scale;
+  if (st) st.textContent = stTitle(s);
+  if (sc) sc.textContent = scaleText(s.scale);
   tb.querySelector('.snum .lab').textContent = `Sheet ${k + 1} of ${N}`;
   const sn = tb.querySelector('.sn'); sn.dataset.sn = s.id; sn.setAttribute('aria-label', `Sheet ${s.id}`);
   flap(sn, was, s.id);
@@ -1222,32 +1448,136 @@ function go(i, dir) {
   loadModel(next);
   updateChrome(i, prev);
   const sn = next.querySelector('.tb .sn');
-  if (!old || RM.matches) {
+  deskArrows();
+  if (!old) {
     els.forEach(e => e.classList.remove('on', 'top', 'turning'));
     next.classList.add('on');
-    flap(sn, old ? SHEETS[prev].id : '    ', sid(i));
+    flap(sn, '    ', sid(i));
     arrive(next, prev);
     return;
   }
-  const opts = { duration: 980, easing: 'cubic-bezier(.55,.05,.25,1)' };
-  const shadeK = [{ opacity: 0 }, { opacity: 1, offset: .55 }, { opacity: 0 }];
-  if (dir > 0) {
-    // lift the current leaf off the binding, the next sheet is revealed beneath
-    next.classList.add('on'); old.classList.add('on', 'top', 'turning');
-    const a1 = old.animate([{ transform: 'rotateY(0deg)', opacity: 1 }, { transform: 'rotateY(-84deg)', opacity: 1, offset: .78 }, { transform: 'rotateY(-104deg)', opacity: 0 }], opts);
-    const a2 = old.querySelector('.shade').animate(shadeK, opts);
-    anim = [a1, a2];
-    setTimeout(() => { flap(sn, SHEETS[prev].id, sid(i)); arrive(next, prev); }, 230);
-    a1.onfinish = () => { old.classList.remove('on', 'top', 'turning'); anim = null; };
-  } else {
-    // the previous leaf swings back down onto the set
-    old.classList.add('on'); next.classList.add('on', 'top', 'turning');
-    const a1 = next.animate([{ transform: 'rotateY(-104deg)', opacity: 0 }, { transform: 'rotateY(-84deg)', opacity: 1, offset: .22 }, { transform: 'rotateY(0deg)', opacity: 1 }], opts);
-    const a2 = next.querySelector('.shade').animate(shadeK.slice().reverse(), opts);
-    anim = [a1, a2];
-    setTimeout(() => { flap(sn, SHEETS[prev].id, sid(i)); arrive(next, prev); }, 520);
-    a1.onfinish = () => { old.classList.remove('on'); next.classList.remove('top', 'turning'); anim = null; };
+  if (RM.matches) {
+    // reduced motion: a quick crossfade, no curl
+    els.forEach(e => { if (e !== old) e.classList.remove('on', 'top', 'turning'); });
+    old.classList.add('on'); next.classList.add('on', 'top');
+    flap(sn, SHEETS[prev].id, sid(i));
+    arrive(next, prev);
+    const a = next.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180, easing: 'ease-out' });
+    anim = [a];
+    a.onfinish = () => { old.classList.remove('on'); next.classList.remove('top'); anim = null; };
+    return;
   }
+  // forward: the current leaf curls off and the next sheet shows beneath; back: the previous leaf curls back down onto the set
+  const leaf = dir > 0 ? old : next, under = dir > 0 ? next : old;
+  under.classList.add('on'); leaf.classList.add('on', 'top', 'turning');
+  anim = [pageTurn(leaf, dir, () => {
+    leaf.style.clipPath = '';
+    leaf.classList.remove('top', 'turning');
+    old.classList.remove('on');
+    anim = null;
+  })];
+  setTimeout(() => { flap(sn, SHEETS[prev].id, sid(i)); arrive(next, prev); }, dir > 0 ? 230 : 520);
+}
+
+/* ================================================================ the page turn (André 10/1/26)
+   A corner lifts and the leaf folds back over itself on its way to the binding. Flat paper folds along the
+   perpendicular bisector of the corner and the point it has reached; the leaf is clipped along that fold, its
+   underside drawn as a flap over it, foreshortened while it stands up off the sheet, with a shadow cast on the sheet
+   beneath and a softer one under the flap. The corner is held to the binding by the leaf's own width, so the far end
+   of the fold lags behind. One of three moves at random, per turn. Driven by one rAF loop, no filters. */
+const TURN = {
+  variants: [
+    { name: 'bottom curl', corner: 'b', lift: .34, ms: 960, k: .42 },    // the lower right corner peels up and over
+    { name: 'top curl', corner: 't', lift: .3, ms: 900, k: .42 },        // the upper right corner leads
+    { name: 'full flip', corner: 'b', lift: .06, ms: 1080, k: .55 }      // the whole edge lifts nearly as one
+  ],
+  shadow: .3,   // darkest cast shadow on the sheet beneath, at mid turn
+  back: '#ece7dc'
+};
+const turnfx = (() => {
+  const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  s.setAttribute('class', 'turnfx'); s.setAttribute('aria-hidden', 'true');
+  s.innerHTML = `<defs>
+      <linearGradient id="tfS" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1b1a18" stop-opacity="1"/><stop offset=".35" stop-color="#1b1a18" stop-opacity=".35"/><stop offset="1" stop-color="#1b1a18" stop-opacity="0"/></linearGradient>
+      <linearGradient id="tfF" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1b1a18" stop-opacity=".16"/><stop offset=".035" stop-color="#fffdf7" stop-opacity=".55"/><stop offset=".16" stop-color="#fffdf7" stop-opacity=".12"/><stop offset=".55" stop-color="#1b1a18" stop-opacity=".02"/><stop offset="1" stop-color="#1b1a18" stop-opacity=".11"/></linearGradient>
+      <clipPath id="tfK"><polygon/></clipPath><clipPath id="tfR"><polygon/></clipPath></defs>
+    <g clip-path="url(#tfR)"><polygon class="cs" fill="url(#tfS)"/></g>
+    <g class="fg"><g clip-path="url(#tfK)"><polygon class="u1" fill="none" stroke="#1b1a18" stroke-linejoin="round"/><polygon class="u2" fill="none" stroke="#1b1a18" stroke-linejoin="round"/></g>
+      <polygon class="fb" fill="${TURN.back}"/><polygon class="fs" fill="url(#tfF)" stroke="rgba(27,26,24,.2)" stroke-width=".8" stroke-linejoin="round"/></g>`;
+  return s;
+})();
+stage.appendChild(turnfx);
+// clip a convex polygon to the half plane f(p) >= 0
+function halfClip(poly, f) {
+  const out = [];
+  for (let k = 0; k < poly.length; k++) {
+    const a = poly[k], b = poly[(k + 1) % poly.length], fa = f(a), fb = f(b);
+    if (fa >= 0) out.push(a);
+    if ((fa >= 0) !== (fb >= 0)) { const t = fa / (fa - fb); out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]); }
+  }
+  return out;
+}
+const ptsAttr = P => P.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+// slow to lift, quicker through the middle, settling gently
+const turnEase = t => { const c = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; return .7 * c + .3 * (1 - Math.pow(1 - t, 2)); };
+function turnFrame(leaf, V, p) {
+  const W = stage.clientWidth, H = stage.clientHeight, b = mob ? 4 : u, L = W - b;
+  const top = V.corner === 't', cy = top ? 0 : H, C = [W, cy];
+  const lift = Math.sin(Math.PI * Math.pow(p, .85)) * V.lift * H * (top ? 1 : -1);
+  let M = [W - p * 2 * L, cy + lift];
+  // the leaf is held at the binding: the corner can never be farther from the spine than the leaf is wide
+  const hold = (A, r) => { const dx = M[0] - A[0], dy = M[1] - A[1], d = Math.hypot(dx, dy); if (d > r) M = [A[0] + dx * r / d, A[1] + dy * r / d]; };
+  hold([b, cy], L); hold([b, H - cy], Math.hypot(L, H));
+  const rect = [[b, 0], [W, 0], [W, H], [b, H]];
+  const dx = M[0] - C[0], dy = M[1] - C[1], dd = Math.hypot(dx, dy);
+  if (dd < 0.5) { leaf.style.clipPath = ''; turnfx.classList.remove('on'); return; }
+  const n = [dx / dd, dy / dd], Q = [(C[0] + M[0]) / 2, (C[1] + M[1]) / 2];
+  const side = P => (P[0] - Q[0]) * n[0] + (P[1] - Q[1]) * n[1];
+  const keep = halfClip(rect, side), fold = halfClip(rect, P => -side(P));
+  leaf.style.clipPath = keep.length > 2 ? `polygon(${keep.map(P => `${P[0].toFixed(1)}px ${P[1].toFixed(1)}px`).join(',')})` : 'polygon(0 0,0 0,0 0)';
+  // the flap: the folded part reflected over the fold, foreshortened while it stands up off the sheet
+  // k: the flap's width seen from above, 1 lying flat, 0 standing on edge; it narrows to nothing as the leaf reaches the spine
+  const up = Math.sin(Math.PI * p), sm = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x), k = (1 - V.k * up) * (1 - sm((p - .5) / .5));
+  let reach = 0;
+  let flapP = fold.map(P => { const d = -side(P); reach = Math.max(reach, d * k); return [P[0] + d * (1 + k) * n[0], P[1] + d * (1 + k) * n[1]]; });
+  flapP = halfClip(flapP, P => P[0] - b);                  // never over the binding
+  if (flapP.length < 3) flapP = [[0, 0], [0, 0], [0, 0]];
+  const fade = 1 - sm((p - .9) / .1), sh = (.35 + .65 * up) * fade;
+  const q = s => turnfx.querySelector(s);
+  ['.fb', '.fs', '.u1', '.u2'].forEach(s => q(s).setAttribute('points', ptsAttr(flapP)));
+  q('.fg').setAttribute('opacity', fade.toFixed(3));
+  // the flap's shading runs across it, from the fold out to its edge: a crease, a bright bend, then a darker roll
+  const gF = q('#tfF'), far = Math.max(reach, 1);
+  gF.setAttribute('x1', Q[0]); gF.setAttribute('y1', Q[1]); gF.setAttribute('x2', Q[0] + n[0] * far); gF.setAttribute('y2', Q[1] + n[1] * far);
+  // shadow under the flap, kept to the part of the leaf still lying flat
+  q('#tfK polygon').setAttribute('points', ptsAttr(keep.length > 2 ? keep : [[0, 0], [0, 0], [0, 0]]));
+  q('.u1').setAttribute('stroke-width', (u * (.5 + 1.1 * up)).toFixed(1)); q('.u1').setAttribute('stroke-opacity', (.05 * sh).toFixed(3));
+  q('.u2').setAttribute('stroke-width', (u * (.18 + .3 * up)).toFixed(1)); q('.u2').setAttribute('stroke-opacity', (.07 * sh).toFixed(3));
+  // the leaf's shadow on the sheet beneath, deepest at the fold, wider as the leaf stands up
+  const w = u * (.5 + 2.1 * up), F0 = [Q[0] - n[1] * 4 * W, Q[1] + n[0] * 4 * W], F1 = [Q[0] + n[1] * 4 * W, Q[1] - n[0] * 4 * W];
+  q('.cs').setAttribute('points', ptsAttr([F0, F1, [F1[0] - n[0] * w, F1[1] - n[1] * w], [F0[0] - n[0] * w, F0[1] - n[1] * w]]));
+  q('.cs').setAttribute('opacity', (TURN.shadow * sh).toFixed(3));
+  const gS = q('#tfS'); gS.setAttribute('x1', Q[0]); gS.setAttribute('y1', Q[1]); gS.setAttribute('x2', Q[0] - n[0] * w); gS.setAttribute('y2', Q[1] - n[1] * w);
+  q('#tfR polygon').setAttribute('points', ptsAttr(fold.length > 2 ? fold : [[0, 0], [0, 0], [0, 0]]));
+  turnfx.classList.add('on');
+}
+// returns an Animation-like handle with finish(), so go() can cut a turn short
+function pageTurn(leaf, dir, done) {
+  const V = TURN.variants[window.__turnVariant != null ? window.__turnVariant : Math.floor(Math.random() * TURN.variants.length)];
+  const ms = V.ms * (0.94 + 0.12 * Math.random());
+  let raf = 0, t0 = 0, over = false;
+  const end = () => { if (over) return; over = true; cancelAnimationFrame(raf); turnfx.classList.remove('on'); done(); };
+  const step = now => {
+    if (!t0) t0 = now;
+    const t = Math.min(1, (now - t0) / ms), e = turnEase(t);
+    turnFrame(leaf, V, dir > 0 ? e : 1 - e);
+    if (t < 1) raf = requestAnimationFrame(step); else end();
+  };
+  turnFrame(leaf, V, dir > 0 ? 0 : 1);
+  raf = requestAnimationFrame(step);
+  // a still frame for captures: __turn.hold() stops the clock, __turn.frame(p) draws progress p (0 flat, 1 turned)
+  window.__turn = { V, frame: p => turnFrame(leaf, V, p), hold: () => cancelAnimationFrame(raf) };
+  return { finish: end, variant: V.name };
 }
 const idxOf = id => SHEETS.findIndex(s => s.id.toLowerCase() === String(id).toLowerCase());
 function fromHash() { const k = idxOf(decodeURIComponent(location.hash.slice(1))); return k >= 0 ? k : 0; }
@@ -1628,7 +1958,145 @@ function bakePaper() {
 }
 
 /* ================================================================ start */
-const start = () => { go(fromHash()); startBreeze(); (window.requestIdleCallback || (f => setTimeout(f, 600)))(bakePaper, { timeout: 1500 }); };
+/* ================================================================ eight aging layers, one per idle slice (André 10/1/26)
+   Transparent overlays at 30 px per inch on top of the shared grain: foxing in clusters, graphite smudges where a hand
+   dragged, handling wear at a different edge each time, an old crease on some, a faint dried splash on a few. Each
+   is baked once into a blob and shown by every sheet that wears it (data-wear), so turns still only composite. */
+const VAR = { ppi: 30, splash: [1, 4, 6], crease: [0, 3, 5, 7] };
+function bakeVariant(v) {
+  const ppi = VAR.ppi, W = 36 * ppi, H = 24 * ppi, r = seeded(1000 + v * 37);
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d');
+  const soft = (cx, cy, rx, ry, rgb, a, rot = 0, mid = .45) => { x.save(); x.translate(cx, cy); x.rotate(rot); x.scale(1, ry / rx);
+    const g = x.createRadialGradient(0, 0, 0, 0, 0, rx); g.addColorStop(0, `rgba(${rgb},${a})`); g.addColorStop(.55, `rgba(${rgb},${(a * mid).toFixed(3)})`); g.addColorStop(1, `rgba(${rgb},0)`);
+    x.fillStyle = g; x.fillRect(-rx, -rx, 2 * rx, 2 * rx); x.restore(); };
+  // keep clear of the binding: everything lands right of 1.4 in
+  const X = () => (1.4 + 34 * r()) * ppi, Y = () => (0.4 + 23.2 * r()) * ppi;
+  // foxing clusters: a loose family of rust specks around a center
+  const nc = 2 + Math.floor(r() * 4);
+  for (let k = 0; k < nc; k++) {
+    const cx = X(), cy = Y(), spread = (0.3 + 1.2 * r()) * ppi, m = 6 + Math.floor(r() * 16);
+    soft(cx, cy, spread * 1.6, spread * (0.8 + r()), '160,118,64', .025 + .02 * r(), r() * 3);
+    for (let j = 0; j < m; j++) {
+      const a = r() * 6.283, d = spread * Math.pow(r(), .8), R = (0.01 + 0.05 * Math.pow(r(), 2.2)) * ppi * 2, al = .06 + .14 * r();
+      soft(cx + Math.cos(a) * d, cy + Math.sin(a) * d, R * 2.2, R * (1.4 + r()), '168,112,56', al * .5, r() * 3);
+      if (r() < .5) soft(cx + Math.cos(a) * d, cy + Math.sin(a) * d, R * .7, R * .6, '128,80,36', al * .9);
+    }
+  }
+  // graphite smudges: a palm's drag, long and soft, with a few streaks along it
+  const ns = 1 + Math.floor(r() * 3);
+  for (let k = 0; k < ns; k++) {
+    const cx = X(), cy = Y(), len = (1.5 + 4 * r()) * ppi, wd = (0.25 + 0.7 * r()) * ppi, rot = (r() - .5) * .9;
+    soft(cx, cy, len, wd, '62,60,56', .028 + .02 * r(), rot, .5);
+    x.save(); x.translate(cx, cy); x.rotate(rot); x.lineCap = 'round';
+    for (let j = 0; j < 5; j++) { const oy = (r() - .5) * wd * 1.2, l0 = -len * (.3 + .5 * r()), l1 = len * (.2 + .6 * r());
+      x.strokeStyle = `rgba(52,50,46,${(.02 + .03 * r()).toFixed(3)})`; x.lineWidth = .6 + 1.4 * r();
+      x.beginPath(); x.moveTo(l0, oy); x.quadraticCurveTo((l0 + l1) / 2, oy + (r() - .5) * 4, l1, oy + (r() - .5) * 3); x.stroke(); }
+    x.restore();
+  }
+  // handling wear: a darker thumb zone on one edge, never the same as the last variant
+  const ed = v % 4, tw = (0.6 + 0.8 * r()) * ppi, tl = (1.5 + 3 * r()) * ppi;
+  if (ed === 0) soft(W - tw * .4, H * (.3 + .5 * r()), tw, tl, '110,96,76', .035);
+  else if (ed === 1) soft(W * (.3 + .55 * r()), H - tw * .4, tl, tw, '110,96,76', .03);
+  else if (ed === 2) soft(W * (.15 + .7 * r()), tw * .4, tl, tw, '120,100,72', .025);
+  else soft(W - 1.2 * ppi, H - (1 + 3 * r()) * ppi, 2.4 * ppi, 1.6 * ppi, '150,118,72', .04);
+  // an old crease on some: a pale ridge with a soft shadow line beside it
+  if (VAR.crease.includes(v)) {
+    const vert = r() < .5, p = vert ? (6 + 26 * r()) * ppi : (4 + 16 * r()) * ppi, sk = (r() - .5) * 1.4 * ppi;
+    const [x1, y1, x2, y2] = vert ? [p, 0, p + sk, H] : [0, p, W, p + sk];
+    x.lineCap = 'round';
+    x.lineWidth = 1.6; x.strokeStyle = 'rgba(255,253,247,.2)'; x.beginPath(); x.moveTo(x1, y1); x.lineTo(x2, y2); x.stroke();
+    x.lineWidth = .8; x.strokeStyle = 'rgba(110,92,66,.06)'; x.beginPath(); x.moveTo(x1 + 1.2, y1 + 1); x.lineTo(x2 + 1.2, y2 + 1); x.stroke();
+  }
+  // a faint dried splash: an irregular tide line, a paler wash inside, a few droplets thrown off one side
+  if (VAR.splash.includes(v)) {
+    const cx = (6 + 22 * r()) * ppi, cy = (3 + 16 * r()) * ppi, R = (0.5 + 0.9 * r()) * ppi, ph = r() * 9, ph2 = r() * 9;
+    const rad = a => R * (1 + .09 * Math.sin(3 * a + ph) + .05 * Math.sin(7 * a + ph2) + .03 * Math.sin(13 * a));
+    const ring = (sc) => { x.beginPath(); for (let a = 0; a <= 6.3; a += .05) { const q = rad(a) * sc; a ? x.lineTo(cx + Math.cos(a) * q, cy + Math.sin(a) * q * .92) : x.moveTo(cx + q, cy); } x.closePath(); };
+    ring(1); x.fillStyle = 'rgba(176,140,86,.016)'; x.fill();
+    ring(1); x.lineWidth = 1.4; x.strokeStyle = 'rgba(150,108,58,.045)'; x.stroke();
+    ring(.985); x.lineWidth = .6; x.strokeStyle = 'rgba(130,92,46,.035)'; x.stroke();
+    const dir = r() * 6.283;
+    for (let k = 0; k < 7; k++) {
+      const a = dir + (r() - .5) * 1.1, d = R * (1.25 + 1.4 * r()), s2 = (0.03 + 0.08 * r()) * ppi;
+      const px = cx + Math.cos(a) * d, py = cy + Math.sin(a) * d;
+      x.beginPath(); x.ellipse(px, py, s2 * 1.3, s2, a, 0, 6.283);
+      x.fillStyle = 'rgba(176,140,86,.02)'; x.fill(); x.lineWidth = .6; x.strokeStyle = 'rgba(150,108,58,.045)'; x.stroke();
+    }
+  }
+  return new Promise(res => c.toBlob(b => res(b), 'image/png'));
+}
+function bakeVariants() {
+  const css = document.createElement('style');
+  document.head.appendChild(css);
+  const idle = window.requestIdleCallback || (f => setTimeout(f, 60));
+  // the sheet on screen first; a failed bake leaves those sheets on the shared grain only
+  const v = cur >= 0 ? cur % WEAR.variants : 0;
+  const order = [...Array(WEAR.variants).keys()].map(j => (v + j) % WEAR.variants);
+  let oi = 0;
+  const nextOrdered = () => {
+    if (oi >= order.length) return;
+    const k = order[oi++];
+    try {
+      bakeVariant(k).then(b => {
+        if (b) css.textContent += `.sheet[data-wear="${k}"] .tex{--paper-var:url(${URL.createObjectURL(b)})}\n`;
+        idle(nextOrdered, { timeout: 1200 });
+      });
+    } catch (err) { idle(nextOrdered, { timeout: 1200 }); }
+  };
+  idle(nextOrdered, { timeout: 1500 });
+}
+
+/* ================================================================ desk arrows (André 10/1/26)
+   In the empty desk beside the set on a wide screen: a sumi brush stroke after the AM mark's long roof stroke, a
+   tapering sweep with a short stub at the head, faint until hovered. Hidden when the margins are too narrow. */
+const DARR = { min: 64, op: 0.1 };
+function brushArrowPath(seed) {
+  const r = seeded(seed), f = v => v.toFixed(2);
+  // centerline: a long sweep, slightly bowed, ending at the tip (100, 20); width tapers from heel to tip like the mark's stroke
+  const N = 40, L = [], R = [];
+  const C = t => [6 + 94 * t, 30 - 10 * t - 7 * Math.sin(Math.PI * t) * (1 - t * .4)];
+  for (let k = 0; k <= N; k++) {
+    const t = k / N, p = C(t), q = C(Math.min(1, t + .01)), p0 = C(Math.max(0, t - .01));
+    const tx = q[0] - p0[0], ty = q[1] - p0[1], tl = Math.hypot(tx, ty), nx = -ty / tl, ny = tx / tl;
+    const w = (t < .06 ? 2.4 + 10 * t : 3 * Math.pow(1 - t, .9) + .25) * (1 + (r() - .5) * .12);
+    const sk = .4 * Math.sin(t * 9 + seed);
+    L.push([p[0] + nx * (w + sk * .3), p[1] + ny * (w + sk * .3)]); R.push([p[0] - nx * w * .8, p[1] - ny * w * .8]);
+  }
+  const main = 'M' + L.map(p => f(p[0]) + ' ' + f(p[1])).join(' L') + ' L' + R.reverse().map(p => f(p[0]) + ' ' + f(p[1])).join(' L') + ' Z';
+  // the stub: a short, heavier stroke coming down into the tip, like the mark's crossbar meeting the long stroke
+  const S = [], T = [];
+  for (let k = 0; k <= 16; k++) {
+    const t = k / 16, p = [78 + 21 * t + 1.5 * Math.sin(Math.PI * t), 6 + 13.5 * t], w = (t < .1 ? 1.4 + 12 * t : 2.6 * Math.pow(1 - t, .7) + .2);
+    S.push([p[0] - w * .55, p[1] + w * .8]); T.push([p[0] + w * .55, p[1] - w * .8]);
+  }
+  const stub = 'M' + S.map(p => f(p[0]) + ' ' + f(p[1])).join(' L') + ' L' + T.reverse().map(p => f(p[0]) + ' ' + f(p[1])).join(' L') + ' Z';
+  const dry = `M${f(18)} ${f(29.5)} Q${f(52)} ${f(27)} ${f(86)} ${f(21.6)}`;
+  return { main, stub, dry };
+}
+const darr = ['prev', 'next'].map((side, k) => {
+  const a = brushArrowPath(k ? 23 : 41), b = document.createElement('button');
+  b.className = 'darr'; b.dataset.side = side;
+  b.setAttribute('aria-label', k ? 'Next sheet' : 'Previous sheet');
+  b.innerHTML = `<svg viewBox="0 0 106 40" aria-hidden="true"${k ? '' : ' style="transform:scaleX(-1)"'}><path class="bs" d="${a.main}"/><path class="bs" d="${a.stub}"/><path class="hl" d="${a.dry}"/></svg>`;
+  b.onclick = () => go(cur + (k ? 1 : -1), k ? 1 : -1);
+  document.body.appendChild(b);
+  return b;
+});
+function deskArrows() {
+  const sr = stage.getBoundingClientRect(), gap = Math.min(sr.left, innerWidth - sr.right);
+  darr.forEach((b, k) => {
+    if (mob || gap < DARR.min) { b.hidden = true; return; }
+    b.hidden = false;
+    const w = Math.min(120, gap * 0.62), h = w * 40 / 106;
+    const x = k ? sr.right + (gap - w) / 2 : sr.left - (gap + w) / 2;
+    b.style.cssText = `left:${x.toFixed(0)}px;top:${(sr.top + sr.height / 2 - h / 2).toFixed(0)}px;width:${w.toFixed(0)}px;height:${h.toFixed(0)}px`;
+    b.classList.toggle('off', k ? cur >= N - 1 : cur <= 0);
+  });
+}
+addEventListener('resize', deskArrows);
+
+const start = () => { go(fromHash()); startBreeze(); deskArrows(); const idle = window.requestIdleCallback || (f => setTimeout(f, 600)); idle(bakePaper, { timeout: 1500 }); idle(bakeVariants, { timeout: 2500 }); };
 (document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1200))]) : Promise.resolve()).then(() => { layout(); start(); });
 </script>
 </body>
