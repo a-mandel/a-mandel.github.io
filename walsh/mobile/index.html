@@ -3,7 +3,7 @@
 <head>
 <script>window.__md=fetch("model.json?v=180575e0").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();});window.__md.catch(function(){});</script>
 <link rel="preload" href="three.r128.min.js?v=dd1b0523" as="script">
-<link rel="preload" href="app.js?v=d39f5687" as="script">
+<link rel="preload" href="app.js?v=e1d67e3a" as="script">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -228,7 +228,7 @@
   .quick button[aria-pressed="true"] { background: var(--ink); color: var(--chip); }
   .quick button[aria-pressed="true"] svg .acc { stroke: var(--accent); }
   @media (max-width: 380px) { .quick button { padding: 0 9px 0 8px; letter-spacing: .08em; gap: 5px; } }
-  @media (max-width: 699px) { .quick [data-q="lens"] { display: none; } .quick { gap: 5px; } .quick button { padding: 0 10px 0 8px; gap: 5px; letter-spacing: .08em; } .quick button svg { width: 14px; height: 14px; } }
+  @media (max-width: 699px) { .quick { gap: 5px; } .quick button { padding: 0 10px 0 8px; gap: 5px; letter-spacing: .08em; } .quick button svg { width: 14px; height: 14px; } }
   .pop .vgroup { display: grid; gap: 8px; }
   .pop .vgroup h3 { margin: 0; font: 500 8.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
   .wideui .rail .quick { position: static; transform: none; max-width: none; padding: 6px 8px; border-radius: 999px; background: var(--glass-veil); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 10px 28px rgba(27, 26, 24, .1); gap: 4px; }
@@ -374,7 +374,7 @@
   .pop .lens > span { font: 500 9.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .14em; text-transform: uppercase; }
   .pop .lens .seg button { min-height: 40px; padding: 8px 12px; }
   .pop .toggles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
-  .mhint { position: absolute; z-index: 5; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 134px); margin: 0; text-align: center; font: italic 400 14px/1.2 var(--f-body); color: var(--muted); pointer-events: none; transition: opacity .8s; }
+  .mhint { position: absolute; z-index: 5; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 172px); margin: 0; text-align: center; font: italic 400 14px/1.2 var(--f-body); color: var(--muted); pointer-events: none; transition: opacity .8s; }
   .mhint.off { opacity: 0; }
   @media (min-width: 700px) { .pop { left: 50%; right: auto; width: 440px; transform: translateX(-50%); } }
   /* desktop: every control in view at once, one rail along the bottom (André 9/28 7:32 pm) */
@@ -399,6 +399,29 @@
   #schemeSeg #toPlans svg, #schemeSeg #toFA svg { width: 16px; height: 16px; }
   .wideui .compass { top: calc(env(safe-area-inset-top, 0px) + 172px); }
   .wideui .mhint { bottom: calc(env(safe-area-inset-bottom, 0px) + 72px); }
+
+
+  /* the tour (André 10/1/26): a red wax seal in the lower left steps through the house; buttons, not menus */
+  .tourbar { position: absolute; z-index: 8; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); display: flex; align-items: center; gap: 12px; padding: 0 14px 0 10px; pointer-events: none; }
+  .tourbar > * { pointer-events: auto; }
+  .seal { appearance: none; border: 0; background: none; padding: 0; margin: 0; width: 88px; height: 88px; flex: none; cursor: pointer; border-radius: 50%; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .seal svg { width: 100%; height: 100%; display: block; overflow: visible; transform-origin: 50% 50%; }
+  .seal:focus-visible { outline: 1.5px solid var(--ink); outline-offset: 3px; }
+  .seal.press svg { animation: sealPress .55s cubic-bezier(.3, 1.5, .5, 1); }
+  .seal.idle svg { animation: sealBreathe 2.8s ease-in-out infinite; }
+  @keyframes sealPress { 0% { transform: scale(1); } 28% { transform: scale(.86); } 100% { transform: scale(1); } }
+  @keyframes sealBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .tcap { flex: 1 1 auto; min-width: 0; display: grid; gap: 4px; pointer-events: none; }
+  .tcap .tno { font: 500 9.5px/1 'Tenor Sans', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .tcap .tname { font: italic 400 19px/1.05 var(--f-body); color: var(--ink); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; text-wrap: balance; text-shadow: 0 0 10px var(--paper), 0 0 3px var(--paper); }
+  .tourbar .dock { position: static; transform: none; left: auto; bottom: auto; flex: none; margin-left: auto; gap: 0; padding: 3px; }
+  .tourbar .dock button { min-width: 50px; min-height: 46px; padding: 6px 7px 5px; }
+  #app:not(.wideui) .quick { bottom: calc(env(safe-area-inset-bottom, 0px) + 108px); gap: 6px; max-width: calc(100% - 16px); }
+  #app:not(.wideui) .quick button { flex-direction: column; justify-content: center; gap: 5px; min-width: 60px; min-height: 54px; padding: 7px 7px 6px; border-radius: 16px; font-size: 8.5px; letter-spacing: .1em; }
+  #app:not(.wideui) .quick button svg { width: 19px; height: 19px; }
+  @media (max-width: 370px) { #app:not(.wideui) .quick button { min-width: 0; padding: 7px 5px 6px; letter-spacing: .06em; } .seal { width: 78px; height: 78px; } .tcap .tname { font-size: 17px; } }
+  .wideui .tourbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 80px); padding-left: 18px; }
+  @media (prefers-reduced-motion: reduce) { .seal.idle svg { animation: none; } }
 
   /* FA package */
   .toc { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -510,46 +533,38 @@
     <line x1="-19" y1="0" x2="19" y2="0" stroke="currentColor" stroke-width=".4"/><line x1="0" y1="-19" x2="0" y2="19" stroke="currentColor" stroke-width=".4"/>
     <g id="needle"><path d="M0 -13 L3 2 L0 0 L-3 2 Z" fill="var(--accent)"/><text x="0" y="-15.5" text-anchor="middle" font-family="Tenor Sans, sans-serif" font-size="6.5" fill="currentColor">N</text></g>
   </svg>
-  <p class="mhint model-ui" id="mhint">Drag to turn · pinch to zoom · double tap to reset</p>
+  <p class="mhint model-ui" id="mhint">Tap the seal for the next view · drag to look around</p>
   <div class="quick model-ui" id="quick" role="group" aria-label="Quick toggles">
-    <button type="button" data-q="lens" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8 V4 H7 M17 4 H21 V8 M21 16 V20 H17 M7 20 H3 V16" fill="none" stroke="currentColor" stroke-width="1.6"/><path class="acc" d="M8 12 H16" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Ultra wide</span></button>
+    <button type="button" data-q="lens" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8 V4 H7 M17 4 H21 V8 M21 16 V20 H17 M7 20 H3 V16" fill="none" stroke="currentColor" stroke-width="1.6"/><path class="acc" d="M8 12 H16" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Wide angle</span></button>
     <button type="button" data-q="inside" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 L12 4 L21 11 V20 H3 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.6 2"/><path class="acc" d="M9 20 V14 H15 V20" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>See inside</span></button>
     <button type="button" data-q="roof" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="acc" d="M2 9 L12 3 L22 9" fill="none" stroke="currentColor" stroke-width="1.6" transform="translate(0 -1)"/><path d="M5 12 V21 H19 V12" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Roof off</span></button>
     <button type="button" data-q="trees" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L6 13 H10 L7 18 H17 L14 13 H18 Z M12 18 V22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Trees</span></button>
     <button type="button" data-q="notes" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18 C8 10 11 16 14 9 S19 6 20 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Notes</span></button>
   </div>
-  <nav class="dock model-ui" aria-label="Model menu">
-    <button type="button" data-pop="popViews" aria-expanded="false" aria-controls="popViews"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12 C6 5.5 18 5.5 22 12 C18 18.5 6 18.5 2 12 Z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Views</span></button>
-    <button type="button" data-pop="popLayers" aria-expanded="false" aria-controls="popLayers"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L22 8.5 L12 14 L2 8.5 Z M2 12.5 L12 18 L22 12.5 M2 16.5 L12 22 L22 16.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>Layers</span></button>
-    <button type="button" id="toPlans"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3 H21 V21 H3 Z M3 11 H11 V21 M11 3 V7 M15 11 H21 M15 11 V15" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Plans</span></button>
-    <button type="button" id="toFA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2.5 H14.5 L19 7 V21.5 H6 Z M14.5 2.5 V7 H19 M9 11 H16 M9 14.5 H16 M9 18 H13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>FA package</span></button>
-  </nav>
-  <div class="pop model-ui" id="popViews" role="dialog" aria-label="Views" hidden>
-    <h2>Views</h2>
-    <div class="vgroup"><h3>Around the house</h3>
-    <div class="views" id="views" role="group" aria-label="Views around the house">
-      <button type="button" data-view="house">House</button>
-      <button type="button" data-view="arrival">Arrival</button>
-      <button type="button" data-view="tip">Tip</button>
-      <button type="button" data-view="court">Court</button>
-      <button type="button" data-view="rear">Rear</button>
-      <button type="button" data-view="plan">Plan</button>
-    </div></div>
-    <div class="vgroup"><h3>Eye level, inside and out</h3>
-    <div class="views" id="views2" role="group" aria-label="Eye level views">
-      <button type="button" data-view="living">Living room</button>
-      <button type="button" data-view="dining">Dining</button>
-      <button type="button" data-view="terrace">Terrace</button>
-      <button type="button" data-view="patio">Patio</button>
-      <button type="button" data-view="entry">Entry court</button>
-    </div></div>
-  </div>
-  <div class="pop model-ui" id="popLayers" role="dialog" aria-label="Layers" hidden>
-    <h2>Layers</h2>
-    <div class="toggles">
-      <label class="tog"><input id="tNotes" type="checkbox" checked><span class="box" aria-hidden="true"></span><span>Notes</span></label>
-      <label class="tog"><input id="tTrees" type="checkbox" checked><span class="box" aria-hidden="true"></span><span>Trees</span></label>
-    </div>
+  <div class="tourbar model-ui">
+    <button type="button" class="seal idle" id="seal" aria-label="Start the tour">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true">
+        <defs>
+          <radialGradient id="wxA" cx="36%" cy="30%" r="78%"><stop offset="0" stop-color="#d9493a"/><stop offset=".5" stop-color="#ad261d"/><stop offset="1" stop-color="#6c110d"/></radialGradient>
+          <radialGradient id="wxB" cx="62%" cy="68%" r="72%"><stop offset="0" stop-color="#b82d22"/><stop offset="1" stop-color="#8c1b14"/></radialGradient>
+          <filter id="wxF" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.6" stdDeviation="2.4" flood-color="#3c0a06" flood-opacity=".38"/></filter>
+          <path id="wxRing" d="M 0 -36.5 A 36.5 36.5 0 1 1 -0.01 -36.5"/>
+        </defs>
+        <g id="sealWax"><path id="sealBlob" fill="url(#wxA)" filter="url(#wxF)" d="M44 0 A44 44 0 1 1 43.99 -0.5 Z"/></g>
+        <circle r="31" fill="url(#wxB)"/>
+        <circle r="31" fill="none" stroke="#56100b" stroke-opacity=".6" stroke-width="1.7"/>
+        <circle r="32.6" fill="none" stroke="#f08a76" stroke-opacity=".38" stroke-width=".9"/>
+        <text font-family="Tenor Sans, sans-serif" font-size="5.6" letter-spacing="1.9" fill="#5e110c" fill-opacity=".72"><textPath href="#wxRing">WALSH RESIDENCE · LAHONTAN 235 · TOUR ·</textPath></text>
+        <text id="sealNoHi" x=".9" y="11.2" text-anchor="middle" font-family="EB Garamond, Georgia, serif" font-weight="500" font-size="25" fill="#f19a86" fill-opacity=".55">AM</text>
+        <text id="sealNo" x="0" y="10" text-anchor="middle" font-family="EB Garamond, Georgia, serif" font-weight="500" font-size="25" fill="#6d130e">AM</text>
+        <ellipse cx="-15" cy="-24" rx="15" ry="5.5" fill="#fff" opacity=".2" transform="rotate(-28 -15 -24)"/>
+      </svg>
+    </button>
+    <div class="tcap" aria-live="polite"><span class="tno" id="tNo">Tour</span><span class="tname" id="tName">Tap the seal</span></div>
+    <nav class="dock" aria-label="Plans and FA package">
+      <button type="button" id="toPlans"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3 H21 V21 H3 Z M3 11 H11 V21 M11 3 V7 M15 11 H21 M15 11 V15" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Plans</span></button>
+      <button type="button" id="toFA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2.5 H14.5 L19 7 V21.5 H6 Z M14.5 2.5 V7 H19 M9 11 H16 M9 14.5 H16 M9 18 H13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>FA package</span></button>
+    </nav>
   </div>
 
   <!-- project data -->
@@ -687,7 +702,7 @@
 
 
 <script src="three.r128.min.js?v=dd1b0523" defer></script>
-<script src="app.js?v=d39f5687" defer></script>
+<script src="app.js?v=e1d67e3a" defer></script>
 
 </body>
 </html>

@@ -236,7 +236,7 @@
     { const dial = $('#ldDial'); dial.style.transform = ''; $('#enterGy').prepend(dial); }
     $('#loader').classList.add('gone');
     setTimeout(() => { $('#loader').hidden = true; }, 1000);
-    W3.enterReel(true);
+    if (W3.landReel) W3.enterReel(true); else W3.enterModel(true);   // phones land in the model, turning around the site (André 10/1/26)
   }
 
   // ------------------------------------------------------------------ the 3D house
@@ -695,7 +695,9 @@
     };
     function eyeCam(v) { const dx = v.eye[0] - v.at[0], dy = v.eye[1] - v.at[1], dz = v.eye[2] - v.at[2], dist = Math.hypot(dx, dy, dz); return { yaw: Math.atan2(dx, dz), el: Math.asin(dy / dist), dist, t: v.at, fp: 1 }; }
     const cam = { yaw: 1.15, el: 0.42, dist: 215, t: new THREE.Vector3(...VIEWS.house.t), fp: 0 };
-    const S = { scheme: 'rib', pitch: '12', inside: false, roof: false, panels: true, lens: 'wide', trees: true, notes: true, room: false };   // wide angle lens by default (André 9/28 9:57 am)
+    const S = { scheme: 'rib', pitch: '12', inside: false, roof: false, panels: true, lens: 'ultra', trees: true, notes: true, room: false };   // always the wide angle, closer in (André 10/1/26)
+    const TS = { i: 0, look: false, near: false, fly: null, ret: 0, wasOut: true, moved: false };   // the tour: stop, interior look mode, flight, glide home time
+    const pend = { yaw: 0, el: 0, zoom: 0, walk: 0 }, vel = { yaw: 0, el: 0 };       // drag input the camera eases into
     const IN_SHEET = document.documentElement.classList.contains('in-sheet');
     if (IN_SHEET) S.lens = 'ultra';   // inside the living set the model opens on the widest lens; the quick toggle reads pressed (André 9/30)
     const REEL_SHEET_K = 1.4;          // inside a sheet the reel stands this much further back
@@ -869,7 +871,7 @@
       const sc = CW < 520 ? 0.62 : 1;
       ov.setAttribute('viewBox', '0 0 ' + CW + ' ' + CH);
       const rank = n => n.a.k === 'run' ? 0 : n.a.k === 'dim' ? 1 : 2;
-      const eyeLv = (cam.fp || 0) > 0.5;
+      const eyeLv = MODE === 'model' ? TS.near : (cam.fp || 0) > 0.5;
       [...ANN].sort((x, y) => rank(x) - rank(y)).forEach(n => {
         const a = n.a;
         const far = eyeLv && (a.k !== 'note' || n.v.distanceTo(camera.position) > 95);
@@ -1160,6 +1162,116 @@
     function eyePos() { return cam.t.clone().add(camDir().multiplyScalar(cam.dist)); }
     function setEye(E) { cam.t.copy(E.clone().sub(camDir().multiplyScalar(cam.dist))); }
     function walk(s) { const E = eyePos(), d = camDir(); d.y = 0; if (d.lengthSq() < 1e-6) return; d.normalize(); E.addScaledVector(d, -s); setEye(E); dirty = true; }
+
+    // ---------------- the tour (André 10/1/26): one red wax seal, lower left. Each tap glides to the next stop and sets
+    // its layers. Drag to look around; let go and the view glides back to the stop. Arrive turning slowly around the site.
+    const TOUR = [
+      { name: 'Arrival', orbit: { t: [-8, 10, 28], dist: 108, el: 0.43, yaw: -1.2 }, all: true },
+      { name: 'The drive', eye: [-96, 18, 47], at: [-30, 15, 18] },
+      { name: 'Entry court', eye: [-46, 14.5, 40], at: [0, 17, 14] },
+      { name: 'Granny suite', eye: [-36, 13, 34], at: [-8, 14, 62] },
+      { name: 'Front door', eye: [-33, 13.6, 27], at: [-22, 12.5, -1] },
+      { name: 'Kitchen and entry', eye: [8, 12.9, 4], at: [-20, 12.3, -3], room: true },
+      { name: 'Living room', eye: [33.5, 13.2, -3.5], at: [0.0, 14.8, -3.5], room: true },   // André's view from the tip end, due west (9/29)
+      { name: 'Rear court', eye: [36, 13.5, 39], at: [12, 19, 6] },
+      { name: 'Dining, in the bridge', eye: [12, 13.2, 12], at: [6, 13, 40], room: true },
+      { name: 'Primary suite', eye: [23, 19.8, 47], at: [0, 18.8, 62], room: true },
+      { name: 'Primary terrace', eye: [35.5, 19.9, 55], at: [24, 21, 12] },
+      { name: 'Lower patio', eye: [42.5, 7.85, 51], at: [22, 12.5, 29] },
+      { name: 'Rear elevation', eye: [100, 24, 30], at: [5, 15, 28], all: true },
+      { name: 'The lifted tip', eye: [64, 8, -10], at: [37, 24, 8], all: true },
+      { name: 'The whole plan', eye: [18, 100, 72], at: [-10, 5, 28], roof: true, all: true }
+    ];
+    const SPIN = 0.05;                                   // the arrival turns about 3 degrees a second
+    const pendSum = () => Math.abs(pend.yaw) + Math.abs(pend.el) + Math.abs(pend.zoom) + Math.abs(pend.walk);
+    function poseOf(st) {
+      if (st.orbit) { const o = st.orbit; return { yaw: o.yaw, el: o.el, dist: o.dist, t: o.t }; }
+      const c = eyeCam(st); return { yaw: c.yaw, el: c.el, dist: c.dist, t: c.t };
+    }
+    function eyeOfPose(p) { const ce = Math.cos(p.el); return V3(p.t).add(new THREE.Vector3(ce * Math.sin(p.yaw), Math.sin(p.el), ce * Math.cos(p.yaw)).multiplyScalar(p.dist)); }
+    // flights run in eye space: the eye travels, the head turns, so nothing swings wide on the way
+    function flyTo(p, D, st) {
+      const E0 = eyePos(), E1 = eyeOfPose(p), span = E0.distanceTo(E1);
+      let dy = p.yaw - cam.yaw; dy = Math.atan2(Math.sin(dy), Math.cos(dy));
+      const out = !st || !st.room;
+      TS.fly = { E0, E1, y0: cam.yaw, dy, e0: cam.el, e1: p.el, d0: Math.max(1, cam.dist), d1: p.dist, t0: performance.now(),
+        D: REDUCE ? 600 : (D || Math.min(3400, 1900 + span * 14)), lift: st && out && TS.wasOut && span > 40 ? Math.min(26, span * 0.16) : 0, st, mid: !st };
+      cam.fp = 1; dirty = true;
+    }
+    function tourAt(i, instant) {
+      TS.i = (i + TOUR.length) % TOUR.length;
+      const st = TOUR[TS.i], p = poseOf(st);
+      TS.look = !!st.room; TS.near = !st.all; TS.ret = 0;
+      pend.yaw = pend.el = pend.zoom = pend.walk = 0; vel.yaw = vel.el = 0;
+      cancelAnimationFrame(anim);
+      S.roof = !!st.roof; S.inside = !!st.inside;
+      if (instant) {
+        cam.yaw = p.yaw; cam.el = p.el; cam.dist = p.dist; cam.t.set(p.t[0], p.t[1], p.t[2]); cam.fp = 1;
+        S.room = !!st.room; TS.fly = null; window.__notesHold = false;
+      } else { window.__notesHold = true; flyTo(p, 0, st); }
+      TS.wasOut = !st.room;
+      apply(); paintTour();
+    }
+    function nextStop() { tourAt(TS.i + 1, false); pressSeal(); }
+    function goHome(D) {
+      const st = TOUR[TS.i], p = poseOf(st);
+      if (st.orbit) p.yaw = cam.yaw;                     // the arrival keeps turning from wherever you left it
+      flyTo(p, D || 1700, null);
+    }
+    function look(dyaw, del, dzoom, dwalk) {
+      if (TS.look) { const E = eyePos(); cam.yaw += dyaw; cam.el = Math.max(-0.85, Math.min(0.85, cam.el + del)); setEye(E); if (dwalk) walk(dwalk); }
+      else { cam.yaw += dyaw; cam.el = Math.max(-0.05, Math.min(1.45, cam.el + del)); cam.dist = Math.max(10, Math.min(420, cam.dist * Math.exp(dzoom))); }
+    }
+    let lastNow = 0;
+    function tourTick(now) {
+      const dt = Math.min(0.05, Math.max(0, (now - (lastNow || now)) / 1000)); lastNow = now;
+      if (MODE !== 'model') return;
+      // the glide: the camera eases toward the finger instead of jumping with it
+      if (pendSum() > 1e-5) {
+        const f = 1 - Math.exp(-dt * 8);
+        look(pend.yaw * f, pend.el * f, pend.zoom * f, pend.walk * f);
+        pend.yaw *= 1 - f; pend.el *= 1 - f; pend.zoom *= 1 - f; pend.walk *= 1 - f;
+        dirty = true;
+      }
+      const F = TS.fly;
+      if (F) {
+        const u = Math.min(1, (now - F.t0) / F.D), e = 0.5 - 0.5 * Math.cos(Math.PI * u);
+        cam.yaw = F.y0 + F.dy * e; cam.el = F.e0 + (F.e1 - F.e0) * e; cam.dist = F.d0 * Math.pow(F.d1 / F.d0, e);
+        const E = F.E0.clone().lerp(F.E1, e); E.y += F.lift * Math.sin(Math.PI * e);
+        setEye(E); cam.fp = 1;
+        if (!F.mid && e > 0.5) { F.mid = true; S.room = !!F.st.room; apply(); }
+        if (u >= 1) { TS.fly = null; window.__notesHold = false; }
+        dirty = true;
+      } else if (TS.i === 0 && !pts.size && !TS.ret) { cam.yaw += dt * SPIN; dirty = true; }
+      if (TS.ret && now >= TS.ret && !pts.size && pendSum() < 0.004) { TS.ret = 0; goHome(); }
+    }
+    // the seal: a hand pressed wax disc, the stop number stamped in it
+    const sealBtn = $('#seal');
+    (function sealBlob() {
+      const R = rng(235), ph = [R() * 6, R() * 6, R() * 6], pts2 = [];
+      for (let k = 0; k < 72; k++) {
+        const a = k / 72 * Math.PI * 2;
+        const r = 44 * (1 + 0.035 * Math.sin(3 * a + ph[0]) + 0.025 * Math.sin(5 * a + ph[1]) + 0.018 * Math.sin(9 * a + ph[2]) + 0.06 * Math.pow(Math.max(0, Math.cos(a - 2.2)), 18) + 0.045 * Math.pow(Math.max(0, Math.cos(a + 0.7)), 24));
+        pts2.push((Math.cos(a) * r).toFixed(2) + ' ' + (Math.sin(a) * r).toFixed(2));
+      }
+      const b = $('#sealBlob'); if (b) b.setAttribute('d', 'M' + pts2.join(' L') + ' Z');
+    })();
+    let sealTurn = 0;
+    function pressSeal() {
+      if (!sealBtn) return;
+      sealBtn.classList.remove('idle', 'press'); void sealBtn.offsetWidth; sealBtn.classList.add('press');
+      sealTurn += (Math.random() - 0.5) * 24; const w = $('#sealWax'); if (w) w.setAttribute('transform', 'rotate(' + sealTurn.toFixed(1) + ')');
+    }
+    function paintTour() {
+      const n = TOUR.length - 1, st = TOUR[TS.i];
+      const num = TS.i ? String(TS.i) : 'AM';
+      ['#sealNo', '#sealNoHi'].forEach(q => { const t = $(q); if (t) { t.textContent = num; t.setAttribute('font-size', TS.i ? (TS.i > 9 ? 30 : 36) : 25); } });
+      const no = $('#tNo'), nm = $('#tName');
+      if (no) no.textContent = TS.i ? String(TS.i).padStart(2, '0') + ' / ' + String(n).padStart(2, '0') : 'Tour · ' + n + ' views';
+      if (nm) nm.textContent = TS.i ? st.name : 'Tap the seal';
+      if (sealBtn) sealBtn.setAttribute('aria-label', TS.i < n ? 'Next view: ' + TOUR[TS.i + 1].name : 'Back to the arrival');
+    }
+    if (sealBtn) sealBtn.addEventListener('click', e => { e.stopPropagation(); if (MODE === 'model') nextStop(); });
     function sheetFor() {
       if (S.scheme === 'rib') {
         const r = I.rib;
@@ -1249,54 +1361,66 @@
       setMode('reel');
       startShot(first ? 0 : shot);
     }
-    function enterModel() {
-      setMode('model');
-      renderSheet();
-      setAnn(MODEL_ANN[S.scheme]());
-      goTo('house', 1100);
+    function enterModel(first) {
+      const go = () => { setMode('model'); renderSheet(); setAnn(MODEL_ANN[S.scheme]()); tourAt(0, true); showHint(); };
+      if (first === true || MODE !== 'reel') { go(); return; }
+      const fade = $('#fade'); fade.style.opacity = 1;
+      setTimeout(() => { go(); fade.style.opacity = 0; }, 470);
     }
 
     // ---------------- input
     const pts = new Map();
     let lastTap = 0, pinch0 = null, moved = 0, hinted = false;
     stage.addEventListener('pointerdown', e => {
-      stage.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); moved = 0;
-      if (pts.size === 2) { const [a, b] = [...pts.values()]; const d0 = Math.hypot(a.x - b.x, a.y - b.y); pinch0 = { d: d0, dist: cam.dist, last: d0 }; }
+      stage.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY, t: performance.now() }); moved = 0;
+      if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch0 = { last: Math.hypot(a.x - b.x, a.y - b.y) }; }
       const now = performance.now();
-      if (MODE === 'model' && pts.size === 1 && now - lastTap < 300) goTo('house');
+      if (MODE === 'model') {
+        TS.ret = 0; vel.yaw = vel.el = 0;
+        const F = TS.fly; if (F) { if (!F.mid) { S.room = !!F.st.room; apply(); } TS.fly = null; window.__notesHold = false; }   // a touch holds the view where it is
+        if (pts.size === 1 && now - lastTap < 300) goHome(1200);                                                    // double tap: straight back to the stop
+      }
       lastTap = now;
     });
     stage.addEventListener('pointermove', e => {
       if (!pts.has(e.pointerId)) return;
-      const p = pts.get(e.pointerId), dx = e.clientX - p.x, dy = e.clientY - p.y;
-      pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); moved += Math.abs(dx) + Math.abs(dy);
+      const p = pts.get(e.pointerId), dx = e.clientX - p.x, dy = e.clientY - p.y, now = performance.now();
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY, t: now }); moved += Math.abs(dx) + Math.abs(dy);
       if (MODE !== 'model') return;
       if (window.__notesHold && moved > 6) { window.__notesHold = false; dirty = true; }
-      const eyeLv = (cam.fp || 0) > 0.5;
       if (pts.size === 1) {
-        if (eyeLv) { const E = eyePos(); cam.yaw += dx * 0.005; cam.el = Math.max(-0.85, Math.min(0.85, cam.el - dy * 0.004)); setEye(E); }
-        else { cam.yaw -= dx * 0.008; cam.el = Math.max(0.02, Math.min(1.52, cam.el + dy * 0.006)); }
-      }
-      else if (pts.size === 2 && pinch0) {
+        const dyaw = TS.look ? dx * 0.005 : -dx * 0.008, del = TS.look ? -dy * 0.004 : dy * 0.006;
+        pend.yaw += dyaw; pend.el += del;
+        const dtm = Math.max(8, now - p.t); vel.yaw = vel.yaw * 0.5 + 0.5 * dyaw / dtm; vel.el = vel.el * 0.5 + 0.5 * del / dtm;
+      } else if (pts.size === 2 && pinch0) {
         const [a, b] = [...pts.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (eyeLv) { walk((d - pinch0.last) * 0.06); pinch0.last = d; }
-        else cam.dist = Math.max(28, Math.min(700, pinch0.dist * pinch0.d / Math.max(d, 1)));
+        if (TS.look) pend.walk += (d - pinch0.last) * 0.06; else pend.zoom += Math.log(pinch0.last / Math.max(d, 1));
+        pinch0.last = d;
       }
-      cancelAnimationFrame(anim); $$('[data-view]').forEach(b => b.setAttribute('aria-pressed', 'false'));
-      dirty = true;
+      TS.moved = true; dirty = true;
     });
-    const up = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch0 = null; if (MODE === 'reel' && moved < 8 && e.type === 'pointerup') nextShot(); };
+    const up = e => {
+      pts.delete(e.pointerId); if (pts.size < 2) pinch0 = null;
+      if (MODE === 'reel' && moved < 8 && e.type === 'pointerup') nextShot();
+      if (MODE === 'model' && !pts.size && TS.moved) {
+        const cl = v => Math.max(-0.5, Math.min(0.5, v * 150));
+        pend.yaw += cl(vel.yaw); pend.el += cl(vel.el);              // a little glide after a flick
+        vel.yaw = vel.el = 0; TS.moved = false;
+        TS.ret = performance.now() + 1100;                          // then the view eases back to the stop
+      }
+    };
     stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
-    stage.addEventListener('wheel', e => { if (MODE !== 'model') return; e.preventDefault(); if ((cam.fp || 0) > 0.5) { walk(-e.deltaY * 0.02); return; } cam.dist = Math.max(28, Math.min(700, cam.dist * Math.exp(e.deltaY * 0.001))); dirty = true; }, { passive: false });
+    stage.addEventListener('wheel', e => { if (MODE !== 'model') return; e.preventDefault(); if (TS.look) pend.walk -= e.deltaY * 0.02; else pend.zoom += e.deltaY * 0.001; TS.ret = performance.now() + 1400; dirty = true; }, { passive: false });
+    document.addEventListener('keydown', e => { if (MODE === 'model' && (e.key === 'ArrowRight' || e.key === 'Enter') && !e.target.closest('input, textarea')) { if ($('#info').hidden && $('#plans').hidden) nextStop(); } });
 
-    $('#toModel').addEventListener('click', enterModel);
+    $('#toModel').addEventListener('click', () => enterModel(false));
 
     // ---------------- dock and pop ups (André 8:50 am: full bleed model, everything else a tap away)
     const pops = $$('.pop'), dockBtns = $$('.dock [data-pop]');
     const rail = document.createElement('div'); rail.className = 'rail model-ui'; rail.setAttribute('role', 'toolbar'); rail.setAttribute('aria-label', 'Model controls');
     const quickEl = $('#quick');
     const dockEl = $('.dock'), homeOf = new Map([[dockEl, [dockEl.parentNode, dockEl.nextSibling]], [quickEl, [quickEl.parentNode, quickEl.nextSibling]], ...pops.map(p => [p, [p.parentNode, p.nextSibling]])]);
-    dockEl.parentNode.insertBefore(rail, dockEl);
+    const tbar = $('.tourbar') || dockEl; tbar.parentNode.insertBefore(rail, tbar);
     const isWideUI = () => app.clientWidth >= 900 && app.clientHeight >= 520;
     const segEl = $('#schemeSeg'), pfBtns = [$('#toPlans'), $('#toFA')], pfHome = pfBtns.map(b => [b.parentNode, b.nextSibling]);
     function layoutUI() {
@@ -1304,7 +1428,7 @@
       if (wide === app.classList.contains('wideui')) return;
       app.classList.toggle('wideui', wide);
       if (wide) pfBtns.forEach(b => segEl.appendChild(b)); else pfBtns.forEach((b, i) => pfHome[i][0].insertBefore(b, pfHome[i][1] && pfHome[i][1].parentNode === pfHome[i][0] ? pfHome[i][1] : null));
-      if (wide) { pops.forEach((p, i) => { p.hidden = false; rail.appendChild(p); if (i === 0) rail.appendChild(quickEl); }); }
+      if (wide) { rail.appendChild(quickEl); pops.forEach(p => { p.hidden = false; rail.appendChild(p); }); }
       else { [quickEl, ...pops].forEach(el => { const [par, nx] = homeOf.get(el); par.insertBefore(el, nx && nx.parentNode === par ? nx : null); }); pops.forEach(p => { p.hidden = true; }); }
       dockBtns.forEach(b => b.setAttribute('aria-expanded', 'false'));
       setTimeout(() => { try { resize(); } catch (e) { } }, 0);
@@ -1560,7 +1684,7 @@
     $$('#schemeSeg button').forEach(b => b.addEventListener('click', () => { S.scheme = b.dataset.s; apply(); renderSheet(); setAnn(MODEL_ANN[S.scheme]()); }));
     $$('#pitchSeg button').forEach(b => b.addEventListener('click', () => { S.pitch = b.dataset.p; apply(); renderSheet(); setAnn(MODEL_ANN[S.scheme]()); }));
     $$('[data-view]').forEach(b => b.addEventListener('click', () => goTo(b.dataset.view)));
-    [['tNotes', 'notes'], ['tTrees', 'trees']].forEach(([id, k]) => $('#' + id).addEventListener('change', e => { S[k] = e.target.checked; apply(); }));
+    [['tNotes', 'notes'], ['tTrees', 'trees']].forEach(([id, k]) => { const el = $('#' + id); if (el) el.addEventListener('change', e => { S[k] = e.target.checked; apply(); }); });
     $$('#styleSeg button').forEach(b => b.addEventListener('click', () => {
       STYLE = b.dataset.style; app.dataset.style = STYLE;
       $$('#styleSeg button').forEach(x => x.setAttribute('aria-pressed', x === b));
@@ -1574,6 +1698,7 @@
     function loop(now) {
       if (!document.hidden) {
         if (MODE === 'reel') { reelTick(now); dirty = true; }
+        tourTick(now);
         if (dirty) { dirty = false; render(); }
       }
       requestAnimationFrame(loop);
@@ -1585,7 +1710,7 @@
     applyStyle(); apply(); resize();
     requestAnimationFrame(loop);
     if (step) step(5);
-    window.__fa = { look: (yaw, el, dist, t) => { cancelAnimationFrame(anim); cam.yaw = yaw; cam.el = el; cam.dist = dist; if (t) cam.t.set(t[0], t[1], t[2]); dirty = true; }, enterModel, enterReel, goTo, S, apply, nextShot, setStyle: s => $('#styleSeg [data-style="' + s + '"]').click(), startShot, cam, SHOTS, eyeCam, freeze: (i, t) => { window.__reelT = t; startShot(i); dirty = true; }, GAB, scene, camera, THREE, poke: () => { dirty = true; } };
+    window.__fa = { look: (yaw, el, dist, t) => { cancelAnimationFrame(anim); cam.yaw = yaw; cam.el = el; cam.dist = dist; if (t) cam.t.set(t[0], t[1], t[2]); dirty = true; }, enterModel, enterReel, goTo, tourAt, nextStop, TOUR, TS, S, apply, nextShot, setStyle: s => $('#styleSeg [data-style="' + s + '"]').click(), startShot, cam, SHOTS, eyeCam, freeze: (i, t) => { window.__reelT = t; startShot(i); dirty = true; }, GAB, scene, camera, THREE, poke: () => { dirty = true; } };
     // ---------------- drawing export for the living set sheets (walsh/set/draw/build_drawings.py). Gated behind ?draw:
     // the client page never builds any of this. Orthographic elevations and clipped sections, rendered in tiles at
     // print resolution with the model's own color and line passes, then composited to drafting ink on clear ground.
@@ -1768,7 +1893,8 @@
       }
       return { ortho, ready: true };
     }
-    return { ready: Promise.resolve(), enterReel };
+    const landReel = IN_SHEET || new URLSearchParams(location.search).has('reel');
+    return { ready: Promise.resolve(), enterReel, enterModel, landReel };
   }
 
   boot();
