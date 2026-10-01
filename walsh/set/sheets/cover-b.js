@@ -60,7 +60,7 @@
     id: 'A0.5', group: 'General', title: 'Axonometrics', short: 'Axonometrics', foot: 'Axonometrics',
     scale: 'Not to scale', issued: [4],
     cap: 'The ribbon on its ground from the four corners. One gesture on every roof, the court tree held in the middle.',
-    data: ['Ribbon scheme on the FA grade', 'Tip 6023.0, about 29.4 ft over grade', 'Every roof under 30 ft', 'Cut from the pocket model, 9/30/26'],
+    data: ['Ribbon scheme on the FA grade', 'Tip 6023.0, about 29.4 ft over grade', 'Every roof under 30 ft', 'Cut from the pocket model, 10/1/26'],
     html: ctx => CSS + AXONS.map((a, i) => {
       const [x, y] = AXPOS[i], q = axoXY(a.yaw, a.n.at);
       const nt = inside(q) ? note(ctx, a.n.text, q, a.n.dx, a.n.dy, AXO.w, AXO.h, 400 + i * 420) : '';
@@ -70,11 +70,11 @@
 
   /* ------------------------------------------------------------ A9.1 Perspectives */
   const CAMS = [
-    { src: 'pers-arrival.webp', t: 'Arrival from the west', s: 'Eye level · saved view Entry', eye: [-45, 14.2, 33], at: [4, 15.5, 22], x: 0.65, y: 3.3, w: 19.34, h: 15.2,
+    { src: 'pers-arrival.webp?v=261001', t: 'Arrival from the west', s: 'Eye level · saved view Entry', eye: [-45, 14.2, 33], at: [4, 15.5, 22], x: 0.65, y: 3.3, w: 19.34, h: 15.2,
       notes: [{ text: 'the signature tree, kept', at: P.tree, dx: -2.6, dy: -1.6 }] },
-    { src: 'pers-dining.webp', t: 'Bridge and dining, into the court', s: 'Eye level · saved view Dining', eye: [13.4, 13.1, 37.5], at: [-14.6, 16.5, 22.5], x: 21.37, y: 3.3, w: 8.78, h: 6.9,
+    { src: 'pers-dining.webp?v=261001', t: 'Bridge and dining, into the court', s: 'Eye level · saved view Dining', eye: [13.4, 13.1, 37.5], at: [-14.6, 16.5, 22.5], x: 21.37, y: 3.3, w: 8.78, h: 6.9,
       notes: [{ text: 'dining in the middle\nof the bridge', fx: [0.84, 0.83], dx: -4.9, dy: 0.1 }] },
-    { src: 'pers-tip.webp', t: 'Living room tip', s: 'Eye level · from the east grade', eye: [60, 8.0, 26], at: [33, 21, 8], x: 21.37, y: 11.6, w: 8.78, h: 6.9,
+    { src: 'pers-tip.webp?v=261001', t: 'Living room tip', s: 'Eye level · from the east grade', eye: [60, 8.0, 26], at: [33, 21, 8], x: 21.37, y: 11.6, w: 8.78, h: 6.9,
       notes: [{ text: 'raked glass only\nat the tip', fx: [0.5, 0.45], dx: -1.6, dy: -1.5 }] }
   ];
   /* where each camera stands, on a key plan: the level plans' footprint (from draw/drawings.js) without its section cuts */
@@ -100,7 +100,7 @@
     id: 'A9.1', group: 'Architectural', title: 'Perspectives', short: 'Perspectives', foot: 'Perspectives',
     scale: 'None', issued: [2, 4],
     cap: 'Standing in it: the arrival from the west, dining on the bridge looking into the court, and the living room tip.',
-    data: ['Eye level, about 5 ft 3 in over the floor', 'The model\'s wide lens, 64 degree view', 'Clear glass, warm interiors', 'Cut from the pocket model, 9/30/26'],
+    data: ['Eye level, about 5 ft 3 in over the floor', 'The model\'s wide lens, 64 degree view', 'Clear glass, warm interiors', 'Cut from the pocket model, 10/1/26'],
     html: ctx => CSS + CAMS.map((c, i) => {
       let d = 400 + i * 480;
       const nt = c.notes.map(n => {

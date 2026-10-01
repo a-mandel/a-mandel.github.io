@@ -546,6 +546,37 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
   <span class="sep"></span>
   <button id="print">Print</button>
 </nav>
+<button type="button" class="waxplay idle" id="wplay" aria-label="Next sheet">
+  <svg viewBox="-50 -50 100 100" aria-hidden="true">
+    <defs>
+      <radialGradient id="wpA" cx="36%" cy="30%" r="78%"><stop offset="0" stop-color="#d9493a"/><stop offset=".5" stop-color="#ad261d"/><stop offset="1" stop-color="#6c110d"/></radialGradient>
+      <radialGradient id="wpB" cx="62%" cy="68%" r="72%"><stop offset="0" stop-color="#b82d22"/><stop offset="1" stop-color="#8c1b14"/></radialGradient>
+      <filter id="wpF" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.6" stdDeviation="2.4" flood-color="#3c0a06" flood-opacity=".38"/></filter>
+    </defs>
+    <g id="wpWax"><path id="wpBlob" fill="url(#wpA)" filter="url(#wpF)" d="M44 0 A44 44 0 1 1 43.99 -0.5 Z"/></g>
+    <circle r="30" fill="url(#wpB)"/>
+    <circle r="30" fill="none" stroke="#56100b" stroke-opacity=".6" stroke-width="1.7"/>
+    <circle r="31.6" fill="none" stroke="#f08a76" stroke-opacity=".38" stroke-width=".9"/>
+    <path d="M-8 -13.5 L14.5 0 L-8 13.5 Z" transform="translate(1.1 1.2)" fill="#f19a86" fill-opacity=".5" stroke="#f19a86" stroke-opacity=".5" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M-8 -13.5 L14.5 0 L-8 13.5 Z" fill="#6d130e" stroke="#6d130e" stroke-width="2.4" stroke-linejoin="round"/>
+    <ellipse cx="-15" cy="-24" rx="15" ry="5.5" fill="#fff" opacity=".2" transform="rotate(-28 -15 -24)"/>
+  </svg>
+</button>
+<style>
+/* the wax play button (André 10/1/26): dead center, turns to the next sheet; it melts away during the turn, comes back
+   slowly, then rests faint so the drawing reads, and wakes when the pointer moves */
+.waxplay{position:fixed;z-index:60;left:50%;top:50%;width:96px;height:96px;margin:-48px 0 0 -48px;appearance:none;border:0;background:none;padding:0;cursor:pointer;border-radius:50%;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:opacity 1.8s ease,transform 1.8s cubic-bezier(.2,.9,.3,1)}
+.waxplay svg{width:100%;height:100%;display:block;overflow:visible;transform-origin:50% 50%}
+.waxplay.gone{opacity:0;transform:scale(.8);pointer-events:none;transition:opacity .35s ease,transform .35s ease}
+.waxplay.rest{opacity:.2;transition:opacity 1.4s ease}
+.waxplay.rest:hover,.waxplay.rest:focus-visible{opacity:1;transition:opacity .25s ease}
+.waxplay.idle svg{animation:wpBreathe 2.8s ease-in-out infinite}
+.waxplay:focus-visible{outline:1.5px solid #1b1a18;outline-offset:4px}
+@keyframes wpBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+body:has(#drawer.show) .waxplay{display:none}
+@media print{.waxplay{display:none!important}}
+@media (prefers-reduced-motion:reduce){.waxplay.idle svg{animation:none}}
+</style>
 <div class="strip" id="strip">
   <img id="smark" alt="André Mandel" width="236" height="300">
   <div class="sx">
@@ -562,7 +593,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 <script>window.LIVING_SHEETS = []; window.LIVING_OVERLAYS = [];</script>
 <script src="draw/shared.js"></script>
 <script src="sheets/cover-a.js"></script>
-<script src="sheets/cover-b.js"></script>
+<script src="sheets/cover-b.js?v=261001"></script>
 <script src="sheets/reg-a.js"></script>
 <script src="sheets/reg-b.js"></script>
 <script src="sheets/plans-a.js"></script>
@@ -1600,6 +1631,31 @@ document.addEventListener('keydown', e => {
   else if (k === 'ArrowLeft' || k === 'PageUp') { go(cur - 1, -1); e.preventDefault(); }
   else if (k === 'Home') go(0); else if (k === 'End') go(N - 1);
 });
+/* the wax play button: one press, one sheet; after the last sheet it goes back to the cover */
+(function () {
+  const b = $('#wplay'); if (!b) return;
+  let s = 235; const R = () => (s = s * 16807 % 2147483647, (s - 1) / 2147483646), ph = [R() * 6, R() * 6, R() * 6], pts = [];
+  for (let k = 0; k < 72; k++) {
+    const a = k / 72 * Math.PI * 2;
+    const r = 44 * (1 + 0.035 * Math.sin(3 * a + ph[0]) + 0.025 * Math.sin(5 * a + ph[1]) + 0.018 * Math.sin(9 * a + ph[2]) + 0.06 * Math.pow(Math.max(0, Math.cos(a - 2.2)), 18) + 0.045 * Math.pow(Math.max(0, Math.cos(a + 0.7)), 24));
+    pts.push((Math.cos(a) * r).toFixed(2) + ' ' + (Math.sin(a) * r).toFixed(2));
+  }
+  $('#wpBlob').setAttribute('d', 'M' + pts.join(' L') + ' Z');
+  let restT = 0, turn = 0;
+  const rest = () => { clearTimeout(restT); restT = setTimeout(() => { if (!b.classList.contains('gone')) b.classList.add('rest'); }, 3200); };
+  const wake = () => { if (b.classList.contains('gone')) return; b.classList.remove('rest'); rest(); };
+  addEventListener('pointermove', wake, { passive: true });
+  addEventListener('touchstart', wake, { passive: true });
+  b.addEventListener('click', e => {
+    e.stopPropagation();
+    const nx = cur + 1 >= N ? 0 : cur + 1;
+    b.classList.remove('idle', 'rest'); b.classList.add('gone');
+    turn += (Math.random() - 0.5) * 30; $('#wpWax').setAttribute('transform', 'rotate(' + turn.toFixed(1) + ')');
+    go(nx, nx > cur ? 1 : -1);
+    setTimeout(() => { b.classList.remove('gone'); b.setAttribute('aria-label', cur + 1 >= N ? 'Back to the cover' : 'Next sheet'); rest(); }, RM.matches ? 300 : 1500);
+  });
+  rest();
+})();
 $('#prev').onclick = () => go(cur - 1, -1);
 $('#next').onclick = () => go(cur + 1, 1);
 $('#print').onclick = () => window.print();
