@@ -200,7 +200,7 @@
   .sb7 .sb-notes ol{margin:0;padding:0 0 0 1.4em;columns:2;column-gap:calc(var(--u)*.7)}
   .sb7 .sb-notes li{font:italic 400 ${px(9.5, .15)}/1.28 var(--fs);margin:0 0 calc(var(--u)*.07);break-inside:avoid}
   .sb7 .sb-notes li::marker{font-family:var(--ft);font-style:normal;font-size:.8em;color:var(--muted)}
-  @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+  @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
     .fhtml:has(.sb7){position:relative;inset:auto}
     .sb7{position:relative;inset:auto}
     .sb7 .sb-blk{position:relative !important;left:auto !important;top:auto !important;width:auto !important;margin:0 0 40px}

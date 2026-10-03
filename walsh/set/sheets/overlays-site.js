@@ -58,7 +58,7 @@
   .ovs-rail .key{display:flex;gap:1.1em;margin-top:calc(var(--u)*.1);font:400 max(calc(7px * var(--fl)),calc(var(--u) * .095))/1 var(--ft);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   .ovs-rail .key span{display:inline-flex;align-items:center;gap:.5em}
   .ovs-mlist{display:none}
-  @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+  @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
     .ovs-reg.in{left:0 !important;top:0 !important;width:100% !important;height:100% !important;z-index:3}
     .ovs-reg:not(.in),.ovs-rail{display:none}
     .ovs-reg .ovs-t,.ovs-reg .ovs-sp,.ovs-reg .ovs-w{display:none}
@@ -273,7 +273,7 @@
   LIVING_OVERLAYS.push({ id: 'L1.1', z: 4, html: l11 });
 
   /* phones: the field reflows, so each registered layer moves into its own view (same viewBox, same box) */
-  const MQ = 'screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px)';
+  const MQ = 'screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px)';
   function relocate() {
     const mob = matchMedia(MQ).matches;
     document.querySelectorAll('.ovs-reg, .ovs-mlist').forEach(el => {

@@ -188,7 +188,7 @@
     .os-ic{display:flex;flex-direction:column;margin-top:calc(var(--u) * .08);line-height:1.2}
     .os-ic b{font:400 max(calc(6.5px * var(--fl)),calc(var(--u) * .09))/1.2 var(--ft);letter-spacing:.18em;text-transform:uppercase}
     .os-ic i{font:italic 400 max(calc(7px * var(--fl)),calc(var(--u) * .1))/1.2 var(--fs);color:var(--muted)}
-    @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){ .os-v,.os-col,.os-in{display:none} }
+    @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){ .os-v,.os-col,.os-in{display:none} }
   </style>`;
 
   const LEVELS = () => [

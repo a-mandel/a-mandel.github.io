@@ -55,7 +55,7 @@
   .seb-tab > span.hd{font:400 max(calc(7px * var(--fl)),calc(var(--u) * .095))/1.3 var(--ft);font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);background:none;padding-top:0}
   .seb-tab > span.gp{grid-column:1 / -1;font:400 var(--sb)/1.2 var(--ft);font-style:normal;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);padding-top:calc(var(--u) * .2);background:none}
   .seb-tab > span.cf{color:var(--accent)}
-  @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+  @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
     .seb-cap,.seb-bh{display:none}
     .seb-key{width:13px;height:13px;font-size:7px}
     .seb-blk{position:relative !important;left:auto !important;top:auto !important;width:auto !important;margin:0 0 30px}

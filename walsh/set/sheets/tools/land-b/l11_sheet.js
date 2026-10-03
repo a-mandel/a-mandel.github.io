@@ -42,7 +42,7 @@ const CSS = `
 .lb-lg{display:flex;gap:calc(var(--u) * .22);align-items:center;flex-wrap:wrap}
 .lb-lg span{display:flex;align-items:center;gap:.5em;font:400 max(calc(7.5px * var(--fl)),calc(var(--u) * .11))/1 var(--ft);letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
 .lb-lg svg{width:calc(var(--u) * .46);height:calc(var(--u) * .26);flex:none;overflow:visible}
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
   .sheet[data-id="L1.1"] .fhtml{position:relative;inset:auto}
   .lb{position:relative;inset:auto}
   .lb-b{position:relative !important;left:auto !important;top:auto !important;width:auto !important;margin:0 0 26px}

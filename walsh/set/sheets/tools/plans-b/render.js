@@ -16,7 +16,7 @@ const STYLE = `<style>
 .pb-notes li{counter-increment:pbn;position:relative;padding:calc(var(--u) * .14) 0 calc(var(--u) * .04) calc(var(--u) * .34);background:var(--swoop) no-repeat 0 0 / 100% calc(var(--u) * .1);
   font:italic 400 max(calc(9px * var(--fl)),calc(var(--u) * .145))/1.3 var(--fs);color:var(--ink)}
 .pb-notes li::before{content:counter(pbn);position:absolute;left:0;top:calc(var(--u) * .17);font:400 max(calc(7.5px * var(--fl)),calc(var(--u) * .11))/1 var(--ft);letter-spacing:.08em;color:var(--accent)}
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
   .fhtml:has(.pbv){position:relative;inset:auto}
   .sheet:has(.pbv) .vfree{margin:0 0 22px}
   .sheet:has(.pbv) .vfree .note{display:block;margin:0 0 6px}

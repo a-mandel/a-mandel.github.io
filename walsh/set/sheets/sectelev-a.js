@@ -227,7 +227,7 @@
     .sea-n b{font:400 var(--l-b)/1.2 var(--ft);letter-spacing:.13em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
     .sea-n i{font:italic 400 var(--l-i)/1.18 var(--fs);color:var(--muted)}
     .sea-n em{font-style:italic;color:var(--ink)}
-    @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+    @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
       .sheet[data-id="A3.1"] .fhtml{position:relative;inset:auto}
       .sea-vt{transform:none;max-width:100%}
       .sea-vt .vt{white-space:normal;min-width:0}

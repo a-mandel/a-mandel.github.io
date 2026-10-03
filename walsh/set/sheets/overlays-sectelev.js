@@ -259,7 +259,7 @@
     .ose .oleg ol li::before{content:counter(m) ".";display:inline-block;width:1.1em;text-indent:0;font:400 max(calc(5.5px * var(--fl)),calc(var(--u) * .065))/1 var(--ft);color:var(--accent)}
     .ose .osm{display:none}
     .sheet[data-id^="A4."] .dv .dov path[stroke-dasharray="6 4"],.sheet[data-id^="A4."] .dv .lbl.lim{display:none}
-    @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+    @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
       .fover:has(> .ose){position:relative;inset:auto;margin:0 0 20px}
       .ose{position:relative;inset:auto}
       .ose .osd{display:none}

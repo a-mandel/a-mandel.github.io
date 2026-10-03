@@ -52,7 +52,7 @@ const CA_P = {"arrival":{"p":{"tip":[0.5253,0.3487],"tipGrade":[0.5253,0.6237],"
     .ca-leg{position:absolute;right:0;top:calc(100% + var(--u) * .3);display:flex;gap:calc(var(--u) * .26);align-items:center;white-space:nowrap}
     .ca-leg span{display:flex;align-items:center;gap:calc(var(--u) * .08);font:400 max(calc(7px * var(--fl)),calc(var(--u) * .1))/1 var(--ft);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
     .ca-leg i{display:block;width:max(calc(8px * var(--fl)),calc(var(--u) * .15));height:max(calc(8px * var(--fl)),calc(var(--u) * .15));border-radius:50%;border:1px solid rgba(27,26,24,.35)}
-    @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+    @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
       .fhtml:has(> .ca-v){position:relative;inset:auto}
       .ca-v{max-height:none !important;margin-bottom:96px !important}
       .ca-v .lbl.dat{display:none}

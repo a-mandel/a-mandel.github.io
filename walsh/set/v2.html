@@ -92,7 +92,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .darr:hover,.darr:focus-visible{opacity:.3;transform:translateY(-5px)}
 .darr.off{opacity:0;pointer-events:none}
 .darr[hidden]{display:none}
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){.etear,.darr{display:none !important}}
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){.etear,.darr{display:none !important}}
 @media print{.turnfx,.darr,.etear,.tex::after{display:none !important}}
 /* the frayed corner (André 9/30): torn deckle along both edges near the top right corner, loose fibers, an aged tone
    at the tear. Static; the flap in the breeze (.curl) draws the same outline as it lifts. */
@@ -448,7 +448,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .drawer .dp .lab{margin:14px 0 2px}
 
 /* mobile: drawing fills the screen, title block becomes a bottom strip */
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
   :root{--sh:78px;--cs:2.4}
   #stage{left:0 !important;top:0 !important;width:100vw;height:calc(100dvh - var(--sh) - env(safe-area-inset-bottom,0px));perspective:1400px;perspective-origin:0 50%}
   .sheet{transform-origin:0 50%}
@@ -507,6 +507,14 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
   .drawer .dh h2{font-size:16px}
   .drawer .dr{min-height:44px}
 }
+
+/* pocket: a phone held sideways, the sheet fills the screen at true scale, nothing over the paper (André 10/2/26) */
+#vprobe{position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.pocket .ctrl,.pocket .thumb,.pocket .caret{display:none !important}
+.pocket .darr{opacity:.34}
+.pocket .darr.off{opacity:0}
+.pocket #desk{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.pocket.zoomed #desk{touch-action:none}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important}
@@ -645,24 +653,24 @@ body:has(#drawer.show) .waxplay{display:none}
 <script src="draw/drawings.js?v=261001"></script>
 <script>window.LIVING_SHEETS = []; window.LIVING_OVERLAYS = [];</script>
 <script src="draw/shared.js"></script>
-<script src="sheets/cover-a.js"></script>
-<script src="sheets/cover-b.js?v=261001"></script>
-<script src="sheets/reg-a.js"></script>
-<script src="sheets/reg-b.js"></script>
-<script src="sheets/plans-a.js"></script>
-<script src="sheets/plans-b.js"></script>
-<script src="sheets/sectelev-a.js"></script>
-<script src="sheets/sectelev-b.js"></script>
-<script src="sheets/land-a.js"></script>
-<script src="sheets/land-b.js"></script>
-<script src="sheets/sched-a.js"></script>
-<script src="sheets/sched-b.js"></script>
-<script src="sheets/height.js"></script>
-<script src="sheets/overlays-rooms.js?v=261001b"></script>
-<script src="sheets/overlays-plans.js?v=261001"></script>
-<script src="sheets/overlays-sectelev.js"></script>
-<script src="sheets/overlays-site.js"></script>
-<script src="sheets/overlays-style.js"></script>
+<script src="sheets/cover-a.js?v=261002"></script>
+<script src="sheets/cover-b.js?v=261002"></script>
+<script src="sheets/reg-a.js?v=261002"></script>
+<script src="sheets/reg-b.js?v=261002"></script>
+<script src="sheets/plans-a.js?v=261002"></script>
+<script src="sheets/plans-b.js?v=261002"></script>
+<script src="sheets/sectelev-a.js?v=261002"></script>
+<script src="sheets/sectelev-b.js?v=261002"></script>
+<script src="sheets/land-a.js?v=261002"></script>
+<script src="sheets/land-b.js?v=261002"></script>
+<script src="sheets/sched-a.js?v=261002"></script>
+<script src="sheets/sched-b.js?v=261002"></script>
+<script src="sheets/height.js?v=261002"></script>
+<script src="sheets/overlays-rooms.js?v=261002"></script>
+<script src="sheets/overlays-plans.js?v=261002"></script>
+<script src="sheets/overlays-sectelev.js?v=261002"></script>
+<script src="sheets/overlays-site.js?v=261002"></script>
+<script src="sheets/overlays-style.js?v=261002"></script>
 
 <script>
 /* ================================================================
@@ -803,7 +811,8 @@ const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const U = n => `calc(var(--u) * ${+n.toFixed(4)})`;
 const RM = matchMedia('(prefers-reduced-motion: reduce)');
-const MQ = matchMedia('screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px)');
+const MQ = matchMedia('screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px)');
+const LAND = matchMedia('screen and (orientation:landscape) and (max-height:540px) and (pointer:coarse)');   // a phone held sideways
 /* team sheets (9/30): each crew registers sheets in sheets/<team>.js with LIVING_SHEETS.push({ id, group, title, ..., html(ctx) });
    a sheet with an existing id replaces it, new ids slot in by group, then by sheet number */
 (function mergeTeamSheets() {
@@ -1411,11 +1420,28 @@ $('#smark').src = SET.marks.mark;
 })();
 
 /* ================================================================ layout */
-let mob = MQ.matches, u = 46;
+/* pocket (André 10/2/26): a phone held sideways shows the whole sheet edge to edge, type at true scale with the
+   drawing (no screen floors), no control pill over the paper; tap looks closer, swipe or the side arrows turn */
+let mob = MQ.matches, u = 46, pocket = false, VW = innerWidth, VH = innerHeight, lastKey = '';
 const root = document.documentElement;
+const vprobe = document.createElement('div'); vprobe.id = 'vprobe'; document.body.appendChild(vprobe);
+// the real screen: visualViewport settles on rotation where innerWidth can still report the old orientation
+function viewport() {
+  const vv = window.visualViewport;
+  if (vv && vv.scale > 1.02) return null;                 // pinch zoomed in: leave the sheet where it is
+  return { W: Math.round(vv ? vv.width : root.clientWidth), H: Math.round(vv ? vv.height : root.clientHeight) };
+}
 function layout() {
+  const v = viewport(); if (!v) return;
+  const W = VW = v.W, H = VH = v.H;
   mob = MQ.matches;
-  const W = innerWidth, H = innerHeight;
+  pocket = !mob && LAND.matches;
+  const key = [W, H, mob, pocket].join();
+  if (key === lastKey) return;
+  lastKey = key;
+  document.body.classList.toggle('pocket', pocket);
+  if (pocket) root.style.setProperty('--fl', '0'); else root.style.removeProperty('--fl');
+  if (typeof ZM !== 'undefined' && ZM && ZM.on) setZoom(false);
   if (mob) {
     u = 14; root.style.setProperty('--u', u + 'px');
     stage.style.left = stage.style.top = '0px';
@@ -1423,15 +1449,23 @@ function layout() {
     pointerModes();
     return;
   }
-  const ctrlH = 50;
-  u = Math.max(8, Math.min((W - 28) / 36, (H - ctrlH - 14) / 24));
-  u = Math.floor(u * 100) / 100;
-  root.style.setProperty('--u', u + 'px');
-  const sw = 36 * u, shh = 24 * u;
-  const sx = Math.round((W - sw) / 2), sy = Math.round(Math.max(8, (H - ctrlH - shh) / 2));
+  let sx, sy;
+  if (pocket) {
+    const cs = getComputedStyle(vprobe), iL = parseFloat(cs.paddingLeft) || 0, iR = parseFloat(cs.paddingRight) || 0;
+    u = Math.floor(Math.min((W - iL - iR) / 36, H / 24) * 100) / 100;
+    root.style.setProperty('--u', u + 'px');
+    sx = Math.round(iL + (W - iL - iR - 36 * u) / 2); sy = Math.round((H - 24 * u) / 2);
+  } else {
+    const ctrlH = 50;
+    u = Math.max(8, Math.min((W - 28) / 36, (H - ctrlH - 14) / 24));
+    u = Math.floor(u * 100) / 100;
+    root.style.setProperty('--u', u + 'px');
+    const sw = 36 * u, shh = 24 * u;
+    sx = Math.round((W - sw) / 2); sy = Math.round(Math.max(8, (H - ctrlH - shh) / 2));
+    const below = H - (sy + shh);
+    $('#ctrl').style.bottom = Math.max(6, Math.round((below - 34) / 2)) + 'px';
+  }
   stage.style.left = sx + 'px'; stage.style.top = sy + 'px';
-  const below = H - (sy + shh);
-  $('#ctrl').style.bottom = Math.max(6, Math.round((below - 34) / 2)) + 'px';
   hairlines();
   els.forEach(fitTitleBlock);
   pointerModes();
@@ -1448,12 +1482,23 @@ function hairlines(scope) {
 function fitTitleBlock(el) {
   const gs = [...el.querySelectorAll('.tb .tbc')]; if (!gs.length) return;
   el.style.removeProperty('--fl');
+  if (pocket) return;                                       // true scale already fits, like the print
   let fl = 1;
   const over = () => gs.some(g => g.scrollHeight > g.clientHeight + 1);
   while (over() && fl > .5) { fl -= .05; el.style.setProperty('--fl', fl.toFixed(2)); }
 }
-addEventListener('resize', layout);
-MQ.addEventListener ? MQ.addEventListener('change', layout) : MQ.addListener(layout);
+// a rotation reports its size in stages on iOS: lay out now, next frame, and again as it settles
+let settleT = [];
+function relayout() {
+  settleT.forEach(clearTimeout);
+  layout();
+  requestAnimationFrame(layout);
+  settleT = [120, 320, 700].map(ms => setTimeout(() => { layout(); deskArrows(); }, ms));
+}
+addEventListener('resize', relayout);
+addEventListener('orientationchange', relayout);
+window.visualViewport && visualViewport.addEventListener('resize', relayout);
+[MQ, LAND].forEach(q => q.addEventListener ? q.addEventListener('change', relayout) : q.addListener(relayout));
 layout();
 
 /* ================================================================ split flap */
@@ -1783,6 +1828,7 @@ let sw = null;
 addEventListener('touchstart', e => { sw = e.touches.length === 1 && !inModel(e.target) ? { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() } : null; }, { passive: true });
 addEventListener('touchend', e => {
   if (!sw) return;
+  if (ZM && ZM.on) { sw = null; return; }                  // zoomed in: a drag pans the sheet, it never turns it
   const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y;
   if (Math.abs(dx) > SWIPE.touch && Math.abs(dx) > 1.6 * Math.abs(dy) && Date.now() - sw.t < 700 && !blocked()) go(cur + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
   sw = null;
@@ -1822,8 +1868,8 @@ function pointerModes() {
   if (!FINE || !ZM) return;       // layout runs before this block on first load
   const on = FINE.matches && !mob;
   document.body.classList.toggle('hovernotes', on);
-  document.body.classList.toggle('zoomable', on);
-  if (!on && ZM.on) setZoom(false);
+  document.body.classList.toggle('zoomable', on || pocket);   // pocket: a tap looks closer, a drag pans
+  if (!on && !pocket && ZM.on) setZoom(false);
 }
 FINE.addEventListener && FINE.addEventListener('change', pointerModes);
 // notes: reach the dot and the note draws in; leave and it lets go after a breath
@@ -1848,14 +1894,15 @@ var ZM = { on: false, s: 2, tx: 0, ty: 0, drag: null };
 const noZoom = el => !!(el && el.closest && el.closest('button,a,input,select,textarea,label,.model,iframe,[data-go],[data-panel],[data-step],.nhit,.ng.on .note,.rhit,.rmx .hn.on,.drawer,.ctrl,.darr,.si-t,.thumb'));
 function applyZoom() {
   const sw = 36 * u * ZM.s, shh = 24 * u * ZM.s, L = parseFloat(stage.style.left) || 0, T = parseFloat(stage.style.top) || 0, m = 48;
-  ZM.tx = Math.min(-L + m, Math.max(innerWidth - L - sw - m, ZM.tx));
-  ZM.ty = Math.min(-T + m, Math.max(innerHeight - T - shh - m, ZM.ty));
+  ZM.tx = Math.min(-L + m, Math.max(VW - L - sw - m, ZM.tx));
+  ZM.ty = Math.min(-T + m, Math.max(VH - T - shh - m, ZM.ty));
   stage.style.transformOrigin = '0 0';
   stage.style.transform = `translate(${ZM.tx.toFixed(1)}px,${ZM.ty.toFixed(1)}px) scale(${ZM.s})`;
 }
 function setZoom(on, cx, cy) {
   stage.classList.add('zt'); clearTimeout(setZoom._t);
   if (on) {
+    ZM.s = pocket ? 3 : 2;                                   // a phone sheet is small: look closer
     const L = parseFloat(stage.style.left) || 0, T = parseFloat(stage.style.top) || 0;
     const px = cx - L, py = cy - T;
     ZM.tx = px - ZM.s * px; ZM.ty = py - ZM.s * py;          // the point under the pointer stays put
@@ -2339,7 +2386,8 @@ const darr = ['prev', 'next'].map((side, k) => {
   return b;
 });
 function deskArrows() {
-  const sr = stage.getBoundingClientRect(), gap = Math.min(sr.left, innerWidth - sr.right);
+  if (ZM && ZM.on) return;                                   // zoomed: the stage box is scaled, keep the arrows put
+  const sr = stage.getBoundingClientRect(), gap = Math.min(sr.left, VW - sr.right);
   darr.forEach((b, k) => {
     if (mob || gap < DARR.min) { b.hidden = true; return; }
     b.hidden = false;

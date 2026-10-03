@@ -146,7 +146,7 @@
 .rmx .hn{position:absolute;white-space:pre;transform:translate(0,-50%);font:400 var(--hn)/1.12 'Nothing You Could Do','EB Garamond',cursive;color:var(--ink);background:rgba(255,255,255,.82);border-radius:4px;padding:0 4px;box-shadow:0 0 5px 2px rgba(255,255,255,.7)}
 .rmx .hn.r{transform:translate(-100%,-50%)}
 .rmx .hn.st{transform:none;color:var(--muted);background:none;box-shadow:none}
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){.rmx{display:none}}
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){.rmx{display:none}}
 @media print{.rmx .hn{box-shadow:none}}
 .rmx .rhit{display:none}
 @media screen and (hover:hover) and (pointer:fine){

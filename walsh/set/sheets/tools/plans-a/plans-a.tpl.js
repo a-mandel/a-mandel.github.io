@@ -21,7 +21,7 @@
 .pa-leg .sw{flex:none;width:calc(var(--u) * .56);height:calc(var(--u) * .28);margin-right:calc(var(--u) * .16)}
 .pa-leg .v{margin-left:auto;font-size:max(calc(9px * var(--fl)),calc(var(--u) * .15)) !important}
 .pa-pr .dsvg{overflow:visible}
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
   .pa-leg .sw{width:34px;height:17px}
   .pa .dnorth{display:none}
   .pa .view{margin-bottom:18px}

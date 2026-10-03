@@ -6,7 +6,7 @@
   const IMG = 'sheets/assets/cover-b/';
   const CSS = '<style>.cb-still .note{white-space:pre}.cb-still .dimg{pointer-events:none}.cb-key .kp svg{width:100%;height:100%;overflow:visible}' +
     /* phone: the field scrolls as one column, so these views join the flow under the header */
-    '@media screen and (max-width:760px),screen and (max-aspect-ratio:1/1) and (max-width:1100px){.fhtml:has(.cb-still){position:relative;inset:auto}.dv.cb-still{margin-bottom:66px}.cb-still .note{white-space:pre;font-size:13px}.cb-key{margin-top:-20px}}</style>';
+    '@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){.fhtml:has(.cb-still){position:relative;inset:auto}.dv.cb-still{margin-bottom:66px}.cb-still .note{white-space:pre;font-size:13px}.cb-key{margin-top:-20px}}</style>';
   const V = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
   const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
   const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];

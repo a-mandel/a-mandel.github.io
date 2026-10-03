@@ -263,7 +263,7 @@
 .sheet[data-id="A2.0"] .dsvg path[d="M34.92 -18.5 L36.72 -20.3"],.sheet[data-id="A2.0"] .dsvg path[d="M35.82 -16.06 V-20.6"]{display:none}
 .sheet[data-id="A2.4"] .pbv .lbl.room,.sheet[data-id="A2.4"] .pbv > span.lbl:nth-of-type(3),.sheet[data-id="A2.4"] .pbv > span.lbl:nth-of-type(10){display:none}
 .sheet[data-id="A2.5"] .pbv > span.lbl:first-of-type{display:none}
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
   .opx{display:none}
 }
 @media print{.opx .tr,.opx .dx span,.opx .rm{text-shadow:none}}

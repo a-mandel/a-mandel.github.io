@@ -42,7 +42,7 @@
     'Snow and water: every sill flashed into a drained pan; low sills only under the deep eaves.'
   ];
 
-  const MQ = 'screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px)';
+  const MQ = 'screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px)';
   const CSS = `<style>
 .sa{--sa-k:max(calc(7.5px * var(--fl)),calc(var(--u) * .112));--sa-v:max(calc(9.5px * var(--fl)),calc(var(--u) * .165));--sa-n:max(calc(9px * var(--fl)),calc(var(--u) * .15))}
 .sa .sa-kp svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}

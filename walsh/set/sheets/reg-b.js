@@ -79,7 +79,7 @@
 .rgn .nd{fill:var(--accent)}
 .rgn .nl{stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
 .rgn span{position:absolute;transform:translate(-50%,-50%);font:400 max(calc(8px * var(--fl)),calc(var(--u) * .14))/1 var(--ft);letter-spacing:.06em}
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
   .sheet[data-id="A0.2"] .fhtml,.sheet[data-id="A0.3"] .fhtml,.sheet[data-id="A6.1"] .fhtml{position:relative;inset:auto}
   .rgx{position:relative;inset:auto;--rg-b:14px;--rg-h:12px;--rg-k:10px;--rg-v:15px;--rg-lb:8.5px;--rg-li:11px}
   .rgc,.rgd{position:relative !important;left:auto !important;top:auto !important;width:auto !important;margin:0 0 30px}

@@ -56,7 +56,7 @@
   .ht-tab .t1{font-style:italic}
   .ht-dat{position:absolute;right:calc(100% + var(--u)*.06);transform:translateY(-50%);font:400 max(calc(7px * var(--fl)),calc(var(--u)*.095))/1 var(--ft);letter-spacing:.06em;color:var(--muted);white-space:nowrap}
   .ht-datl{position:absolute;right:100%;width:calc(var(--u)*.08);border-top:1px solid rgba(27,26,24,.45)}
-  @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+  @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
     .fhtml:has(> .ht-root){position:relative;inset:auto}
     .ht-root{position:relative;padding-bottom:56px}
     .ht-root .ht-b{position:relative !important;left:auto !important;top:auto !important;width:auto !important;height:auto !important;margin:0 0 26px}

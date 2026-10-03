@@ -68,7 +68,7 @@
   .ra-ol{margin:calc(var(--u)*.1) 0 0;padding:0;list-style:none;counter-reset:ra}
   .ra-ol li{counter-increment:ra;display:flex;gap:.6em;font:400 max(calc(9.5px * var(--fl)),calc(var(--u)*.155))/1.32 var(--fs)}
   .ra-ol li::before{content:counter(ra);flex:none;width:1.1em;font:400 max(calc(8px * var(--fl)),calc(var(--u)*.12))/1.6 var(--ft);color:var(--accent)}
-  @media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+  @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
     .fhtml:has(> .ra-root){position:relative;inset:auto}
     .ra-root{position:relative}
     .ra-root .ra-blk,.ra-root .ra-st{position:relative !important;left:auto !important;top:auto !important;width:auto !important;height:auto !important;margin:0 0 22px}

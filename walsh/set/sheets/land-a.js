@@ -34,7 +34,7 @@
 .la-nt{margin:calc(var(--u)*.04) 0 0;padding:0;list-style:none;counter-reset:n}
 .la-nt li{position:relative;padding:calc(var(--u)*.05) 0 calc(var(--u)*.02) calc(var(--u)*.22);font:italic 400 max(calc(8.5px * var(--fl)),calc(var(--u) * .125))/1.25 var(--fs);color:var(--ink)}
 .la-nt li::before{counter-increment:n;content:counter(n);position:absolute;left:0;top:calc(var(--u)*.06);font:400 max(calc(7px * var(--fl)),calc(var(--u) * .1))/1.2 var(--ft);color:var(--accent)}
-@media screen and (max-width:760px), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
+@media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){
   .fhtml:has(> .la-root){position:relative;inset:auto}
   .la-root .la-strip{position:relative;left:auto !important;top:auto !important;width:auto !important;margin:0 0 30px}
   .la-root .la-pr{grid-template-columns:30px 1fr 46px 26px 20px;column-gap:8px;padding:6px 0 2px;background-size:100% 6px}
