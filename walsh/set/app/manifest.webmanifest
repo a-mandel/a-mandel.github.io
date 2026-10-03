@@ -1,0 +1,18 @@
+{
+  "name": "Walsh Residence · Living Set",
+  "short_name": "Walsh",
+  "description": "The Walsh Residence living plan set, Lahontan Lot 235, Truckee. ANDRÉ MANDEL.",
+  "id": "../v2.html",
+  "start_url": "../v2.html",
+  "scope": "../",
+  "display": "standalone",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#ebe9e3",
+  "theme_color": "#ebe9e3",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

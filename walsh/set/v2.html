@@ -8,6 +8,12 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#ebe9e3">
 <link rel="icon" href="../favicon-32.png">
+<link rel="manifest" href="app/manifest.webmanifest">
+<link rel="apple-touch-icon" href="app/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Walsh">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
@@ -513,8 +519,41 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .pocket .ctrl,.pocket .thumb,.pocket .caret{display:none !important}
 .pocket .darr{opacity:.34}
 .pocket .darr.off{opacity:0}
-.pocket #desk{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.pocket.zoomed #desk{touch-action:none}
+.pocket #desk{touch-action:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.pocket .waxplay,.pocket .gpills{transition:opacity .3s ease}
+/* pocket: sheets not in hand skip layout, so a zoom lays out one sheet, not thirty four */
+@media screen{.pocket .sheet:not(.on){content-visibility:hidden}}
+@media print{.sheet{content-visibility:visible !important}}
+.pocket.zoomed .waxplay,.pocket.pinching .waxplay,.pocket.zoomed .gpills,.pocket.pinching .gpills{opacity:0 !important;pointer-events:none}
+/* home screen card (André 10/3/26) */
+.askhome{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:rgba(235,233,227,.55);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .35s ease}
+.askhome.show{opacity:1;pointer-events:auto}
+.ah-card{position:relative;width:min(330px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:var(--paper);border-radius:14px;padding:20px 22px 12px;box-shadow:0 1px 2px rgba(27,26,24,.1),0 18px 50px rgba(27,26,24,.18);transform:translateY(10px);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.askhome.show .ah-card{transform:none}
+.ah-mark{float:right;width:46px;height:46px;border-radius:11px;box-shadow:0 0 0 1px var(--rule);margin:-4px -6px 8px 12px}
+.ah-k{font:400 11px/1.35 var(--ft);letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.ah-l{margin:8px 0 12px;font:italic 400 17px/1.3 var(--fs);color:var(--ink)}
+.ah-steps{clear:both;list-style:none;margin:0 0 10px;padding:10px 0 0;border-top:1px solid var(--rule);counter-reset:ah}
+.ah-steps li{counter-increment:ah;display:flex;align-items:center;gap:8px;font:400 16px/1.35 var(--fs);padding:3px 0}
+.ah-steps li::before{content:counter(ah);flex:none;width:14px;font:400 10px/1 var(--ft);letter-spacing:.06em;color:var(--accent)}
+.ah-ic{display:inline-grid;place-items:center;width:26px;height:26px;border:1px solid var(--rule);border-radius:7px;background:#fff;flex:none}
+.ah-ic svg{width:15px;height:15px}
+.ah-go{display:block;width:100%;margin:2px 0 10px;padding:14px 16px;border-radius:999px;background:var(--ink);color:var(--paper);font:400 11px/1 var(--ft);letter-spacing:.18em;text-transform:uppercase}
+.ah-turn{margin:0 0 4px;font:400 9.5px/1.4 var(--ft);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.ah-no{display:block;margin:2px auto 0;padding:10px 14px;font:italic 400 15px/1 var(--fs);color:var(--muted)}
+@media (orientation:landscape){.ah-turn{display:none}}
+@media print{.askhome{display:none !important}}
+/* scheme pills in the left margin */
+.gpills{position:fixed;z-index:16;top:50%;transform:translateY(-50%);display:none;flex-direction:column;align-items:stretch;gap:6px}
+.gpills.show{display:flex}
+.gpills button{font:400 9px/1.25 var(--ft);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:rgba(246,243,236,.94);border:1px solid rgba(27,26,24,.5);border-radius:12px;padding:8px 3px;min-height:36px;white-space:normal;text-align:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.gpills button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.gpills button.sub{font-size:8.5px;letter-spacing:.08em;min-height:30px;padding:6px 2px;border-radius:999px}
+.gpills button.fa{min-height:34px;padding:0;border-radius:999px}
+.gpills button.fa svg{width:16px;height:16px;display:block;margin:0 auto}
+.gpills .gap{height:4px}
+/* two line labels keep their two lines at any size (Safari let them collapse onto each other at tiny sizes) */
+.lbl.room b,.lbl.room i,.lbl.tag b,.lbl.tag i,.lbl.spot b,.lbl.spot i{min-height:1.2em}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important}
@@ -1423,6 +1462,8 @@ $('#smark').src = SET.marks.mark;
 /* pocket (André 10/2/26): a phone held sideways shows the whole sheet edge to edge, type at true scale with the
    drawing (no screen floors), no control pill over the paper; tap looks closer, swipe or the side arrows turn */
 let mob = MQ.matches, u = 46, pocket = false, VW = innerWidth, VH = innerHeight, lastKey = '';
+// pocket zoom: fu, fx, fy the whole sheet fitted; z the zoom; ox, oy where the stage sits at that zoom
+var PZ = { z: 1, fu: 16, fx: 0, fy: 0, ox: 0, oy: 0, iL: 0 };
 const root = document.documentElement;
 const vprobe = document.createElement('div'); vprobe.id = 'vprobe'; document.body.appendChild(vprobe);
 // the real screen: visualViewport settles on rotation where innerWidth can still report the old orientation
@@ -1452,9 +1493,11 @@ function layout() {
   let sx, sy;
   if (pocket) {
     const cs = getComputedStyle(vprobe), iL = parseFloat(cs.paddingLeft) || 0, iR = parseFloat(cs.paddingRight) || 0;
-    u = Math.floor(Math.min((W - iL - iR) / 36, H / 24) * 100) / 100;
+    u = PZ.fu = Math.floor(Math.min((W - iL - iR) / 36, H / 24) * 100) / 100;
     root.style.setProperty('--u', u + 'px');
-    sx = Math.round(iL + (W - iL - iR - 36 * u) / 2); sy = Math.round((H - 24 * u) / 2);
+    sx = PZ.fx = PZ.ox = Math.round(iL + (W - iL - iR - 36 * u) / 2); sy = PZ.fy = PZ.oy = Math.round((H - 24 * u) / 2);
+    PZ.iL = iL; PZ.z = 1;                                    // a turn of the phone starts from the whole sheet
+    stage.style.transform = ''; document.body.classList.remove('zoomed');
   } else {
     const ctrlH = 50;
     u = Math.max(8, Math.min((W - 28) / 36, (H - ctrlH - 14) / 24));
@@ -1472,11 +1515,12 @@ function layout() {
 }
 // leaders are drawn in view inches; keep them one screen pixel wide at any scale
 function hairlines(scope) {
-  (scope || stage).querySelectorAll('.ld').forEach(sv => {
+  const roots = scope ? [scope] : pocket ? [...stage.querySelectorAll('.sheet.on')] : [stage];   // pocket: only the sheet in hand is laid out
+  roots.forEach(el => el.querySelectorAll('.ld').forEach(sv => {
     const vb = sv.viewBox.baseVal, r = sv.getBoundingClientRect();
     if (!vb || !vb.width || !r.width) return;
     sv.querySelector('path').style.strokeWidth = (1.05 * vb.width / r.width).toFixed(4) + 'px';
-  });
+  }));
 }
 // too tall for this window: ease the px floors down until the title block fits
 function fitTitleBlock(el) {
@@ -1557,6 +1601,7 @@ function reelBridge(sheet, f) {
   const rb = sheet.querySelector('.rb'), shot = rb.querySelector('.shot'), line = rb.querySelector('.shotline'), data = rb.querySelector('.rdata'), ticks = rb.querySelector('.ticks');
   let last = '', lastLive = null;
   const tick = () => {
+    gutterPills();
     const app = q('app');
     if (!app) return;
     const plans = doc.querySelector('.plansheet');
@@ -1627,12 +1672,15 @@ function go(i, dir) {
   i = Math.max(0, Math.min(N - 1, i));
   if (i === cur) return;
   if (ZM && ZM.on) setZoom(false);
+  if (pocket && pzOn()) pzSet(1, 0, 0, false);
   if (anim) { anim.forEach(a => a.finish()); anim = null; }
   hideThumb();
   const prev = cur, next = els[i], old = prev >= 0 ? els[prev] : null;
   dir = dir || (i > prev ? 1 : -1);
   cur = i;
+  gutterPills();
   loadModel(next);
+  if (pocket) requestAnimationFrame(() => hairlines(next));
   updateChrome(i, prev);
   const sn = next.querySelector('.tb .sn');
   deskArrows();
@@ -1782,7 +1830,7 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.target.closest && e.target.closest('input,textarea')) return;
   const k = e.key;
-  if (k === 'Escape') { closeDrawer(); if (ZM && ZM.on) setZoom(false); return; }
+  if (k === 'Escape') { closeDrawer(); if (ZM && ZM.on) setZoom(false); if (pocket && pzOn()) pzSet(1, 0, 0, true); return; }
   if ((k === 'n' || k === 'N') && !e.metaKey && !e.ctrlKey) { document.body.classList.toggle('allnotes'); return; }
   if ($('#drawer').classList.contains('show')) return;
   if (k === 'Enter' && e.target.matches && e.target.matches('.si-t.link')) { go(idxOf(e.target.dataset.go)); return; }
@@ -1823,12 +1871,12 @@ $('#print').onclick = () => window.print();
    (the trackpad's momentum tail included). Nothing fires over the live model, which uses drags of its own. */
 const SWIPE = { wheel: 70, quiet: 420, cooldown: 1000, touch: 50 };
 const inModel = el => !!(el && el.closest && el.closest('.model'));
-const blocked = () => $('#drawer').classList.contains('show');
+const blocked = () => $('#drawer').classList.contains('show') || document.body.classList.contains('asking');
 let sw = null;
 addEventListener('touchstart', e => { sw = e.touches.length === 1 && !inModel(e.target) ? { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() } : null; }, { passive: true });
 addEventListener('touchend', e => {
   if (!sw) return;
-  if (ZM && ZM.on) { sw = null; return; }                  // zoomed in: a drag pans the sheet, it never turns it
+  if ((ZM && ZM.on) || pzOn()) { sw = null; return; }      // zoomed in: a drag pans the sheet, it never turns it
   const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y;
   if (Math.abs(dx) > SWIPE.touch && Math.abs(dx) > 1.6 * Math.abs(dy) && Date.now() - sw.t < 700 && !blocked()) go(cur + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
   sw = null;
@@ -1868,8 +1916,8 @@ function pointerModes() {
   if (!FINE || !ZM) return;       // layout runs before this block on first load
   const on = FINE.matches && !mob;
   document.body.classList.toggle('hovernotes', on);
-  document.body.classList.toggle('zoomable', on || pocket);   // pocket: a tap looks closer, a drag pans
-  if (!on && !pocket && ZM.on) setZoom(false);
+  document.body.classList.toggle('zoomable', on);             // pocket zooms by touch, below
+  if (!on && ZM.on) setZoom(false);
 }
 FINE.addEventListener && FINE.addEventListener('change', pointerModes);
 // notes: reach the dot and the note draws in; leave and it lets go after a breath
@@ -1902,7 +1950,6 @@ function applyZoom() {
 function setZoom(on, cx, cy) {
   stage.classList.add('zt'); clearTimeout(setZoom._t);
   if (on) {
-    ZM.s = pocket ? 3 : 2;                                   // a phone sheet is small: look closer
     const L = parseFloat(stage.style.left) || 0, T = parseFloat(stage.style.top) || 0;
     const px = cx - L, py = cy - T;
     ZM.tx = px - ZM.s * px; ZM.ty = py - ZM.s * py;          // the point under the pointer stays put
@@ -1930,9 +1977,197 @@ addEventListener('pointerup', e => {
   if (d.moved < 5) setZoom(!ZM.on, e.clientX, e.clientY);
 });
 addEventListener('pointercancel', () => { ZM.drag = null; document.body.classList.remove('panning'); });
+
+/* the scheme pills (André 10/3/26): on a phone held sideways the cover model's concept buttons leave the drawing and
+   stand small in the left margin, beside the binding; they press the model's own buttons, so nothing else changes */
+const gp = document.createElement('nav'); gp.className = 'gpills'; gp.id = 'gpills'; gp.setAttribute('aria-label', 'Roof concept');
+document.body.appendChild(gp);
+let gpSig = '', gpDoc = null;
+function gutterPills() {
+  const f = els[0] && els[0].querySelector('.model iframe');
+  let d = null; try { d = f && f.classList.contains('ready') ? f.contentDocument : null; } catch (e) {}
+  const app = d && d.getElementById('app');
+  const gw = PZ.fx - PZ.iL;
+  const on = !!(app && pocket && cur === 0 && app.dataset.mode === 'model' && gw >= 52 && !blocked());
+  if (d) d.documentElement.classList.toggle('in-pocket', on);
+  gp.classList.toggle('show', on);
+  if (!on) return;
+  gp.style.left = (PZ.iL + 5) + 'px'; gp.style.width = Math.min(84, gw - 10) + 'px';
+  const pitch = d.getElementById('pitchSeg');
+  const btns = [...d.querySelectorAll('#schemeSeg button')].map(b => ({ b, g: b.id === 'toFA' ? 'fa' : 'scheme' }))
+    .concat(pitch && !pitch.hidden ? [...pitch.querySelectorAll('button')].map(b => ({ b, g: 'sub' })) : [])
+    .filter(x => !x.b.hidden && getComputedStyle(x.b).display !== 'none')
+    .sort((a, b) => ['scheme', 'sub', 'fa'].indexOf(a.g) - ['scheme', 'sub', 'fa'].indexOf(b.g));
+  const sig = btns.map(x => x.g + (x.b.textContent || '').trim() + x.b.getAttribute('aria-pressed')).join('|');
+  if (sig === gpSig && gpDoc === d) return;
+  gpSig = sig; gpDoc = d;
+  gp.innerHTML = '';
+  let last = null;
+  btns.forEach(({ b, g }) => {
+    if (last && g !== last) gp.appendChild(Object.assign(document.createElement('span'), { className: 'gap' }));
+    last = g;
+    const n = document.createElement('button');
+    n.type = 'button'; n.className = g;
+    const p = b.getAttribute('aria-pressed'); if (p) n.setAttribute('aria-pressed', p);
+    if (g === 'fa') { const sv = b.querySelector('svg'); n.innerHTML = sv ? sv.outerHTML : 'FA'; n.setAttribute('aria-label', b.getAttribute('aria-label') || 'FA package'); }
+    else n.textContent = (b.textContent || '').trim();
+    n.addEventListener('click', () => { b.click(); setTimeout(gutterPills, 40); });
+    gp.appendChild(n);
+  });
+}
+
+/* pocket zoom (André 10/3/26): a dynamic set reads at any size. On a phone held sideways, pinch from the whole sheet
+   down to print scale, one finger pans, a tap looks closer and a tap steps back out. The gesture rides a transform so
+   it stays smooth; at rest the sheet lays out again at the new size, so every label, dimension and note draws sharp. */
+const PZ_TAP = 3;
+const pzMax = () => Math.max(PZ_TAP + 1, 98 / PZ.fu);              // u 98: the 24 x 36 at print size
+const pzOn = () => PZ.z > 1.001;
+function pzClamp(z, ox, oy) {
+  const w = 36 * PZ.fu * z, h = 24 * PZ.fu * z, m = 14;
+  const fit = (o, size, view) => size + 2 * m <= view ? (view - size) / 2 : Math.min(m, Math.max(view - size - m, o));
+  return [fit(ox, w, VW), fit(oy, h, VH)];
+}
+let pzDone = null;
+function pzSet(z, ox, oy, glide) {
+  if (pzDone) pzDone();
+  z = Math.min(pzMax(), Math.max(1, z));
+  if (z < 1.06) { z = 1; ox = PZ.fx; oy = PZ.fy; } else [ox, oy] = pzClamp(z, ox, oy);
+  ox = Math.round(ox); oy = Math.round(oy);
+  const commit = () => {
+    pzDone = null; clearTimeout(pzSet._t);
+    PZ.z = z; PZ.ox = ox; PZ.oy = oy;
+    u = Math.round(PZ.fu * z * 100) / 100;
+    root.style.setProperty('--u', u + 'px');
+    stage.style.transition = ''; stage.style.transform = ''; stage.style.willChange = '';
+    stage.style.left = ox + 'px'; stage.style.top = oy + 'px';
+    document.body.classList.toggle('zoomed', z > 1);
+    hairlines(); deskArrows(); gutterPills();
+  };
+  const s = z / PZ.z, tx = ox - PZ.ox, ty = oy - PZ.oy, now = pzNow();
+  if (!glide || RM.matches || (Math.abs(now.s - s) < .002 && Math.abs(now.x - tx) < .6 && Math.abs(now.y - ty) < .6)) { commit(); return; }
+  // glide from the picture on screen to the target, then lay out sharp there
+  pzDone = commit;
+  stage.style.transformOrigin = '0 0'; stage.style.willChange = 'transform';
+  stage.style.transform = `translate(${now.x}px,${now.y}px) scale(${now.s})`;
+  void stage.offsetWidth;
+  stage.style.transition = 'transform .34s cubic-bezier(.2,.7,.2,1)';
+  stage.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+  pzSet._t = setTimeout(commit, 360);
+}
+// the transform on screen right now, relative to the laid out zoom
+function pzNow() {
+  const m = /translate\(([-\d.]+)px,\s*([-\d.]+)px\)\s*scale\(([-\d.]+)\)/.exec(stage.style.transform || '');
+  return m ? { x: +m[1], y: +m[2], s: +m[3] } : { x: 0, y: 0, s: 1 };
+}
+function pzTap(cx, cy) {
+  if (pzOn()) { pzSet(1, 0, 0, true); return; }
+  const k = PZ_TAP / PZ.z;
+  pzSet(PZ_TAP, cx - k * (cx - PZ.ox), cy - k * (cy - PZ.oy), true);
+}
+const PG = { mode: null };
+const pzDist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+const pzMid = t => [(t[0].clientX + t[1].clientX) / 2, (t[0].clientY + t[1].clientY) / 2];
+$('#desk').addEventListener('touchstart', e => {
+  if (!pocket || blocked() || cur < 0 || inModel(e.target)) { PG.mode = null; return; }
+  const t = e.touches;
+  if (t.length >= 2) {
+    if (pzDone) pzDone();
+    e.preventDefault();
+    PG.mode = 'pinch'; PG.z0 = PZ.z; PG.o0 = [PZ.ox, PZ.oy]; PG.m0 = pzMid(t); PG.d0 = Math.max(20, pzDist(t)); PG.s = 1; PG.T = [0, 0];
+    stage.style.transition = ''; stage.style.transformOrigin = '0 0'; stage.style.willChange = 'transform';
+    document.body.classList.add('pinching');
+  } else if (t.length === 1 && PG.mode !== 'pinch') {
+    PG.mode = 'one'; PG.x = t[0].clientX; PG.y = t[0].clientY; PG.t = Date.now(); PG.moved = 0; PG.pan = false; PG.target = e.target;
+  }
+}, { passive: false });
+$('#desk').addEventListener('touchmove', e => {
+  if (!PG.mode) return;
+  const t = e.touches;
+  if (PG.mode === 'pinch' && t.length >= 2) {
+    e.preventDefault();
+    const zt = PG.z0 * pzDist(t) / PG.d0, lo = 0.8, hi = pzMax() * 1.25;   // a little give past either end
+    const s = Math.min(hi, Math.max(lo, zt)) / PG.z0, m = pzMid(t);
+    const T = [m[0] - PG.o0[0] - s * (PG.m0[0] - PG.o0[0]), m[1] - PG.o0[1] - s * (PG.m0[1] - PG.o0[1])];
+    PG.s = s; PG.T = T;
+    stage.style.transform = `translate(${T[0].toFixed(1)}px,${T[1].toFixed(1)}px) scale(${s.toFixed(4)})`;
+  } else if (PG.mode === 'one' && t.length === 1) {
+    const dx = t[0].clientX - PG.x, dy = t[0].clientY - PG.y;
+    PG.moved = Math.max(PG.moved, Math.hypot(dx, dy));
+    if (!pzOn()) return;                                     // at the whole sheet a drag is a swipe, it turns
+    e.preventDefault();
+    if (PG.moved < 5) return;
+    if (!PG.pan) { PG.pan = true; if (pzDone) pzDone(); stage.style.transition = ''; stage.style.transformOrigin = '0 0'; stage.style.willChange = 'transform'; document.body.classList.add('panning'); }
+    PG.dx = dx; PG.dy = dy;
+    stage.style.transform = `translate(${dx}px,${dy}px) scale(1)`;
+  }
+}, { passive: false });
+function pzEnd(e) {
+  if (!PG.mode) return;
+  if (PG.mode === 'pinch') {
+    if (e.touches.length) return;                             // wait for the last finger
+    document.body.classList.remove('pinching');
+    PG.mode = null;
+    pzSet(PG.z0 * PG.s, PG.o0[0] + PG.T[0], PG.o0[1] + PG.T[1], true);
+    return;
+  }
+  const g = PG; PG.mode = null; document.body.classList.remove('panning');
+  if (g.pan) { pzSet(PZ.z, PZ.ox + g.dx, PZ.oy + g.dy, true); return; }
+  if (e.type === 'touchend' && g.moved < 8 && Date.now() - g.t < 400 && !noZoom(g.target)) {
+    e.preventDefault();                                       // no ghost click after a zoom tap
+    const c = e.changedTouches[0];
+    pzTap(c.clientX, c.clientY);
+  }
+}
+$('#desk').addEventListener('touchend', pzEnd, { passive: false });
+$('#desk').addEventListener('touchcancel', pzEnd, { passive: false });
+// Safari's own pinch would zoom the page around the sheet: the sheet zooms itself instead
+document.addEventListener('gesturestart', e => { if (pocket) e.preventDefault(); });
+document.addEventListener('gesturechange', e => { if (pocket) e.preventDefault(); });
+
+/* home screen (André 10/3/26): on a phone the set wants to live on the home screen, opening full screen like an app
+   with no browser bars. A first visit gets a small card that shows how; opened from the home screen it never shows.
+   Android's browsers offer a one tap install when they can; everyone else gets the two steps for their phone. */
+(function homeScreen() {
+  const appMode = navigator.standalone === true || matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches;
+  root.classList.toggle('app', appMode);
+  const phone = matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) <= 900;
+  if (appMode || !phone) return;
+  let later = false; try { later = sessionStorage.getItem('walsh-home') === 'later'; } catch (e) {}
+  const ua = navigator.userAgent, ios = /iP(hone|ad|od)/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const inApp = /FBAN|FBAV|Instagram|Line\/|LinkedInApp|GSA\/|Snapchat|Twitter/i.test(ua);
+  const share = '<span class="ah-ic"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12.5V2.6M6.6 5.8 10 2.4l3.4 3.4M6.5 8.5H4.6v9h10.8v-9h-1.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+  const dots = '<span class="ah-ic"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="4.5" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="15.5" r="1.5"/></svg></span>';
+  let deferred = null;
+  const el = document.createElement('div');
+  el.className = 'askhome'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Add the set to your home screen');
+  document.body.appendChild(el);
+  function paint() {
+    let steps;
+    if (inApp) steps = ios ? '<li>Open this page in Safari</li><li>Tap ' + share + ' then Add to Home Screen</li>'
+                           : '<li>Open this page in Chrome</li><li>Tap ' + dots + ' then Add to home screen</li>';
+    else if (ios) steps = '<li>Tap ' + share + ' Share</li><li>Choose Add to Home Screen</li>';
+    else steps = deferred ? '' : '<li>Tap ' + dots + ' the browser menu</li><li>Choose Add to home screen or Install app</li>';
+    el.innerHTML = '<div class="ah-card"><img class="ah-mark" src="app/icon-180.png" alt="">'
+      + '<div class="ah-k">Keep the set in your pocket</div>'
+      + '<p class="ah-l">Add it to your home screen. It opens full screen, like an app, with no browser bars.</p>'
+      + (steps ? '<ol class="ah-steps">' + steps + '</ol>' : '')
+      + (deferred && !inApp ? '<button type="button" class="ah-go">Add to home screen</button>' : '')
+      + '<p class="ah-turn">Then turn the phone sideways to read the sheets</p>'
+      + '<button type="button" class="ah-no">Not now</button></div>';
+    const go = el.querySelector('.ah-go');
+    if (go) go.onclick = async () => { const p = deferred; deferred = null; try { p.prompt(); const r = await p.userChoice; if (r && r.outcome === 'accepted') close(); else paint(); } catch (e) { paint(); } };
+    el.querySelector('.ah-no').onclick = () => { try { sessionStorage.setItem('walsh-home', 'later'); } catch (e) {} close(); };
+  }
+  function open() { if (el.classList.contains('show') || later) return; paint(); el.classList.add('show'); document.body.classList.add('asking'); }
+  function close() { el.classList.remove('show'); document.body.classList.remove('asking'); setTimeout(gutterPills, 50); }
+  el.addEventListener('click', e => { if (e.target === el) el.querySelector('.ah-no').click(); });
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; if (el.classList.contains('show')) paint(); });
+  addEventListener('appinstalled', () => { later = true; close(); });
+  setTimeout(open, 1800);
+})();
 // the corner: under the pointer the flap curls over toward the logo, and settles back when it leaves
 addEventListener('pointermove', e => {
-  if (mob || cur < 0 || ZM.on) { breeze.hov = false; return; }
+  if (mob || pocket || cur < 0 || ZM.on) { breeze.hov = false; return; }
   const L = parseFloat(stage.style.left) || 0, T = parseFloat(stage.style.top) || 0, R = L + 36 * u;
   breeze.hov = e.clientX > R - 3.1 * u && e.clientX < R + 0.4 * u && e.clientY > T - 0.4 * u && e.clientY < T + 3.1 * u && !blocked();
   if (breeze.hov) startBreeze();
@@ -2387,6 +2622,7 @@ const darr = ['prev', 'next'].map((side, k) => {
 });
 function deskArrows() {
   if (ZM && ZM.on) return;                                   // zoomed: the stage box is scaled, keep the arrows put
+  if (pocket && pzOn()) { darr.forEach(b => { b.hidden = true; }); return; }
   const sr = stage.getBoundingClientRect(), gap = Math.min(sr.left, VW - sr.right);
   darr.forEach((b, k) => {
     if (mob || gap < DARR.min) { b.hidden = true; return; }
