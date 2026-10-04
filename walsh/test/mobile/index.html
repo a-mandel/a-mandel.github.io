@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.__md=fetch("model.json?v=bd99b390").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();});window.__md.catch(function(){});</script>
+<link rel="preload" href="three.r128.min.js?v=dd1b0523" as="script">
+<link rel="preload" href="app.js?v=2938ac50" as="script">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Walsh Residence</title>
+<meta name="description" content="A 3D pocket model of the Walsh Residence, Lahontan Lot 235, Truckee. Feasibility study by André Mandel.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f6f5f1">
+<meta name="apple-mobile-web-app-title" content="Walsh Model">
+<meta name="author" content="André Mandel">
+<link rel="canonical" href="https://a-mandel.github.io/walsh/mobile/">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ANDRÉ MANDEL">
+<meta property="og:title" content="Walsh Residence">
+<meta property="og:description" content="A 3D pocket model of the Walsh Residence, Lahontan Lot 235, Truckee. Feasibility study by André Mandel.">
+<meta property="og:url" content="https://a-mandel.github.io/walsh/mobile/">
+<meta property="og:image" content="https://a-mandel.github.io/walsh/preview-v12.jpg">
+<meta property="og:image:secure_url" content="https://a-mandel.github.io/walsh/preview-v12.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sketch model of the Walsh Residence ribbon roofs among the pines">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Walsh Residence">
+<meta name="twitter:description" content="A 3D pocket model of the Walsh Residence, Lahontan Lot 235, Truckee. Feasibility study by André Mandel.">
+<meta name="twitter:image" content="https://a-mandel.github.io/walsh/preview-v12.jpg">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+
+<style>
+  /* arrival (9/30/26): a pencil compass that moves from the first paint, on the GPU, so the splash is never still.
+     It hands off to the drawn gyroscope once the scripts arrive (html.ld-live). */
+  .ld-pre { position: absolute; inset: 0; width: 240px; height: 240px; transform-style: preserve-3d; transition: opacity .6s ease; }
+  html.ld-live .ld-pre { opacity: 0; }
+  .ld-pre-spin { transform-origin: 120px 120px; transform-box: view-box; }
+  .ld-bar { overflow: visible; }
+  @media all {   /* plays even with Reduce Motion on (André 9/30/26) */
+    .ld-pre { animation: ldTilt 5.6s ease-in-out infinite; }
+    html.ld-live .ld-pre, html.ld-live .ld-pre-spin, html.ld-live .ld-pre-ring { animation-play-state: paused; }
+    .ld-pre-spin { animation: ldSpin 9s linear infinite; }
+    .ld-pre-ring { animation: ldDraw 1.6s .1s cubic-bezier(.4,0,.2,1) forwards; }
+    html:not(.ld-live) .ld-bar i { width: 28%; animation: ldScan 1.5s ease-in-out infinite alternate; }
+    html.ld-live #loader .ld-bar::after { content: ''; position: absolute; left: 0; top: -1px; width: 26px; height: 3px;
+      background: linear-gradient(90deg, rgba(27,26,24,0), rgba(27,26,24,.28), rgba(27,26,24,0)); animation: ldSheen 1.9s linear infinite; }
+    #loader .ld-msg { animation: ldBreathe 2.4s ease-in-out infinite; }
+    html.ld-live #loader .ld-stack { animation: ldFloat 3.4s ease-in-out infinite; }
+  }
+  @keyframes ldTilt { 0%, 100% { transform: rotateX(58deg) rotateY(-10deg); } 50% { transform: rotateX(38deg) rotateY(12deg); } }
+  @keyframes ldSpin { to { transform: rotate(360deg); } }
+  @keyframes ldDraw { to { stroke-dashoffset: 0; } }
+  @keyframes ldScan { from { transform: translateX(0); } to { transform: translateX(257%); } }
+  @keyframes ldSheen { from { transform: translateX(0); } to { transform: translateX(144px); } }
+  @keyframes ldBreathe { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+  @keyframes ldFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+</style>
+</head>
+<body>
+<title>Walsh Residence Feasibility</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Tenor+Sans&family=Nothing+You+Could+Do&display=swap">
+<style>
+  :root {
+    --paper: #f3efe6;
+    --paper-2: #e9e3d6;
+    --ink: #151412;
+    --muted: #6f695f;
+    --rule: rgba(21, 20, 18, .22);
+    --accent: #c63a22;
+    --chip: #faf7f0;
+    --glass-veil: rgba(243, 239, 230, .9);
+    --f-title: 'Tenor Sans', 'Gill Sans', sans-serif;
+    --f-body: 'EB Garamond', Garamond, 'Times New Roman', serif;
+    --f-note: 'Nothing You Could Do', 'EB Garamond', Garamond, serif;
+    --f-data: 'Tenor Sans', 'Gill Sans', sans-serif;
+    --title-weight: 400;
+    --f-name: 'Tenor Sans', 'Gill Sans', sans-serif;
+    --name-scale: 0.82;
+    color-scheme: light;
+  }
+  [data-style="annot"] {
+    --paper: #f6f5f1;
+    --paper-2: #ebe9e3;
+    --ink: #1b1a18;
+    --muted: #6c6963;
+    --rule: rgba(27, 26, 24, .2);
+    --accent: #c07a2c;
+    --chip: #ffffff;
+    --glass-veil: rgba(246, 245, 241, .9);
+    --f-title: 'Tenor Sans', 'Gill Sans', sans-serif;
+    --f-note: 'Nothing You Could Do', 'Bradley Hand', 'Segoe Print', cursive;
+    --f-data: 'Tenor Sans', 'Gill Sans', sans-serif;
+    --title-weight: 400;
+  }
+  html, body { height: 100%; }
+  body { background: var(--paper); color: var(--ink); font: 400 15px/1.45 var(--f-body); overflow: hidden; -webkit-tap-highlight-color: transparent; }
+  #app { position: fixed; inset: 0; background: var(--paper); }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 1.5px solid var(--accent); outline-offset: 2px; }
+
+  #cv, #deco { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #cv { z-index: 0; }
+  #deco { z-index: 1; pointer-events: none; }
+  /* the scheme name, brushed across the middle of the reel (André 10/1/26) */
+  #btitle { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 2; pointer-events: none; mix-blend-mode: multiply; }
+  #app:not([data-mode="reel"]) #btitle { display: none; }
+  #stage { position: absolute; inset: 0; z-index: 2; touch-action: none; cursor: grab; }
+  [data-mode="reel"] #stage { cursor: pointer; }
+  #stage:active { cursor: grabbing; }
+  #ov, #notes { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+  #ov { width: 100%; height: 100%; }
+  .note { position: absolute; white-space: pre; font: 400 19px/1.08 var(--f-note); color: var(--ink); opacity: 0; transition: opacity .7s ease; text-shadow: 0 0 6px var(--paper), 0 0 2px var(--paper); }
+  [data-style="sumi"] .note { font-size: 17px; line-height: 1.15; }
+  @media (max-width: 520px) { .note { font-size: 13.5px; } [data-style="sumi"] .note { font-size: 12.5px; } }
+  .note.on { opacity: .92; }
+  .note.hide { opacity: 0 !important; }
+  .dimt { position: absolute; white-space: nowrap; font: 400 17px/1 var(--f-note); color: var(--ink); transform-origin: 50% 50%; opacity: 0; transition: opacity .7s ease; text-shadow: 0 0 5px var(--paper), 0 0 2px var(--paper); }
+  .dimt.on { opacity: .9; }
+  .runl { position: absolute; white-space: nowrap; padding: 3px 6px; border-radius: 4px; background: var(--glass-veil); font: 500 10px/1.2 var(--f-data); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); opacity: 0; transition: opacity .7s ease; }
+
+  .runl.on { opacity: .88; }
+  .runl.acc { color: var(--accent); }
+  .runl small { display: block; font-weight: 400; color: var(--muted); letter-spacing: .1em; }
+
+  /* chrome */
+  .top { position: absolute; left: 0; right: 0; top: 0; z-index: 6; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: calc(env(safe-area-inset-top, 0px) + 12px) 16px 0; pointer-events: none; }
+  .top > * { pointer-events: auto; }
+  .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .brand-r { display: flex; align-items: center; gap: 12px; flex: none; }
+  .brand-mark { height: 64px; width: auto; flex: none; display: block; }
+  [data-mode="reel"] .brand, [data-mode="reel"] .fontbtn, [data-mode="loading"] .brand, [data-mode="loading"] .fontbtn { visibility: hidden; }
+  [data-mode="model"] .brand-mark { position: absolute; right: 26px; top: calc(env(safe-area-inset-top, 0px) + 12px); height: 144px; }
+  [data-mode="reel"] .brand-mark { position: absolute; right: 22px; top: calc(env(safe-area-inset-top, 0px) + 14px); height: 190px; }   /* one of André's 20 logos, upper right (9/29 8:21 pm) */
+  .brand span { font: 500 calc(28px * var(--name-scale))/1 var(--f-name); letter-spacing: .2em; text-transform: uppercase; white-space: nowrap; }
+  .fontbtn { display: none !important; }
+  .fontbtn-x { appearance: none; flex: none; width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--rule); background: var(--chip); color: var(--ink); cursor: pointer; font: italic 500 17px/1 var(--f-body); display: grid; place-items: center; }
+  .fontbtn[aria-expanded="true"] { border-color: var(--ink); }
+  .fontpop { position: absolute; z-index: 25; right: 16px; left: 16px; top: calc(env(safe-area-inset-top, 0px) + 78px); max-height: calc(100% - 150px); overflow-y: auto; background: var(--chip); border: 1px solid var(--ink); border-radius: 14px; padding: 12px; box-shadow: 0 18px 40px rgba(27, 26, 24, .16); }
+  .fontpop h2 { margin: 2px 4px 10px; font: 500 9.5px/1.2 var(--f-data); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .fontgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .fontgrid button { appearance: none; text-align: left; cursor: pointer; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); color: var(--ink); padding: 11px 10px 9px; display: grid; gap: 7px; min-height: 58px; }
+  .fontgrid button b { font-weight: 500; font-size: calc(13px * var(--k, 1)); line-height: 1; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .fontgrid button small { font: 400 9px/1 var(--f-data); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .fontgrid button[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .fontgrid button[aria-pressed="true"] small { color: var(--accent); }
+  .seg { display: inline-flex; border: 1px solid var(--ink); border-radius: 999px; padding: 2px; background: var(--chip); flex: none; }
+  .seg button { appearance: none; border: 0; background: transparent; cursor: pointer; font: 500 9.5px/1 'Tenor Sans', sans-serif; letter-spacing: .14em; text-transform: uppercase; padding: 8px 11px; border-radius: 999px; min-height: 32px; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--chip); }
+
+  /* reel */
+  [hidden] { display: none !important; }
+  #app:not([data-mode="reel"]) .reel-ui { display: none; }
+  .rtitle { position: absolute; z-index: 5; left: 16px; right: 16px; top: calc(env(safe-area-inset-top, 0px) + 12px); pointer-events: none; }
+  .rtitle p.r2 { margin-top: 3px; }
+  /* title variations (André 9/29 8:52 pm): a written in ink (as before), b Garamond italic, c Tenor Sans caps like the logo, d written with a fine brush stroke under it */
+  [data-title="b"] .rtitle h1 { font: italic 400 clamp(34px, 8.6vw, 62px)/1.05 'EB Garamond', Garamond, serif; letter-spacing: 0; }
+  [data-title="c"] .rtitle h1 { font: 400 clamp(19px, 4.8vw, 34px)/1.2 'Tenor Sans', 'EB Garamond', sans-serif; letter-spacing: .3em; text-transform: uppercase; }
+  [data-title="d"] .rtitle h1 { padding-bottom: .3em; }
+  .rtitle h1 { margin: 0; display: inline-block; font: 400 clamp(34px, 9.5vw, 68px)/1.05 'Nothing You Could Do', 'EB Garamond', cursive; letter-spacing: .01em; text-transform: none; text-wrap: balance; padding: .08em .2em .12em .04em; animation: write 2.2s .3s steps(28, end) both; }
+  @keyframes write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  [data-style="sumi"] .rtitle h1 { color: var(--paper); padding: .42em .9em .38em .5em; margin-left: -.35em; }
+  .rtitle p { margin: 8px 0 0; font: 500 10px/1.4 'Tenor Sans', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .spec { position: absolute; z-index: 5; right: 16px; top: calc(env(safe-area-inset-top, 0px) + 86px); text-align: right; font: italic 400 15px/1.4 var(--f-body); color: var(--muted); display: none; pointer-events: none; }
+  .spec b { color: var(--ink); font-weight: 500; }
+  @media (min-width: 700px) { [data-style="annot"][data-mode="reel"] .spec { display: block; } }
+  .rb { position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; padding: 70px 16px calc(env(safe-area-inset-bottom, 0px) + 14px); display: grid; gap: 8px; pointer-events: none; }
+  .rb > * { pointer-events: auto; }
+  [data-style="annot"] .rb { background: linear-gradient(to top, rgba(246, 245, 241, .95) 0%, rgba(246, 245, 241, .86) 46%, rgba(246, 245, 241, 0) 100%); }
+  [data-style="sumi"] .rb { background: linear-gradient(to top, rgba(243, 239, 230, .95) 0%, rgba(243, 239, 230, .86) 46%, rgba(243, 239, 230, 0) 100%); }
+  .ticks { display: flex; align-items: center; gap: 6px; }
+  .ticks i { position: relative; width: 44px; height: 2px; background: var(--rule); overflow: hidden; }
+  .ticks i b { position: absolute; inset: 0; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); }
+  .ticks i.done b { transform: scaleX(1); }
+  .ticks i.run b { animation: tick var(--dur, 10s) linear forwards; }
+  @keyframes tick { to { transform: scaleX(1); } }
+  .ticks span { margin-left: 6px; font: 500 10px/1 'Tenor Sans', sans-serif; letter-spacing: .14em; color: var(--muted); }
+  .shot { margin: 0; font: var(--title-weight) 27px/1.05 var(--f-title); letter-spacing: .18em; text-transform: uppercase; text-wrap: balance; }
+  .shotline { margin: 0; max-width: 34ch; font: italic 400 18px/1.3 var(--f-body); text-wrap: pretty; }
+  .rdata { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 14px; max-width: 520px; }
+  .rdata li { border-top: 1px solid var(--rule); padding-top: 5px; font: 500 10.5px/1.3 'Tenor Sans', sans-serif; letter-spacing: .1em; text-transform: uppercase; font-variant-numeric: tabular-nums; opacity: 0; transform: translateY(4px); animation: rin .6s ease forwards; }
+  [data-style="annot"] .rdata li { font: italic 400 16px/1.3 var(--f-body); font-variant-numeric: lining-nums tabular-nums; text-transform: none; letter-spacing: 0; }
+  @keyframes rin { to { opacity: 1; transform: none; } }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 6px; }
+  /* Enter the model (André 9/29 8:21 pm): right in the middle, turning like the splash gyroscope */
+  .enter { position: absolute; z-index: 7; left: 50%; top: 50%; transform: translate(-50%, -50%); appearance: none; border: 0; background: none; padding: 0; cursor: pointer; color: var(--ink); display: grid; justify-items: center; gap: 10px; }
+  .enter .gy { position: relative; width: 240px; height: 240px; perspective: 620px; transform-style: preserve-3d; }
+  .enter .ld-dial { position: absolute; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%) scale(1); opacity: .32; animation: wob 7s ease-in-out infinite; transform-style: preserve-3d; }
+  .enter .ld-shadow, .enter .ld-mk { display: none !important; }
+  .enter .ld-comp { animation: comp 24s linear infinite; }
+  @keyframes wob { 0% { transform: translate(-50%, -50%) scale(1) rotateX(16deg) rotateY(-10deg); } 25% { transform: translate(-50%, -50%) scale(1) rotateX(4deg) rotateY(14deg); } 50% { transform: translate(-50%, -50%) scale(1) rotateX(-12deg) rotateY(6deg); } 75% { transform: translate(-50%, -50%) scale(1) rotateX(2deg) rotateY(-15deg); } 100% { transform: translate(-50%, -50%) scale(1) rotateX(16deg) rotateY(-10deg); } }
+  @keyframes comp { from { transform: rotateX(18deg) rotateZ(0deg); } to { transform: rotateX(18deg) rotateZ(360deg); } }
+  .enter .gy i { position: absolute; inset: 0; border-radius: 50%; border: 1.2px solid var(--ink); transform-style: preserve-3d; }
+  .enter .g1 { animation: gyA 7s linear infinite; }
+  .enter .g2 { inset: 10px; border-style: dashed; opacity: .75; animation: gyB 5.2s linear infinite; }
+  .enter .g3 { inset: 4px; border-width: 0 !important; background: repeating-conic-gradient(from 0deg, var(--ink) 0 1.2deg, transparent 1.2deg 15deg); -webkit-mask: radial-gradient(closest-side, transparent 86%, #000 87%, #000 100%); mask: radial-gradient(closest-side, transparent 86%, #000 87%, #000 100%); opacity: .7; animation: gyC 16s linear infinite; }
+  .enter .core { position: absolute; inset: 34px; opacity: 1; z-index: 2; border: 1.2px solid rgba(27, 26, 24, .5); background: rgba(255, 255, 255, .42) !important; color: rgba(27, 26, 24, .82) !important; box-shadow: none !important; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; box-shadow: 0 6px 22px rgba(27, 26, 24, .18); animation: pulse 2.6s ease-in-out infinite; }
+  .enter .core svg { width: 46px; height: 46px; margin-left: 6px; }
+  .enter .pl { font: 500 10.5px/1 'Tenor Sans', sans-serif; letter-spacing: .2em; text-transform: uppercase; background: var(--paper); padding: 7px 12px; border-radius: 999px; border: 1px solid var(--rule); }
+  .enter:hover .core, .enter:focus-visible .core { transform: scale(1.08); }
+  .enter:focus-visible { outline: none; }
+  @keyframes gyA { from { transform: rotateX(62deg) rotateY(-18deg) rotateZ(0deg); } to { transform: rotateX(62deg) rotateY(-18deg) rotateZ(360deg); } }
+  @keyframes gyB { from { transform: rotateY(58deg) rotateX(12deg) rotateZ(360deg); } to { transform: rotateY(58deg) rotateX(12deg) rotateZ(0deg); } }
+  @keyframes gyC { from { transform: rotateZ(0deg); } to { transform: rotateZ(-360deg); } }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  /* the enter dial keeps its wobble even with Reduce Motion on (André 9/30/26) */
+  .play { appearance: none; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 4px 18px 4px 4px; border-radius: 999px; min-height: 52px; }
+  .play .ring { width: 44px; height: 44px; border-radius: 50%; background: var(--paper); color: var(--ink); display: grid; place-items: center; transition: transform .25s ease; }
+  .play .ring svg { width: 22px; height: 22px; margin-left: 3px; }
+  .play .pl { font: 500 10.5px/1 'Tenor Sans', sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+  .play:hover .ring, .play:focus-visible .ring { transform: scale(1.08); }
+  .play:focus-visible { outline: none; }
+  @media (prefers-reduced-motion: reduce) { .play .ring { transition: none; } }
+  .btn { appearance: none; cursor: pointer; border-radius: 999px; border: 1px solid var(--ink); background: transparent; padding: 12px 18px; min-height: 44px; font: 500 10.5px/1 'Tenor Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+  .btn.primary { background: var(--ink); color: var(--paper); }
+  .btn.primary::after { content: ' \2192'; }
+
+  /* model */
+  #schemeSeg { padding: 3px; }
+  #schemeSeg button { font-size: 12.5px; letter-spacing: .14em; padding: 12px 18px; min-height: 46px; }
+  #pitchSeg button { font-size: 10.5px; padding: 9px 13px; min-height: 38px; }
+  @media (max-width: 420px) { #schemeSeg button { font-size: 11px; letter-spacing: .09em; padding: 11px 11px; min-height: 44px; } .mbar { gap: 6px; } }
+  .quick { position: absolute; z-index: 8; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 84px); display: flex; gap: 6px; max-width: calc(100% - 20px); }
+  .quick button { appearance: none; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; border: 1px solid var(--ink); border-radius: 999px; background: var(--glass-veil); color: var(--ink); padding: 0 13px 0 10px; min-height: 40px; font: 500 9.5px/1 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 6px 18px rgba(27, 26, 24, .1); }
+  .quick button svg { width: 16px; height: 16px; flex: none; }
+  .quick button[aria-pressed="true"] { background: var(--ink); color: var(--chip); }
+  .quick button[aria-pressed="true"] svg .acc { stroke: var(--accent); }
+  @media (max-width: 380px) { .quick button { padding: 0 9px 0 8px; letter-spacing: .08em; gap: 5px; } }
+  @media (max-width: 699px) { .quick { gap: 5px; } .quick button { padding: 0 10px 0 8px; gap: 5px; letter-spacing: .08em; } .quick button svg { width: 14px; height: 14px; } }
+  .pop .vgroup { display: grid; gap: 8px; }
+  .pop .vgroup h3 { margin: 0; font: 500 8.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .wideui .rail .quick { position: static; transform: none; max-width: none; padding: 6px 8px; border-radius: 999px; background: var(--glass-veil); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 10px 28px rgba(27, 26, 24, .1); gap: 4px; }
+  .wideui .rail .quick button { box-shadow: none; min-height: 34px; }
+  .wideui .rail .pop .vgroup { display: flex; align-items: center; gap: 8px; }
+  .wideui .rail .pop .vgroup + .vgroup { border-left: 1px solid var(--rule); padding-left: 8px; }
+  .wideui .rail .pop .vgroup h3 { display: none; }
+  #app:not([data-mode="model"]) .model-ui { display: none; }
+  .mbar { position: absolute; z-index: 6; left: 16px; right: 16px; top: calc(env(safe-area-inset-top, 0px) + 78px); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .back { appearance: none; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--ink); background: var(--chip); display: grid; place-items: center; flex: none; }
+  .back svg { width: 14px; height: 14px; }
+  .seg.sub { border-width: .75px; }
+  .hint { position: absolute; z-index: 5; left: 16px; top: calc(env(safe-area-inset-top, 0px) + 136px); font: italic 400 14px/1.2 var(--f-body); color: var(--muted); pointer-events: none; transition: opacity .6s; }
+  .compass { position: absolute; z-index: 5; right: 16px; top: calc(env(safe-area-inset-top, 0px) + 136px); width: 36px; height: 36px; pointer-events: none; }
+  .msheet { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; max-height: 56%; overflow-y: auto; padding: 14px 16px calc(env(safe-area-inset-bottom, 0px) + 14px); display: grid; gap: 11px; background: var(--glass-veil); border-top: 1px solid var(--rule); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .lede { margin: 0; font: italic 400 17.5px/1.32 var(--f-body); max-width: 60ch; text-wrap: pretty; }
+  @media (max-width: 520px) { .lede { font-size: 16px; } .msheet { gap: 9px; padding-top: 11px; } }
+  .nums { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 12px; border-top: 1px solid var(--ink); padding-top: 8px; }
+  .num { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .num .k { font: 500 8.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .num .v { font: 500 13px/1.25 'Tenor Sans', sans-serif; font-variant-numeric: tabular-nums; }
+  .ctrl { display: grid; gap: 11px; min-width: 0; }
+  .views { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+  .views button { appearance: none; flex: none; cursor: pointer; background: transparent; border: 1px solid var(--ink); border-radius: 3px; padding: 9px 11px; min-height: 36px; font: 500 9.5px/1 'Tenor Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+  .views button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+  .toggles { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+  .tog { display: inline-flex; align-items: center; gap: 7px; font: 500 9.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; user-select: none; min-height: 28px; }
+  .tog input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .tog .box { width: 30px; height: 17px; border-radius: 999px; border: 1px solid var(--ink); position: relative; background: var(--chip); flex: none; }
+  .tog .box::after { content: ''; position: absolute; top: 2px; left: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--ink); transition: transform .2s; }
+  .tog input:checked + .box { background: var(--ink); }
+  .tog input:checked + .box::after { transform: translateX(13px); background: var(--accent); }
+  .tog input:focus-visible + .box { outline: 1.5px solid var(--accent); outline-offset: 2px; }
+  details.more summary { cursor: pointer; font: 500 9.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding: 6px 0; list-style: none; }
+  details.more summary::before { content: '+ '; }
+  details.more[open] summary::before { content: '\2212 '; }
+  .legend { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 6px; }
+  .legend li { display: grid; grid-template-columns: 26px 1fr; gap: 6px; font: 400 15px/1.3 var(--f-body); }
+  .legend li span:first-child { font: 500 9px/1.9 'Tenor Sans', sans-serif; color: var(--muted); letter-spacing: .08em; }
+  .legend b { font-weight: 500; font-style: italic; }
+  .watch h4 { margin: 12px 0 4px; font: 500 9.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .watch ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font: 400 15px/1.35 var(--f-body); }
+  .foot { font: 500 8.5px/1.5 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+  /* project data sheet */
+  .sheet { position: absolute; inset: 0; z-index: 30; background: var(--paper); overflow-y: auto; padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 32px); }
+  .sheet-in { max-width: 760px; margin: 0 auto; display: grid; gap: 26px; }
+  .sheet-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .sheet-head h2 { margin: 0; font: var(--title-weight) clamp(22px, 5vw, 34px)/1.1 var(--f-title); letter-spacing: .2em; text-transform: uppercase; }
+  .sheet-head p { margin: 6px 0 0; font: italic 400 17px/1.3 var(--f-body); color: var(--muted); }
+  .sheet h3 { margin: 0 0 10px; font: 500 10px/1.2 'Tenor Sans', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+  .facts { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 22px; }
+  .facts div { border-top: 1px solid var(--rule); padding-top: 7px; }
+  .facts dt { font: 500 9px/1.3 'Tenor Sans', sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .facts dd { margin: 3px 0 0; font: 400 16px/1.35 var(--f-body); }
+  .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .card { border: 1px solid var(--ink); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
+  .card h4 { margin: 0; font: var(--title-weight) 20px/1.1 var(--f-title); letter-spacing: .16em; text-transform: uppercase; }
+  .card .tag { font: italic 400 16px/1.2 var(--f-body); color: var(--muted); }
+  .card dl { margin: 0; display: grid; gap: 6px; }
+  .card dl div { display: grid; grid-template-columns: 96px 1fr; gap: 8px; border-top: 1px solid var(--rule); padding-top: 6px; }
+  .card dt { font: 500 9px/1.6 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .card dd { margin: 0; font: 400 15px/1.3 var(--f-body); }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .steps li { display: grid; grid-template-columns: 58px 1fr; gap: 10px; border-top: 1px solid var(--rule); padding-top: 7px; font: 400 16px/1.35 var(--f-body); }
+  .steps li span { font: 500 10px/1.7 'Tenor Sans', sans-serif; letter-spacing: .12em; color: var(--muted); }
+  .steps li.now span { color: var(--accent); }
+  .steps li.done { color: var(--muted); }
+  .close { appearance: none; cursor: pointer; flex: none; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--ink); background: var(--chip); display: grid; place-items: center; }
+  .sign { font: italic 400 17px/1.4 var(--f-body); }
+
+  #fade { position: absolute; inset: 0; z-index: 20; background: var(--paper); opacity: 0; pointer-events: none; transition: opacity .45s ease; }
+
+  /* loader */
+  #loader { position: absolute; inset: 0; z-index: 40; background: var(--paper); display: grid; place-items: center; padding: 24px 16px; text-align: center; transition: opacity .9s ease; }
+  #loader.gone { opacity: 0; pointer-events: none; }
+  .ld { display: grid; justify-items: center; gap: 6px; max-width: 360px; }
+  /* the dial (André 9/28 11:29 pm, study B "Gyroscope"): three compass layers and the mark, stacked in 3D */
+  .ld { transform-origin: 50% 32%; will-change: transform, opacity; }
+  .ld.dive { transition: transform .75s cubic-bezier(.55, 0, .7, .2), opacity .75s ease; transform: scale(1.9); opacity: 0; }
+  .ld-dial { position: relative; width: 240px; height: 240px; margin-bottom: 8px; perspective: 760px; perspective-origin: 50% 40%; }
+  .ld-stack { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .ld-stack canvas, .ld-mk, .ld-comp { position: absolute; inset: 0; }
+  .ld-comp { transform-style: preserve-3d; }
+  .ld-stack canvas { width: 240px; height: 240px; display: block; }
+  .ld-mk { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; opacity: 0; }
+  .ld-mk img.mk { height: 88px; width: auto; }   /* the mark spins in (André 9/29 8:38 pm) */
+  .ld-mk .lk { display: flex; flex-direction: column; align-items: flex-start; width: 69px; }
+  .ld-mk .lk img.mk { width: 100%; height: auto; }
+  .ld-mk img.nm { width: 91.2%; height: auto; margin-left: 8.7%; opacity: 0; margin-top: 5px; }   /* MANDEL from the post to the tail tip */   /* then MANDEL, close under the strokes */
+  .ld-shadow { position: absolute; left: 50%; top: 100%; width: 190px; height: 26px; margin: -8px 0 0 -95px; border-radius: 50%; background: radial-gradient(closest-side, rgba(27, 26, 24, .16), rgba(27, 26, 24, 0)); opacity: 0; }
+  .ld-hello { margin: 0; font: italic 400 44px/1 var(--f-body); }
+  .ld-name { margin: 4px 0 0; padding: .06em .2em .1em; font: 400 34px/1.15 'Nothing You Could Do', 'EB Garamond', cursive; letter-spacing: .01em; animation: write 1.8s .2s steps(24, end) both; }
+  .ld-sub { margin: 0; font: 500 10px/1.4 'Tenor Sans', sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+  .ld-for { margin: 10px 0 0; font: italic 400 16px/1.35 var(--f-body); color: var(--muted); max-width: 30ch; text-wrap: balance; }
+  .ld-bar { margin-top: 18px; width: 170px; height: 1px; background: var(--rule); position: relative; }
+  .ld-bar i { position: absolute; left: 0; top: -1px; height: 3px; width: 0; background: var(--ink); }
+  .ld-msg { margin: 8px 0 0; min-height: 1.4em; font: 500 9.5px/1.4 'Tenor Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .ld-seal { position: absolute; right: 18px; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); width: 46px; height: 46px; }
+
+  @media (max-width: 420px) {
+    .nums { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .shot { font-size: 24px; }
+    .shotline { font-size: 17px; }
+    .brand-mark { height: 50px; }
+    [data-mode="reel"] .brand-mark { height: 104px; right: 14px; }
+    [data-mode="model"] .brand-mark { height: 64px; right: 14px; top: calc(env(safe-area-inset-top, 0px) + 8px); }
+    .rtitle { right: 92px; }
+    .rtitle h1 { font-size: 30px; white-space: nowrap; }
+    [data-title="c"] .rtitle h1 { font-size: 16px; }
+    .rtitle p { font-size: 9px; letter-spacing: .14em; }
+    .brand span { font-size: calc(17px * var(--name-scale)); letter-spacing: .14em; }
+  }
+  @media (min-width: 900px) {
+    .rb { padding: 64px 28px calc(env(safe-area-inset-bottom, 0px) + 22px); grid-template-columns: minmax(280px, 1.15fr) minmax(260px, 1fr) auto; grid-template-areas: "ticks data act" "shot data act" "line data act"; column-gap: 36px; align-items: end; background: linear-gradient(to top, rgba(246, 245, 241, .94) 0%, rgba(246, 245, 241, .8) 50%, rgba(246, 245, 241, 0) 100%) !important; }
+    .rdata { grid-template-columns: 1fr; }
+    .rb .ticks { grid-area: ticks; } .rb .shot { grid-area: shot; } .rb .shotline { grid-area: line; } .rb .rdata { grid-area: data; align-self: end; } .rb .actions { grid-area: act; align-self: end; }
+    .rtitle { left: 28px; }
+    .rtitle p { font-size: 13px; letter-spacing: .2em; margin-top: 10px; } .rtitle p.r2 { margin-top: 4px; }
+    .top { padding-left: 28px; padding-right: 28px; }
+    .fontpop { left: auto; right: 28px; width: 680px; }
+    .fontgrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .fontgrid button b { font-size: calc(12px * var(--k, 1)); letter-spacing: .14em; }
+    .mbar { left: 28px; right: 28px; }
+    .msheet { left: 20px; right: 20px; bottom: 16px; border: 1px solid var(--rule); border-radius: 14px; max-height: 44%; grid-template-columns: minmax(300px, 1.25fr) minmax(360px, 1fr); grid-template-areas: "lede ctrl" "nums ctrl" "more foot"; column-gap: 32px; align-items: start; padding: 14px 20px; }
+    .msheet .lede { grid-area: lede; } .msheet .nums { grid-area: nums; } .msheet .ctrl { grid-area: ctrl; align-self: end; } .msheet .more { grid-area: more; } .msheet .foot { grid-area: foot; align-self: end; text-align: right; }
+    .hint { left: 28px; }
+    .compass { right: 28px; }
+    .spec { right: 28px; }
+  }
+
+  /* model: full bleed, a dock and small pop ups (André 8:50 am) */
+  .dock { position: absolute; z-index: 8; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); transform: translateX(-50%); display: flex; gap: 2px; padding: 4px; border: 1px solid var(--ink); border-radius: 999px; background: var(--glass-veil); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 10px 28px rgba(27, 26, 24, .12); max-width: calc(100% - 24px); }
+  .dock button { appearance: none; border: 0; background: transparent; color: var(--ink); cursor: pointer; display: grid; justify-items: center; gap: 3px; min-width: 64px; min-height: 48px; padding: 6px 10px 5px; border-radius: 999px; font: 500 8.5px/1 'Tenor Sans', sans-serif; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  .dock svg { width: 20px; height: 20px; }
+  .dock button[aria-expanded="true"] { background: var(--ink); color: var(--chip); }
+  .dock button:focus-visible { outline: 1.5px solid var(--accent); outline-offset: 1px; }
+  .pop { position: absolute; z-index: 9; left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom, 0px) + 80px); max-height: 55%; overflow-y: auto; padding: 14px 16px 16px; border: 1px solid var(--ink); border-radius: 16px; background: var(--chip); box-shadow: 0 18px 40px rgba(27, 26, 24, .16); display: grid; gap: 12px; }
+  .pop h2 { margin: 0; font: 500 9.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .pop .views { flex-wrap: wrap; overflow: visible; }
+  .pop .views button { flex: 1 1 calc(33% - 6px); min-height: 44px; }
+  .pop .lens { border-top: 1px solid var(--rule); padding-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .pop .lens > span { font: 500 9.5px/1.2 'Tenor Sans', sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+  .pop .lens .seg button { min-height: 40px; padding: 8px 12px; }
+  .pop .toggles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+  .mhint { position: absolute; z-index: 5; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 172px); margin: 0; text-align: center; font: italic 400 14px/1.2 var(--f-body); color: var(--muted); pointer-events: none; transition: opacity .8s; }
+  .mhint.off { opacity: 0; }
+  @media (min-width: 700px) { .pop { left: 50%; right: auto; width: 440px; transform: translateX(-50%); } }
+  /* desktop: every control in view at once, one rail along the bottom (André 9/28 7:32 pm) */
+  .rail { position: absolute; z-index: 8; left: 24px; right: 24px; bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); display: none; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 8px; pointer-events: none; }
+  .wideui .rail { display: flex; }
+  .rail > * { pointer-events: auto; }
+  .wideui .rail .pop { position: static; left: auto; right: auto; bottom: auto; transform: none; width: auto; max-height: none; overflow: visible; box-shadow: 0 10px 28px rgba(27, 26, 24, .1); padding: 6px 8px; border-radius: 999px; background: var(--glass-veil); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: center; gap: 8px; }
+  .wideui .rail .pop h2 { display: block; margin: 0 2px 0 6px; font-size: 8.5px; }
+  .wideui .rail .pop .views { flex-wrap: nowrap; gap: 4px; }
+  .wideui .rail .pop .views button { flex: none; min-height: 34px; padding: 0 11px; border-radius: 999px; }
+  .wideui .rail .pop .lens { border-top: 0; padding: 0 0 0 8px; border-left: 1px solid var(--rule); gap: 6px; }
+  .wideui .rail .pop .lens > span { display: none; }
+  .wideui .rail .pop .lens .seg button { min-height: 30px; padding: 0 10px; }
+  .wideui .rail .pop .toggles { display: flex; flex-wrap: nowrap; gap: 4px 14px; padding: 0 8px 0 2px; }
+  .wideui .rail .pop .tog { min-height: 34px; }
+  .wideui .dock { position: absolute; left: auto; right: 28px; bottom: auto; top: calc(env(safe-area-inset-top, 0px) + 78px); transform: none; box-shadow: 0 10px 28px rgba(27, 26, 24, .1); }
+  .wideui .dock button { min-height: 40px; min-width: 0; grid-auto-flow: column; gap: 7px; padding: 4px 14px; align-items: center; }
+  .wideui .dock svg { width: 17px; height: 17px; }
+  .wideui .dock { display: none; }
+  #schemeSeg #toPlans, #schemeSeg #toFA { display: inline-flex; align-items: center; gap: 7px; border-left: 1px solid var(--rule); border-radius: 0; }
+  #schemeSeg #toPlans { margin-left: 6px; } #schemeSeg #toFA { border-radius: 0 999px 999px 0; }
+  #schemeSeg #toPlans svg, #schemeSeg #toFA svg { width: 16px; height: 16px; }
+  .wideui .compass { top: calc(env(safe-area-inset-top, 0px) + 172px); }
+  .wideui .mhint { bottom: calc(env(safe-area-inset-bottom, 0px) + 72px); }
+
+
+  /* the tour (André 10/1/26): the play button steps through the house; buttons, not menus */
+  .tourbar { position: absolute; z-index: 8; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); display: flex; align-items: center; gap: 12px; padding: 0 14px 0 10px; pointer-events: none; }
+  .tourbar > * { pointer-events: auto; }
+  .seal { appearance: none; border: 0; background: none; padding: 0; margin: 0; width: 88px; height: 88px; flex: none; cursor: pointer; border-radius: 50%; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .seal svg { width: 100%; height: 100%; display: block; overflow: visible; transform-origin: 50% 50%; }
+  .seal:focus-visible { outline: 1.5px solid var(--ink); outline-offset: 3px; }
+  .seal.press svg { animation: sealPress .55s cubic-bezier(.3, 1.5, .5, 1); }
+  .seal.idle svg { animation: sealBreathe 2.8s ease-in-out infinite; }
+  @keyframes sealPress { 0% { transform: scale(1); } 28% { transform: scale(.86); } 100% { transform: scale(1); } }
+  @keyframes sealBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .tcap { flex: 1 1 auto; min-width: 0; display: grid; gap: 4px; pointer-events: none; }
+  .tcap .tno { font: 500 9.5px/1 'Tenor Sans', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .tcap .tname { font: italic 400 19px/1.05 var(--f-body); color: var(--ink); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; text-wrap: balance; text-shadow: 0 0 10px var(--paper), 0 0 3px var(--paper); }
+  .tourbar .dock { position: static; transform: none; left: auto; bottom: auto; flex: none; margin-left: auto; gap: 0; padding: 3px; }
+  .tourbar .dock button { min-width: 50px; min-height: 46px; padding: 6px 7px 5px; }
+  #app:not(.wideui) .quick { bottom: calc(env(safe-area-inset-bottom, 0px) + 108px); gap: 6px; max-width: calc(100% - 16px); }
+  #app:not(.wideui) .quick button { flex-direction: column; justify-content: center; gap: 5px; min-width: 60px; min-height: 54px; padding: 7px 7px 6px; border-radius: 16px; font-size: 8.5px; letter-spacing: .1em; }
+  #app:not(.wideui) .quick button svg { width: 19px; height: 19px; }
+  @media (max-width: 370px) { #app:not(.wideui) .quick button { min-width: 0; padding: 7px 5px 6px; letter-spacing: .06em; } .seal { width: 78px; height: 78px; } .tcap .tname { font-size: 17px; } }
+  .wideui .tourbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 80px); padding-left: 18px; }
+  @media (prefers-reduced-motion: reduce) { .seal.idle svg { animation: none; } }
+
+
+  /* the play button (André 10/1/26): dead center, no wax, not the logo; it vanishes while the view moves and comes back slowly */
+  .waxplay { position: absolute; z-index: 7; left: 50%; top: 50%; width: 96px; height: 96px; margin: -48px 0 0 -48px; appearance: none; border: 0; background: none; padding: 0; cursor: pointer; border-radius: 50%; -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: opacity 1.8s ease, transform 1.8s cubic-bezier(.2, .9, .3, 1); }
+  .waxplay svg { width: 100%; height: 100%; display: block; overflow: visible; transform-origin: 50% 50%; }
+  .waxplay.gone { opacity: 0; transform: scale(.8); pointer-events: none; transition: opacity .35s ease, transform .35s ease; }
+  .waxplay.idle svg { animation: sealBreathe 2.8s ease-in-out infinite; }
+  .waxplay:focus-visible { outline: 1.5px solid var(--ink); outline-offset: 4px; }
+  /* not the logo, no wax (André 10/1/26): a paper disc, hairline ring and plain triangle, breathing between clear and half */
+  .waxplay { width: 84px; height: 84px; margin: -42px 0 0 -42px; animation: apPulse 3.6s ease-in-out infinite; }
+  /* the sumi enso play (André 10/1/26): same brushed ring as the title block arrows, a brushed triangle inside */
+  .waxplay { color: #1b1a18; }
+  .waxplay .ens, .waxplay .tri { transform-box: fill-box; transform-origin: 50% 50%; transition: transform .35s cubic-bezier(.3, 1.4, .5, 1); }
+  .waxplay:hover .ens { animation: stpSpin 7s linear infinite; }
+  .waxplay:hover .tri { transform: translateX(3px); }
+  @keyframes stpSpin { to { transform: rotate(360deg); } }
+  .waxplay.idle svg { animation: none; }
+  .waxplay:hover, .waxplay:focus-visible { animation: none; opacity: 1; }
+  .waxplay.gone { animation: none; }
+  @keyframes apPulse { 0%, 100% { opacity: 0; } 50% { opacity: .5; } }
+  @media (prefers-reduced-motion: reduce) { .waxplay { animation: none; opacity: .4; } }
+  #mhint { top: calc(50% + 62px); bottom: auto !important; }
+  /* one play button (André 10/3/26): the reel's way in is the same sumi enso as the tour's play, same size, same breath */
+  .enter .stp { position: relative; display: block; width: 84px; height: 84px; color: #1b1a18; animation: apPulse 3.6s ease-in-out infinite; }
+  .enter .stp svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .enter .stp .ens, .enter .stp .tri { transform-box: fill-box; transform-origin: 50% 50%; transition: transform .35s cubic-bezier(.3, 1.4, .5, 1); }
+  .enter:hover .stp, .enter:focus-visible .stp { animation: none; opacity: 1; }
+  .enter:hover .stp .ens { animation: stpSpin 7s linear infinite; }
+  .enter:hover .stp .tri { transform: translateX(3px); }
+  @media (prefers-reduced-motion: reduce) { .enter .stp { animation: none; opacity: .4; } }
+  /* the way back out (André 10/3/26): inside the living set the model always shows how to return to the sheets */
+  .backset { position: absolute; z-index: 8; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 14px); transform: translateX(-50%); appearance: none; cursor: pointer; display: none; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border: 1px solid var(--ink); border-radius: 999px; background: rgba(246, 245, 241, .92); color: var(--ink); font: 500 10.5px/1 'Tenor Sans', sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+  .backset svg { width: 12px; height: 12px; }
+  .in-sheet [data-mode="model"] .backset { display: inline-flex; }
+  /* fewer buttons (André 10/1/26): the three roof schemes up top, play in the middle, the FA package; the tour sets the layers */
+  #quick, #toPlans, #toReel { display: none !important; }
+  /* notes read on white; the height and ridge labels write in the same hand */
+  .note, .dimt, .runl { text-shadow: none !important; background: rgba(255, 255, 255, .9); border-radius: 6px; box-shadow: 0 0 8px 4px rgba(255, 255, 255, .78); }
+  .note { padding: 1px 6px 2px; }
+  .dimt { padding: 0 5px 1px; }
+  .runl { padding: 2px 7px 3px; font: 400 17px/1.08 var(--f-note); letter-spacing: 0; text-transform: none; }
+  .runl small { font: 400 13px/1.15 var(--f-note); letter-spacing: 0; text-transform: none; }
+  @media (max-width: 520px) { .runl { font-size: 13.5px; } .runl small { font-size: 11px; } }
+
+
+  /* one bar along the bottom (André 10/1/26): the roof schemes and the FA package; the address under the name, as on the reel */
+  .maddr { position: absolute; z-index: 6; left: 16px; top: calc(env(safe-area-inset-top, 0px) + 44px); pointer-events: none; }
+  .maddr p { margin: 0 0 3px; font: 500 10px/1.4 'Tenor Sans', sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+  .mbar { top: auto !important; bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); left: 10px !important; right: 10px !important; flex-direction: column-reverse; flex-wrap: nowrap; align-items: center; gap: 8px; z-index: 8; }
+  .mbar .seg { box-shadow: 0 10px 28px rgba(27, 26, 24, .12); }
+  .tourbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 80px); }
+  #app:has(#pitchSeg:not([hidden])) .tourbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 126px); }
+  .tourbar .dock { display: none !important; }
+  #schemeSeg #toFA { display: inline-flex; align-items: center; gap: 7px; border-left: 1px solid var(--rule); border-radius: 0 999px 999px 0; margin-left: 4px; }
+  #schemeSeg #toFA svg { width: 16px; height: 16px; }
+  @media (max-width: 560px) { #schemeSeg #toFA span { display: none; } #schemeSeg #toFA { padding: 0 12px 0 11px; } }
+  @media (max-width: 420px) { .maddr { top: calc(env(safe-area-inset-top, 0px) + 36px); right: 92px; } .maddr p { font-size: 8.5px; letter-spacing: .13em; margin-bottom: 2px; } }
+  @media (min-width: 900px) { .maddr { left: 28px; top: calc(env(safe-area-inset-top, 0px) + 52px); } .maddr p { font-size: 12px; letter-spacing: .2em; } .wideui .tourbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 84px); } }
+
+  /* FA package */
+  .toc { display: flex; flex-wrap: wrap; gap: 6px; }
+  .toc a { color: var(--ink); text-decoration: none; border: 1px solid var(--rule); border-radius: 999px; padding: 8px 11px; font: 500 9px/1 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+  .toc a:hover { border-color: var(--ink); }
+  .sheet .fanote { margin: -4px 0 10px; font: italic 400 15px/1.35 var(--f-body); color: var(--muted); }
+  .blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px 22px; }
+  .blk h4 { margin: 0 0 6px; font: var(--title-weight) 14px/1.2 var(--f-title); letter-spacing: .14em; text-transform: uppercase; }
+  .blk ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+  .blk li { border-top: 1px solid var(--rule); padding-top: 5px; font: 400 15px/1.35 var(--f-body); }
+  .blk li.kv { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 10px; }
+  .blk li.kv span:first-child { font: 500 9.5px/1.5 'Tenor Sans', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .tline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .tline li { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 7px 0; border-top: 1px solid var(--rule); font: 400 15.5px/1.35 var(--f-body); }
+  .tline li b { font: 500 10px/1.6 'Tenor Sans', sans-serif; letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+  .tline li small { display: block; font: 500 9px/1.5 'Tenor Sans', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .open, .src { margin: 0; padding-left: 18px; display: grid; gap: 5px; font: 400 15px/1.35 var(--f-body); }
+  .src { font-size: 13.5px; color: var(--muted); overflow-wrap: anywhere; }
+  .src a { color: inherit; }
+  .areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 18px; margin-bottom: 12px; }
+  .areas div { border-top: 1px solid var(--ink); padding-top: 6px; display: grid; gap: 3px; }
+  .areas span { font: 500 9px/1.3 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .areas b { font: 500 17px/1.2 'Tenor Sans', sans-serif; font-variant-numeric: tabular-nums; }
+  .areas div.tot { border-top-width: 2px; }
+  .plbtns { display: flex; flex-wrap: wrap; gap: 8px; }
+  #deliver li em { font-style: normal; font: 500 9px/1.6 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-left: 6px; }
+
+  /* plan viewer */
+  .plansheet { position: absolute; inset: 0; z-index: 31; background: var(--paper); display: grid; grid-template-rows: auto 1fr auto; }
+  .pl-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px 6px; }
+  .pl-top h2 { margin: 0; font: var(--title-weight) clamp(20px, 5vw, 28px)/1.1 var(--f-title); letter-spacing: .2em; text-transform: uppercase; }
+  .pl-top p { margin: 4px 0 0; font: italic 400 16px/1.3 var(--f-body); color: var(--muted); }
+  .pl-stage { position: relative; min-height: 0; overflow: hidden; touch-action: none; cursor: grab; }
+  .pl-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .pl-bar { display: grid; gap: 8px; justify-items: center; padding: 8px 16px calc(env(safe-area-inset-bottom, 0px) + 14px); }
+  .pl-meta { margin: 0; text-align: center; font: 500 9px/1.5 'Tenor Sans', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  #plSheets button { min-height: 38px; padding: 8px 13px; }
+  @media (prefers-reduced-motion: reduce) {
+    .rtitle h1, .ld-name { animation: none; }
+    .note, .dimt, .runl, #fade, #loader, .tog .box::after { transition: none; }
+    .rdata li { animation: none; opacity: 1; transform: none; }
+    .ticks i.run b { animation: none; transform: scaleX(1); }
+  }
+</style>
+
+<style>
+  html.in-sheet header.top, html.in-sheet .maddr, html.in-sheet #rtitle, html.in-sheet #rb, html.in-sheet #fontPop { display: none !important; }
+  /* inside a living set sheet (André 10/1/26): paint on pure white, the sheet multiplies it onto its own weathered paper,
+     so the model and the margins read as one seamless sheet */
+  html.in-sheet.in-pocket .mbar { display: none !important; }   /* phone sideways: the living set shows these pills in its margin */
+  html.in-sheet, html.in-sheet [data-style] { --paper: #ffffff; --glass-veil: rgba(255, 255, 255, .9); }
+  html.in-sheet body, html.in-sheet #app { background: #fff; }
+
+  /* the roof concepts, a third the size and off the bottom (André 10/3/26): a small stack tucked under the compass,
+     right edge, so the model and the tour caption get the bottom of the frame back */
+  .mbar { top: calc(env(safe-area-inset-top, 0px) + 184px) !important; bottom: auto !important; left: auto !important; right: 16px !important;
+    flex-direction: column; flex-wrap: nowrap; align-items: flex-end; gap: 5px; z-index: 8; }
+  .wideui .mbar { top: calc(env(safe-area-inset-top, 0px) + 220px) !important; right: 28px !important; }
+  .mbar .seg { box-shadow: none; }
+  #schemeSeg, #pitchSeg { flex-direction: column; align-items: flex-end; gap: 4px; padding: 0; border: 0; border-radius: 0; background: none; }
+  #schemeSeg button, #pitchSeg button, #schemeSeg #toFA { position: relative; display: inline-flex; align-items: center; gap: 5px; min-height: 0; margin: 0;
+    padding: 4px 8px 4px 9px; border: 1px solid rgba(27, 26, 24, .42); border-radius: 999px; background: rgba(255, 255, 255, .86);
+    font: 500 8px/1 'Tenor Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--ink); white-space: nowrap; }
+  #schemeSeg button[aria-pressed="true"], #pitchSeg button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+  #schemeSeg #toFA { margin-top: 3px; }
+  #schemeSeg #toFA span { display: inline !important; }
+  #schemeSeg #toFA svg { width: 9px; height: 9px; }
+  #pitchSeg { flex-direction: row; gap: 3px; }
+  #pitchSeg button { padding: 3px 6px; font-size: 7.5px; letter-spacing: .08em; }
+  /* small to see, still easy to hit */
+  #schemeSeg button::after, #pitchSeg button::after { content: ''; position: absolute; inset: -6px -4px; }
+  @media (max-width: 520px) { #schemeSeg button, #schemeSeg #toFA { font-size: 8.5px; padding: 5px 9px; } }
+  /* with the bar gone from the bottom, the tour caption drops back down */
+  .tourbar, .wideui .tourbar, #app:has(#pitchSeg:not([hidden])) .tourbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 14px) !important; }
+  @media (min-width: 900px) { .wideui .tourbar { bottom: calc(env(safe-area-inset-bottom, 0px) + 22px) !important; } }
+
+  /* the reel keeps its name and caption, bottom left; the data list at the bottom right is gone (André 10/3/26) */
+  .rdata { display: none !important; }
+
+  /* the handwritten notes, about two thirds the size (André 10/3/26): they sat too heavy on the model on the reel and the tour */
+  .note { font-size: 13px; padding: 1px 4px 1px; box-shadow: 0 0 6px 3px rgba(255, 255, 255, .78); }
+  [data-style="sumi"] .note { font-size: 12px; }
+  .dimt { font-size: 12px; }
+  .runl { font-size: 12px; padding: 1px 5px 2px; box-shadow: 0 0 6px 3px rgba(255, 255, 255, .78); }
+  .runl small { font-size: 9.5px; }
+  @media (max-width: 520px) { .note { font-size: 10.5px; } [data-style="sumi"] .note { font-size: 10px; } .dimt { font-size: 10px; } .runl { font-size: 10.5px; } .runl small { font-size: 8.5px; } }
+</style>
+<script>if (new URLSearchParams(location.search).has('sheet')) document.documentElement.classList.add('in-sheet');</script>
+<div id="app" data-mode="loading" data-style="annot">
+  <canvas id="cv" aria-label="Live 3D model of the Walsh Residence on Lahontan Lot 235"></canvas>
+  <canvas id="deco" aria-hidden="true"></canvas>
+  <canvas id="btitle" aria-hidden="true"></canvas>
+  <div id="stage"></div>
+  <svg id="ov" aria-hidden="true"></svg>
+  <div id="notes" aria-hidden="true"></div>
+
+  <header class="top">
+    <div class="brand"><span id="brandName">Walsh Residence</span></div>
+    <div class="brand-r"><button type="button" class="fontbtn" id="fontBtn" aria-expanded="false" aria-controls="fontPop" aria-label="Choose the typeface for the title">Aa</button><img class="brand-mark" src="../marks/sumi/lock44.webp" alt="André Mandel"></div>
+
+  </header>
+  <div class="maddr model-ui" aria-hidden="true"><p>8154 Lahontan Drive · Lot 235 · Truckee</p><p>APN 108 160 012 000 · RS PD 1.7</p><p>Feasibility FA2 · 9/28/26</p></div>
+  <div class="fontpop" id="fontPop" role="dialog" aria-label="Name typeface" hidden>
+    <h2>Name typeface · 16 options</h2>
+    <div class="fontgrid" id="fontGrid"></div>
+  </div>
+
+  <!-- the reel -->
+  <div class="rtitle reel-ui" id="rtitle">
+    <h1 id="rtH">Walsh Residence</h1>
+    <p>8154 Lahontan Drive · Lot 235 · Truckee</p>
+    <p class="r2">APN 108 160 012 000 · RS PD 1.7</p>
+    <p class="r2">Feasibility FA2 · 9/28/26</p>
+  </div>
+  <div class="spec" aria-hidden="true" style="display:none"></div>
+  <button type="button" class="enter reel-ui" id="toModel" aria-label="Enter the model">
+    <span class="stp" aria-hidden="true"><svg viewBox="-60 -60 120 120"><g class="ens"><use href="#stpRing"/></g><g class="tri"><use href="#stpTri"/></g></svg></span>
+    <span class="pl">Enter the model</span>
+  </button>
+  <section class="rb reel-ui" id="rb" aria-live="polite">
+    <div class="ticks" id="ticks"><span id="shotNo">01 / 04</span></div>
+    <h2 class="shot" id="shotTitle">The Ribbon</h2>
+    <p class="shotline" id="shotLine"></p>
+    <ul class="rdata" id="shotData"></ul>
+    <div class="actions">
+      <button type="button" class="btn" id="toInfo">FA package</button>
+    </div>
+  </section>
+
+  <!-- the model -->
+  <div class="mbar model-ui">
+    <button type="button" class="back" id="toReel" aria-label="Back to the reel"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2 L4 7 L9 12" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+    <div class="seg" id="schemeSeg" role="group" aria-label="Roof concept">
+      <button type="button" data-s="rib" aria-pressed="true">Ribbon</button>
+      <button type="button" data-s="gab" aria-pressed="false">Modern gable</button>
+      <button type="button" data-s="asym" aria-pressed="false">Asym gable</button>
+    </div>
+    <div class="seg sub" id="pitchSeg" role="group" aria-label="Gable pitch" hidden>
+      <button type="button" data-p="8" aria-pressed="false">8:12</button>
+      <button type="button" data-p="10" aria-pressed="false">10:12</button>
+      <button type="button" data-p="12" aria-pressed="true">12:12</button>
+    </div>
+  </div>
+  <svg class="compass model-ui" viewBox="-20 -20 40 40" aria-hidden="true">
+    <circle r="15" fill="none" stroke="currentColor" stroke-width=".8"/>
+    <line x1="-19" y1="0" x2="19" y2="0" stroke="currentColor" stroke-width=".4"/><line x1="0" y1="-19" x2="0" y2="19" stroke="currentColor" stroke-width=".4"/>
+    <g id="needle"><path d="M0 -13 L3 2 L0 0 L-3 2 Z" fill="var(--accent)"/><text x="0" y="-15.5" text-anchor="middle" font-family="Tenor Sans, sans-serif" font-size="6.5" fill="currentColor">N</text></g>
+  </svg>
+  <p class="mhint model-ui" id="mhint">Press play for the next view · drag to look around</p>
+  <div class="quick model-ui" id="quick" role="group" aria-label="Quick toggles">
+    <button type="button" data-q="lens" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8 V4 H7 M17 4 H21 V8 M21 16 V20 H17 M7 20 H3 V16" fill="none" stroke="currentColor" stroke-width="1.6"/><path class="acc" d="M8 12 H16" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Wide angle</span></button>
+    <button type="button" data-q="inside" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 L12 4 L21 11 V20 H3 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.6 2"/><path class="acc" d="M9 20 V14 H15 V20" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>See inside</span></button>
+    <button type="button" data-q="roof" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="acc" d="M2 9 L12 3 L22 9" fill="none" stroke="currentColor" stroke-width="1.6" transform="translate(0 -1)"/><path d="M5 12 V21 H19 V12" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Roof off</span></button>
+    <button type="button" data-q="trees" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L6 13 H10 L7 18 H17 L14 13 H18 Z M12 18 V22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Trees</span></button>
+    <button type="button" data-q="notes" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18 C8 10 11 16 14 9 S19 6 20 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Notes</span></button>
+  </div>
+  <button type="button" class="backset" id="backSet" aria-label="Back to the sheets"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M8 1.5 L3 6 L8 10.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to the sheets</button>
+  <button type="button" class="waxplay idle model-ui" id="play" aria-label="Start the tour"><svg viewBox="-60 -60 120 120" aria-hidden="true"><g class="ens"><use href="#stpRing"/></g><g class="tri"><use href="#stpTri"/></g></svg></button>
+  <div class="tourbar model-ui">
+    <div class="tcap" aria-live="polite"><span class="tno" id="tNo">Tour</span><span class="tname" id="tName">Press play</span></div>
+    <nav class="dock" aria-label="Plans and FA package">
+      <button type="button" id="toPlans"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3 H21 V21 H3 Z M3 11 H11 V21 M11 3 V7 M15 11 H21 M15 11 V15" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Plans</span></button>
+      <button type="button" id="toFA" aria-label="FA package"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2.5 H14.5 L19 7 V21.5 H6 Z M14.5 2.5 V7 H19 M9 11 H16 M9 14.5 H16 M9 18 H13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>FA package</span></button>
+    </nav>
+  </div>
+
+  <!-- project data -->
+  <div class="sheet" id="info" role="dialog" aria-modal="true" aria-labelledby="infoH" hidden>
+    <div class="sheet-in">
+      <div class="sheet-head">
+        <div>
+          <h2 id="infoH">FA package</h2>
+          <p>Walsh Residence · Lahontan Lot 235 · for Dustin Walsh, Elevated Developers</p>
+        </div>
+        <button type="button" class="close" id="infoClose" aria-label="Close the FA package"><svg viewBox="0 0 14 14" width="14" height="14" aria-hidden="true"><path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="1.4"/></svg></button>
+      </div>
+      <nav class="toc" aria-label="Package contents">
+        <a href="#faScheme">Scheme</a><a href="#faDeliver">Deliverables</a><a href="#faSite">Site</a><a href="#faPlans">Plans + areas</a><a href="#faSpecs">Outline specs</a><a href="#faBudget">Budget</a><a href="#faReg">Regulatory</a><a href="#faTime">Timeline</a><a href="#faOpen">Open items</a>
+      </nav>
+      <section id="faScheme">
+        <h3 id="schemeH">This scheme</h3>
+        <p class="lede" id="lede"></p>
+        <div class="nums" id="nums"></div>
+        <ol class="legend" id="legend"></ol>
+        <div class="watch" id="watch"></div>
+      </section>
+      <section id="faDeliver">
+        <h3>FA deliverables</h3>
+        <ol class="steps" id="deliver"></ol>
+      </section>
+      <section id="faSite">
+        <h3>The site</h3>
+        <dl class="facts">
+          <div><dt>Address</dt><dd>8154 Lahontan Drive, Truckee, California</dd></div>
+          <div><dt>Community</dt><dd>Lahontan, Lot 235</dd></div>
+          <div><dt>APN</dt><dd>108 160 012 000</dd></div>
+          <div><dt>Zoning</dt><dd>RS PD 1.7, Placer County</dd></div>
+          <div><dt>Fire</dt><dd>Very High Fire Hazard Severity Zone. 2025 California WUI Code hardening and defensible space throughout.</dd></div>
+          <div><dt>Height</dt><dd>30 ft over natural grade, measured vertically. Ribbon 29 ft 4 in; gables 29 ft 9 in to 29 ft 11 in.</dd></div>
+          <div><dt>Main floor</dt><dd>L1 finish floor 5997.5</dd></div>
+          <div><dt>Grade</dt><dd>Feasibility grade from prior spot elevations, within about 0.3 ft. A survey confirms it.</dd></div>
+          <div><dt>Roofs at Lahontan</dt><dd>Gables and sheds encouraged. Slopes under 4:12 need a Design Variance.</dd></div>
+        </dl>
+      </section>
+      <section>
+        <h3>Two directions</h3>
+        <div class="two">
+          <div class="card">
+            <h4>Ribbon</h4>
+            <div class="tag">The signature</div>
+            <dl>
+              <div><dt>Roof</dt><dd>One level beam per mass, straight joists square to it, one lifted corner</dd></div>
+              <div><dt>High point</dt><dd>6023.0, 29 ft 4 in over grade at the north wing tip</dd></div>
+              <div><dt>Lahontan</dt><dd>One pitch Design Variance. About 9% of the roof reaches 4:12.</dd></div>
+              <div><dt>Structure</dt><dd>Curved glulams, a CNC cut seat for every joist, a twisted deck</dd></div>
+              <div><dt>Glass</dt><dd>Clear, with a solid cedar or white panel every few bays</dd></div>
+              <div><dt>South wing</dt><dd>Second dead level beam, SE corner to NW corner; two stories with the primary floor at 6004</dd></div>
+              <div><dt>Cost</dt><dd>Premium</dd></div>
+            </dl>
+          </div>
+          <div class="card">
+            <h4>Modern gable</h4>
+            <div class="tag">The value play</div>
+            <dl>
+              <div><dt>Roof</dt><dd>One gable per wing at 12:12, no eaves, knife edge rakes, pale zinc</dd></div>
+              <div><dt>Gable ends</dt><dd>A thick silvered cedar frame wraps every gable end, white reveal inside, glass set deep; living wing end glazed full height</dd></div>
+              <div><dt>Roof</dt><dd>Standing seam metal</dd></div>
+              <div><dt>High point</dt><dd>Ridge 6024.3; 29 ft 11 in over grade at 10 and 12:12, within an inch of the limit</dd></div>
+              <div><dt>Lahontan</dt><dd>Gables encouraged. Eaveless rakes need a clear case: the Design Book calls for overhangs (VII.13).</dd></div>
+              <div><dt>Structure</dt><dd>Straight rafters, repeatable framing, standard glass</dd></div>
+              <div><dt>Weather</dt><dd>Walls take the weather. Snow guards at doors and paths.</dd></div>
+              <div><dt>Cost</dt><dd>Baseline</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>Where we are</h3>
+        <ol class="steps">
+          <li class="done"><span>FA1</span>Kickoff 9/2/26. Goals, site and program.</li>
+          <li class="now"><span>FA2</span>Now. Site plan, open plans of each level, areas, massing on the terrain and the two roof directions.</li>
+          <li><span>FA3</span>Two exterior study images. Drafts of the outline specs, budget framework and regulatory path are in this package.</li>
+          <li><span>FA4</span>Hero rendering and the final FA package. The preliminary timeline draft is in this package.</li>
+        </ol>
+      </section>
+      <section id="faPlans">
+        <h3>Plans and areas</h3>
+        <p class="fanote">Open plans cut from the model, no rooms yet. Gross areas to the outside face, FA accuracy.</p>
+        <div class="areas" id="areas"></div>
+        <div class="plbtns" id="plBtns"></div>
+      </section>
+      <section id="faSpecs"><h3>Preliminary outline specifications</h3><div class="blocks" id="specs"></div></section>
+      <section id="faBudget"><h3>Project budget framework</h3><p class="fanote">Structure and known fees. Dustin's team prices hard costs.</p><div class="blocks" id="budget"></div></section>
+      <section id="faReg"><h3>Regulatory path</h3><div class="blocks" id="reg"></div></section>
+      <section id="faTime"><h3>Preliminary timeline</h3><ol class="tline" id="tline"></ol></section>
+      <section id="faOpen"><h3>Open items</h3><ul class="open" id="open"></ul></section>
+      <section><h3>Sources</h3><ul class="src" id="srcs"></ul></section>
+      <p class="sign">Questions and wild ideas welcome anytime. André</p>
+    </div>
+  </div>
+
+  <div class="plansheet" id="plans" role="dialog" aria-modal="true" aria-labelledby="plH" hidden>
+    <div class="pl-top">
+      <div><h2 id="plH">Level 1</h2><p id="plSub"></p></div>
+      <button type="button" class="close" id="plClose" aria-label="Close the plans"><svg viewBox="0 0 14 14" width="14" height="14" aria-hidden="true"><path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="1.4"/></svg></button>
+    </div>
+    <div class="pl-stage" id="plStage"><svg id="plSvg" xmlns="http://www.w3.org/2000/svg" aria-label="Plan drawing"></svg></div>
+    <div class="pl-bar">
+      <div class="seg" id="plSheets" role="group" aria-label="Sheets">
+        <button type="button" data-sh="site">Site</button><button type="button" data-sh="l1" aria-pressed="true">Level 1</button><button type="button" data-sh="l2">Level 2</button><button type="button" data-sh="roof">Roof</button>
+      </div>
+      <p class="pl-meta" id="plMeta"></p>
+    </div>
+  </div>
+
+  <div id="fade"></div>
+
+  <div id="loader" role="status" aria-live="polite">
+    <div class="ld" id="ld">
+      <div class="ld-dial" id="ldDial"><div class="ld-shadow" id="ldShadow"></div><div class="ld-stack"><svg class="ld-pre" viewBox="0 0 240 240" aria-hidden="true"><g class="ld-pre-spin" fill="none" stroke="#1b1a18" stroke-linecap="round"><circle class="ld-pre-ring" cx="120" cy="120" r="85.7" stroke-width="1.3" opacity=".85" style="stroke-dasharray:539;stroke-dashoffset:539"/><circle cx="120" cy="120" r="89.1" stroke-width=".7" opacity=".35" stroke-dasharray="296 539"/><line x1="12.6" y1="120" x2="227.4" y2="120" stroke-width=".7" opacity=".4"/><line x1="120" y1="12.6" x2="120" y2="227.4" stroke-width=".7" opacity=".4"/><line x1="200.0" y1="120.0" x2="208.0" y2="120.0" stroke-width="1.1" opacity=".7"/><line x1="200.6" y1="141.6" x2="205.0" y2="142.8" stroke-width="0.6" opacity=".7"/><line x1="192.3" y1="161.7" x2="196.2" y2="164.0" stroke-width="0.6" opacity=".7"/><line x1="179.0" y1="179.0" x2="182.2" y2="182.2" stroke-width="0.6" opacity=".7"/><line x1="161.7" y1="192.3" x2="164.0" y2="196.2" stroke-width="0.6" opacity=".7"/><line x1="141.6" y1="200.6" x2="142.8" y2="205.0" stroke-width="0.6" opacity=".7"/><line x1="120.0" y1="200.0" x2="120.0" y2="208.0" stroke-width="1.1" opacity=".7"/><line x1="98.4" y1="200.6" x2="97.2" y2="205.0" stroke-width="0.6" opacity=".7"/><line x1="78.3" y1="192.3" x2="76.0" y2="196.2" stroke-width="0.6" opacity=".7"/><line x1="61.0" y1="179.0" x2="57.8" y2="182.2" stroke-width="0.6" opacity=".7"/><line x1="47.7" y1="161.7" x2="43.8" y2="164.0" stroke-width="0.6" opacity=".7"/><line x1="39.4" y1="141.6" x2="35.0" y2="142.8" stroke-width="0.6" opacity=".7"/><line x1="40.0" y1="120.0" x2="32.0" y2="120.0" stroke-width="1.1" opacity=".7"/><line x1="39.4" y1="98.4" x2="35.0" y2="97.2" stroke-width="0.6" opacity=".7"/><line x1="47.7" y1="78.3" x2="43.8" y2="76.0" stroke-width="0.6" opacity=".7"/><line x1="61.0" y1="61.0" x2="57.8" y2="57.8" stroke-width="0.6" opacity=".7"/><line x1="78.3" y1="47.7" x2="76.0" y2="43.8" stroke-width="0.6" opacity=".7"/><line x1="98.4" y1="39.4" x2="97.2" y2="35.0" stroke-width="0.6" opacity=".7"/><line x1="120.0" y1="40.0" x2="120.0" y2="32.0" stroke-width="1.1" opacity=".7"/><line x1="141.6" y1="39.4" x2="142.8" y2="35.0" stroke-width="0.6" opacity=".7"/><line x1="161.7" y1="47.7" x2="164.0" y2="43.8" stroke-width="0.6" opacity=".7"/><line x1="179.0" y1="61.0" x2="182.2" y2="57.8" stroke-width="0.6" opacity=".7"/><line x1="192.3" y1="78.3" x2="196.2" y2="76.0" stroke-width="0.6" opacity=".7"/><line x1="200.6" y1="98.4" x2="205.0" y2="97.2" stroke-width="0.6" opacity=".7"/><line x1="76.6" y1="173.1" x2="184.4" y2="41.3" stroke-width="1.4" opacity=".75"/><circle cx="184.4" cy="41.3" r="2.6" fill="#c07a2c" stroke="none"/><circle cx="120" cy="120" r="36.6" stroke-width=".6" opacity=".35"/></g></svg><div class="ld-comp" id="ldComp"><canvas id="ldRingC" width="840" height="840"></canvas><canvas id="ldBurst" width="840" height="840"></canvas><canvas id="ldArrow" width="840" height="840"></canvas></div><div class="ld-mk" id="ldMk"><span class="lk"><img class="mk" src="data:image/png;base64,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" alt=""><img class="nm" src="../marks/am10_name.webp" alt=""></span></div></div></div>
+      <p class="ld-name">Walsh Residence</p>
+      <p class="ld-sub">Lahontan · Lot 235 · Truckee</p>
+      <p class="ld-for">A feasibility presentation for Dustin Walsh and Elevated Developers</p>
+      <div class="ld-bar"><i id="ldBar"></i></div>
+      <p class="ld-msg" id="ldMsg">Grinding the ink</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* logo (André 10/1/26): the sumi tail keepers with MANDEL in Tenor, a different one each visit */
+  (function () {
+    var set = function (sel, src) { var img = document.querySelector(sel); if (!img) return; var keep = img.src; img.onerror = function () { img.onerror = null; img.src = keep; }; img.src = src; };
+    var K = ['44', '01', '14', '48'], k = K[Math.floor(Math.random() * K.length)];
+    set('.brand-mark', '../marks/sumi/lock' + k + '.webp'); set('#ldMk img.mk', '../marks/sumi/mark' + k + '.webp'); set('#ldMk img.nm', '../marks/am10_name.webp');
+    var t = new URLSearchParams(location.search).get('title');
+    document.getElementById('app').dataset.title = /^[abcd]$/.test(t || '') ? t : 'c';
+  })();
+</script>
+
+
+<script src="three.r128.min.js?v=dd1b0523" defer></script>
+<script src="app.js?v=2938ac50" defer></script>
+
+<script>
+/* the brushed enso and triangle, shared with the living set title block */
+(function stampDefs() {
+  let sd = 9137; const R = () => (sd = sd * 16807 % 2147483647) / 2147483647;
+  const a0 = -1.0, sweep = 5.55, f = v => v.toFixed(2);
+  const rad = t => 41 + 1.5 * Math.sin(t * 9.1 + 1) + 0.8 * Math.sin(t * 23 + 2) + 2.6 * t;          // a hand drawn circle, opening out a touch
+  const wid = t => (6 + 7.5 * Math.min(1, t / 0.05)) * Math.pow(Math.max(0, 1 - t), 0.5) * (1 + 0.1 * Math.sin(t * 37)) + 0.6;
+  const at = (t, o) => { const a = a0 + sweep * t, r = rad(t) + o; return [r * Math.cos(a), r * Math.sin(a)]; };
+  const T1 = 0.8, n = 160, out = [], inn = [];
+  for (let i = 0; i <= n; i++) { const t = T1 * i / n, w = wid(t) / 2, j = (R() - 0.5) * 0.5; out.push(at(t, w + j)); inn.push(at(t, -w + j)); }
+  const body = 'M' + out.map(p => f(p[0]) + ' ' + f(p[1])).join(' L') + ' L' + inn.reverse().map(p => f(p[0]) + ' ' + f(p[1])).join(' L') + ' Z';
+  // the tail breaks into dry hairs, like the logo's own sweep
+  let hairs = '';
+  for (let k = 0; k < 13; k++) {
+    const o = (k / 12 - 0.5) * wid(0.62) * 0.95, t0 = 0.6 + R() * 0.08, t1 = 0.84 + R() * 0.15, pts = [];
+    for (let t = t0; t <= t1; t += 0.008) pts.push(at(t, o * (1 - (t - t0) * 0.6)));
+    const dash = `${f(3 + R() * 14)} ${f(0.6 + R() * 2.4)} ${f(2 + R() * 8)} ${f(0.5 + R() * 1.6)}`;
+    hairs += `<path d="M${pts.map(p => f(p[0]) + ' ' + f(p[1])).join(' L')}" stroke-width="${f(0.5 + R() * 1.1)}" stroke-dasharray="${dash}"/>`;
+  }
+  const h0 = at(0, 0);
+  const tri = 'M-12.5 -18.5 Q4 -9.6 20.5 0.2 Q4 9.8 -12.5 18.8 Q-14 0 -12.5 -18.5 Z';
+  const svg = `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <filter id="stpTex" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".34" numOctaves="3" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -12 8.9" result="holes"/>
+      <feComposite in="SourceGraphic" in2="holes" operator="in" result="ink"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="3" result="w"/>
+      <feDisplacementMap in="ink" in2="w" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <symbol id="stpRing" overflow="visible"><g filter="url(#stpTex)" fill="currentColor"><path d="${body}"/>
+      <ellipse cx="${f(h0[0])}" cy="${f(h0[1])}" rx="7.4" ry="6.6" transform="rotate(${f(a0 * 180 / Math.PI + 90)} ${f(h0[0])} ${f(h0[1])})"/>
+      <g fill="none" stroke="currentColor" stroke-linecap="round">${hairs}</g></g></symbol>
+    <symbol id="stpChv" overflow="visible"><g filter="url(#stpTex)"><path d="M-9 -20 Q6 -8.5 15.5 0 Q6 8.5 -9 20" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g></symbol>
+    <symbol id="stpTri" overflow="visible"><g filter="url(#stpTex)"><path d="${tri}" fill="currentColor" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/></g></symbol>
+  </defs></svg>`;
+  document.body.insertAdjacentHTML('afterbegin', svg);
+})();
+</script>
+</body>
+</html>

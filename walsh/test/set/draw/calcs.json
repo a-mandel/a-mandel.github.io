@@ -1,0 +1,59 @@
+{
+ "note": "About, gross to the outside face of walls. FA accuracy, confirm on survey.",
+ "levels": {
+  "main": {
+   "label": "Main level",
+   "el": 5997.5,
+   "sf": 2560
+  },
+  "lower": {
+   "label": "Lower level, south wing",
+   "el": 5992.5,
+   "sf": 609
+  },
+  "primary": {
+   "label": "Primary suite, level 2",
+   "el": 6004.0,
+   "sf": 610
+  }
+ },
+ "level1_conditioned": 3169,
+ "level2_conditioned": 610,
+ "conditioned": 3779,
+ "model_check": {
+  "main": 2560,
+  "lower": 609,
+  "primary": 610,
+  "garage": 1006,
+  "deck": 187,
+  "conditioned": 3779
+ },
+ "garage": 1006,
+ "decks": {
+  "upper_terrace": 586,
+  "primary_terrace": 187
+ },
+ "patio_stone": 485,
+ "overall_ft": [
+  113.3,
+  92.6
+ ],
+ "footprint": 4175,
+ "roof_footprint": 5369,
+ "drive": 1081,
+ "apron_allowance": 590,
+ "walks_allowance": 200,
+ "lot_sf": 27440,
+ "lot_ac": 0.63,
+ "lot_note": "Lot area about, from the prior listing, confirm on survey",
+ "coverage_pct": 19.6,
+ "impervious_sf": 7725,
+ "impervious_pct": 28.2,
+ "heights": {
+  "tip": 6023.0,
+  "tip_over_grade": 29.37,
+  "beam": 6012.0,
+  "garage_roof": 6016.5,
+  "limit_ft": 30
+ }
+}
