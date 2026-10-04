@@ -233,7 +233,7 @@
     await ldWait(1);
     if (!LD_CALM) await sleep(LD_HOLD * 1000);      // the full motion, then a beat at rest
     if (!LD_CALM) { $('#ld').classList.add('dive'); await sleep(380); }
-    { const dial = $('#ldDial'); dial.style.transform = ''; $('#enterGy').prepend(dial); }
+    { const dial = $('#ldDial'); if (dial) dial.remove(); }   // the compass retires with the loader; the reel's play is the sumi enso (André 10/3/26)
     $('#loader').classList.add('gone');
     setTimeout(() => { $('#loader').hidden = true; }, 1000);
     if (W3.landReel) W3.enterReel(true); else W3.enterModel(true);   // phones land in the model, turning around the site (André 10/1/26)
@@ -1523,9 +1523,9 @@
 
     // ---------------- input
     const pts = new Map();
-    let lastTap = 0, pinch0 = null, moved = 0, hinted = false;
+    let lastTap = 0, pinch0 = null, moved = 0, hinted = false, sw0 = null;
     stage.addEventListener('pointerdown', e => {
-      stage.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY, t: performance.now() }); moved = 0;
+      stage.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY, t: performance.now() }); moved = 0; sw0 = pts.size === 1 ? { x: e.clientX, y: e.clientY, t: performance.now() } : null;
       if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch0 = { last: Math.hypot(a.x - b.x, a.y - b.y) }; }
       const now = performance.now();
       if (MODE === 'model') {
@@ -1554,6 +1554,7 @@
     });
     const up = e => {
       pts.delete(e.pointerId); if (pts.size < 2) pinch0 = null;
+      if (MODE === 'reel' && IN_SHEET && sw0 && e.type === 'pointerup') { const dx = e.clientX - sw0.x, dy = e.clientY - sw0.y; if (Math.abs(dx) > 50 && Math.abs(dx) > 1.6 * Math.abs(dy) && performance.now() - sw0.t < 700) { sw0 = null; turnSet(dx < 0 ? 1 : -1); return; } }
       if (MODE === 'reel' && moved < 8 && e.type === 'pointerup') nextShot();
       if (MODE === 'model' && !pts.size && !TS.moved && moved < 6 && TS.notesUntil && e.type === 'pointerup') endNotes();
       if (MODE === 'model' && !pts.size && TS.moved) {
@@ -1568,6 +1569,19 @@
     document.addEventListener('keydown', e => { if (MODE === 'model' && (e.key === 'ArrowRight' || e.key === 'Enter') && !e.target.closest('input, textarea')) { if ($('#info').hidden && $('#plans').hidden) { stopAuto(); nextStop(); } } });
 
     $('#toModel').addEventListener('click', () => enterModel(false));
+    // inside the living set (André 10/3/26): the cover is still a sheet. Arrows, sideways swipes and trackpad swipes
+    // over the reel turn the set's pages; only the play enters the model, and Back to the sheets (or Escape) leaves it.
+    const TURN_KEYS = { ArrowRight: 1, PageDown: 1, ArrowLeft: -1, PageUp: -1 };
+    const turnSet = d => { try { if (parent !== window && parent.__turnSheet) parent.__turnSheet(d); } catch (e) {} };
+    function backToSet() { $('#info').hidden = true; enterReel(false); }
+    $('#backSet').addEventListener('click', backToSet);
+    if (IN_SHEET) stage.addEventListener('wheel', e => {
+      if (MODE !== 'reel') return;
+      const dx = e.deltaMode === 1 ? e.deltaX * 16 : e.deltaX, dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+      if (Math.abs(dx) <= 1.2 * Math.abs(dy)) return;
+      e.preventDefault();
+      try { parent.dispatchEvent(new WheelEvent('wheel', { deltaX: e.deltaX, deltaY: e.deltaY, deltaMode: e.deltaMode, cancelable: true })); } catch (er) {}
+    }, { passive: false });
 
     // ---------------- dock and pop ups (André 8:50 am: full bleed model, everything else a tap away)
     const pops = $$('.pop'), dockBtns = $$('.dock [data-pop]');
@@ -1835,7 +1849,7 @@
     const openInfo = () => { $('#info').hidden = false; $('#infoClose').focus(); };
     $('#toInfo').addEventListener('click', () => { renderPackage(); openInfo(); });
     $('#infoClose').addEventListener('click', () => { $('#info').hidden = true; });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') $('#info').hidden = true; if (MODE === 'reel' && e.key === 'ArrowRight') nextShot(); });
+    document.addEventListener('keydown', e => { const infoOpen = !$('#info').hidden; if (e.key === 'Escape') $('#info').hidden = true; if (MODE === 'reel' && IN_SHEET && TURN_KEYS[e.key] && !(e.target.closest && e.target.closest('input, textarea'))) { e.preventDefault(); turnSet(TURN_KEYS[e.key]); return; } if (MODE === 'reel' && e.key === 'ArrowRight') nextShot(); if (MODE === 'model' && IN_SHEET && e.key === 'Escape' && !infoOpen) backToSet(); });
     $$('#schemeSeg button').forEach(b => b.addEventListener('click', () => { S.scheme = b.dataset.s; apply(); renderSheet(); setAnn(MODEL_ANN[S.scheme]()); }));
     $$('#pitchSeg button').forEach(b => b.addEventListener('click', () => { S.pitch = b.dataset.p; apply(); renderSheet(); setAnn(MODEL_ANN[S.scheme]()); }));
     $$('[data-view]').forEach(b => b.addEventListener('click', () => goTo(b.dataset.view)));

@@ -97,6 +97,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .darr .hl{fill:none;stroke:var(--paper2);stroke-width:.8;stroke-linecap:round;opacity:.8}
 .darr:hover,.darr:focus-visible{opacity:.3;transform:translateY(-5px)}
 .darr.off{opacity:0;pointer-events:none}
+body:has(#drawer.show) .darr{opacity:0;pointer-events:none}
 .darr[hidden]{display:none}
 @media screen and (max-width:760px) and (orientation:portrait), screen and (max-width:760px) and (min-height:541px), screen and (max-width:760px) and (pointer:fine), screen and (max-aspect-ratio:1/1) and (max-width:1100px){.etear,.darr{display:none !important}}
 @media print{.turnfx,.darr,.etear,.tex::after{display:none !important}}
@@ -623,6 +624,21 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:1px solid 
 .amplay.gone{animation:none;opacity:0;transform:scale(.86);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
 .amplay.back{animation:apPulse 3.6s ease-in-out infinite}
 @keyframes apPulse{0%,100%{opacity:0}50%{opacity:.5}}
+/* one play, everywhere (André 10/3/26): the same sumi enso sits in the title block's stamp band on every sheet, the
+   cover included. One press, one sheet. It breathes a little stronger than the model's, since it lives on paper. */
+.sbplay{display:block;position:fixed;margin:0;animation:sbPulse 3.6s ease-in-out infinite;color:#1b1a18}
+.sbplay svg{width:100%;height:100%;display:block;overflow:visible}
+.sbplay .ens,.sbplay .tri{transform-box:fill-box;transform-origin:50% 50%;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.sbplay:hover .ens{animation:sbSpin 7s linear infinite}
+.sbplay:hover .tri{transform:translateX(3px)}
+.sbplay .sbl{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:6px;white-space:nowrap;font:400 9px/1 var(--ft);letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+.sbplay:hover,.sbplay:focus-visible{animation:none;opacity:1}
+.sbplay.gone{animation:none}
+@keyframes sbPulse{0%,100%{opacity:.35}50%{opacity:.85}}
+@keyframes sbSpin{to{transform:rotate(360deg)}}
+body:has(.sheet.on[data-kind="model"]) .waxplay.sbplay{display:block}
+body:has(.sheet.on.live-model) .sbplay,.pocket .sbplay{display:none}
+@media (prefers-reduced-motion:reduce){.sbplay{animation:none;opacity:.6}}
 /* the cover keeps one play button: the live model's own */
 body:has(.sheet.on[data-kind="model"]) .waxplay{display:none}
 @keyframes wpBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
@@ -1830,6 +1846,7 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.target.closest && e.target.closest('input,textarea')) return;
   const k = e.key;
+  if (k === 'Escape' && cur === 0 && els[0] && els[0].classList.contains('live-model')) { try { const w = els[0].querySelector('.model iframe').contentWindow; if (w.__fa) w.__fa.enterReel(); } catch (er) {} return; }
   if (k === 'Escape') { closeDrawer(); if (ZM && ZM.on) setZoom(false); if (pocket && pzOn()) pzSet(1, 0, 0, true); return; }
   if ((k === 'n' || k === 'N') && !e.metaKey && !e.ctrlKey) { document.body.classList.toggle('allnotes'); return; }
   if ($('#drawer').classList.contains('show')) return;
@@ -1838,6 +1855,20 @@ document.addEventListener('keydown', e => {
   else if (k === 'ArrowLeft' || k === 'PageUp') { go(cur - 1, -1); e.preventDefault(); }
   else if (k === 'Home') go(0); else if (k === 'End') go(N - 1);
 });
+/* the stamp band play (André 10/3/26): placed over the current sheet's stamp band, wherever the sheet sits */
+(function () {
+  const b = document.createElement('button');
+  b.type = 'button'; b.id = 'wplay'; b.className = 'waxplay sbplay idle'; b.setAttribute('aria-label', 'Next sheet');
+  b.innerHTML = '<svg viewBox="-60 -60 120 120" aria-hidden="true"><g class="ens"><use href="#stpRing"/></g><g class="tri"><use href="#stpTri"/></g></svg><span class="sbl">Next sheet</span>';
+  document.body.appendChild(b);
+  const place = () => {
+    const sh = els[cur], z = sh && sh.querySelector('.tb .stz');
+    if (!z || mob) { b.style.visibility = 'hidden'; return; }
+    const r = z.getBoundingClientRect(), d = Math.max(56, Math.min(92, r.width * 0.42));
+    b.style.cssText = `visibility:visible;left:${(r.left + r.width / 2 - d / 2).toFixed(0)}px;top:${(r.top + r.height / 2 - d / 2 - 6).toFixed(0)}px;width:${d.toFixed(0)}px;height:${d.toFixed(0)}px`;
+  };
+  addEventListener('resize', place); setInterval(place, 300); place();
+})();
 /* the play button (the A mark): one press, one sheet; after the last sheet it goes back to the cover */
 (function () {
   const b = $('#wplay'); if (!b) return;
@@ -1864,6 +1895,7 @@ document.addEventListener('keydown', e => {
   rest();
 })();
 $('#prev').onclick = () => go(cur - 1, -1);
+window.__turnSheet = d => { if (!$('#drawer').classList.contains('show')) go(cur + d, d); };   // the cover's live model hands page turns up here (André 10/3/26)
 $('#next').onclick = () => go(cur + 1, 1);
 $('#print').onclick = () => window.print();
 /* swipes turn sheets: touch, and two finger horizontal swipes on a trackpad (wheel events with deltaX dominant).
